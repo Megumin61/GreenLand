@@ -37,6 +37,7 @@ import androidx.compose.material3.Text
 /**
  * The Accounts screen.
  */
+
 @Composable
 fun AccountsScreen(
     onAccountClick: (String) -> Unit = {},
@@ -57,4 +58,5 @@ fun AccountsScreen(
         }
     }
 }
+
 

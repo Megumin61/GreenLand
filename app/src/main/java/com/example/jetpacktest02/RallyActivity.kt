@@ -1,4 +1,3 @@
-
 package com.example.jetpacktest02
 
 import android.os.Bundle
@@ -18,10 +17,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.jetpacktest02.ui.main.BillsScreen
-import com.example.jetpacktest02.ui.main.DailyhealthmessageScreen
-import com.example.jetpacktest02.ui.main.PlantPlanScreen
-import com.example.jetpacktest02.ui.main.PlantScreen
+import com.example.jetpacktest02.ui.main.*
 
 
 /**
@@ -42,64 +38,131 @@ class RallyActivity : ComponentActivity() {
 
 @Composable
 fun RallyApp() {
-        var currentScreen: RallyDestination by remember { mutableStateOf(Overview) }
-        val navController = rememberNavController()
-        val currentBackStack by navController.currentBackStackEntryAsState()
-        // Fetch your currentDestination:
-        val currentDestination = currentBackStack?.destination
-        // Change the variable to this and use Overview as a backup screen if this returns null
+    var currentScreen: RallyDestination by remember { mutableStateOf(Overview) }
+    val navController = rememberNavController()
+    val currentBackStack by navController.currentBackStackEntryAsState()
+    // Fetch your currentDestination:
+    val currentDestination = currentBackStack?.destination
+    // Change the variable to this and use Overview as a backup screen if this returns null
 //        val currentScreen = rallyTabRowScreens.find { it.route == currentDestination?.route } ?: Overview
 
-        Scaffold(
-            topBar = {
-            }
-        ) { innerPadding ->
+    Scaffold(
+        topBar = {
+        }
+    ) { innerPadding ->
 //            Box(Modifier.padding(innerPadding)) {
 //                currentScreen.screen()
 //            }
-            NavHost(
-                navController = navController,
-                startDestination  = Plant.route,
-                modifier = Modifier.padding(innerPadding)
+        NavHost(
+            navController = navController,
+            startDestination = Plant.route,
+            modifier = Modifier.padding(innerPadding)
 
-            ){
-                composable(route = Accounts.route) {
-                    AccountsScreen()
-                }
-                composable(route = Bills.route) {
-                    BillsScreen(
-                        bills = {
-                            navController.navigateSingleTopTo(Accounts.route)
-                        }
-                    )
-                }
-                composable(route = Plant.route) {
-                    PlantScreen(
-                        nav01 = {
-                            navController.navigateSingleTopTo(PlantPlan.route)
-                        } ,
-                        nav02 = {
-                            navController.navigateSingleTopTo(Dailyhealthmessage.route)
-                        }
-                    )
-                }
-                composable(route = PlantPlan.route) {
-                    PlantPlanScreen(
-                        nav01 = {
-                            navController.navigateSingleTopTo(Plant.route)
-                        }
-                    )
-                }
-                composable(route = Dailyhealthmessage.route) {
-                    DailyhealthmessageScreen(
-                        nav01 = {
-                            navController.navigateSingleTopTo(Plant.route)
-                        }
-                    )
-                }
-
-
+        ) {
+            composable(route = Accounts.route) {
+                AccountsScreen()
             }
+            composable(route = Bills.route) {
+                BillsScreen(
+                    bills = {
+                        navController.navigateSingleTopTo(Accounts.route)
+                    }
+                )
+            }
+            composable(route = Plant.route) {
+                PlantScreen(
+                    nav01 = {
+                        navController.navigateSingleTopTo(PlantPlan.route)
+                    },
+                    nav02 = {
+                        navController.navigateSingleTopTo(Dailyhealthmessage.route)
+                    },
+                    nav03 = {
+                        navController.navigateSingleTopTo(IslandChooseIsland.route)
+                    },
+                    nav04 = {
+                        navController.navigateSingleTopTo(Message.route)
+                    },
+                    nav05 = {
+                        navController.navigateSingleTopTo(My.route)
+                    },
+                    nav06 = {
+                        navController.navigateSingleTopTo(PlantBagPossessed.route)
+                    },
+                    nav07 = {
+                        navController.navigateSingleTopTo(VipUnsigned.route)
+                    }
+                )
+            }
+            composable(route = PlantPlan.route) {
+                PlantPlanScreen(
+                    nav01 = {
+                        navController.navigateSingleTopTo(Plant.route)
+                    },
+                    nav02= {
+                        navController.navigateSingleTopTo(PlantLookingForPlanFoot.route)
+                    }
+                )
+            }
+            composable(route = Dailyhealthmessage.route) {
+                DailyhealthmessageScreen(
+                    nav01 = {
+                        navController.navigateSingleTopTo(Plant.route)
+                    }
+                )
+            }
+            composable(route = IslandChooseIsland.route) {
+                IslandChooseIslandScreen(
+                    nav01 = {
+                        navController.navigateSingleTopTo(Plant.route)
+                    }
+                )
+            }
+            composable(route = Message.route) {
+                MessageScreen(
+                    nav01 = {
+                        navController.navigateSingleTopTo(Plant.route)
+                    }
+                )
+            }
+            composable (route = My.route) {
+                MyScreen(
+                    nav01 = {
+                        navController.navigateSingleTopTo(Plant.route)
+                    }
+                )
+            }
+            composable (route = PlantBagPossessed.route) {
+                PlantBagPossessedScreen(
+                    nav01 = {
+                        navController.navigateSingleTopTo(Plant.route)
+                    }
+                )
+            }
+            composable (route = PlantFoot.route) {
+                PlantFootScreen(
+                    nav01 = {
+                        navController.navigateSingleTopTo(PlantLookingForPlanFoot.route)
+                    }
+                )
+            }
+            composable (route = PlantLookingForPlanFoot.route) {
+                PlantLookingForPlanFootScreen(
+                    nav01 = {
+                        navController.navigateSingleTopTo(PlantPlan.route)
+                    }
+                )
+            }
+            composable (route = VipUnsigned.route) {
+                VipUnsignedScreen(
+                    nav01 = {
+                        navController.navigateSingleTopTo(Plant.route)
+                    }
+                )
+            }
+
+
         }
+    }
 
 }

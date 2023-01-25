@@ -16,33 +16,36 @@
 
 package com.example.jetpacktest02.ui.main
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 
-import androidx.compose.foundation.layout.size
-
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
+import androidx.compose.ui.res.painterResource
+import com.example.jetpacktest02.R
 
 /**
  * The Bills screen.
  */
 @Composable
-fun PlantScreen(
+fun PlantFootScreen(
 //            bills : (String) -> Unit = {},
     nav01: () -> Unit={},
-    nav02: () -> Unit={},
 
 ) {
+    Image(
+        painter = painterResource(id = R.drawable.plant_foot),
+        contentDescription = null,
+        modifier = Modifier.fillMaxHeight().fillMaxSize()
+    )
     Column{
-        Text("1.1-Plant")
+        Text("1.2.1-plant-foot")
         Button(
             onClick = nav01,
             contentPadding = ButtonDefaults.ButtonWithIconContentPadding
@@ -53,19 +56,9 @@ fun PlantScreen(
                 modifier = Modifier.size(ButtonDefaults.IconSize)
             )
             Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-            Text("1.2-plant-plan")
-        }
-        Button(
-            onClick = nav02,
-            contentPadding = ButtonDefaults.ButtonWithIconContentPadding
-        ) {
-            Icon(
-                Icons.Filled.Favorite,
-                contentDescription = "Localized description",
-                modifier = Modifier.size(ButtonDefaults.IconSize)
-            )
-            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-            Text("1.3-Dailyhealthmessage")
+            Text("1.1-Plant")
         }
     }
+
+
 }

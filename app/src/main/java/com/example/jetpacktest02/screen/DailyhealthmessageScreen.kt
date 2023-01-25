@@ -16,31 +16,36 @@
 
 package com.example.jetpacktest02.ui.main
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 
-import androidx.compose.foundation.layout.size
-
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
+import androidx.compose.ui.res.painterResource
+import com.example.jetpacktest02.R
 
 /**
  * The Bills screen.
  */
 @Composable
-fun PlantPlanScreen(
+fun DailyhealthmessageScreen(
 //            bills : (String) -> Unit = {},
     nav01: () -> Unit={},
 
 ) {
-    Column{
-        Text("1.2-plant-plan")
+    Image(
+        painter = painterResource(id = R.drawable.daily_health_message),
+        contentDescription = null,
+        modifier = Modifier.fillMaxHeight().fillMaxSize()
+    )
+    Column {
+        Text("1.3-Dailyhealthmessage")
         Button(
             onClick = nav01,
             contentPadding = ButtonDefaults.ButtonWithIconContentPadding
@@ -54,6 +59,5 @@ fun PlantPlanScreen(
             Text("1.1-Plant")
         }
     }
-
 
 }

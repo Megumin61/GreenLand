@@ -45,8 +45,6 @@ fun PlantScreen(
     nav06: () -> Unit={},
     nav07: () -> Unit={},
 
-
-
 ) {
     Image(
         painter = painterResource(id = R.drawable.plant),

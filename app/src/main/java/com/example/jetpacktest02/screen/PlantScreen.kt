@@ -18,6 +18,7 @@ package com.example.jetpacktest02.ui.main
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.text.BasicText
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.runtime.Composable
@@ -27,15 +28,19 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.jetpacktest02.R
+import com.example.jetpacktest02.ViewModel.UserViewModel
 
 /**
  * The Bills screen.
  */
+
 @Composable
-fun PlantScreen(
+fun PlantScreen(viewModel: UserViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
 //            bills : (String) -> Unit = {},
     nav01: () -> Unit={},
     nav02: () -> Unit={},
@@ -46,12 +51,25 @@ fun PlantScreen(
     nav07: () -> Unit={},
 
 ) {
+    val weatherNow = viewModel.counterLiveData.observeAsState()
+    println(weatherNow.value.toString())
+
+
     Image(
         painter = painterResource(id = R.drawable.plant),
         contentDescription = null,
         modifier = Modifier.fillMaxHeight().fillMaxSize()
     )
     Column{
+        Text(text = weatherNow.value.toString())
+        Button(
+            onClick = {
+                viewModel.increaseCounter()
+            },
+        ) {
+            BasicText(text = "Add 1")
+        }
+
         Text("1.1-Plant")
         Button(
             onClick = nav01,

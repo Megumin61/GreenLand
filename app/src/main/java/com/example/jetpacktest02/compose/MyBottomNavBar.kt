@@ -79,7 +79,7 @@ fun MyBottomNavBar(
                 modifier = Modifier.padding(10.dp, 0.dp, 10.dp, 0.dp)
             )
             BottomNavigationItem(
-                selected = currentDestination?.hierarchy?.any { it.route == Plant.route } == true,
+                selected = currentDestination?.hierarchy?.any { it.route == My.route } == true,
                 onClick = nav05,
                 icon = { Icon(navItems[4].icon, null) },
                 alwaysShowLabel = true,

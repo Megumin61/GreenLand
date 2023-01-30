@@ -1,22 +1,32 @@
 package com.example.jetpacktest02.screen
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
+
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material3.*
 import androidx.compose.material3.R
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import com.example.jetpacktest02.ViewModel.UserViewModel
 
 /**
  * 登录页面_选择登录方式
  * 负责人：skc
  */
+
+
 @Composable
 fun LoginFrontScreen() {
+
+
+
     Column {
         Text("这里是加载页面")
         Button(
@@ -37,15 +47,51 @@ fun LoginFrontScreen() {
 fun DefaultPreview(){
     Surface(modifier = Modifier.fillMaxSize()) {
 
-        Column{
+        Image(
+            painter = painterResource(id = com.example.jetpacktest02.R.drawable.g0_0_frontpage),
+            contentDescription = null,
+            modifier = Modifier
+                .fillMaxHeight()
+                .fillMaxSize()
+        )
+        Column(
+            modifier=Modifier
+                .padding(top = 500.dp,start=16.dp, end = 16.dp)
+            ,horizontalAlignment= Alignment.CenterHorizontally
+//             verticalArrangement = Arrangement.Center
+        ){
 
             Image(
-                painter = painterResource(id = com.example.jetpacktest02.R.drawable.g0_loadingpage),
+                painter = painterResource(id = com.example.jetpacktest02.R.drawable.),
                 contentDescription = null,
-                modifier = Modifier
-                    .fillMaxHeight().fillMaxSize()
+                modifier = Modifier.width(340.dp).height(75.dp)
             )
 
+        }
+
+        Column(
+            modifier=Modifier
+                .padding(top = 500.dp,start=16.dp, end = 16.dp)
+                ,horizontalAlignment= Alignment.CenterHorizontally
+//             verticalArrangement = Arrangement.Center
+        ){
+
+            Image(
+                painter = painterResource(id = com.example.jetpacktest02.R.drawable.g0_0_button_phonelogin),
+                 contentDescription = null,
+                modifier = Modifier.width(340.dp).height(75.dp)
+              )
+            Image(
+                painter = painterResource(id = com.example.jetpacktest02.R.drawable.g0_0_button_wechatlogin),
+                contentDescription = null,
+                modifier = Modifier.width(340.dp).height(75.dp)
+            )
+            Image(
+                painter = painterResource(id = com.example.jetpacktest02.R.drawable.g0_0_button_otherwaylogin),
+                contentDescription = null,
+                modifier = Modifier.width(100.dp).height(75.dp)
+
+            )
         }
     }
 }

@@ -19,27 +19,6 @@ import androidx.compose.ui.tooling.preview.Preview
 @Composable
 fun LoginLoadingScreen(){
     Column{
-        Text("这里是加载页面")
-        Button(
-            onClick = {},
-            contentPadding = ButtonDefaults.ButtonWithIconContentPadding
-        ) {
-            Icon(
-                Icons.Filled.Favorite,
-                contentDescription = "Localized description",
-                modifier = Modifier.size(ButtonDefaults.IconSize)
-            )
-            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-        }
-    }
-
-}
-
-@Preview (name = "Light Mode")
-@Composable
-fun DefaultPreview(){
-    Surface(modifier = Modifier.fillMaxSize()) {
-
         Column{
 
 //
@@ -55,7 +34,7 @@ fun DefaultPreview(){
 //                Spacer(Modifier.size(ButtonDefaults.IconSpacing))
 //            }
             Image(
-                painter = painterResource(id = com.example.jetpacktest02.R.drawable.0_loadingpage),
+                painter = painterResource(id = com.example.jetpacktest02.R.drawable.g0_loadingpage),
                 contentDescription = null,
                 modifier = Modifier
                     .fillMaxHeight().fillMaxSize()
@@ -63,4 +42,35 @@ fun DefaultPreview(){
 
         }
     }
+
 }
+
+//@Preview (name = "Light Mode")
+//@Composable
+//fun DefaultPreview(){
+//    Surface(modifier = Modifier.fillMaxSize()) {
+//
+//        Column{
+//
+////
+////            Button(
+////                onClick = {},
+////                contentPadding = ButtonDefaults.ButtonWithIconContentPadding
+////            ) {
+////                Icon(
+////                    Icons.Filled.Favorite,
+////                    contentDescription = "Localized description",
+////                    modifier = Modifier.size(ButtonDefaults.IconSize)
+////                )
+////                Spacer(Modifier.size(ButtonDefaults.IconSpacing))
+////            }
+//            Image(
+//                painter = painterResource(id = com.example.jetpacktest02.R.drawable.g0_loadingpage),
+//                contentDescription = null,
+//                modifier = Modifier
+//                    .fillMaxHeight().fillMaxSize()
+//            )
+//
+//        }
+//    }
+//}

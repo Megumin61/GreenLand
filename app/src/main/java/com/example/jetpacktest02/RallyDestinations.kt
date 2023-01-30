@@ -91,6 +91,10 @@ object LoginLoading : RallyDestination{
     override val icon = Icons.Filled.MoneyOff
     override val route = "0.0-loadingpage"
 }
+object LoginFront : RallyDestination{
+    override val icon = Icons.Filled.MoneyOff
+    override val route = "0.1-loginfrontpage"
+}
 
 
 

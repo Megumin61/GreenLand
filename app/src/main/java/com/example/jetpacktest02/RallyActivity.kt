@@ -17,6 +17,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.jetpacktest02.ViewModel.UserViewModel
 import com.example.jetpacktest02.compose.MyBottomNavBar
+import com.example.jetpacktest02.screen.LoginFrontScreen
 import com.example.jetpacktest02.screen.LoginLoadingScreen
 import com.example.jetpacktest02.ui.main.*
 import com.example.scaffolddemo.ui.theme.ScaffoldDemoTheme
@@ -203,7 +204,11 @@ fun RallyApp(viewModel: UserViewModel = androidx.lifecycle.viewmodel.compose.vie
 
                     )
                 }
+                composable(route = LoginFront.route) {
+                   LoginFrontScreen(
 
+                    )
+                }
             }
         }
     }

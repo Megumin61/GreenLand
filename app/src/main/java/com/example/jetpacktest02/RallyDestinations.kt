@@ -87,6 +87,10 @@ object PlantLookingForPlanFoot : RallyDestination {
     override val icon = Icons.Filled.MoneyOff
     override val route = "1.4.1-plant-lookingforplan-foot"
 }
+object LoginLoading : RallyDestination{
+    override val icon = Icons.Filled.MoneyOff
+    override val route = "0.0-loadingpage"
+}
 
 
 

@@ -17,6 +17,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.jetpacktest02.ViewModel.UserViewModel
 import com.example.jetpacktest02.compose.MyBottomNavBar
+import com.example.jetpacktest02.screen.LoginLoadingScreen
 import com.example.jetpacktest02.ui.main.*
 import com.example.scaffolddemo.ui.theme.ScaffoldDemoTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -128,6 +129,7 @@ fun RallyApp(viewModel: UserViewModel = androidx.lifecycle.viewmodel.compose.vie
                         nav07 = {
                             navController.navigateSingleTopTo(VipUnsigned.route)
                         }
+
                     )
                 }
                 composable(route = PlantPlan.route) {
@@ -194,6 +196,11 @@ fun RallyApp(viewModel: UserViewModel = androidx.lifecycle.viewmodel.compose.vie
                         nav01 = {
                             navController.navigateSingleTopTo(Plant.route)
                         }
+                    )
+                }
+                composable(route = LoginLoading.route) {
+                    LoginLoadingScreen(
+
                     )
                 }
 

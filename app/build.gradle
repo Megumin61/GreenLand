@@ -11,6 +11,15 @@ android {
     buildFeatures {
         compose true
     }
+    sourceSets {
+        main{
+            res.srcDirs=[
+                    'src/main/res/drawable/g0/drawable',
+                    'src/main/res/drawable/',
+                    'src/main/res/'
+            ]
+        }
+    }
     defaultConfig {
         applicationId "com.example.jetpacktest02"
         minSdk 29

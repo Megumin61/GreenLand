@@ -92,7 +92,7 @@ fun DefaultPreview(){
                 Image(
                     painter = painterResource(id = com.example.jetpacktest02.R.drawable.g0_3_tips),
                     contentDescription = null,
-                    modifier = Modifier.padding(start=200.dp).size(width = 132.dp, height = 20.dp)
+                    modifier = Modifier.padding(start=200.dp).size(width = 130.dp, height = 20.dp)
                 )
             }
 

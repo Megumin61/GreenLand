@@ -28,11 +28,13 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import com.example.jetpacktest02.R
 
 /**
  * The Bills screen.
  */
+
 @Composable
 fun PlantFootScreen(
 //            bills : (String) -> Unit = {},

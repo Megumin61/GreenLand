@@ -7,6 +7,7 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination.Companion.hierarchy
@@ -15,7 +16,6 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.jetpacktest02.*
 
 data class NavItem(val index: Int, val name: String, val icon: ImageVector)
-
 
 @Composable
 fun MyBottomNavBar(

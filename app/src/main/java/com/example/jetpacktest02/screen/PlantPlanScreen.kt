@@ -96,7 +96,9 @@ fun PlantPlanScreen(
             Image(painter = painterResource(id = R.drawable.g1_2_0_ic_arrow_left),
                 contentDescription =null)
             Text(text = "每日计划", color = Color.Black, fontSize = 18.sp,
-                modifier =Modifier.padding(start = 18.dp).offset(y = -4.dp) )
+                modifier = Modifier
+                    .padding(start = 18.dp)
+                    .offset(y = -4.dp) )
         }
         Text(text = "正在进行的计划",color= Color.Gray, fontSize = 16.sp,
         modifier = Modifier.padding(top = 16.dp, start = 136.dp))
@@ -107,7 +109,18 @@ fun PlantPlanScreen(
             PlanItem(iconRes = R.drawable.g1_2_icbg_eating)
         }
         Text(text = "今日已完成",color= Color.Gray, fontSize = 16.sp)
-
+        Image(painter = painterResource(id = R.drawable.g1_2_4_btn_addplan), contentDescription =null )
+        /*Button(
+            onClick = nav01,
+            contentPadding = ButtonDefaults.ButtonWithIconContentPadding
+        ) {
+            Icon(
+                Icons.Filled.Favorite,
+                contentDescription = "Localized description",
+                modifier = Modifier.size(ButtonDefaults.IconSize)
+            )
+            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
+            Text("1.2-plant-plan")*/
 
     }
 

@@ -56,13 +56,13 @@ fun DefaultPreview(){
         )
         Column(
             modifier=Modifier
-                .padding(top = 500.dp,start=16.dp, end = 16.dp)
+                .padding(start=300.dp, end = 19.dp)
             ,horizontalAlignment= Alignment.CenterHorizontally
 //             verticalArrangement = Arrangement.Center
         ){
 
             Image(
-                painter = painterResource(id = com.example.jetpacktest02.R.drawable.),
+                painter = painterResource(id = com.example.jetpacktest02.R.drawable.g0_0_button_skip),
                 contentDescription = null,
                 modifier = Modifier.width(340.dp).height(75.dp)
             )
@@ -71,7 +71,7 @@ fun DefaultPreview(){
 
         Column(
             modifier=Modifier
-                .padding(top = 500.dp,start=16.dp, end = 16.dp)
+                .padding(top = 450.dp,start=16.dp, end = 16.dp)
                 ,horizontalAlignment= Alignment.CenterHorizontally
 //             verticalArrangement = Arrangement.Center
         ){

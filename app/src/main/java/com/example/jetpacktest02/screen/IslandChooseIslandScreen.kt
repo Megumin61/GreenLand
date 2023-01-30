@@ -31,7 +31,8 @@ import androidx.compose.ui.res.painterResource
 import com.example.jetpacktest02.R
 
 /**
- * The Bills screen.
+ * 选择岛屿页面
+ * 负责人：谭家俊
  */
 @Composable
 fun IslandChooseIslandScreen(
@@ -40,12 +41,12 @@ fun IslandChooseIslandScreen(
 
 ) {
     Image(
-        painter = painterResource(id = R.drawable.island_choose_island),
+        painter = painterResource(id = R.drawable.g4_1_bn_exploreisland),
         contentDescription = null,
         modifier = Modifier.fillMaxHeight().fillMaxSize()
     )
     Column{
-        Text("4.1-island-chooseIsland")
+//        Text("4.1-island-chooseIsland")
         Button(
             onClick = nav01,
             contentPadding = ButtonDefaults.ButtonWithIconContentPadding

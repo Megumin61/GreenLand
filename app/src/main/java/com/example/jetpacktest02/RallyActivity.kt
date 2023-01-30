@@ -61,10 +61,12 @@ fun RallyApp(viewModel: UserViewModel = androidx.lifecycle.viewmodel.compose.vie
 //        val currentScreen = rallyTabRowScreens.find { it.route == currentDestination?.route } ?: Overview
 
     ScaffoldDemoTheme {
+
         Scaffold(
 //                topBar = { MyTopAppBar() },
             bottomBar = {
                 MyBottomNavBar(
+                    navControl = navController,
                     nav01 = {
                         navController.navigateSingleTopTo(Plant.route)
                     },

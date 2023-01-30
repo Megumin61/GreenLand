@@ -9,3 +9,7 @@ val Teal200 = Color(0xFF03DAC5)
 
 val Green700=Color(0xFF18c49e)
 val bgc=Color(0xFFFFFFFF)
+
+val Green1=Color(0xffbceee8)
+val Green2=Color(0xffe0ede4)
+val Green3=Color(0xff55d9a4)

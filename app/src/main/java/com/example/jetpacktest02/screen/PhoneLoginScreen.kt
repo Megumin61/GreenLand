@@ -56,7 +56,7 @@ fun DefaultPreview(){
         )
         Column(
             modifier=Modifier
-                .padding(start=300.dp, end = 19.dp,top=20.dp)
+                .padding(start=300.dp, end = 19.dp,top=60.dp)
             ,horizontalAlignment= Alignment.CenterHorizontally
 
         ){
@@ -77,14 +77,32 @@ fun DefaultPreview(){
         ){
 
             Image(
-                painter = painterResource(id = com.example.jetpacktest02.R.drawable.g0),
+                painter = painterResource(id = com.example.jetpacktest02.R.drawable.g0_1_textbox_phonenumber),
                 contentDescription = null,
                 modifier = Modifier.width(340.dp).height(75.dp)
             )
             Image(
-                painter = painterResource(id = com.example.jetpacktest02.R.drawable.g0_0_button_wechatlogin),
+                painter = painterResource(id = com.example.jetpacktest02.R.drawable.g0_1_textbox_password),
                 contentDescription = null,
                 modifier = Modifier.width(340.dp).height(75.dp)
+            )
+            Row(
+                modifier = Modifier.width(375.dp).height(40.dp)
+            ){
+                Image(
+                    painter = painterResource(id = com.example.jetpacktest02.R.drawable.g0_3_tips),
+                    contentDescription = null,
+                    modifier = Modifier.padding(start=200.dp).size(width = 132.dp, height = 20.dp)
+                )
+            }
+
+
+            Image(
+                painter = painterResource(id = com.example.jetpacktest02.R.drawable.g0_1_button_login),
+                contentDescription = null,
+                modifier = Modifier.width(206.dp).height(75.dp).size(width = 206.dp, height = 75.dp)
+
+
             )
             Image(
                 painter = painterResource(id = com.example.jetpacktest02.R.drawable.g0_0_button_otherwaylogin),

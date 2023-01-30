@@ -38,7 +38,7 @@ fun LoginFrontScreen() {
         )
         Column(
             modifier=Modifier
-                .padding(start=300.dp, end = 19.dp,top=20.dp)
+                .padding(start=300.dp, end = 19.dp,top=60.dp)
             ,horizontalAlignment= Alignment.CenterHorizontally
 
         ){

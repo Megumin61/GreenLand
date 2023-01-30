@@ -19,6 +19,7 @@ import com.example.jetpacktest02.ViewModel.UserViewModel
 import com.example.jetpacktest02.compose.MyBottomNavBar
 import com.example.jetpacktest02.screen.LoginFrontScreen
 import com.example.jetpacktest02.screen.LoginLoadingScreen
+import com.example.jetpacktest02.screen.PhoneLoginScreen
 import com.example.jetpacktest02.ui.main.*
 import com.example.scaffolddemo.ui.theme.ScaffoldDemoTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -206,6 +207,11 @@ fun RallyApp(viewModel: UserViewModel = androidx.lifecycle.viewmodel.compose.vie
                 }
                 composable(route = LoginFront.route) {
                    LoginFrontScreen(
+
+                    )
+                }
+                composable(route = PhoneLogin.route) {
+                    PhoneLoginScreen(
 
                     )
                 }

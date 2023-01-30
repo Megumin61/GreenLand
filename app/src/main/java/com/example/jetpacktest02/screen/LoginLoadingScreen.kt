@@ -55,9 +55,10 @@ fun DefaultPreview(){
 //                Spacer(Modifier.size(ButtonDefaults.IconSpacing))
 //            }
             Image(
-                painter = painterResource(id = com.example.jetpacktest02.R.drawable.g1_2_1_bg),
+                painter = painterResource(id = com.example.jetpacktest02.R.drawable.g0_0_bg_login),
                 contentDescription = null,
-                modifier = Modifier.fillMaxHeight().fillMaxSize()
+                modifier = Modifier
+                    .fillMaxHeight().fillMaxSize()
             )
 
         }

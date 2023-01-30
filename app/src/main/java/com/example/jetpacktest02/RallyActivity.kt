@@ -60,6 +60,7 @@ fun RallyApp(viewModel: UserViewModel = androidx.lifecycle.viewmodel.compose.vie
     // Change the variable to this and use Overview as a backup screen if this returns null
 //        val currentScreen = rallyTabRowScreens.find { it.route == currentDestination?.route } ?: Overview
 
+    //skc 初始化
     ScaffoldDemoTheme {
 
         Scaffold(

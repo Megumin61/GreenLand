@@ -16,7 +16,7 @@ import com.example.jetpacktest02.*
 
 data class NavItem(val index: Int, val name: String, val icon: ImageVector)
 
-
+//skc 初始化
 @Composable
 fun MyBottomNavBar(
     navControl: NavController,

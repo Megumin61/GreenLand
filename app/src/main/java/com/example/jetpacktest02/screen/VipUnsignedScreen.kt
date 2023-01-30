@@ -31,7 +31,8 @@ import androidx.compose.ui.res.painterResource
 import com.example.jetpacktest02.R
 
 /**
- * The Bills screen.
+ * 会员页面
+ * 负责人：
  */
 @Composable
 fun VipUnsignedScreen(

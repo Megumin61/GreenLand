@@ -20,6 +20,7 @@ import android.annotation.SuppressLint
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -32,6 +33,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -49,93 +53,58 @@ import com.example.scaffolddemo.ui.theme.*
 fun PlanItem(@DrawableRes iconRes:Int){
     Image(painter = painterResource(id = iconRes), contentDescription = null,
     modifier = Modifier.padding(horizontal = 20.dp, vertical = 8.dp))
-
-
 }
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Preview
 @Composable
-fun NewScreen(){
-    Surface(modifier = Modifier.fillMaxSize()){
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier
-                .fillMaxSize()
-                .background(
-                    brush = Brush.verticalGradient(
-                        colors = listOf(
-                            Green6,
-                            Green7
-                        )
-                    )
+fun NewScreen() {
+    Image(
+        painter = painterResource(id = R.drawable.g1_4_1_bg),
+        contentDescription = null,
+        modifier = Modifier
+            .fillMaxHeight()
+            .fillMaxSize()
+        ,contentScale = ContentScale.FillHeight
+    )
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        Box(
+            modifier = Modifier.fillMaxWidth(),
+            contentAlignment = Alignment.Center
+        ) {
+            Row() {
+                IconButton(onClick = { /*TODO*/ }) {
+                    Icon(
+                        bitmap = ImageBitmap.imageResource(id = R.drawable.g1_2_0_ic_arrow_left)
+                        ,contentDescription =null, modifier = Modifier.offset(-140.dp,6.dp))
+                }
+
+                Text(
+                    text = "每日计划",
+                    style = TextStyle(
+                        fontWeight = FontWeight.W900, //设置字体粗细
+                        fontSize = 18.sp
+                    ), modifier = Modifier.offset(-135.dp,18.dp)
                 )
-        ){
-            androidx.compose.material.Scaffold(
-                topBar = {
-                    androidx.compose.material.TopAppBar(title = {
-                        Box(
-                            modifier = Modifier.fillMaxWidth(),
-                            contentAlignment = Alignment.Center
-                        ) {
 
-                            Text(
-                                text = "查看打卡计划",
-                                style = TextStyle(
-                                    fontWeight = FontWeight.W900, //设置字体粗细
-                                    fontSize = 18.sp,
-                                ),
-                                modifier = Modifier.offset(-130.dp, 0.dp)//向左偏移一段距离
-                            )
-                        }
-                    },
-                        backgroundColor = Yellow1,
-                        contentColor = Color.Black,
-                        elevation = 0.dp, //设置阴影
-                        //左侧按钮
-                        navigationIcon = {
-
-//                            IconButton(onClick = {}) {
-//                                Icon(
-//                                    Icons.Default.Menu,
-//                                    contentDescription = "",
-//                                )
-//                            }
-                        },
-                        //右侧按钮
-                        actions = {
-//                            IconButton(onClick = {}) {
-//                                Icon(
-//                                    Icons.Default.Settings,
-//                                    contentDescription = "",
-//                                )
-//                            }
-                        }
-
-                    )
-                }
-            ) {
-
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(
-                            brush = Brush.verticalGradient(
-                                colors = listOf(
-                                    Yellow1,
-                                    Green8
-                                )
-                            )
-                        )
-                ) {
-                    Spacer(Modifier.height(10.dp))
-
-                }
             }
 
         }
     }
+
+        Image(painter = painterResource(id = R.drawable.g1_1_img_flower), contentDescription =null,
+            modifier = Modifier
+                .size(290.dp)
+                .offset(50.dp, 130.dp))
+    Box(modifier = Modifier.offset(0.dp,390.dp)) {
+        Image(painter = painterResource(id = R.drawable.g1_4_1_bg_sports)
+            , modifier = Modifier.padding(horizontal = 28.dp)
+            , contentDescription =null)
+
+        
+    }
+    
+    
 
 
 

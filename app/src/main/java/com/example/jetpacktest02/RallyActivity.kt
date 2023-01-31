@@ -4,12 +4,17 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Scaffold
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -17,6 +22,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.jetpacktest02.ViewModel.UserViewModel
 import com.example.jetpacktest02.compose.MyBottomNavBar
+import com.example.jetpacktest02.compose.MyTopAppBar
 import com.example.jetpacktest02.ui.main.*
 import com.example.scaffolddemo.ui.theme.ScaffoldDemoTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -61,9 +67,8 @@ fun RallyApp(viewModel: UserViewModel = androidx.lifecycle.viewmodel.compose.vie
 //        val currentScreen = rallyTabRowScreens.find { it.route == currentDestination?.route } ?: Overview
 
     ScaffoldDemoTheme {
-
         Scaffold(
-//                topBar = { MyTopAppBar() },
+
             bottomBar = {
                 MyBottomNavBar(
                     navControl = navController,

@@ -46,7 +46,7 @@ fun DrawReactDemo() {
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Preview
 @Composable
-fun NewDiyplanAddScreen(){
+fun SetPlanSleep(){
     Surface(modifier = Modifier.fillMaxSize()){
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -69,7 +69,7 @@ fun NewDiyplanAddScreen(){
                             contentAlignment = Alignment.Center
                         ) {
                             Text(
-                                text = "自定义计划",
+                                text = "修改计划",
                                 style = TextStyle(
                                     fontWeight = FontWeight.W900, //设置字体粗细
                                     fontSize = 18.sp,
@@ -120,7 +120,7 @@ fun NewDiyplanAddScreen(){
                 ) {
 
                     Spacer(Modifier.height(10.dp))
-                    PlanItem(iconRes = R.drawable.g1_2_icbg_diy)
+                    PlanItem(iconRes = R.drawable.g1_2_icbg_sleep)
                     Box(){
                         Image(painter = painterResource(id = R.drawable.g1_2_5_bg_dailyaim), contentDescription =null, modifier = Modifier
                             .padding(horizontal = 32.dp))
@@ -136,7 +136,7 @@ fun NewDiyplanAddScreen(){
                             .padding(top = 415.dp, start = 122.dp)
                             .width(136.dp)
                             .height(54.dp)
-                           // .background(color = Color(0xff7FC7A8))
+                            // .background(color = Color(0xff7FC7A8))
 
 
                         ) {
@@ -155,19 +155,4 @@ fun NewDiyplanAddScreen(){
 }
 
 
-@Composable
-public fun DayItem(){
-    Row() {
-        Text(text = "周一", fontSize = 12.sp, color = Color(0xff9598AC),style = MaterialTheme.typography.bodyMedium, modifier = Modifier.padding(end =17.dp))
-        Text(text = "周二", fontSize = 12.sp, color = Color(0xff9598AC),style = MaterialTheme.typography.bodyMedium, modifier = Modifier.padding(end = 17.dp))
-        Text(text = "周三", fontSize = 12.sp, color = Color(0xff9598AC),style = MaterialTheme.typography.bodyMedium, modifier = Modifier.padding(end = 17.dp))
-        Text(text = "周四", fontSize = 12.sp, color = Color(0xff9598AC),style = MaterialTheme.typography.bodyMedium, modifier = Modifier.padding(end = 17.dp))
-        Text(text = "周五", fontSize = 12.sp, color = Color(0xff9598AC),style = MaterialTheme.typography.bodyMedium, modifier = Modifier.padding(end = 17.dp))
-        Text(text = "周六", fontSize = 12.sp, color = Color(0xff9598AC),style = MaterialTheme.typography.bodyMedium, modifier = Modifier.padding(end = 17.dp))
-        Text(text = "周日", fontSize = 12.sp, color = Color(0xff9598AC),style = MaterialTheme.typography.bodyMedium, modifier = Modifier.padding(end =17.dp))
-
-    }
-
-
-}
 

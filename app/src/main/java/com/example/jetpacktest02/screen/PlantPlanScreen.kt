@@ -145,8 +145,17 @@ fun NewPlantScreen(){
                         style = MaterialTheme.typography.bodyLarge,
                         color = Color(0xff445B60)
                     )
-                    Button(onClick = { /*TODO*/ }) {
-                        
+                    Button(onClick = { /*TODO*/ }, modifier = Modifier
+                        .padding(top = 420.dp, start = 122.dp)
+                        .width(136.dp)
+                        .height(54.dp)
+                        // .background(color = Color(0xff7FC7A8))
+
+
+                    ) {
+                        Text(text = "添加计划", fontSize = 20.sp, fontWeight = FontWeight.W900)
+
+
                     }
 
                 }

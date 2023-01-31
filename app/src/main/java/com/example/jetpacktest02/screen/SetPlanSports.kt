@@ -32,21 +32,10 @@ import com.example.scaffolddemo.ui.theme.Green1
 import com.example.scaffolddemo.ui.theme.Green2
 
 
-/*@Composable
-fun DrawReactDemo() {
-    Canvas(modifier = Modifier.size(200.dp), onDraw = {
-        drawRoundRect(
-            color = myRed,
-            style = Stroke(width = 80f),
-            cornerRadius = CornerRadius(80f, 80f)
-        )
-    })
-}*/
-
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Preview
 @Composable
-fun NewDiyplanAddScreen(){
+fun SetPlanSports(){
     Surface(modifier = Modifier.fillMaxSize()){
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -69,7 +58,7 @@ fun NewDiyplanAddScreen(){
                             contentAlignment = Alignment.Center
                         ) {
                             Text(
-                                text = "自定义计划",
+                                text = "修改计划",
                                 style = TextStyle(
                                     fontWeight = FontWeight.W900, //设置字体粗细
                                     fontSize = 18.sp,
@@ -120,23 +109,29 @@ fun NewDiyplanAddScreen(){
                 ) {
 
                     Spacer(Modifier.height(10.dp))
-                    PlanItem(iconRes = R.drawable.g1_2_icbg_diy)
+                    PlanItem(iconRes = R.drawable.g1_2_icbg_sports)
                     Box(){
-                        Image(painter = painterResource(id = R.drawable.g1_2_5_bg_dailyaim), contentDescription =null, modifier = Modifier
+                        Image(painter = painterResource(id = R.drawable.g1_2_1_bg_dailyaim), contentDescription =null, modifier = Modifier
                             .padding(horizontal = 32.dp))
                         Row(Modifier.padding(start = 60.dp, top = 108.dp)) {
                             DayItem()
                         }
-                        Image(painter = painterResource(id = R.drawable.g1_2_3_btn_blankremind), contentDescription =null,
+                        Image(painter = painterResource(id = R.drawable.g1_2_3_btn_blankremind1), contentDescription =null,
                             modifier = Modifier
                                 .padding(horizontal = 48.dp)
                                 .padding(top = 182.dp))
+                        Image(painter = painterResource(id = R.drawable.g1_2_4_btn_deleteclock), contentDescription =null,modifier = Modifier
+                            .padding(horizontal = 48.dp)
+                            .padding(top = 280.dp))
+                        Image(painter = painterResource(id = R.drawable.g1_2_3_btn_blankremind), contentDescription =null,modifier = Modifier
+                            .padding(horizontal = 48.dp)
+                            .padding(top = 390.dp))
 
                         Button(onClick = { /*TODO*/ }, modifier = Modifier
-                            .padding(top = 415.dp, start = 122.dp)
+                            .padding(top = 460.dp, start = 122.dp)
                             .width(136.dp)
                             .height(54.dp)
-                           // .background(color = Color(0xff7FC7A8))
+                            // .background(color = Color(0xff7FC7A8))
 
 
                         ) {
@@ -152,22 +147,5 @@ fun NewDiyplanAddScreen(){
 
         }
     }
-}
-
-
-@Composable
-public fun DayItem(){
-    Row() {
-        Text(text = "周一", fontSize = 12.sp, color = Color(0xff9598AC),style = MaterialTheme.typography.bodyMedium, modifier = Modifier.padding(end =17.dp))
-        Text(text = "周二", fontSize = 12.sp, color = Color(0xff9598AC),style = MaterialTheme.typography.bodyMedium, modifier = Modifier.padding(end = 17.dp))
-        Text(text = "周三", fontSize = 12.sp, color = Color(0xff9598AC),style = MaterialTheme.typography.bodyMedium, modifier = Modifier.padding(end = 17.dp))
-        Text(text = "周四", fontSize = 12.sp, color = Color(0xff9598AC),style = MaterialTheme.typography.bodyMedium, modifier = Modifier.padding(end = 17.dp))
-        Text(text = "周五", fontSize = 12.sp, color = Color(0xff9598AC),style = MaterialTheme.typography.bodyMedium, modifier = Modifier.padding(end = 17.dp))
-        Text(text = "周六", fontSize = 12.sp, color = Color(0xff9598AC),style = MaterialTheme.typography.bodyMedium, modifier = Modifier.padding(end = 17.dp))
-        Text(text = "周日", fontSize = 12.sp, color = Color(0xff9598AC),style = MaterialTheme.typography.bodyMedium, modifier = Modifier.padding(end =17.dp))
-
-    }
-
 
 }
-

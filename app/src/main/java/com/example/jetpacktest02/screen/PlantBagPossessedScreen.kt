@@ -27,7 +27,10 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.example.jetpacktest02.R
 
 /**
@@ -36,6 +39,7 @@ import com.example.jetpacktest02.R
  * 负责人：方凯荣
  * 对接人：
  */
+@Preview(showBackground=true,widthDp=393,heightDp=851)
 @Composable
 fun PlantBagPossessedScreen(
 //            bills : (String) -> Unit = {},
@@ -43,25 +47,28 @@ fun PlantBagPossessedScreen(
 
 ) {
     Image(
-        painter = painterResource(id = R.drawable.plant_bag_possessed),
+        painter = painterResource(id = R.drawable.g5_1_1_bg),
         contentDescription = null,
-        modifier = Modifier.fillMaxHeight().fillMaxSize()
+        modifier = Modifier
+            .width(393.dp)
+            .height((851.dp))
     )
-    Column{
-        Text("5.1.1-PlantBag-possessed")
-        Button(
-            onClick = nav01,
-            contentPadding = ButtonDefaults.ButtonWithIconContentPadding
-        ) {
-            Icon(
-                Icons.Filled.Favorite,
-                contentDescription = "Localized description",
-                modifier = Modifier.size(ButtonDefaults.IconSize)
-            )
-            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-            Text("1.1-Plant")
-        }
+    Column(modifier = Modifier.
+    fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally)
+    {
+        PlantImage()
     }
-
+ 
 
 }
+
+@Composable
+fun PlantImage(){
+    Image(painter = painterResource(
+        id = R.drawable.g5_1_1_img_flower),
+        contentDescription = null,
+        modifier = Modifier.width(119.dp))
+
+}
+

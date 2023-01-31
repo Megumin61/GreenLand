@@ -16,6 +16,7 @@
 
 package com.example.jetpacktest02.ui.main
 
+import android.annotation.SuppressLint
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -23,21 +24,23 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Icon
-import androidx.compose.material3.Text
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.jetpacktest02.R
+import com.example.scaffolddemo.ui.theme.Green1
+import com.example.scaffolddemo.ui.theme.Green2
 
 /**
  * The Bills screen.
@@ -51,7 +54,111 @@ fun PlanItem(@DrawableRes iconRes:Int){
 
 }
 
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Preview
+@Composable
+fun NewPlantScreen(){
+    Surface(modifier = Modifier.fillMaxSize()){
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier
+                .fillMaxSize()
+                .background(
+                    brush = Brush.verticalGradient(
+                        colors = listOf(
+                            Green1,
+                            Green2
+                        )
+                    )
+                )
+        ){
+            androidx.compose.material.Scaffold(
+                topBar = {
+                    androidx.compose.material.TopAppBar(title = {
+                        Box(
+                            modifier = Modifier.fillMaxWidth(),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(
+                                text = "每日计划",
+                                style = TextStyle(
+                                    fontWeight = FontWeight.W900, //设置字体粗细
+                                    fontSize = 18.sp,
+                                ),
+                                modifier = Modifier.offset(-150.dp, 0.dp)//向左偏移一段距离
+                            )
+                        }
+                    },
+                        backgroundColor = Green1,
+                        contentColor = Color.Black,
+                        elevation = 0.dp, //设置阴影
+                        //左侧按钮
+                        navigationIcon = {
+
+//                            IconButton(onClick = {}) {
+//                                Icon(
+//                                    Icons.Default.Menu,
+//                                    contentDescription = "",
+//                                )
+//                            }
+                        },
+                        //右侧按钮
+                        actions = {
+//                            IconButton(onClick = {}) {
+//                                Icon(
+//                                    Icons.Default.Settings,
+//                                    contentDescription = "",
+//                                )
+//                            }
+                        }
+
+                    )
+                }
+            ) {
+
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(
+                            brush = Brush.verticalGradient(
+                                colors = listOf(
+                                    Green1,
+                                    Green2
+                                )
+                            )
+                        )
+                ) {
+
+                    Spacer(Modifier.height(10.dp))
+                    Text(
+                        text = "正在进行的计划",
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = Color(0xff445B60)
+                    )
+                    PlanItem(iconRes = R.drawable.g1_2_icbg_sports)
+                    PlanItem(iconRes = R.drawable.g1_2_icbg_drinkwater)
+                    PlanItem(iconRes = R.drawable.g1_2_icbg_sleep)
+                    PlanItem(iconRes = R.drawable.g1_2_icbg_eating)
+                    Text(
+                        text = "今日已完成",
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = Color(0xff445B60)
+                    )
+                    Button(onClick = { /*TODO*/ }) {
+                        
+                    }
+
+                }
+            }
+
+        }
+    }
+}
+
+
+
+
 @Composable
 fun PlantPlanScreen(
 //            bills : (String) -> Unit = {},
@@ -66,8 +173,8 @@ fun PlantPlanScreen(
             .fillMaxHeight()
             .fillMaxSize()
     )
-    Column{
-       /* Text("1.2-plant-plan")
+    Column {
+        Text("1.2-plant-plan")
         Button(
             onClick = nav01,
             contentPadding = ButtonDefaults.ButtonWithIconContentPadding
@@ -91,26 +198,8 @@ fun PlantPlanScreen(
             )
             Spacer(Modifier.size(ButtonDefaults.IconSpacing))
             Text("1.4.1-plant-lookingforplan-foot")
-        }*/
-        Row(Modifier.padding(top = 62.dp, start = 26.dp), horizontalArrangement = Arrangement.Center) {
-            Image(painter = painterResource(id = R.drawable.g1_2_0_ic_arrow_left),
-                contentDescription =null)
-            Text(text = "每日计划", color = Color.Black, fontSize = 18.sp,
-                modifier = Modifier
-                    .padding(start = 18.dp)
-                    .offset(y = -4.dp) )
         }
-        Text(text = "正在进行的计划",color= Color.Gray, fontSize = 16.sp,
-        modifier = Modifier.padding(top = 16.dp, start = 136.dp))
-        Column(modifier = Modifier.padding(vertical = 4.dp)) {
-            PlanItem(iconRes = R.drawable.g1_2_icbg_sports)
-            PlanItem(iconRes = R.drawable.g1_2_icbg_drinkwater)
-            PlanItem(iconRes = R.drawable.g1_2_icbg_sleep)
-            PlanItem(iconRes = R.drawable.g1_2_icbg_eating)
-        }
-        Text(text = "今日已完成",color= Color.Gray, fontSize = 16.sp)
-        Image(painter = painterResource(id = R.drawable.g1_2_4_btn_addplan), contentDescription =null )
-        /*Button(
+        Button(
             onClick = nav01,
             contentPadding = ButtonDefaults.ButtonWithIconContentPadding
         ) {
@@ -120,9 +209,8 @@ fun PlantPlanScreen(
                 modifier = Modifier.size(ButtonDefaults.IconSize)
             )
             Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-            Text("1.2-plant-plan")*/
+            Text("1.2-plant-plan")
 
+        }
     }
-
-
 }

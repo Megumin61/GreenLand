@@ -49,6 +49,8 @@ fun PlantScreen(viewModel: UserViewModel = androidx.lifecycle.viewmodel.compose.
     nav05: () -> Unit={},
     nav06: () -> Unit={},
     nav07: () -> Unit={},
+    nav08: () -> Unit={},
+
 
 ) {
     val weatherNow = viewModel.counterLiveData.observeAsState()
@@ -154,6 +156,18 @@ fun PlantScreen(viewModel: UserViewModel = androidx.lifecycle.viewmodel.compose.
             )
             Spacer(Modifier.size(ButtonDefaults.IconSpacing))
             Text("8.1-Vip（unsigned）")
+        }
+        Button(
+            onClick = nav08,
+            contentPadding = ButtonDefaults.ButtonWithIconContentPadding
+        ) {
+            Icon(
+                Icons.Filled.Favorite,
+                contentDescription = "Localized description",
+                modifier = Modifier.size(ButtonDefaults.IconSize)
+            )
+            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
+            Text("test")
         }
     }
 }

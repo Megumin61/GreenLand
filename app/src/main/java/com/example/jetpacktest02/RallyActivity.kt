@@ -130,7 +130,11 @@ fun RallyApp(viewModel: UserViewModel = androidx.lifecycle.viewmodel.compose.vie
                         },
                         nav07 = {
                             navController.navigateSingleTopTo(VipUnsigned.route)
+                        },
+                        nav08 = {
+                            navController.navigateSingleTopTo(PhoneLogin.route)
                         }
+
 
                     )
                 }

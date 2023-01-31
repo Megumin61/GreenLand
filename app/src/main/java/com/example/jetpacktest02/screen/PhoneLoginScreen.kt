@@ -38,7 +38,8 @@ import com.example.scaffolddemo.ui.theme.Text3Gray
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PhoneLoginScreen() {
-    var text by remember{ mutableStateOf("")}
+    var phonenumber by remember{ mutableStateOf("")}
+    var captcha by remember{ mutableStateOf("")}
 
     Surface(modifier = Modifier.fillMaxSize()) {
 
@@ -93,9 +94,9 @@ fun PhoneLoginScreen() {
                 ) {
                     //输入手机号文本框
                     TextField(
-                        value = text,
+                        value = phonenumber,
                         onValueChange = {
-                            text = it
+                            phonenumber = it
 
                         },
                         singleLine = true,
@@ -153,9 +154,9 @@ fun PhoneLoginScreen() {
                 ) {
                     //验证码输入栏文本框
                     TextField(
-                        value = text,
+                        value = captcha,
                         onValueChange = {
-                            text = it
+                            captcha = it
 
                         },
                         singleLine = true,
@@ -174,8 +175,8 @@ fun PhoneLoginScreen() {
 
                         ),
                         modifier = Modifier
-                            .offset(20.dp, -2.dp)
-                            .width(250.dp)
+                            .offset(-31.dp, -2.dp)
+                            .width(150.dp)
                             .height(75.dp)
 
                     )

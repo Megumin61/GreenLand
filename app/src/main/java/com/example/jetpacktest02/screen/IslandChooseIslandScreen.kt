@@ -16,50 +16,220 @@
 
 package com.example.jetpacktest02.ui.main
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Icon
-import androidx.compose.material3.Text
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.jetpacktest02.R
+import com.example.scaffolddemo.ui.theme.Green1
+import com.example.scaffolddemo.ui.theme.Green2
 
 /**
- * 选择岛屿页面
+ * 群岛/选择岛屿页面
  * 负责人：谭家俊
  */
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun IslandChooseIslandScreen(
 //            bills : (String) -> Unit = {},
-    nav01: () -> Unit={},
-
+    nav01: () -> Unit = {},
 ) {
-    Image(
-        painter = painterResource(id = R.drawable.g4_1_bn_exploreisland),
-        contentDescription = null,
-        modifier = Modifier.fillMaxHeight().fillMaxSize()
-    )
-    Column{
-//        Text("4.1-island-chooseIsland")
-        Button(
-            onClick = nav01,
-            contentPadding = ButtonDefaults.ButtonWithIconContentPadding
+
+    Surface(modifier = Modifier.fillMaxSize()) {
+        //绘制背景渐变色
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier
+                .fillMaxSize()
+                .background(
+                    brush = Brush.verticalGradient(
+                        colors = listOf(
+                            Green1,
+                            Green2
+                        )
+                    )
+                )
         ) {
-            Icon(
-                Icons.Filled.Favorite,
-                contentDescription = "Localized description",
-                modifier = Modifier.size(ButtonDefaults.IconSize)
-            )
-            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-            Text("1.1-Plant")
+            //顶部菜单栏
+            Scaffold(
+                topBar = {
+                    TopAppBar(title = {
+                        Box(
+                            modifier = Modifier.fillMaxWidth(),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(
+                                text = "岛屿选择",
+                                style = TextStyle(
+                                    fontWeight = FontWeight.W900, //设置字体粗细
+                                    fontSize = 18.sp,
+                                ),
+                                modifier = Modifier.offset(-35.dp, 0.dp)//向左偏移一段距离
+                            )
+                        }
+                    },
+                        backgroundColor = Green1,
+                        contentColor = Color.Black,
+                        elevation = 0.dp, //设置阴影
+                        //左侧按钮
+                        navigationIcon = {
+
+//                            IconButton(onClick = {}) {
+//                                Icon(
+//                                    Icons.Default.Menu,
+//                                    contentDescription = "",
+//                                )
+//                            }
+                        },
+                        //右侧按钮
+                        actions = {
+//                            IconButton(onClick = {}) {
+//                                Icon(
+//                                    Icons.Default.Settings,
+//                                    contentDescription = "",
+//                                )
+//                            }
+                        }
+
+                    )
+                }
+            ) {
+
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(
+                            brush = Brush.verticalGradient(
+                                colors = listOf(
+                                    Green1,
+                                    Green2
+                                )
+                            )
+                        )
+                ) {
+                    Spacer(Modifier.height(40.dp))
+                    Image(
+                        painter = painterResource(id = R.drawable.g4_1_bn_friendisland),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .width(377.dp)
+                            .height(230.dp)
+                            .align(Alignment.CenterHorizontally),
+                    )
+
+                    Text(
+                        text = "·关注朋友们的生活状态，增进互动",
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = Color(0xff9598ac)
+                    )
+
+                    Spacer(Modifier.height(25.dp))
+                    Image(
+                        painter = painterResource(id = R.drawable.g4_1_bn_exploreisland),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .width(377.dp)
+                            .height(230.dp)
+                            .align(Alignment.CenterHorizontally),
+                    )
+                    Text(
+                        text = "·探索附近的岛友，多样互动，让生活更有乐趣",
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = Color(0xff9598ac)
+                    )
+                }
+            }
+
         }
     }
 
+//        Text("4.1-island-chooseIsland")
+//        Button(
+//            onClick = nav01,
+//            contentPadding = ButtonDefaults.ButtonWithIconContentPadding
+//        ) {
+//            Icon(
+//                Icons.Filled.Favorite,
+//                contentDescription = "Localized description",
+//                modifier = Modifier.size(ButtonDefaults.IconSize)
+//            )
+//            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
+//            Text("1.1-Plant")
+//        }
 
+
+}
+
+@Preview("Light Mode")
+@Composable
+fun DefaultPreview() {
+
+
+    Surface(modifier = Modifier.fillMaxSize()) {
+
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier
+                .fillMaxSize()
+                .background(
+                    brush = Brush.verticalGradient(
+                        colors = listOf(
+                            Green1,
+                            Green2
+                        )
+                    )
+                )
+        ) {
+            Image(
+                painter = painterResource(id = R.drawable.g4_1_bn_friendisland),
+                contentDescription = null,
+                modifier = Modifier
+                    .width(377.dp)
+                    .height(230.dp)
+                    .align(Alignment.CenterHorizontally),
+            )
+
+            Text(
+                text = "·关注朋友们的生活状态，增进互动",
+                style = MaterialTheme.typography.bodyLarge,
+                color = Color(0xff9598ac)
+            )
+            Image(
+                painter = painterResource(id = R.drawable.g4_1_bn_exploreisland),
+                contentDescription = null,
+                modifier = Modifier
+                    .width(377.dp)
+                    .height(230.dp)
+                    .align(Alignment.CenterHorizontally),
+            )
+            Text(
+                text = "·探索附近的岛友，多样互动，让生活更有乐趣",
+                style = MaterialTheme.typography.bodyLarge,
+                color = Color(0xff9598ac)
+            )
+        }
+    }
 }

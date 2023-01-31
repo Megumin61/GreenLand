@@ -45,51 +45,62 @@ object Accounts : RallyDestination {
     override val icon = Icons.Filled.AttachMoney
     override val route = "accounts"
 }
+
 object Bills : RallyDestination {
     override val icon = Icons.Filled.MoneyOff
     override val route = "Bills"
 }
+
 object Plant : RallyDestination {
     override val icon = Icons.Filled.MoneyOff
     override val route = "1.1-Plant"
 }
+
 object PlantPlan : RallyDestination {
     override val icon = Icons.Filled.MoneyOff
     override val route = "1.2-plant-plan"
 }
+
 object Dailyhealthmessage : RallyDestination {
     override val icon = Icons.Filled.MoneyOff
     override val route = "1.3-Dailyhealthmessage"
 }
+
 object IslandChooseIsland : RallyDestination {
     override val icon = Icons.Filled.MoneyOff
     override val route = "4.1-island-chooseIsland"
 }
+
 object Message : RallyDestination {
     override val icon = Icons.Filled.MoneyOff
     override val route = "2.1-message"
-}object My : RallyDestination {
+}
+
+object My : RallyDestination {
     override val icon = Icons.Filled.MoneyOff
     override val route = "7.0-My"
-}object PlantBagPossessed : RallyDestination {
+}
+
+object PlantBagPossessed : RallyDestination {
     override val icon = Icons.Filled.MoneyOff
     override val route = "5.1.1-PlantBag-possessed"
 }
+
 object PlantFoot : RallyDestination {
     override val icon = Icons.Filled.MoneyOff
     override val route = "1.2.1-plant-foot"
 }
+
 object VipUnsigned : RallyDestination {
     override val icon = Icons.Filled.MoneyOff
     override val route = "8.1-Vip（unsigned）"
 }
+
 object PlantLookingForPlanFoot : RallyDestination {
     override val icon = Icons.Filled.MoneyOff
     override val route = "1.4.1-plant-lookingforplan-foot"
 }
 
 
-
-
 // Screens to be displayed in the top RallyTabRow
-val rallyTabRowScreens = listOf(Overview, Accounts,Plant,PlantPlan,Dailyhealthmessage)
+val rallyTabRowScreens = listOf(Overview, Accounts, Plant, PlantPlan, Dailyhealthmessage)

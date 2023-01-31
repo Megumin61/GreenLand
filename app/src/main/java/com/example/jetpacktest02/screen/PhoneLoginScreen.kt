@@ -232,9 +232,9 @@ fun PhoneLoginScreen() {
     }
 }
 
-//@OptIn(ExperimentalMaterial3Api::class)
-//@Preview (name = "Light Mode")
-//@Composable
-//fun DefaultPreview(){
-//    PhoneLoginScreen()
-//}
+@OptIn(ExperimentalMaterial3Api::class)
+@Preview (name = "Light Mode")
+@Composable
+fun DefaultPreview(){
+    PhoneLoginScreen()
+}

@@ -44,18 +44,21 @@ fun LoginFrontScreen() {
         )
         Column(
             modifier=Modifier
-                .padding(start=300.dp, end = 19.dp,top=60.dp)
+                .padding(start=300.dp, end = 19.dp,top=40.dp)
             ,horizontalAlignment= Alignment.CenterHorizontally
 
-        ){
+        )
+        {
+            Box{
+                //立即体验跳过按钮
+                androidx.compose.material.TextButton(onClick = {
+                    /*TODO*/
+                }) {
+                    Text(text = "立即体验", color = Text3Gray , fontSize = 14.sp)
+                }
 
-            Image(
-                painter = painterResource(id = com.example.jetpacktest02.R.drawable.g0_0_button_skip),
-                contentDescription = null,
-                modifier = Modifier
-                    .width(200.dp)
-                    .height(20.dp)
-            )
+            }
+
 
         }
 
@@ -83,6 +86,7 @@ fun LoginFrontScreen() {
                 modifier = Modifier
                     .size(width = 311.dp, height = 50.dp)
                     .offset(0.dp, 10.dp)
+
             ) {
                 
 
@@ -105,7 +109,8 @@ fun LoginFrontScreen() {
                 ),
                 modifier = Modifier
                     .size(width = 311.dp, height = 50.dp)
-                    .offset(0.dp, 10.dp)
+                    .offset(0.dp, 25.dp)
+
             ) {
 
 
@@ -130,7 +135,7 @@ fun LoginFrontScreen() {
             Box{
 //其他登录方式文本按钮
                 androidx.compose.material.TextButton(onClick = { /*TODO*/ },
-                    modifier = Modifier.offset(0.dp,0.dp)
+                    modifier = Modifier.offset(0.dp,30.dp)
 
                 ) {
                     Text(text = "其他登录方式 ＞", color = Text3Gray , fontSize = 14.sp)
@@ -141,8 +146,8 @@ fun LoginFrontScreen() {
         }
     }
 }
-@Preview (name = "Light Mode")
-@Composable
-fun DefaultPreview(){
-    LoginFrontScreen()
-}
+//@Preview (name = "Light Mode")
+//@Composable
+//fun DefaultPreview(){
+//    LoginFrontScreen()
+//}

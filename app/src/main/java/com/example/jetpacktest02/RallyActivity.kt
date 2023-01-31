@@ -23,6 +23,8 @@ import androidx.navigation.compose.rememberNavController
 import com.example.jetpacktest02.ViewModel.UserViewModel
 import com.example.jetpacktest02.compose.MyBottomNavBar
 import com.example.jetpacktest02.compose.MyTopAppBar
+import com.example.jetpacktest02.screen.IslandMemberListScreen
+import com.example.jetpacktest02.screen.IslandScreen
 import com.example.jetpacktest02.ui.main.*
 import com.example.scaffolddemo.ui.theme.ScaffoldDemoTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -73,19 +75,31 @@ fun RallyApp(viewModel: UserViewModel = androidx.lifecycle.viewmodel.compose.vie
                 MyBottomNavBar(
                     navControl = navController,
                     nav01 = {
-                        navController.navigateSingleTopTo(Plant.route)
+                        navController.navigate(Plant.route) {
+                            launchSingleTop = true; popUpTo(Plant.route)
+                        }
                     },
                     nav02 = {
-                        navController.navigateSingleTopTo(VipUnsigned.route)
+                        navController.navigate(VipUnsigned.route) {
+                            launchSingleTop = true;popUpTo(
+                            Plant.route
+                        )
+                        }
                     },
                     nav03 = {
-                        navController.navigateSingleTopTo(IslandChooseIsland.route)
+                        navController.navigate(IslandChooseIsland.route) {
+                            launchSingleTop = true;popUpTo(Plant.route)
+                        }
                     },
                     nav04 = {
-                        navController.navigateSingleTopTo(Message.route)
+                        navController.navigate(Message.route) {
+                            launchSingleTop = true;popUpTo(Plant.route)
+                        }
                     },
                     nav05 = {
-                        navController.navigateSingleTopTo(My.route)
+                        navController.navigate(My.route) {
+                            launchSingleTop = true;popUpTo(Plant.route)
+                        }
                     }
                 )
             }
@@ -105,98 +119,131 @@ fun RallyApp(viewModel: UserViewModel = androidx.lifecycle.viewmodel.compose.vie
                 composable(route = Bills.route) {
                     BillsScreen(
                         bills = {
-                            navController.navigateSingleTopTo(Accounts.route)
+                            navController.navigate(Accounts.route)
                         }
                     )
                 }
                 composable(route = Plant.route) {
                     PlantScreen(
                         nav01 = {
-                            navController.navigateSingleTopTo(PlantPlan.route)
+                            navController.navigate(PlantPlan.route) { launchSingleTop = true; }
                         },
                         nav02 = {
-                            navController.navigateSingleTopTo(Dailyhealthmessage.route)
+                            navController.navigate(Dailyhealthmessage.route) {
+                                launchSingleTop = true;
+                            }
                         },
                         nav03 = {
-                            navController.navigateSingleTopTo(IslandChooseIsland.route)
+                            navController.navigate(IslandChooseIsland.route) {
+                                launchSingleTop = true;
+                            }
                         },
                         nav04 = {
-                            navController.navigateSingleTopTo(Message.route)
+                            navController.navigate(Message.route) { launchSingleTop = true; }
                         },
                         nav05 = {
-                            navController.navigateSingleTopTo(My.route)
+                            navController.navigate(My.route) { launchSingleTop = true; }
                         },
                         nav06 = {
-                            navController.navigateSingleTopTo(PlantBagPossessed.route)
+                            navController.navigate(PlantBagPossessed.route) {
+                                launchSingleTop = true;
+                            }
                         },
                         nav07 = {
-                            navController.navigateSingleTopTo(VipUnsigned.route)
+                            navController.navigate(VipUnsigned.route) { launchSingleTop = true; }
                         }
                     )
                 }
                 composable(route = PlantPlan.route) {
                     PlantPlanScreen(
                         nav01 = {
-                            navController.navigateSingleTopTo(Plant.route)
+                            navController.navigate(Plant.route) { launchSingleTop = true; }
                         },
                         nav02 = {
-                            navController.navigateSingleTopTo(PlantLookingForPlanFoot.route)
+                            navController.navigate(PlantLookingForPlanFoot.route) {
+                                launchSingleTop = true;
+                            }
                         }
                     )
                 }
                 composable(route = Dailyhealthmessage.route) {
                     DailyhealthmessageScreen(
                         nav01 = {
-                            navController.navigateSingleTopTo(Plant.route)
+                            navController.navigate(Plant.route) { launchSingleTop = true; }
                         }
                     )
                 }
                 composable(route = IslandChooseIsland.route) {
                     IslandChooseIslandScreen(
                         nav01 = {
-                            navController.navigateSingleTopTo(Plant.route)
+                            navController.navigate(Island.route) {
+                                launchSingleTop = true;popUpTo(
+                                IslandChooseIsland.route
+                            ) {}
+                            }
                         }
+                    )
+                }
+                composable(route = Island.route) {
+                    IslandScreen(
+                        nav01 = {
+                            navController.popBackStack()
+                        },
+                        nav02 = {
+                            navController.navigate(IslandMemberList.route) {
+                                launchSingleTop = true; popUpTo(Island.route) {}
+                            }
+                        }
+                    )
+                }
+                composable(route = IslandMemberList.route) {
+                    IslandMemberListScreen(
+                        nav01 = {
+                            navController.popBackStack()
+                        },
                     )
                 }
                 composable(route = Message.route) {
                     MessageScreen(
                         nav01 = {
-                            navController.navigateSingleTopTo(Plant.route)
+                            navController.navigate(Plant.route) { launchSingleTop = true; }
                         }
                     )
                 }
                 composable(route = My.route) {
                     MyScreen(
                         nav01 = {
-                            navController.navigateSingleTopTo(Plant.route)
+                            navController.navigate(Plant.route) { launchSingleTop = true; }
                         }
                     )
                 }
                 composable(route = PlantBagPossessed.route) {
                     PlantBagPossessedScreen(
                         nav01 = {
-                            navController.navigateSingleTopTo(Plant.route)
+                            navController.navigate(Plant.route) { launchSingleTop = true; }
                         }
                     )
                 }
                 composable(route = PlantFoot.route) {
                     PlantFootScreen(
                         nav01 = {
-                            navController.navigateSingleTopTo(PlantLookingForPlanFoot.route)
+                            navController.navigate(PlantLookingForPlanFoot.route) {
+                                launchSingleTop = true;
+                            }
                         }
                     )
                 }
                 composable(route = PlantLookingForPlanFoot.route) {
                     PlantLookingForPlanFootScreen(
                         nav01 = {
-                            navController.navigateSingleTopTo(PlantPlan.route)
+                            navController.navigate(PlantPlan.route) { launchSingleTop = true; }
                         }
                     )
                 }
                 composable(route = VipUnsigned.route) {
                     VipUnsignedScreen(
                         nav01 = {
-                            navController.navigateSingleTopTo(Plant.route)
+                            navController.navigate(Plant.route) { launchSingleTop = true; }
                         }
                     )
                 }

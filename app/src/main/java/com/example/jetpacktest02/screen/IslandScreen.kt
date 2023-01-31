@@ -1,45 +1,27 @@
-/*
- * Copyright 2022 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     https://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
-package com.example.jetpacktest02.ui.main
+package com.example.jetpacktest02.screen
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.Scaffold
+import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material.icons.filled.MoreVert
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -49,17 +31,12 @@ import com.example.jetpacktest02.R
 import com.example.scaffolddemo.ui.theme.Green1
 import com.example.scaffolddemo.ui.theme.Green2
 
-/**
- * 群岛/选择岛屿页面
- * 负责人：谭家俊
- */
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun IslandChooseIslandScreen(
-//            bills : (String) -> Unit = {},
+fun IslandScreen(
     nav01: () -> Unit = {},
+    nav02: () -> Unit = {}
 ) {
-
     Surface(modifier = Modifier.fillMaxSize()) {
         //绘制背景渐变色
         Column(
@@ -84,7 +61,7 @@ fun IslandChooseIslandScreen(
                             contentAlignment = Alignment.Center
                         ) {
                             Text(
-                                text = "岛屿选择",
+                                text = "好友岛",
                                 style = TextStyle(
                                     fontWeight = FontWeight.W900, //设置字体粗细
                                     fontSize = 18.sp,
@@ -99,21 +76,15 @@ fun IslandChooseIslandScreen(
                         //左侧按钮
                         navigationIcon = {
 
-//                            IconButton(onClick = {}) {
-//                                Icon(
-//                                    Icons.Default.Menu,
-//                                    contentDescription = "",
-//                                )
-//                            }
+                            IconButton(onClick = nav01) {
+                                Icon(
+                                    bitmap = ImageBitmap.imageResource(id = R.drawable.g1_2_0_ic_arrow_left),
+                                    contentDescription = "",
+                                )
+                            }
                         },
                         //右侧按钮
                         actions = {
-//                            IconButton(onClick = {}) {
-//                                Icon(
-//                                    Icons.Default.Settings,
-//                                    contentDescription = "",
-//                                )
-//                            }
                         }
 
                     )
@@ -133,17 +104,22 @@ fun IslandChooseIslandScreen(
                             )
                         )
                 ) {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.End
+                    ) {
+                        Image(
+                            painter = painterResource(id = R.drawable.g4_2_ic_friendlist),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .size(55.dp)
+                                .offset(-15.dp, 0.dp)
+                                .clickable(onClick = nav02)
+
+                        )
+                    }
                     Spacer(Modifier.height(40.dp))
 
-                    Image(
-                        painter = painterResource(id = R.drawable.g4_1_bn_friendisland),
-                        contentDescription = null,
-                        modifier = Modifier
-                            .width(377.dp)
-                            .height(230.dp)
-                            .align(Alignment.CenterHorizontally)
-                            .clickable(enabled = true, onClick = nav01),
-                        )
 
                     Text(
                         text = "·关注朋友们的生活状态，增进互动",
@@ -152,18 +128,7 @@ fun IslandChooseIslandScreen(
                     )
 
                     Spacer(Modifier.height(25.dp))
-                    Image(
-                        painter = painterResource(id = R.drawable.g4_1_bn_exploreisland),
-                        contentDescription = null,
-                        modifier = Modifier
-                            .width(377.dp)
-                            .height(230.dp)
-                            .align(Alignment.CenterHorizontally)
-                            .clickable(
-                                enabled = true, onClick = nav01,
-                            ),
 
-                        )
                     Text(
                         text = "·探索附近的岛友，多样互动，让生活更有乐趣",
                         style = MaterialTheme.typography.bodyLarge,
@@ -174,21 +139,5 @@ fun IslandChooseIslandScreen(
 
         }
     }
-
-//        Text("4.1-island-chooseIsland")
-//        Button(
-//            onClick = nav01,
-//            contentPadding = ButtonDefaults.ButtonWithIconContentPadding
-//        ) {
-//            Icon(
-//                Icons.Filled.Favorite,
-//                contentDescription = "Localized description",
-//                modifier = Modifier.size(ButtonDefaults.IconSize)
-//            )
-//            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-//            Text("1.1-Plant")
-//        }
-
-
 }
 

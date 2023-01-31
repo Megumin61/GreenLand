@@ -39,24 +39,19 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.jetpacktest02.R
-import com.example.scaffolddemo.ui.theme.*
+import com.example.scaffolddemo.ui.theme.Green1
+import com.example.scaffolddemo.ui.theme.Green2
 
 /**
  * The Bills screen.
  */
 
-@Composable
-fun PlanItem(@DrawableRes iconRes:Int){
-    Image(painter = painterResource(id = iconRes), contentDescription = null,
-    modifier = Modifier.padding(horizontal = 20.dp, vertical = 8.dp))
 
-
-}
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Preview
 @Composable
-fun NewScreen(){
+fun PlanList(){
     Surface(modifier = Modifier.fillMaxSize()){
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -65,8 +60,8 @@ fun NewScreen(){
                 .background(
                     brush = Brush.verticalGradient(
                         colors = listOf(
-                            Green6,
-                            Green7
+                            Green1,
+                            Green2
                         )
                     )
                 )
@@ -78,18 +73,17 @@ fun NewScreen(){
                             modifier = Modifier.fillMaxWidth(),
                             contentAlignment = Alignment.Center
                         ) {
-
                             Text(
-                                text = "查看打卡计划",
+                                text = "每日计划",
                                 style = TextStyle(
                                     fontWeight = FontWeight.W900, //设置字体粗细
                                     fontSize = 18.sp,
                                 ),
-                                modifier = Modifier.offset(-130.dp, 0.dp)//向左偏移一段距离
+                                modifier = Modifier.offset(-150.dp, 0.dp)//向左偏移一段距离
                             )
                         }
                     },
-                        backgroundColor = Yellow1,
+                        backgroundColor = Green1,
                         contentColor = Color.Black,
                         elevation = 0.dp, //设置阴影
                         //左侧按钮
@@ -123,14 +117,54 @@ fun NewScreen(){
                         .background(
                             brush = Brush.verticalGradient(
                                 colors = listOf(
-                                    Yellow1,
-                                    Green8
+                                    Green1,
+                                    Green2
                                 )
                             )
                         )
                 ) {
                     Spacer(Modifier.height(10.dp))
+                    Text(
+                        text = "正在进行的计划",
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = Color(0xff445B60)
+                    )
+                    Image(
+                        painter = painterResource(id = R.drawable.g1_2_icbg_sports),
+                        contentDescription = null
+                    )
+                    Image(
+                        painter = painterResource(id = R.drawable.g1_2_icbg_drinkwater),
+                        contentDescription = null
+                    )
+                    Image(
+                        painter = painterResource(id = R.drawable.g1_2_icbg_sleep),
+                        contentDescription = null
+                    )
+                    Image(
+                        painter = painterResource(id = R.drawable.g1_2_icbg_eating),
+                        contentDescription = null
+                    )
 
+                    Spacer(Modifier.height(15.dp))
+
+                    Text(
+                        text = "今天已完成",
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = Color(0xff445B60)
+                    )
+                    Button(onClick = { /*TODO*/ }, modifier = Modifier
+                        .padding(top = 415.dp, start = 122.dp)
+                        .width(136.dp)
+                        .height(54.dp)
+                        // .background(color = Color(0xff7FC7A8))
+
+
+                    ) {
+                        Text(text = "添加计划", fontSize = 20.sp, fontWeight = FontWeight.W900)
+
+
+                    }
                 }
             }
 
@@ -144,60 +178,3 @@ fun NewScreen(){
 
 
 
-@Composable
-fun PlantPlanScreen(
-//            bills : (String) -> Unit = {},
-    nav01: () -> Unit={},
-    nav02: () -> Unit={},
-
-) {
-    Image(
-        painter = painterResource(id = R.drawable.plant_daily_plan),
-        contentDescription = null,
-        modifier = Modifier
-            .fillMaxHeight()
-            .fillMaxSize()
-    )
-    Column{
-       /* Text("1.2-plant-plan")
-        Button(
-            onClick = nav01,
-            contentPadding = ButtonDefaults.ButtonWithIconContentPadding
-        ) {
-            Icon(
-                Icons.Filled.Favorite,
-                contentDescription = "Localized description",
-                modifier = Modifier.size(ButtonDefaults.IconSize)
-            )
-            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-            Text("1.1-Plant")
-        }
-        Button(
-            onClick = nav02,
-            contentPadding = ButtonDefaults.ButtonWithIconContentPadding
-        ) {
-            Icon(
-                Icons.Filled.Favorite,
-                contentDescription = "Localized description",
-                modifier = Modifier.size(ButtonDefaults.IconSize)
-            )
-            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-            Text("1.4.1-plant-lookingforplan-foot")
-        }*/
-
-        /*Button(
-            onClick = nav01,
-            contentPadding = ButtonDefaults.ButtonWithIconContentPadding
-        ) {
-            Icon(
-                Icons.Filled.Favorite,
-                contentDescription = "Localized description",
-                modifier = Modifier.size(ButtonDefaults.IconSize)
-            )
-            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-            Text("1.2-plant-plan")*/
-
-    }
-
-
-}

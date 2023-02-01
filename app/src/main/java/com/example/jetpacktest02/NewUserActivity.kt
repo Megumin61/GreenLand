@@ -7,10 +7,6 @@ import android.os.Bundle
 import android.text.TextUtils
 import android.widget.Button
 import android.widget.EditText
-import androidx.activity.viewModels
-import com.example.jetpacktest02.ViewModel.UserViewModel
-import com.example.jetpacktest02.config.UsersApplication
-import androidx.lifecycle.observe
 
 class NewUserActivity : AppCompatActivity() {
 

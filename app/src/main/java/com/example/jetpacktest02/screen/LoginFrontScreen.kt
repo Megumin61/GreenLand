@@ -146,8 +146,8 @@ fun LoginFrontScreen() {
         }
     }
 }
-//@Preview (name = "Light Mode")
-//@Composable
-//fun DefaultPreview(){
-//    LoginFrontScreen()
-//}
+@Preview (name = "Light Mode")
+@Composable
+fun DefaultPreview(){
+    LoginFrontScreen()
+}

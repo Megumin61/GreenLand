@@ -10,6 +10,9 @@ import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material3.*
 import androidx.compose.material3.R
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -31,7 +34,11 @@ import com.example.scaffolddemo.ui.theme.WechatGreen
 @Composable
 fun VipScreen() {
 
-
+    val ifVip=remember{
+        mutableStateOf(false)}
+    val shouldShowDialog=remember{
+        mutableStateOf(true)
+    }
 
     Surface(modifier = Modifier.fillMaxSize()) {
 
@@ -42,112 +49,88 @@ fun VipScreen() {
                 .fillMaxHeight()
                 .fillMaxSize()
         )
-        Column(
-            modifier=Modifier
-                .padding(start=300.dp, end = 19.dp,top=40.dp)
-            ,horizontalAlignment= Alignment.CenterHorizontally
 
-        )
-        {
-            Box{
-                //立即体验跳过按钮
-                androidx.compose.material.TextButton(onClick = {
-                    /*TODO*/
-                }) {
-                    Text(text = "立即体验", color = Text3Gray , fontSize = 14.sp)
-                }
-
-            }
 
 
         }
 
         Column(
             modifier=Modifier
-                .padding(top = 450.dp,start=16.dp, end = 16.dp)
+                .padding(top = 48.dp,start=35.dp)
             ,horizontalAlignment= Alignment.CenterHorizontally
 //             verticalArrangement = Arrangement.Center
         ){
 
+            //会员未激活卡片
+            Image(
+                painter = painterResource(id = com.example.jetpacktest02.R.drawable.g7_0_vipinactived),
+                contentDescription = null,
+                modifier = Modifier.size(width = 323.dp, height = 155.dp)
+            )
+//会员已激活卡片
 //            Image(
-//                painter = painterResource(id = com.example.jetpacktest02.R.drawable.g0_0_button_phonelogin),
+//                painter = painterResource(id = com.example.jetpacktest02.R.drawable.g7_0_img_vipcard),
 //                contentDescription = null,
-//                modifier = Modifier.width(340.dp).height(75.dp)
+//                modifier = Modifier.size(width = 323.dp, height = 155.dp)
 //            )
 
-
-            //手机号登录按钮
-            Button(onClick = { /*TODO*/ },
+            Button(onClick = { shouldShowDialog.value=true },
                 shape = RoundedCornerShape(27.dp),
                 colors = ButtonDefaults.buttonColors(
                     containerColor = GreenMain,
                     contentColor = GreenMain
                 ),
                 modifier = Modifier
-                    .size(width = 311.dp, height = 50.dp)
-                    .offset(0.dp, 10.dp)
+                    .size(width = 204.dp, height = 50.dp)
+                    .offset(70.dp, 510.dp)
 
             ) {
 
-
-                Image(
-                    painter = painterResource(id = com.example.jetpacktest02.R.drawable.g0_1_ic_phone),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .size(24.dp,24.dp)
-
-                )
                 Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-                Text(text = "手机号登录", color = Color.White , fontSize = 15.sp)
-            }
-            //微信一键登录按钮
-            Button(onClick = { /*TODO*/ },
-                shape = RoundedCornerShape(27.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = WechatGreen,
-                    contentColor = WechatGreen
-                ),
-                modifier = Modifier
-                    .size(width = 311.dp, height = 50.dp)
-                    .offset(0.dp, 25.dp)
-
-            ) {
-
-
-                Image(
-                    painter = painterResource(id = com.example.jetpacktest02.R.drawable.g0_ic_wechat),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .size(24.dp,24.dp)
-
-                )
-                Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-                Text(text = "微信用户一键登录", color = Color.White , fontSize = 15.sp)
+                Text(text = "确认协议并开通", color = Color.White , fontSize = 18.sp)
             }
 
-//            Image(
-//                painter = painterResource(id = com.example.jetpacktest02.R.drawable.g0_0_button_wechatlogin),
-//                contentDescription = null,
-//                modifier = Modifier
-//                    .width(340.dp)
-//                    .height(75.dp)
-//            )
-            Box{
-//其他登录方式文本按钮
-                androidx.compose.material.TextButton(onClick = { /*TODO*/ },
-                    modifier = Modifier.offset(0.dp,30.dp)
+    }
+    //DialogUI()
+}
+
+
+@Composable
+fun DialogUI(){
+    val shouldShowDialog=remember{
+        mutableStateOf(true)
+    }
+    if(shouldShowDialog.value){
+        AlertDialog(onDismissRequest = { shouldShowDialog.value=false },
+
+//            title = { Text(text = "Dialog")},
+//            Image(painter = painterResource(id = com.example.jetpacktest02.R.drawable.g7_0_vipinactived)
+//                , contentDescription =null ),
+
+            text = { Text(text = "This is jetpack compose")},
+            confirmButton = {
+                Button(onClick = { shouldShowDialog.value=false},
+                    colors = ButtonDefaults.buttonColors(
+                    containerColor = GreenMain,
+                    contentColor = GreenMain)
+                
 
                 ) {
-                    Text(text = "其他登录方式 ＞", color = Text3Gray , fontSize = 14.sp)
-
-
+                    Text(text = "确认", color = Color.White)
                 }
             }
-        }
+
+
+        )
+        
     }
+
 }
-@Preview (name = "Light Mode")
-@Composable
-fun DefaultPreview(){
-    VipScreen()
-}
+
+
+
+//@Preview (name = "Light Mode")
+//@Composable
+//fun DefaultPreview(){
+//    VipScreen()
+//}

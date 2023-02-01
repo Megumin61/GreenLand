@@ -8,7 +8,7 @@ import com.example.jetpacktest02.Entity.User
 @Dao
 interface UserDao {
     @Query("SELECT * FROM user_table ORDER BY name ASC")
-    fun getAlphabetizedWords(): kotlinx.coroutines.flow.Flow<List<User>>
+    fun getAlphabetizedUsers(): kotlinx.coroutines.flow.Flow<List<User>>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insertUser(user: User)
@@ -16,13 +16,16 @@ interface UserDao {
     @Delete
     fun deleteUser(user: User): Unit
 
+    @Query("DELETE FROM user_table")
+    fun deleteAll()
+
     @Update(onConflict = OnConflictStrategy.REPLACE)
     fun updateUser(user: User)
 
     @Query("select * from user_table")
     fun getAllUser(): LiveData<List<User>>
 
-    @Query("select * from user_table where name=:name and phoneNumber=:phoneNumber")
-    fun queryUserByPhone(name:String,phoneNumber:String):User
+    @Query("select * from user_table where id =:id")
+    fun getUserById(id : Int):User
 
 }

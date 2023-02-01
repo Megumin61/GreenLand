@@ -99,6 +99,10 @@ object PhoneLogin : RallyDestination{
     override val icon = Icons.Filled.MoneyOff
     override val route = "0.2-phoneloginpage"
 }
+object VipPage : RallyDestination{
+    override val icon = Icons.Filled.MoneyOff
+    override val route = "8.1-vippage"
+}
 
 
 

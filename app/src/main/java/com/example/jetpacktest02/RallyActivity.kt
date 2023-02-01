@@ -219,6 +219,11 @@ fun RallyApp(viewModel: UserViewModel = androidx.lifecycle.viewmodel.compose.vie
 
                     )
                 }
+                composable(route =VipPage.route) {
+                    PhoneLoginScreen(
+
+                    )
+                }
             }
         }
     }

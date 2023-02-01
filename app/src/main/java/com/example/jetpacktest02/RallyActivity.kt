@@ -23,6 +23,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.jetpacktest02.ViewModel.UserViewModel
 import com.example.jetpacktest02.compose.MyBottomNavBar
 import com.example.jetpacktest02.compose.MyTopAppBar
+import com.example.jetpacktest02.screen.IslandDeliverScreen
 import com.example.jetpacktest02.screen.IslandMemberListScreen
 import com.example.jetpacktest02.screen.IslandScreen
 import com.example.jetpacktest02.ui.main.*
@@ -109,7 +110,7 @@ fun RallyApp(viewModel: UserViewModel = androidx.lifecycle.viewmodel.compose.vie
 
             NavHost(
                 navController = navController,
-                startDestination = Plant.route,
+                startDestination = IslandDeliver.route,
                 modifier = Modifier.padding(innerPadding)
 
             ) {
@@ -201,8 +202,21 @@ fun RallyApp(viewModel: UserViewModel = androidx.lifecycle.viewmodel.compose.vie
                         nav01 = {
                             navController.popBackStack()
                         },
+                        nav02 = {
+                            navController.navigate(IslandDeliver.route) {
+                                launchSingleTop = true; popUpTo(IslandMemberList.route) {}
+                            }
+                        },
                     )
                 }
+                composable(route = IslandDeliver.route) {
+                    IslandDeliverScreen(
+                        nav01 = {
+                            navController.popBackStack()
+                        }
+                    )
+                }
+
                 composable(route = Message.route) {
                     MessageScreen(
                         nav01 = {

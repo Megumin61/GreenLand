@@ -36,32 +36,8 @@ import com.example.scaffolddemo.ui.theme.Green1
 import com.example.scaffolddemo.ui.theme.Green2
 
 
-@Preview("Light Mode")
 @Composable
-fun DefaultPreview() {
-    Column(
-        horizontalAlignment = Alignment.Start,
-        modifier = Modifier
-            .fillMaxSize()
-            .background(
-                brush = Brush.verticalGradient(
-                    colors = listOf(
-                        Green1,
-                        Green2
-                    )
-                )
-            )
-    ) {
-        InviteCard()
-        Spacer(modifier = Modifier.height(20.dp))
-        FriendList()
-        Spacer(modifier = Modifier.height(20.dp))
-        SwitchArea()
-    }
-}
-
-@Composable
-fun FriendList() {
+fun FriendList(nav02: () -> Unit = {}) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.Center
@@ -87,14 +63,14 @@ fun FriendList() {
                         .fillMaxSize()
                         .padding(5.dp, 15.dp, 15.dp, 15.dp)
                 ) {
-                    FriendItem()
+                    FriendItem(nav02)
                     Spacer(modifier = Modifier.height(20.dp))
-                    FriendItem()
+                    FriendItem(nav02)
                     Spacer(modifier = Modifier.height(20.dp))
-                    FriendItem()
+                    FriendItem(nav02)
 
                     Spacer(modifier = Modifier.height(20.dp))
-                    FriendItem()
+                    FriendItem(nav02)
                 }
             }
         }
@@ -227,8 +203,8 @@ fun SwitchArea() {
                     }
 
                     Spacer(modifier = Modifier.height(10.dp))
-                    when(meVisible){
-                        true->{
+                    when (meVisible) {
+                        true -> {
                             Text(
                                 text = "所有人可见",
                                 fontSize = 12.sp,
@@ -236,7 +212,7 @@ fun SwitchArea() {
                                 textAlign = TextAlign.Center
                             )
                         }
-                        false->{
+                        false -> {
                             Text(
                                 text = "仅自己可见",
                                 fontSize = 12.sp,
@@ -256,7 +232,7 @@ fun SwitchArea() {
 }
 
 @Composable
-fun FriendItem() {
+fun FriendItem(nav02: () -> Unit = {}) {
     Row(modifier = Modifier.height(50.dp)) {
         Row(
             horizontalArrangement = Arrangement.Start,
@@ -304,6 +280,7 @@ fun FriendItem() {
                 contentDescription = null,
                 modifier = Modifier
                     .size(65.dp)
+                    .clickable(onClick = nav02)
             )
         }
     }
@@ -314,84 +291,74 @@ fun FriendItem() {
 @Composable
 fun IslandMemberListScreen(
     nav01: () -> Unit = {},
+    nav02: () -> Unit = {}
 ) {
     Surface(modifier = Modifier.fillMaxSize()) {
-        //绘制背景渐变色
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier
-                .fillMaxSize()
-                .background(
-                    brush = Brush.verticalGradient(
-                        colors = listOf(
-                            Green1,
-                            Green2
+        //顶部菜单栏
+        Scaffold(
+            topBar = {
+                TopAppBar(title = {
+                    Box(
+                        modifier = Modifier.fillMaxWidth(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            text = "成员列表",
+                            style = TextStyle(
+                                fontWeight = FontWeight.W900, //设置字体粗细
+                                fontSize = 18.sp,
+                            ),
+                            modifier = Modifier.offset(-35.dp, 0.dp)//向左偏移一段距离
                         )
-                    )
-                )
-        ) {
-            //顶部菜单栏
-            Scaffold(
-                topBar = {
-                    TopAppBar(title = {
-                        Box(
-                            modifier = Modifier.fillMaxWidth(),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Text(
-                                text = "成员列表",
-                                style = TextStyle(
-                                    fontWeight = FontWeight.W900, //设置字体粗细
-                                    fontSize = 18.sp,
-                                ),
-                                modifier = Modifier.offset(-35.dp, 0.dp)//向左偏移一段距离
+                    }
+                },
+                    backgroundColor = Green1,
+                    contentColor = Color.Black,
+                    elevation = 0.dp, //设置阴影
+                    //左侧按钮
+                    navigationIcon = {
+
+                        IconButton(onClick = nav01) {
+                            Icon(
+                                bitmap = ImageBitmap.imageResource(id = R.drawable.g1_2_0_ic_arrow_left),
+                                contentDescription = "",
                             )
                         }
                     },
-                        backgroundColor = Green1,
-                        contentColor = Color.Black,
-                        elevation = 0.dp, //设置阴影
-                        //左侧按钮
-                        navigationIcon = {
+                    //右侧按钮
+                    actions = {
+                    }
 
-                            IconButton(onClick = nav01) {
-                                Icon(
-                                    bitmap = ImageBitmap.imageResource(id = R.drawable.g1_2_0_ic_arrow_left),
-                                    contentDescription = "",
-                                )
-                            }
-                        },
-                        //右侧按钮
-                        actions = {
-                        }
-
-                    )
-                }
-            ) {
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(
-                            brush = Brush.verticalGradient(
-                                colors = listOf(
-                                    Green1,
-                                    Green2
-                                )
+                )
+            }
+        ) {
+            //绘制背景渐变色
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(
+                        brush = Brush.verticalGradient(
+                            colors = listOf(
+                                Green1,
+                                Green2
                             )
                         )
-                ) {
-                    InviteCard()
-                    Spacer(modifier = Modifier.height(20.dp))
-                    FriendList()
-                    Spacer(modifier = Modifier.height(20.dp))
-                    SwitchArea()
+                    )
+            ) {
 
-                }
+                //页面组件
+                InviteCard()
+                Spacer(modifier = Modifier.height(20.dp))
+                FriendList(nav02)
+                Spacer(modifier = Modifier.height(20.dp))
+                SwitchArea()
+
             }
-
         }
+
     }
+
 }
 
 

@@ -36,7 +36,7 @@ fun VipScreen() {
     Surface(modifier = Modifier.fillMaxSize()) {
 
         Image(
-            painter = painterResource(id = com.example.jetpacktest02.R.drawable.g0_0_frontpage),
+            painter = painterResource(id = com.example.jetpacktest02.R.drawable.g8_vip_page),
             contentDescription = null,
             modifier = Modifier
                 .fillMaxHeight()

@@ -21,6 +21,9 @@ import com.example.jetpacktest02.ViewModel.MainViewModel
 import com.example.jetpacktest02.ViewModel.UserViewModel
 import com.example.jetpacktest02.compose.MyBottomNavBar
 import com.example.jetpacktest02.config.UsersApplication
+import com.example.jetpacktest02.screen.IslandDeliverScreen
+import com.example.jetpacktest02.screen.IslandMemberListScreen
+import com.example.jetpacktest02.screen.IslandScreen
 import com.example.jetpacktest02.ui.main.*
 import com.example.scaffolddemo.ui.theme.ScaffoldDemoTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -130,7 +133,7 @@ fun RallyApp() {
 
             NavHost(
                 navController = navController,
-                startDestination = IslandDeliver.route,
+                startDestination = Plant.route,
                 modifier = Modifier.padding(innerPadding)
 
             ) {

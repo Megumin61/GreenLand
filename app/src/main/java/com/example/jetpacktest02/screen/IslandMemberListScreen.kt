@@ -105,8 +105,9 @@ fun InviteCard() {
                     Text(text = "邀请好友来绿岛", fontSize = 14.sp, fontWeight = W900)
                 }
                 Spacer(modifier = Modifier.height(15.dp))
+
                 Row(
-                    horizontalArrangement = Arrangement.Start
+                    horizontalArrangement = Arrangement.Center
                 ) {
                     IconButton(onClick = { /*TODO*/ }) {
                         Image(
@@ -116,7 +117,7 @@ fun InviteCard() {
                                 .height(100.dp)
                         )
                     }
-                    Spacer(modifier = Modifier.width(22.dp))
+                    Spacer(modifier = Modifier.width(15.dp))
                     IconButton(onClick = { /*TODO*/ }) {
                         Image(
                             painter = painterResource(id = R.drawable.g4_3_btn_pyq),
@@ -125,7 +126,7 @@ fun InviteCard() {
                                 .height(100.dp)
                         )
                     }
-                    Spacer(modifier = Modifier.width(22.dp))
+                    Spacer(modifier = Modifier.width(15.dp))
                     IconButton(onClick = { /*TODO*/ }) {
                         Image(
                             painter = painterResource(id = R.drawable.g4_3_btn_qq),
@@ -134,7 +135,7 @@ fun InviteCard() {
                                 .height(100.dp)
                         )
                     }
-                    Spacer(modifier = Modifier.width(22.dp))
+                    Spacer(modifier = Modifier.width(15.dp))
                     IconButton(onClick = { /*TODO*/ }) {
                         Image(
                             painter = painterResource(id = R.drawable.g4_3_btn_copycommand),
@@ -143,13 +144,13 @@ fun InviteCard() {
                                 .height(100.dp)
                         )
                     }
-                    Spacer(modifier = Modifier.width(22.dp))
+                    Spacer(modifier = Modifier.width(15.dp))
                     IconButton(onClick = { /*TODO*/ }) {
                         Image(
-                            painter = painterResource(id = R.drawable.g4_3_btn_wechat),
+                            painter = painterResource(id = R.drawable.g4_3_btn_more),
                             contentDescription = null,
                             modifier = Modifier
-                                .height(100.dp)
+                                .size(105.dp)
                         )
                     }
                 }

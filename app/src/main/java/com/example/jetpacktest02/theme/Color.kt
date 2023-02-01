@@ -15,5 +15,6 @@ val Green2=Color(0xffe0ede4)
 
 val Flesh1 = Color(0xfff8ebe1)
 val Green3 = Color(0xffebf3f3)
+val LightGreen = Color(0xff1acea2)
 
 val Gray1=Color(0xff9598AC)

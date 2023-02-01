@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
@@ -28,6 +29,7 @@ import com.example.jetpacktest02.screen.IslandScreen
 import com.example.jetpacktest02.screen.MessageMsgScreen
 import com.example.jetpacktest02.ui.main.*
 import com.example.scaffolddemo.ui.theme.ScaffoldDemoTheme
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
 import java.util.Objects
@@ -40,6 +42,8 @@ import java.util.Objects
 fun NavHostController.navigateSingleTopTo(route: String) =
     this.navigate(route) { launchSingleTop = true }
 
+@ExperimentalPermissionsApi
+@ExperimentalMaterialApi
 @AndroidEntryPoint
 class RallyActivity : ComponentActivity() {
     @OptIn(DelicateCoroutinesApi::class)
@@ -56,11 +60,12 @@ class RallyActivity : ComponentActivity() {
 //    override fun onResume() {
 //        super.onResume()
 //        GlobalScope.launch {
-//            val user = User("Hello","12222")
+//            val user = User("jjuntan","18148991553")
 //            UsersApplication.database.userDao().insertUser(user)
-//
 //        }
 //    }
+
+
 }
 
 @Composable
@@ -79,7 +84,8 @@ fun WordBookApp(userViewModel: UserViewModel = androidx.lifecycle.viewmodel.comp
         Text(users.size.toString())
     }
 }
-
+@ExperimentalPermissionsApi
+@ExperimentalMaterialApi
 @Composable
 fun RallyApp() {
 

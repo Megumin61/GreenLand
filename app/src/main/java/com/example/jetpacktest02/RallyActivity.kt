@@ -25,6 +25,7 @@ import com.example.jetpacktest02.compose.MyTopAppBar
 import com.example.jetpacktest02.screen.IslandDeliverScreen
 import com.example.jetpacktest02.screen.IslandMemberListScreen
 import com.example.jetpacktest02.screen.IslandScreen
+import com.example.jetpacktest02.screen.MessageMsgScreen
 import com.example.jetpacktest02.ui.main.*
 import com.example.scaffolddemo.ui.theme.ScaffoldDemoTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -132,6 +133,7 @@ fun RallyApp() {
 
 //            val navController = rememberNavController()
 
+            //管理路由：页面跳转
             NavHost(
                 navController = navController,
                 startDestination = Plant.route,
@@ -215,9 +217,12 @@ fun RallyApp() {
                             navController.popBackStack()
                         },
                         nav02 = {
+
+                            //导航 目的地、返回路径
                             navController.navigate(IslandMemberList.route) {
                                 launchSingleTop = true; popUpTo(Island.route) {}
                             }
+
                         }
                     )
                 }
@@ -245,6 +250,18 @@ fun RallyApp() {
                     MessageScreen(
                         nav01 = {
                             navController.navigate(MessageTap.route) { launchSingleTop = true; }
+                        }
+                    )
+                }
+                composable(route = MessageMsg.route) {
+
+                    MessageMsgScreen(
+                        //导航函数
+                        nav01 = {
+                            navController.navigate(MessageTap.route) { launchSingleTop = true; }
+                        },
+                        nav02 ={
+                            navController.navigate(MessageTap.route)
                         }
                     )
                 }

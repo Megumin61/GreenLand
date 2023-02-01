@@ -92,6 +92,10 @@ object Message : RallyDestination {
     override val icon = Icons.Filled.MoneyOff
     override val route = "2.1-message"
 }
+object MessageMsg : RallyDestination {
+    override val icon = Icons.Filled.MoneyOff
+    override val route = "2.3-message-message"
+}
 
 object My : RallyDestination {
     override val icon = Icons.Filled.MoneyOff

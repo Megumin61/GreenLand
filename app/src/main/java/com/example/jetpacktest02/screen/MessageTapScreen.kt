@@ -43,10 +43,10 @@ import com.example.scaffolddemo.ui.theme.Green2
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun MessageScreen(
+fun MessageTapScreen(
 //            bills : (String) -> Unit = {},
-    nav01: () -> Unit = {},//拍一拍
-    nav02: () -> Unit = {},//添加好友
+    nav01: () -> Unit = {},
+    nav02: () -> Unit = {},
 
     ) {
     Scaffold(
@@ -58,13 +58,23 @@ fun MessageScreen(
                         contentAlignment = Alignment.Center
                     ) {
                         Text(
-                            text = "消息",
+                            text = "拍一拍记录",
                             style = TextStyle(
                                 fontWeight = FontWeight.W900, //设置字体粗细
                                 fontSize = 18.sp,
                             ),
-                            modifier = Modifier.offset(-15.dp, 0.dp)//向左偏移一段距离
+                            modifier = Modifier.offset(-35.dp, 0.dp)//向左偏移一段距离
                         )
+                    }
+                },
+                //左侧按钮
+                navigationIcon = {
+                    IconButton(onClick = nav01) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.g1_2_0_ic_arrow_left),
+                            contentDescription =""
+                        )
+
                     }
                 },
                 backgroundColor = Color.White,
@@ -79,94 +89,72 @@ fun MessageScreen(
                 .padding(top = 5.dp, start = 8.dp, end = 8.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Spacer(Modifier.height(10.dp))
-            IconButtonList(nav01)
-            Spacer(Modifier.height(20.dp))
-            MessageList(nav01, nav02)
+            Spacer(Modifier.height(0.dp))
+            TapMessageList(nav01, nav02)
         }
-//        Column {
-//
-//            Text("2.1-message")
-//            Button(
-//                onClick = nav01,
-//                contentPadding = ButtonDefaults.ButtonWithIconContentPadding
-//            ) {
-//                Icon(
-//                    Icons.Filled.Favorite,
-//                    contentDescription = "Localized description",
-//                    modifier = Modifier.size(ButtonDefaults.IconSize)
-//                )
-//                Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-//                Text("1.1-Plant")
-//            }
-//        }
     }
 
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun IconButtonList(nav01: () -> Unit = {}) {
-    Row(
-        Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceEvenly,//子元素的水平方向排列效果
-
-    ) {
-        Spacer(Modifier.height(50.dp))
-        Image(
-            painter = painterResource(id = R.drawable.g2_1_ic_tap),
-            contentDescription = null,
-            modifier = Modifier
-                .width(80.dp)
-                .height(80.dp).clickable(onClick = nav01)
-
-        )
-        Image(
-            painter = painterResource(id = R.drawable.g2_1_ic_message),
-            contentDescription = null,
-            modifier = Modifier
-                .width(80.dp)
-                .height(80.dp)
-
-        )
-        Image(
-            painter = painterResource(id = R.drawable.g2_1_ic_picture),
-            contentDescription = null,
-            modifier = Modifier
-                .width(80.dp)
-                .height(80.dp)
-
-        )
-        Image(
-            painter = painterResource(id = R.drawable.g2_1_ic_friend),
-            contentDescription = null,
-            modifier = Modifier
-                .width(80.dp)
-                .height(80.dp)
-        )
-
-    }
-}
 
 //@Preview(showBackground = true, backgroundColor = 0xFFF0EAE2, heightDp = 180)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MessageList(nav01: () -> Unit = {}, nav02: () -> Unit) {
+fun TapMessageList(nav01: () -> Unit = {}, nav02: () -> Unit) {
 
-    val listData by remember {
+    val listDat1 by remember {
         mutableStateOf(
             listOf(
                 //如果需要改变下面对象里面的属性，需要单独复制一份生成一个新的对象才可以
-                ListItemModel("幻想世界", "拍了拍你的向日葵", R.drawable.g2_1_img_user01,R.drawable.g2_1_btn_friend,"5min前"),
-                ListItemModel("sandr", "向你投放了图片", R.drawable.g2_1_img_user02,R.drawable.g2_1_btn_friend_disabled,"8min前"),
-                ListItemModel("施&SHI", "给你留言", R.drawable.g2_1_img_user03,R.drawable.g2_1_btn_friend,"14min前"),
-                ListItemModel("ajunGrit", "拍了拍你的向日葵", R.drawable.g2_1_img_user04,R.drawable.g2_1_btn_friend_disabled,"17min前"),
-                ListItemModel("foxbread", "拍了拍你的向日葵", R.drawable.g2_1_img_user05,R.drawable.g2_1_btn_friend,"45min前"),
-                ListItemModel("幻想世界", "拍了拍你的向日葵", R.drawable.g2_1_img_user01,R.drawable.g2_1_btn_friend_disabled,"1h前"),
-                ListItemModel("sandr", "向你投放了图片", R.drawable.g2_1_img_user02,R.drawable.g2_1_btn_friend,"1h前"),
-                ListItemModel("施&SHI", "给你留言", R.drawable.g2_1_img_user03,R.drawable.g2_1_btn_friend_disabled,"11-31"),
-                ListItemModel("ajunGrit", "拍了拍你的向日葵", R.drawable.g2_1_img_user04,R.drawable.g2_1_btn_friend,"11-31"),
-                ListItemModel("foxbread", "拍了拍你的向日葵", R.drawable.g2_1_img_user05,R.drawable.g2_1_btn_friend_disabled,"11-31"),
+                TapListItemModel(
+                    "幻想世界",
+                    "拍了拍你的向日葵",
+                    R.drawable.g2_1_img_user01,
+                    R.drawable.g2_1_btn_friend,
+                    "1min前"
+                ),
+                TapListItemModel(
+                    "sandr",
+                    "拍了拍你的向日葵",
+                    R.drawable.g2_1_img_user02,
+                    R.drawable.g2_1_btn_friend_disabled,
+                    "5min前"
+                ),
+                TapListItemModel(
+                    "施&SHI",
+                    "拍了拍你的向日葵",
+                    R.drawable.g2_1_img_user03,
+                    R.drawable.g2_1_btn_friend,
+                    "5min前"
+                ),
+                TapListItemModel(
+                    "ajunGrit",
+                    "拍了拍你的向日葵",
+                    R.drawable.g2_1_img_user04,
+                    R.drawable.g2_1_btn_friend_disabled,
+                    "12-01"
+                ),
+            )
+        )
+    }
+    val listDat2 by remember {
+        mutableStateOf(
+            listOf(
+                //如果需要改变下面对象里面的属性，需要单独复制一份生成一个新的对象才可以
+                TapListItemModel(
+                    "施&SHI",
+                    "拍了拍你的向日葵",
+                    R.drawable.g2_1_img_user03,
+                    R.drawable.g2_1_btn_friend,
+                    "11-29"
+                ),
+                TapListItemModel(
+                    "ajunGrit",
+                    "向你投放了图片",
+                    R.drawable.g2_1_img_user04,
+                    R.drawable.g2_1_btn_friend_disabled,
+                    "11-26"
+                ),
             )
         )
     }
@@ -177,13 +165,32 @@ fun MessageList(nav01: () -> Unit = {}, nav02: () -> Unit) {
             .verticalScroll(rememberScrollState())
             .padding(horizontal = 16.dp)
     ) {
-        listData.forEachIndexed { index, listItemModel ->
-            MessageItem(
+        listDat1.forEachIndexed { index, listItemModel ->
+            TapMessageItem(
                 name = listItemModel.name,
                 msg = listItemModel.msg,
                 res = listItemModel.res,
-                res2=listItemModel.res2,
-                time=listItemModel.time,
+                res2 = listItemModel.res2,
+                time = listItemModel.time,
+                nav01,
+                nav02
+            )
+        }
+        Image(
+            painter = painterResource(R.drawable.g2_2_img_time),
+            contentDescription = "",
+            modifier = Modifier
+                .padding(vertical = 10.dp)
+                .align(Alignment.CenterHorizontally)
+
+        )
+        listDat2.forEachIndexed { index, listItemModel ->
+            TapMessageItem(
+                name = listItemModel.name,
+                msg = listItemModel.msg,
+                res = listItemModel.res,
+                res2 = listItemModel.res2,
+                time = listItemModel.time,
                 nav01,
                 nav02
             )
@@ -194,7 +201,7 @@ fun MessageList(nav01: () -> Unit = {}, nav02: () -> Unit) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MessageItem(
+fun TapMessageItem(
     name: String,
     msg: String,
     res: Int,
@@ -264,7 +271,7 @@ fun MessageItem(
 }
 
 
-data class ListItemModel(
+data class TapListItemModel(
     val name: String,
     val msg: String,
     var res: Int,

@@ -134,7 +134,7 @@ fun RallyApp() {
 
             NavHost(
                 navController = navController,
-                startDestination = IslandDeliver.route,
+                startDestination = Plant.route,
                 modifier = Modifier.padding(innerPadding)
 
             ) {
@@ -244,7 +244,14 @@ fun RallyApp() {
                 composable(route = Message.route) {
                     MessageScreen(
                         nav01 = {
-                            navController.navigate(Plant.route) { launchSingleTop = true; }
+                            navController.navigate(MessageTap.route) { launchSingleTop = true; }
+                        }
+                    )
+                }
+                composable(route = MessageTap.route) {
+                    MessageTapScreen(
+                        nav01 = {
+                            navController.navigate(Message.route) { launchSingleTop = true; }
                         }
                     )
                 }

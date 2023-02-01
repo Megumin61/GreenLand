@@ -20,6 +20,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -30,6 +32,7 @@ import com.example.jetpacktest02.R
 import com.example.jetpacktest02.ui.main.PlanItem
 import com.example.scaffolddemo.ui.theme.Green1
 import com.example.scaffolddemo.ui.theme.Green2
+import com.example.scaffolddemo.ui.theme.Green5
 
 
 /*@Composable
@@ -69,7 +72,7 @@ fun NewDiyplanAddScreen(){
                             contentAlignment = Alignment.Center
                         ) {
                             Text(
-                                text = "自定义计划",
+                                text = "添加计划",
                                 style = TextStyle(
                                     fontWeight = FontWeight.W900, //设置字体粗细
                                     fontSize = 18.sp,
@@ -83,13 +86,11 @@ fun NewDiyplanAddScreen(){
                         elevation = 0.dp, //设置阴影
                         //左侧按钮
                         navigationIcon = {
-
-//                            IconButton(onClick = {}) {
-//                                Icon(
-//                                    Icons.Default.Menu,
-//                                    contentDescription = "",
-//                                )
-//                            }
+                            IconButton(onClick = {}) {
+                                Icon(
+                                    bitmap = ImageBitmap.imageResource(id = R.drawable.g1_2_0_ic_arrow_left),
+                                    contentDescription = null
+                                ) }
                         },
                         //右侧按钮
                         actions = {
@@ -136,7 +137,7 @@ fun NewDiyplanAddScreen(){
                             .padding(top = 415.dp, start = 122.dp)
                             .width(136.dp)
                             .height(54.dp)
-                           // .background(color = Color(0xff7FC7A8))
+                            ,colors = ButtonDefaults.buttonColors(containerColor = Green5)
 
 
                         ) {
@@ -155,19 +156,10 @@ fun NewDiyplanAddScreen(){
 }
 
 
-@Composable
-public fun DayItem(){
-    Row() {
-        Text(text = "周一", fontSize = 12.sp, color = Color(0xff9598AC),style = MaterialTheme.typography.bodyMedium, modifier = Modifier.padding(end =17.dp))
-        Text(text = "周二", fontSize = 12.sp, color = Color(0xff9598AC),style = MaterialTheme.typography.bodyMedium, modifier = Modifier.padding(end = 17.dp))
-        Text(text = "周三", fontSize = 12.sp, color = Color(0xff9598AC),style = MaterialTheme.typography.bodyMedium, modifier = Modifier.padding(end = 17.dp))
-        Text(text = "周四", fontSize = 12.sp, color = Color(0xff9598AC),style = MaterialTheme.typography.bodyMedium, modifier = Modifier.padding(end = 17.dp))
-        Text(text = "周五", fontSize = 12.sp, color = Color(0xff9598AC),style = MaterialTheme.typography.bodyMedium, modifier = Modifier.padding(end = 17.dp))
-        Text(text = "周六", fontSize = 12.sp, color = Color(0xff9598AC),style = MaterialTheme.typography.bodyMedium, modifier = Modifier.padding(end = 17.dp))
-        Text(text = "周日", fontSize = 12.sp, color = Color(0xff9598AC),style = MaterialTheme.typography.bodyMedium, modifier = Modifier.padding(end =17.dp))
-
-    }
 
 
-}
+
+
+
+
 

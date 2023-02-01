@@ -1,6 +1,7 @@
 package com.example.jetpacktest02.screen
 
 import android.annotation.SuppressLint
+import android.service.chooser.ChooserTargetService
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -20,6 +21,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -30,6 +34,7 @@ import com.example.jetpacktest02.R
 import com.example.jetpacktest02.ui.main.PlanItem
 import com.example.scaffolddemo.ui.theme.Green1
 import com.example.scaffolddemo.ui.theme.Green2
+import com.example.scaffolddemo.ui.theme.Green5
 
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -73,12 +78,11 @@ fun SetPlanSports(){
                         //左侧按钮
                         navigationIcon = {
 
-//                            IconButton(onClick = {}) {
-//                                Icon(
-//                                    Icons.Default.Menu,
-//                                    contentDescription = "",
-//                                )
-//                            }
+                            IconButton(onClick = {}) {
+                                Icon(
+                                    bitmap = ImageBitmap.imageResource(id = R.drawable.g1_2_0_ic_arrow_left),
+                                    contentDescription = null
+                                ) }
                         },
                         //右侧按钮
                         actions = {
@@ -113,8 +117,9 @@ fun SetPlanSports(){
                     Box(){
                         Image(painter = painterResource(id = R.drawable.g1_2_1_bg_dailyaim), contentDescription =null, modifier = Modifier
                             .padding(horizontal = 32.dp))
-                        Row(Modifier.padding(start = 60.dp, top = 108.dp)) {
-                            DayItem()
+
+                        Row(Modifier.padding(vertical = 100.dp)) {
+                            WorkDaySlider()
                         }
                         Image(painter = painterResource(id = R.drawable.g1_2_3_btn_blankremind1), contentDescription =null,
                             modifier = Modifier
@@ -131,7 +136,7 @@ fun SetPlanSports(){
                             .padding(top = 460.dp, start = 122.dp)
                             .width(136.dp)
                             .height(54.dp)
-                            // .background(color = Color(0xff7FC7A8))
+                            ,colors = ButtonDefaults.buttonColors(containerColor = Green5)
 
 
                         ) {
@@ -149,3 +154,79 @@ fun SetPlanSports(){
     }
 
 }
+
+@Composable
+public fun WorkDaySlider(){
+
+    Box(modifier = Modifier.fillMaxWidth(), Alignment.Center) {
+
+
+        Column(modifier = Modifier
+            .height(28.dp)
+            .width(205.dp)
+            .background(color = Color(0xff7FC7A8))
+            .clip(RoundedCornerShape(10.dp))
+            .offset(-5.dp, -5.dp)) {
+
+        }
+        Column {
+            DayItem()
+
+        }
+
+    }
+
+}
+@Composable
+public fun DayItem(){
+    Row() {
+        Text(
+            text = "周一",
+            fontSize = 12.sp,
+            color = Color(0xff9598AC),
+            style = MaterialTheme.typography.bodyMedium,
+            modifier = Modifier.padding(end = 17.dp)
+        )
+        Text(
+            text = "周二",
+            fontSize = 12.sp,
+            color = Color(0xff9598AC),
+            style = MaterialTheme.typography.bodyMedium,
+            modifier = Modifier.padding(end = 17.dp)
+        )
+        Text(
+            text = "周三",
+            fontSize = 12.sp,
+            color = Color(0xff9598AC),
+            style = MaterialTheme.typography.bodyMedium,
+            modifier = Modifier.padding(end = 17.dp)
+        )
+        Text(
+            text = "周四",
+            fontSize = 12.sp,
+            color = Color(0xff9598AC),
+            style = MaterialTheme.typography.bodyMedium,
+            modifier = Modifier.padding(end = 17.dp)
+        )
+        Text(
+            text = "周五",
+            fontSize = 12.sp,
+            color = Color(0xff9598AC),
+            style = MaterialTheme.typography.bodyMedium,
+            modifier = Modifier.padding(end = 17.dp)
+        )
+        Text(
+            text = "周六",
+            fontSize = 12.sp,
+            color = Color(0xff9598AC),
+            style = MaterialTheme.typography.bodyMedium,
+            modifier = Modifier.padding(end = 17.dp)
+        )
+        Text(
+            text = "周日",
+            fontSize = 12.sp,
+            color = Color(0xff9598AC),
+            style = MaterialTheme.typography.bodyMedium,
+
+        )
+    }}

@@ -32,6 +32,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -41,6 +43,7 @@ import androidx.compose.ui.unit.sp
 import com.example.jetpacktest02.R
 import com.example.scaffolddemo.ui.theme.Green1
 import com.example.scaffolddemo.ui.theme.Green2
+import com.example.scaffolddemo.ui.theme.Green5
 
 /**
  * The Bills screen.
@@ -89,12 +92,11 @@ fun PlanList(){
                         //左侧按钮
                         navigationIcon = {
 
-//                            IconButton(onClick = {}) {
-//                                Icon(
-//                                    Icons.Default.Menu,
-//                                    contentDescription = "",
-//                                )
-//                            }
+                            IconButton(onClick = {}) {
+                                Icon(
+                                    bitmap = ImageBitmap.imageResource(id = R.drawable.g1_2_0_ic_arrow_left),
+                                    contentDescription = null
+                                ) }
                         },
                         //右侧按钮
                         actions = {
@@ -157,7 +159,8 @@ fun PlanList(){
                         .padding(top = 415.dp, start = 122.dp)
                         .width(136.dp)
                         .height(54.dp)
-                        // .background(color = Color(0xff7FC7A8))
+                        ,colors = ButtonDefaults.buttonColors(containerColor = Green5)
+
 
 
                     ) {

@@ -12,6 +12,7 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -20,6 +21,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -30,6 +33,7 @@ import com.example.jetpacktest02.R
 import com.example.jetpacktest02.ui.main.PlanItem
 import com.example.scaffolddemo.ui.theme.Green1
 import com.example.scaffolddemo.ui.theme.Green2
+import com.example.scaffolddemo.ui.theme.Green5
 
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -73,13 +77,12 @@ fun SetPlanEating(){
                         //左侧按钮
                         navigationIcon = {
 
-//                            IconButton(onClick = {}) {
-//                                Icon(
-//                                    Icons.Default.Menu,
-//                                    contentDescription = "",
-//                                )
-//                            }
-                        },
+                            IconButton(onClick = {}) {
+                                Icon(
+                                    bitmap = ImageBitmap.imageResource(id = R.drawable.g1_2_0_ic_arrow_left),
+                                    contentDescription = null
+                                ) }
+                            },
                         //右侧按钮
                         actions = {
 //                            IconButton(onClick = {}) {
@@ -130,10 +133,8 @@ fun SetPlanEating(){
                         Button(onClick = { /*TODO*/ }, modifier = Modifier
                             .padding(top = 415.dp, start = 122.dp)
                             .width(136.dp)
-                            .height(54.dp)
-                            // .background(color = Color(0xff7FC7A8))
-
-
+                            .height(54.dp) ,
+                            colors = ButtonDefaults.buttonColors(containerColor = Green5)
                         ) {
                             Text(text = "确认", fontSize = 20.sp, fontWeight = FontWeight.W900)
 

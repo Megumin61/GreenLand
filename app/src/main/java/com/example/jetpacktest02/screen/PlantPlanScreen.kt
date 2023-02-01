@@ -76,16 +76,23 @@ fun NewScreen() {
                 IconButton(onClick = { /*TODO*/ }) {
                     Icon(
                         bitmap = ImageBitmap.imageResource(id = R.drawable.g1_2_0_ic_arrow_left)
-                        ,contentDescription =null, modifier = Modifier.offset(-140.dp,6.dp))
+                        ,contentDescription =null, modifier = Modifier.offset(-110.dp,5.dp))
                 }
 
+
                 Text(
-                    text = "每日计划",
+                    text = "计划日程",
                     style = TextStyle(
                         fontWeight = FontWeight.W900, //设置字体粗细
                         fontSize = 18.sp
-                    ), modifier = Modifier.offset(-135.dp,18.dp)
+                    ), modifier = Modifier.offset(-117.dp,17.dp)
                 )
+                IconButton(onClick = { /*TODO*/ }) {
+                    Icon(
+                        bitmap = ImageBitmap.imageResource(id = R.drawable.g1_4_1_ic_more)
+                        ,contentDescription =null, modifier = Modifier.offset(90.dp,5.dp).size(32.dp))
+
+                }
 
             }
 

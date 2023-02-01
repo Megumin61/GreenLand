@@ -29,11 +29,13 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.jetpacktest02.R
+import com.example.scaffolddemo.ui.theme.Purple200
 
 /**
  * 会员页面
@@ -50,7 +52,8 @@ fun VipUnsignedScreen(
         VipCardImage()
         Spacer(modifier = Modifier.height(14.dp))
         LazyColumn(
-
+                Modifier.fillMaxWidth() // 宽度填满父空间
+                    .height(450.dp),
             verticalArrangement = Arrangement.spacedBy(14.dp),
             content = {
                 item{
@@ -68,9 +71,19 @@ fun VipUnsignedScreen(
                 item{
                     item5()
                 }
+
             })
         Spacer(modifier = Modifier.height(14.dp))
         moreImg()
+        Spacer(modifier = Modifier.height(14.dp))
+        Row {
+            btn1()
+            Spacer(Modifier.width(30.dp))
+            btn2()
+
+        }
+
+
     }
 
 
@@ -138,4 +151,43 @@ fun moreImg(){
 
         )
 
+}
+@Composable
+fun priceImg(){
+    Image(
+        painter = painterResource(id = R.drawable.g8_1_price),
+        contentDescription = null,
+
+        )
+
+}
+@Composable
+fun BtnImg(){
+    Image(
+        painter = painterResource(id = R.drawable.g8_1_btn_assure),
+        contentDescription = null,
+
+        )
+
+}
+
+@Composable
+fun btn1(){
+    Button(onClick = { /*TODO*/ },
+        colors = ButtonDefaults.outlinedButtonColors(),
+        contentPadding = PaddingValues(start=9.dp)
+    ) {
+        priceImg()
+
+    }
+}
+@Composable
+fun btn2(){
+    Button(onClick = { /*TODO*/ },
+        colors = ButtonDefaults.outlinedButtonColors(),
+        contentPadding = PaddingValues(0.dp)
+    ) {
+        BtnImg()
+
+    }
 }

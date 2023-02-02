@@ -23,10 +23,7 @@ import com.example.jetpacktest02.ViewModel.UserViewModel
 import com.example.jetpacktest02.compose.MyBottomNavBar
 import com.example.jetpacktest02.config.UsersApplication
 import com.example.jetpacktest02.compose.MyTopAppBar
-import com.example.jetpacktest02.screen.IslandDeliverScreen
-import com.example.jetpacktest02.screen.IslandMemberListScreen
-import com.example.jetpacktest02.screen.IslandScreen
-import com.example.jetpacktest02.screen.MessageMsgScreen
+import com.example.jetpacktest02.screen.*
 import com.example.jetpacktest02.ui.main.*
 import com.example.scaffolddemo.ui.theme.ScaffoldDemoTheme
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
@@ -146,6 +143,10 @@ fun RallyApp() {
                 modifier = Modifier.padding(innerPadding)
 
             ) {
+                composable(route = PhoneLogin.route) {
+                    PhoneLoginScreen()
+                }
+
                 composable(route = Accounts.route) {
                     AccountsScreen()
                 }
@@ -184,6 +185,9 @@ fun RallyApp() {
                         },
                         nav07 = {
                             navController.navigate(VipUnsigned.route) { launchSingleTop = true; }
+                        },
+                        nav08 = {
+                            navController.navigate(PhoneLogin.route) { launchSingleTop = true; }
                         }
                     )
                 }

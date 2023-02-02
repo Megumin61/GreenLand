@@ -18,3 +18,6 @@ val Green3 = Color(0xffebf3f3)
 val LightGreen = Color(0xff1acea2)
 
 val Gray1=Color(0xff9598AC)
+val GreenMain=Color(0xFF7FC7A8)
+val Text3Gray=Color(0xFF9598AC)
+val WechatGreen=Color(0xFF85E391)

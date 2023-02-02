@@ -167,7 +167,6 @@ fun SwitchArea() {
         mutableStateOf(true)
     }
 
-
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.Start

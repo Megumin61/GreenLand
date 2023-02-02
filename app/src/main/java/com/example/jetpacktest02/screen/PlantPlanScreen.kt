@@ -56,7 +56,7 @@ fun PlanItem(@DrawableRes iconRes:Int){
 }
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
-@Preview
+
 @Composable
 fun NewScreen() {
     Image(
@@ -65,7 +65,7 @@ fun NewScreen() {
         modifier = Modifier
             .fillMaxHeight()
             .fillMaxSize()
-        ,contentScale = ContentScale.FillHeight
+        ,contentScale = ContentScale.FillWidth
     )
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Box(
@@ -90,7 +90,9 @@ fun NewScreen() {
                 IconButton(onClick = { /*TODO*/ }) {
                     Icon(
                         bitmap = ImageBitmap.imageResource(id = R.drawable.g1_4_1_ic_more)
-                        ,contentDescription =null, modifier = Modifier.offset(90.dp,5.dp).size(32.dp))
+                        ,contentDescription =null, modifier = Modifier
+                            .offset(90.dp, 5.dp)
+                            .size(32.dp))
 
                 }
 
@@ -110,16 +112,11 @@ fun NewScreen() {
 
         
     }
-    
-    
-
-
-
 }
 
 
 
-
+@Preview
 @Composable
 fun PlantPlanScreen(
 //            bills : (String) -> Unit = {},
@@ -127,53 +124,49 @@ fun PlantPlanScreen(
     nav02: () -> Unit={},
 
 ) {
-    Image(
-        painter = painterResource(id = R.drawable.plant_daily_plan),
-        contentDescription = null,
-        modifier = Modifier
-            .fillMaxHeight()
-            .fillMaxSize()
-    )
-    Column{
-       /* Text("1.2-plant-plan")
-        Button(
-            onClick = nav01,
-            contentPadding = ButtonDefaults.ButtonWithIconContentPadding
-        ) {
-            Icon(
-                Icons.Filled.Favorite,
-                contentDescription = "Localized description",
-                modifier = Modifier.size(ButtonDefaults.IconSize)
-            )
-            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-            Text("1.1-Plant")
-        }
-        Button(
-            onClick = nav02,
-            contentPadding = ButtonDefaults.ButtonWithIconContentPadding
-        ) {
-            Icon(
-                Icons.Filled.Favorite,
-                contentDescription = "Localized description",
-                modifier = Modifier.size(ButtonDefaults.IconSize)
-            )
-            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-            Text("1.4.1-plant-lookingforplan-foot")
-        }*/
 
-        /*Button(
-            onClick = nav01,
-            contentPadding = ButtonDefaults.ButtonWithIconContentPadding
-        ) {
-            Icon(
-                Icons.Filled.Favorite,
-                contentDescription = "Localized description",
-                modifier = Modifier.size(ButtonDefaults.IconSize)
-            )
-            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-            Text("1.2-plant-plan")*/
+    Box (){
+        NewScreen()
+        Column {
+            Text("1.2-plant-plan")
+            Button(
+                onClick = nav01,
+                contentPadding = ButtonDefaults.ButtonWithIconContentPadding
+            ) {
+                Icon(
+                    Icons.Filled.Favorite,
+                    contentDescription = "Localized description",
+                    modifier = Modifier.size(ButtonDefaults.IconSize)
+                )
+                Spacer(Modifier.size(ButtonDefaults.IconSpacing))
+                Text("1.1-Plant")
+            }
+            Button(
+                onClick = nav02,
+                contentPadding = ButtonDefaults.ButtonWithIconContentPadding
+            ) {
+                Icon(
+                    Icons.Filled.Favorite,
+                    contentDescription = "Localized description",
+                    modifier = Modifier.size(ButtonDefaults.IconSize)
+                )
+                Spacer(Modifier.size(ButtonDefaults.IconSpacing))
+                Text("1.4.1-plant-lookingforplan-foot")
+            }
+            Button(
+                onClick = nav01,
+                contentPadding = ButtonDefaults.ButtonWithIconContentPadding
+            ) {
+                Icon(
+                    Icons.Filled.Favorite,
+                    contentDescription = "Localized description",
+                    modifier = Modifier.size(ButtonDefaults.IconSize)
+                )
+                Spacer(Modifier.size(ButtonDefaults.IconSpacing))
+                Text("1.2-plant-plan")
+            }
+        }
 
     }
-
 
 }

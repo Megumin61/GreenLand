@@ -35,6 +35,7 @@ import com.example.jetpacktest02.R
  * The Bills screen.
  */
 
+@Preview
 @Composable
 fun PlantFootScreen(
 //            bills : (String) -> Unit = {},

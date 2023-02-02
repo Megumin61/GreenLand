@@ -14,7 +14,8 @@ import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 
 import androidx.compose.ui.Alignment
@@ -37,10 +38,25 @@ import com.example.scaffolddemo.ui.theme.Green2
 import com.example.scaffolddemo.ui.theme.Green5
 
 
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun AimNum(aimnum: String, onNumChange: (String) -> Unit){
+    Column(modifier = Modifier.padding(16.dp)) {
+        Text(text = "目标步数")
+        OutlinedTextField(
+            value = aimnum,
+            onValueChange = onNumChange,
+            label = {Text("3000")})
+
+    }
+
+}
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Preview
 @Composable
 fun SetPlanSports(){
+    var aimnum by rememberSaveable  {mutableStateOf("")}
+
     Surface(modifier = Modifier.fillMaxSize()){
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -117,10 +133,12 @@ fun SetPlanSports(){
                     Box(){
                         Image(painter = painterResource(id = R.drawable.g1_2_1_bg_dailyaim), contentDescription =null, modifier = Modifier
                             .padding(horizontal = 32.dp))
+                        AimNum(aimnum = aimnum, onNumChange = {aimnum=it})
 
                         Row(Modifier.padding(vertical = 100.dp)) {
                             WorkDaySlider()
                         }
+
                         Image(painter = painterResource(id = R.drawable.g1_2_3_btn_blankremind1), contentDescription =null,
                             modifier = Modifier
                                 .padding(horizontal = 48.dp)
@@ -230,3 +248,4 @@ public fun DayItem(){
 
         )
     }}
+

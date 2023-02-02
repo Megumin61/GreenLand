@@ -17,6 +17,14 @@ class User() {
     lateinit var phoneNumber: String
 
     //次构造
+//    @Ignore
+    constructor(id :Int,name: String, phoneNumber: String) : this() {
+        this.id = id
+        this.name = name
+        this.phoneNumber = phoneNumber
+    }
+
+    //次构造
     @Ignore
     constructor(name: String, phoneNumber: String) : this() {
         this.name = name

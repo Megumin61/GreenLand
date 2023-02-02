@@ -46,6 +46,7 @@ import com.example.scaffolddemo.ui.theme.*
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.PermissionRequired
 import com.google.accompanist.permissions.rememberPermissionState
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import kotlinx.coroutines.launch
 
 @ExperimentalPermissionsApi
@@ -55,6 +56,10 @@ import kotlinx.coroutines.launch
 fun IslandDeliverScreen(
     nav01: () -> Unit = {},
 ) {
+    //配置顶部状态栏颜色
+    rememberSystemUiController().setStatusBarColor(
+        Flesh1, darkIcons = androidx.compose.material.MaterialTheme.colors.isLight)
+
     Surface(modifier = Modifier.fillMaxSize()) {
         //申请照相机权限
         val permissionState =

@@ -28,8 +28,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.jetpacktest02.R
+import com.example.scaffolddemo.ui.theme.Flesh1
 import com.example.scaffolddemo.ui.theme.Green1
 import com.example.scaffolddemo.ui.theme.Green2
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
@@ -37,6 +39,11 @@ fun IslandScreen(
     nav01: () -> Unit = {},
     nav02: () -> Unit = {}
 ) {
+    //配置顶部状态栏颜色
+    rememberSystemUiController().setStatusBarColor(
+        Green1, darkIcons = androidx.compose.material.MaterialTheme.colors.isLight)
+
+
     Surface(modifier = Modifier.fillMaxSize()) {
         //绘制背景渐变色
         Column(

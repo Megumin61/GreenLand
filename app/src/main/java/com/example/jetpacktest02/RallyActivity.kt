@@ -11,25 +11,27 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
-import androidx.lifecycle.LiveData
+import androidx.core.view.WindowCompat
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.jetpacktest02.Entity.User
-import com.example.jetpacktest02.ViewModel.MainViewModel
 import com.example.jetpacktest02.ViewModel.UserViewModel
 import com.example.jetpacktest02.compose.MyBottomNavBar
 import com.example.jetpacktest02.config.UsersApplication
 import com.example.jetpacktest02.compose.MyTopAppBar
 import com.example.jetpacktest02.screen.*
+import com.example.jetpacktest02.screen.IslandDeliverScreen
+import com.example.jetpacktest02.screen.IslandMemberListScreen
+import com.example.jetpacktest02.screen.IslandScreen
+import com.example.jetpacktest02.screen.MessageMsgScreen
 import com.example.jetpacktest02.ui.main.*
 import com.example.scaffolddemo.ui.theme.ScaffoldDemoTheme
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
-import java.util.Objects
 
 
 /**
@@ -46,41 +48,61 @@ class RallyActivity : ComponentActivity() {
     @OptIn(DelicateCoroutinesApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        WindowCompat.setDecorFitsSystemWindows(window, true)
+
 
         setContent {
+
 //            WordBookApp()
 //            CounterScreen()
             RallyApp()
         }
     }
 
-//    override fun onResume() {
-//        super.onResume()
-//        GlobalScope.launch {
-//            val user = User("jjuntan","18148991553")
-//            UsersApplication.database.userDao().insertUser(user)
-//        }
-//    }
+    override fun onResume() {
+        super.onResume()
+        GlobalScope.launch {
+            val user = User("jjuntan","18148991553")
+            UsersApplication.database.userDao().insertUser(user)
+        }
+    }
 
 
 }
 
+//在这里演示如何在组件中实现对User表的增删改查
 @Composable
 fun WordBookApp(userViewModel: UserViewModel = androidx.lifecycle.viewmodel.compose.viewModel()) {
 //    val count by mainViewModel.counterLiveData.observeAsState(0)
+    //    val users by viewModel.allUsers.observeAsState(listOf())
+
+    //这里是viewmodel提供的所有user列表的数据
     val users: List<User> by userViewModel.allUsers.observeAsState(mutableListOf())
-//    val users by viewModel.allUsers.observeAsState(listOf())
-    val user : User= userViewModel.getUser(2)
+
+
+    //增：往数据库中插入某个user对象，可以不传id，id为主键自增
+    val user_insert = User("Hello","13333")
+
+    //查：根据id查询某个user，
+//    val user_query : User= userViewModel.getUser(1)
+
+    //改：修改某个user对象信息,需要传入主键id构造user对象
+//    val user_edit = User(1,"Hello","13333")
+//    userViewModel.UpdateUser(user_edit)
+
+    //删：删除某个id为1的user对象
+//    userViewModel.DeleteUser(1)
+
 
     Column{
-        Text("success")
-        Text(user.name)
-//        Text(users[0].name)
-//        for (i :User in users)
-//            Text(i.name.toString())
+//        Text(text = "query_name:"+user_query.name)
+//        Text(text = "query_phone:"+user_query.phoneNumber)
+
+//        Text(user_edit.phoneNumber)
         Text(users.size.toString())
     }
 }
+
 @ExperimentalPermissionsApi
 @ExperimentalMaterialApi
 @Composable
@@ -98,6 +120,8 @@ fun RallyApp() {
 //        val currentScreen = rallyTabRowScreens.find { it.route == currentDestination?.route } ?: Overview
 
     ScaffoldDemoTheme {
+
+
         Scaffold(
 
             bottomBar = {
@@ -224,7 +248,7 @@ fun RallyApp() {
                 composable(route = Island.route) {
                     IslandScreen(
                         nav01 = {
-                            navController.popBackStack()
+                            navController.popBackStack()//返回到popUpTo中设置的返回路径route
                         },
                         nav02 = {
 

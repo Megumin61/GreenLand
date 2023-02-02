@@ -1,6 +1,7 @@
 package com.example.jetpacktest02.screen
 
 import android.annotation.SuppressLint
+import android.service.chooser.ChooserTargetService
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -13,7 +14,8 @@ import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 
 import androidx.compose.ui.Alignment
@@ -21,6 +23,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
@@ -35,21 +38,13 @@ import com.example.scaffolddemo.ui.theme.Green2
 import com.example.scaffolddemo.ui.theme.Green5
 
 
-/*@Composable
-fun DrawReactDemo() {
-    Canvas(modifier = Modifier.size(200.dp), onDraw = {
-        drawRoundRect(
-            color = myRed,
-            style = Stroke(width = 80f),
-            cornerRadius = CornerRadius(80f, 80f)
-        )
-    })
-}*/
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Preview
 @Composable
-fun SetPlanSleep(){
+fun SetPlanDrinkScreen(){
+    var aimnum by rememberSaveable  {mutableStateOf("")}
+
     Surface(modifier = Modifier.fillMaxSize()){
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -122,24 +117,32 @@ fun SetPlanSleep(){
                 ) {
 
                     Spacer(Modifier.height(10.dp))
-                    PlanItem(iconRes = R.drawable.g1_2_icbg_sleep)
+                    PlanItem(iconRes = R.drawable.g1_2_icbg_drinkwater)
                     Box(){
-                        Image(painter = painterResource(id = R.drawable.g1_2_5_bg_dailyaim), contentDescription =null, modifier = Modifier
+                        Image(painter = painterResource(id = R.drawable.g1_2_1_bg_dailyaim), contentDescription =null, modifier = Modifier
                             .padding(horizontal = 32.dp))
-                        Row(Modifier.padding(start = 60.dp, top = 108.dp)) {
-                            DayItem()
+                        AimNum(aimnum = aimnum, onNumChange = {aimnum=it})
+
+                        Row(Modifier.padding(vertical = 100.dp)) {
+                            WorkDaySlider()
                         }
-                        Image(painter = painterResource(id = R.drawable.g1_2_3_btn_blankremind), contentDescription =null,
+
+                        Image(painter = painterResource(id = R.drawable.g1_2_3_btn_blankremind1), contentDescription =null,
                             modifier = Modifier
                                 .padding(horizontal = 48.dp)
                                 .padding(top = 182.dp))
+                        Image(painter = painterResource(id = R.drawable.g1_2_4_btn_deleteclock), contentDescription =null,modifier = Modifier
+                            .padding(horizontal = 48.dp)
+                            .padding(top = 280.dp))
+                        Image(painter = painterResource(id = R.drawable.g1_2_3_btn_blankremind), contentDescription =null,modifier = Modifier
+                            .padding(horizontal = 48.dp)
+                            .padding(top = 390.dp))
 
                         Button(onClick = { /*TODO*/ }, modifier = Modifier
-                            .padding(top = 415.dp, start = 122.dp)
+                            .padding(top = 460.dp, start = 122.dp)
                             .width(136.dp)
-                            .height(54.dp),
-                            colors = ButtonDefaults.buttonColors(containerColor = Green5)
-
+                            .height(54.dp)
+                            ,colors = ButtonDefaults.buttonColors(containerColor = Green5)
 
 
                         ) {
@@ -155,7 +158,6 @@ fun SetPlanSleep(){
 
         }
     }
+
 }
-
-
 

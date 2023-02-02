@@ -40,7 +40,7 @@ import com.example.jetpacktest02.R
 import com.example.scaffolddemo.ui.theme.Gray1
 import com.example.scaffolddemo.ui.theme.Green2
 
-
+@Preview
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun MessageScreen(

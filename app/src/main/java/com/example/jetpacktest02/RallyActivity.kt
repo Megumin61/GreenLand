@@ -21,10 +21,7 @@ import com.example.jetpacktest02.Entity.User
 import com.example.jetpacktest02.ViewModel.UserViewModel
 import com.example.jetpacktest02.compose.MyBottomNavBar
 import com.example.jetpacktest02.config.UsersApplication
-import com.example.jetpacktest02.screen.IslandDeliverScreen
-import com.example.jetpacktest02.screen.IslandMemberListScreen
-import com.example.jetpacktest02.screen.IslandScreen
-import com.example.jetpacktest02.screen.MessageMsgScreen
+import com.example.jetpacktest02.screen.*
 import com.example.jetpacktest02.ui.main.*
 import com.example.scaffolddemo.ui.theme.ScaffoldDemoTheme
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
@@ -206,18 +203,7 @@ fun RallyApp() {
                         }
                     )
                 }
-                composable(route = PlantPlan.route) {
-                    PlantPlanScreen(
-                        nav01 = {
-                            navController.navigate(Plant.route) { launchSingleTop = true; }
-                        },
-                        nav02 = {
-                            navController.navigate(PlantLookingForPlanFoot.route) {
-                                launchSingleTop = true;
-                            }
-                        }
-                    )
-                }
+
                 composable(route = Dailyhealthmessage.route) {
                     DailyhealthmessageScreen(
                         nav01 = {
@@ -236,6 +222,8 @@ fun RallyApp() {
                         }
                     )
                 }
+
+
                 composable(route = Island.route) {
                     IslandScreen(
                         nav01 = {
@@ -327,6 +315,71 @@ fun RallyApp() {
                         }
                     )
                 }
+                composable(route = PlantPlan.route) {
+                    PlantPlanScreen(
+                        nav01 = {
+                            navController.navigate(Plant.route) { launchSingleTop = true; }
+                        },
+                        nav02 = {
+                            navController.navigate(PlantLookingForPlanFoot.route) {
+                                launchSingleTop = true;
+                            }
+                        },
+                        nav05 = {navController.navigate(PlanList.route) { launchSingleTop = true; }}
+                    )
+                }
+                composable(route = PlanList.route) {
+                    PlanListScreen(
+                        nav01 = {
+                            navController.navigate(SetPlanSports.route) { launchSingleTop = true; }
+                        },
+                        nav02 = {
+                            navController.navigate(SetPlanDrink.route) { launchSingleTop = true; }
+                        },
+                        nav03 = {
+                            navController.navigate(SetPlanSleep.route) { launchSingleTop = true; }
+                        },
+                        nav04 ={
+                            navController.navigate(SetPlanEating.route) { launchSingleTop = true; }
+                        },
+                        nav05={
+                            navController.navigate(SetPlanDiy.route) { launchSingleTop = true; }
+
+                        }
+                    )
+                }
+                composable(route = SetPlanSports.route) {
+                    SetPlanSportsScreen()
+                }
+                composable(route = SetPlanDrink.route) {
+                    SetPlanDrinkScreen()
+                }
+                composable(route = SetPlanSleep.route) {
+                    SetPlanSleepScreen()
+                }
+                composable(route = SetPlanEating.route) {
+                    SetPlanEatingScreen()
+                }
+                composable(route = SetPlanDiy.route) {
+                    SetPlanDiyScreen()
+                }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                 composable(route = VipUnsigned.route) {
                     VipUnsignedScreen(
                         nav01 = {

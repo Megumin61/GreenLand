@@ -39,7 +39,7 @@ import com.example.scaffolddemo.ui.theme.Green5
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Preview
 @Composable
-fun SetPlanEating(){
+fun SetPlanEatingScreen(){
     Surface(modifier = Modifier.fillMaxSize()){
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -82,7 +82,7 @@ fun SetPlanEating(){
                                     bitmap = ImageBitmap.imageResource(id = R.drawable.g1_2_0_ic_arrow_left),
                                     contentDescription = null
                                 ) }
-                            },
+                        },
                         //右侧按钮
                         actions = {
 //                            IconButton(onClick = {}) {

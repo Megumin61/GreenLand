@@ -122,6 +122,7 @@ fun PlantPlanScreen(
 //            bills : (String) -> Unit = {},
     nav01: () -> Unit={},
     nav02: () -> Unit={},
+    nav05: () -> Unit={},
 
 ) {
 
@@ -164,6 +165,18 @@ fun PlantPlanScreen(
                 )
                 Spacer(Modifier.size(ButtonDefaults.IconSpacing))
                 Text("1.2-plant-plan")
+            }
+            Button(
+                onClick = nav05,
+                contentPadding = ButtonDefaults.ButtonWithIconContentPadding
+            ) {
+                Icon(
+                    Icons.Filled.Favorite,
+                    contentDescription = "Localized description",
+                    modifier = Modifier.size(ButtonDefaults.IconSize)
+                )
+                Spacer(Modifier.size(ButtonDefaults.IconSpacing))
+                Text("进入PlanList")
             }
         }
 

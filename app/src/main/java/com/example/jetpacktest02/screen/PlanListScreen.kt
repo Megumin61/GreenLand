@@ -1,15 +1,26 @@
-package com.example.jetpacktest02.screen
+/*
+ * Copyright 2022 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.example.jetpacktest02.ui.main
 
 import android.annotation.SuppressLint
 import androidx.annotation.DrawableRes
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
-import androidx.compose.material.Scaffold
-import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material3.*
@@ -29,27 +40,27 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.jetpacktest02.R
-import com.example.jetpacktest02.ui.main.PlanItem
 import com.example.scaffolddemo.ui.theme.Green1
 import com.example.scaffolddemo.ui.theme.Green2
 import com.example.scaffolddemo.ui.theme.Green5
 
+/**
+ * The Bills screen.
+ */
 
-/*@Composable
-fun DrawReactDemo() {
-    Canvas(modifier = Modifier.size(200.dp), onDraw = {
-        drawRoundRect(
-            color = myRed,
-            style = Stroke(width = 80f),
-            cornerRadius = CornerRadius(80f, 80f)
-        )
-    })
-}*/
+
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Preview
 @Composable
-fun NewDiyplanAddScreen(){
+fun PlanListScreen(
+    nav01: () -> Unit={},
+    nav02: () -> Unit={},
+    nav03: () -> Unit={},
+    nav04: () -> Unit={},
+    nav05: () -> Unit={}
+){
+
     Surface(modifier = Modifier.fillMaxSize()){
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -64,15 +75,15 @@ fun NewDiyplanAddScreen(){
                     )
                 )
         ){
-            Scaffold(
+            androidx.compose.material.Scaffold(
                 topBar = {
-                    TopAppBar(title = {
+                    androidx.compose.material.TopAppBar(title = {
                         Box(
                             modifier = Modifier.fillMaxWidth(),
                             contentAlignment = Alignment.Center
                         ) {
                             Text(
-                                text = "添加计划",
+                                text = "每日计划",
                                 style = TextStyle(
                                     fontWeight = FontWeight.W900, //设置字体粗细
                                     fontSize = 18.sp,
@@ -86,6 +97,7 @@ fun NewDiyplanAddScreen(){
                         elevation = 0.dp, //设置阴影
                         //左侧按钮
                         navigationIcon = {
+
                             IconButton(onClick = {}) {
                                 Icon(
                                     bitmap = ImageBitmap.imageResource(id = R.drawable.g1_2_0_ic_arrow_left),
@@ -106,8 +118,10 @@ fun NewDiyplanAddScreen(){
                 }
             ) {
 
+                var scrollState = rememberScrollState()
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
+
                     modifier = Modifier
                         .fillMaxSize()
                         .background(
@@ -118,47 +132,55 @@ fun NewDiyplanAddScreen(){
                                 )
                             )
                         )
+                        .verticalScroll(scrollState)
                 ) {
-
                     Spacer(Modifier.height(10.dp))
-                    PlanItem(iconRes = R.drawable.g1_2_icbg_diy)
-                    Box(){
-                        Image(painter = painterResource(id = R.drawable.g1_2_5_bg_dailyaim), contentDescription =null, modifier = Modifier
-                            .padding(horizontal = 32.dp))
-                        Row(Modifier.padding(start = 60.dp, top = 108.dp)) {
-                            DayItem()
-                        }
-                        Image(painter = painterResource(id = R.drawable.g1_2_3_btn_blankremind), contentDescription =null,
-                            modifier = Modifier
-                                .padding(horizontal = 48.dp)
-                                .padding(top = 182.dp))
+                    Text(
+                        text = "正在进行的计划",
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = Color(0xff445B60)
+                    )
+                    Image(
+                        painter = painterResource(id = R.drawable.g1_2_icbg_sports),
+                        contentDescription = null, modifier = Modifier.clickable(onClick = nav01)
+                    )
+                    Image(
+                        painter = painterResource(id = R.drawable.g1_2_icbg_drinkwater),
+                        contentDescription = null,modifier = Modifier.clickable(onClick = nav02)
+                    )
+                    Image(
+                        painter = painterResource(id = R.drawable.g1_2_icbg_sleep),
+                        contentDescription = null,modifier = Modifier.clickable(onClick = nav03)
+                    )
+                    Image(
+                        painter = painterResource(id = R.drawable.g1_2_icbg_eating),
+                        contentDescription = null,modifier = Modifier.clickable(onClick = nav04)
+                    )
 
-                        Button(onClick = { /*TODO*/ }, modifier = Modifier
-                            .padding(top = 415.dp, start = 122.dp)
-                            .width(136.dp)
-                            .height(54.dp)
-                            ,colors = ButtonDefaults.buttonColors(containerColor = Green5)
+                    Spacer(Modifier.height(5.dp))
 
-
-                        ) {
-                            Text(text = "确认", fontSize = 20.sp, fontWeight = FontWeight.W900)
-
-
-                        }
+                    /*Text(
+                        text = "今天已完成",
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = Color(0xff445B60)
+                    )*/
+                    Spacer(Modifier.height(5.dp))
+                    Button(onClick =  nav05 , modifier = Modifier
+                        .width(136.dp)
+                        .height(54.dp)
+                        ,colors = ButtonDefaults.buttonColors(containerColor = Green5)
+                    ) {
+                        Text(text = "添加计划", fontSize = 20.sp, fontWeight = FontWeight.W900)
                     }
-
-
                 }
             }
 
         }
     }
+
+
+
 }
-
-
-
-
-
 
 
 

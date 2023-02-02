@@ -18,5 +18,7 @@ val Green5=Color(0xff7FC7A8)
 val Green6=Color(0xffBBEEE8)
 val Green7=Color(0xffE3EDE3)
 val Green8=Color(0xff9AD6BC)
-
+val LightGreen = Color(0xff1acea2)
+val Flesh1 = Color(0xfff8ebe1)
 val Yellow1=Color(0xffF7EBDE)
+val Gray1=Color(0xff9598AC)

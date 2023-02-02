@@ -54,7 +54,7 @@ fun AimNum(aimnum: String, onNumChange: (String) -> Unit){
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Preview
 @Composable
-fun SetPlanSports(){
+fun SetPlanSportsScreen(){
     var aimnum by rememberSaveable  {mutableStateOf("")}
 
     Surface(modifier = Modifier.fillMaxSize()){
@@ -246,6 +246,6 @@ public fun DayItem(){
             color = Color(0xff9598AC),
             style = MaterialTheme.typography.bodyMedium,
 
-        )
+            )
     }}
 

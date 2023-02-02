@@ -126,7 +126,31 @@ object MessageTap : RallyDestination {
     override val icon = Icons.Filled.MoneyOff
     override val route = "2.2-message-tap"
 }
+object PlanList : RallyDestination {
+    override val icon = Icons.Filled.MoneyOff
+    override val route = "1.2-plant-dailyplan"
+}
+object SetPlanSports : RallyDestination {
+    override val icon = Icons.Filled.MoneyOff
+    override val route = "1.2.1-plant-foot"
+}
+object SetPlanDrink : RallyDestination {
+    override val icon = Icons.Filled.MoneyOff
+    override val route = "1.2.4-plant-drink"
+}
+object SetPlanSleep : RallyDestination {
+    override val icon = Icons.Filled.MoneyOff
+    override val route = "1.2.7-plant-sleeping"
+}
+object SetPlanEating : RallyDestination {
+    override val icon = Icons.Filled.MoneyOff
+    override val route = "1.2.6-plant-eating"
+}
 
+object SetPlanDiy : RallyDestination {
+    override val icon = Icons.Filled.MoneyOff
+    override val route = "1.2.5-plant-diyplan"
+}
 
 
 // Screens to be displayed in the top RallyTabRow

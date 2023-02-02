@@ -18,6 +18,7 @@ package com.example.jetpacktest02.ui.main
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.runtime.Composable
@@ -27,38 +28,166 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.example.jetpacktest02.R
+import com.example.scaffolddemo.ui.theme.Purple200
 
 /**
- * The Bills screen.
+ * 会员页面
+ * 负责人：
  */
+@Preview(showBackground=true,widthDp=393,heightDp=851)
 @Composable
 fun VipUnsignedScreen(
 //            bills : (String) -> Unit = {},
     nav01: () -> Unit={},
 
-) {
-    Image(
-        painter = painterResource(id = R.drawable.vip_unsigned),
-        contentDescription = null,
-        modifier = Modifier.fillMaxHeight().fillMaxSize()
-    )
-    Column{
-        Text("8.1-Vip（unsigned）")
-        Button(
-            onClick = nav01,
-            contentPadding = ButtonDefaults.ButtonWithIconContentPadding
-        ) {
-            Icon(
-                Icons.Filled.Favorite,
-                contentDescription = "Localized description",
-                modifier = Modifier.size(ButtonDefaults.IconSize)
-            )
-            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-            Text("1.1-Plant")
+    ) {
+    Column(modifier = Modifier.padding(top = 20.dp, start = 26.dp,end=26.dp),) {
+        VipCardImage()
+        Spacer(modifier = Modifier.height(14.dp))
+        LazyColumn(
+            Modifier.fillMaxWidth() // 宽度填满父空间
+                .height(450.dp),
+            verticalArrangement = Arrangement.spacedBy(14.dp),
+            content = {
+                item{
+                    item1()
+                }
+                item{
+                    item2()
+                }
+                item{
+                    item3()
+                }
+                item{
+                    item4()
+                }
+                item{
+                    item5()
+                }
+
+            })
+        Spacer(modifier = Modifier.height(14.dp))
+        moreImg()
+        Spacer(modifier = Modifier.height(14.dp))
+        Row {
+            btn1()
+            Spacer(Modifier.width(30.dp))
+            btn2()
+
         }
+
+
     }
 
 
+
+}
+@Composable
+fun VipCardImage(){
+    Image(
+        painter = painterResource(id = R.drawable.g8_1_img_card),
+        contentDescription = null,
+
+        )
+
+}
+@Composable
+fun item1(){
+    Image(
+        painter = painterResource(id = R.drawable.g8_1_v1),
+        contentDescription = null,
+
+        )
+
+}
+@Composable
+fun item2(){
+    Image(
+        painter = painterResource(id = R.drawable.g8_1_v2),
+        contentDescription = null,
+
+        )
+
+}
+@Composable
+fun item3(){
+    Image(
+        painter = painterResource(id = R.drawable.g8_1_v3),
+        contentDescription = null,
+
+        )
+
+}
+@Composable
+fun item4(){
+    Image(
+        painter = painterResource(id = R.drawable.g8_1_v4),
+        contentDescription = null,
+
+        )
+
+}
+@Composable
+fun item5(){
+    Image(
+        painter = painterResource(id = R.drawable.g8_1_v5),
+        contentDescription = null,
+
+        )
+
+}
+@Composable
+fun moreImg(){
+    Image(
+        painter = painterResource(id = R.drawable.g8_1_more),
+        contentDescription = null,
+
+        )
+
+}
+@Composable
+fun priceImg(){
+    Image(
+        painter = painterResource(id = R.drawable.g8_1_price),
+        contentDescription = null,
+
+        )
+
+}
+@Composable
+fun BtnImg(){
+    Image(
+        painter = painterResource(id = R.drawable.g8_1_btn_assure),
+        contentDescription = null,
+
+        )
+
+}
+
+@Composable
+fun btn1(){
+    Button(onClick = { /*TODO*/ },
+        colors = ButtonDefaults.outlinedButtonColors(),
+        contentPadding = PaddingValues(start=9.dp)
+    ) {
+        priceImg()
+
+    }
+}
+@Composable
+fun btn2(){
+    Button(onClick = { /*TODO*/ },
+        colors = ButtonDefaults.outlinedButtonColors(),
+        contentPadding = PaddingValues(0.dp)
+    ) {
+        BtnImg()
+
+    }
 }

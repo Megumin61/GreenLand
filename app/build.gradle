@@ -80,7 +80,7 @@ dependencies {
     // Room components
     implementation "androidx.room:room-runtime:2.5.0-alpha02"
     implementation "androidx.room:room-ktx:2.5.0-alpha02"
-    kapt "androidx.room:room-compiler:2.5.0-alpha02"
+    kapt  "androidx.room:room-compiler:2.5.0-alpha02"
 
     // Lifecycle components
     implementation "androidx.lifecycle:lifecycle-common-java8:2.2.0"
@@ -122,7 +122,7 @@ dependencies {
 
     //Dagger - Hilt
     implementation "com.google.dagger:hilt-android:$hilt_version"
-    kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
+    kapt  "com.google.dagger:hilt-android-compiler:$hilt_version"
 
 
     implementation "androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha03"

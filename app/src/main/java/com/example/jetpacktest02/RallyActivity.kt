@@ -24,7 +24,7 @@ import com.example.jetpacktest02.config.UsersApplication
 import com.example.jetpacktest02.screen.IslandDeliverScreen
 import com.example.jetpacktest02.screen.IslandMemberListScreen
 import com.example.jetpacktest02.screen.IslandScreen
-import com.example.jetpacktest02.screen.MessageMsgScreen
+import com.example.jetpacktest02.ui.main.MessageMsgScreen
 import com.example.jetpacktest02.ui.main.*
 import com.example.scaffolddemo.ui.theme.ScaffoldDemoTheme
 import com.google.accompanist.permissions.ExperimentalPermissionsApi

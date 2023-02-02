@@ -1,6 +1,7 @@
 package com.example.jetpacktest02
 
 import android.os.Bundle
+import android.webkit.WebView
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
@@ -162,7 +163,7 @@ fun RallyApp() {
             //管理路由：页面跳转
             NavHost(
                 navController = navController,
-                startDestination = MessageMsg.route,
+                startDestination = Plant.route,
                 modifier = Modifier.padding(innerPadding)
 
             ) {
@@ -284,6 +285,7 @@ fun RallyApp() {
                     )
                 }
                 composable(route = MessageMsg.route) {
+
                     MessageMsgScreen(
                         userViewModel,
                         //导航函数

@@ -4,6 +4,7 @@
 
 <!--    <user-feature android:name="android.hardware.camera"></user-feature>-->
 <!--    <user-feature android:name="android.hardware.camera.any"></user-feature>-->
+    <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.CAMERA"/>
 
     <application

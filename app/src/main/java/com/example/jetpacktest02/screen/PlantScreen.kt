@@ -31,7 +31,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.jetpacktest02.R
 import com.example.jetpacktest02.ViewModel.UserViewModel
@@ -39,9 +38,10 @@ import com.example.jetpacktest02.ViewModel.UserViewModel
 /**
  * The Bills screen.
  */
-@Preview
+
+//viewModel: UserViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
 @Composable
-fun PlantScreen(viewModel: UserViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
+fun PlantScreen(
 //            bills : (String) -> Unit = {},
     nav01: () -> Unit={},
     nav02: () -> Unit={},
@@ -52,20 +52,16 @@ fun PlantScreen(viewModel: UserViewModel = androidx.lifecycle.viewmodel.compose.
     nav07: () -> Unit={},
 
 ) {
-    val weatherNow = viewModel.counterLiveData.observeAsState()
-    println(weatherNow.value.toString())
-
-
     Image(
         painter = painterResource(id = R.drawable.plant),
         contentDescription = null,
-        modifier = Modifier.fillMaxHeight().fillMaxSize()
+        modifier = Modifier
+            .fillMaxHeight()
+            .fillMaxSize()
     )
     Column{
-        Text(text = weatherNow.value.toString())
         Button(
             onClick = {
-                viewModel.increaseCounter()
             },
         ) {
             BasicText(text = "Add 1")

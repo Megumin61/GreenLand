@@ -70,10 +70,31 @@ object IslandChooseIsland : RallyDestination {
     override val icon = Icons.Filled.MoneyOff
     override val route = "4.1-island-chooseIsland"
 }
+object Island : RallyDestination {
+    override val icon = Icons.Filled.MoneyOff
+    override val route = "4.2-island"
+}
+
+object IslandMemberList : RallyDestination {
+    override val icon = Icons.Filled.MoneyOff
+    override val route = "4.3-island-memberList"
+}
+object IslandVisitOther : RallyDestination {
+    override val icon = Icons.Filled.MoneyOff
+    override val route = "4.5-island-visitOther"
+}
+object IslandDeliver : RallyDestination {
+    override val icon = Icons.Filled.MoneyOff
+    override val route = "4.6-island-deliver"
+}
 
 object Message : RallyDestination {
     override val icon = Icons.Filled.MoneyOff
     override val route = "2.1-message"
+}
+object MessageMsg : RallyDestination {
+    override val icon = Icons.Filled.MoneyOff
+    override val route = "2.3-message-message"
 }
 
 object My : RallyDestination {
@@ -101,6 +122,12 @@ object PlantLookingForPlanFoot : RallyDestination {
     override val route = "1.4.1-plant-lookingforplan-foot"
 }
 
+object MessageTap : RallyDestination {
+    override val icon = Icons.Filled.MoneyOff
+    override val route = "2.2-message-tap"
+}
+
+
 
 // Screens to be displayed in the top RallyTabRow
-val rallyTabRowScreens = listOf(Overview, Accounts, Plant, PlantPlan, Dailyhealthmessage)
+val rallyTabRowScreens = listOf(Overview, Accounts,Plant,PlantPlan,Dailyhealthmessage)

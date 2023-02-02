@@ -14,7 +14,7 @@ import java.time.chrono.HijrahChronology
 import java.time.chrono.HijrahChronology.INSTANCE
 
 // Annotates class to be a Room Database with a table (entity) of the Word class
-@Database(entities = arrayOf(User::class), version = 1, exportSchema = false)
+@Database(entities = arrayOf(User::class), version = 1,exportSchema = false)
 abstract class UsersRoomDatabase : RoomDatabase() {
 
     // 定义的抽象方法，由Room自动实现
@@ -35,11 +35,39 @@ abstract class UsersRoomDatabase : RoomDatabase() {
                     context.applicationContext,
                     UsersRoomDatabase::class.java,
                     "user_database"
-                ).build()
+                ).addCallback(UserDatabaseCallback(scope)).allowMainThreadQueries().build()
+                instance.getOpenHelper().getWritableDatabase()
                 INSTANCE = instance
                 // return instance
                 instance
+
             }
+
+        }
+    }
+
+    private class UserDatabaseCallback(
+        private val scope: CoroutineScope
+    ) : RoomDatabase.Callback() {
+
+        override fun onCreate(db: SupportSQLiteDatabase) {
+            super.onCreate(db)
+            INSTANCE?.let { database ->
+                scope.launch {
+                    populateDatabase(database.userDao())
+                }
+            }
+        }
+
+        fun populateDatabase(userDao: UserDao) {
+            // Delete all content here.
+            userDao.deleteAll()
+            println("创建成功=====================================================")
+            // Add sample words.
+            var user = User("Hello", "18329295231")
+            userDao.insertUser(user)
+
+            // TODO: Add your own words!
         }
     }
 }

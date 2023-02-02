@@ -19,14 +19,17 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.runtime.*
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.sp
 import com.example.jetpacktest02.ViewModel.UserViewModel
+import com.example.scaffolddemo.ui.theme.Green1
 import com.example.scaffolddemo.ui.theme.Green700
 import com.example.scaffolddemo.ui.theme.GreenMain
 import com.example.scaffolddemo.ui.theme.Text3Gray
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 
 /**
@@ -41,6 +44,11 @@ fun PhoneLoginScreen() {
     var phonenumber by remember{ mutableStateOf("")}
     var captcha by remember{ mutableStateOf("")}
 
+    //配置顶部状态栏颜色
+    rememberSystemUiController().setStatusBarColor(
+        Green1,darkIcons = androidx.compose.material.MaterialTheme.colors.isLight)
+
+
     Surface(modifier = Modifier.fillMaxSize()) {
 
         Image(
@@ -48,7 +56,7 @@ fun PhoneLoginScreen() {
             contentDescription = null,
             modifier = Modifier
                 .fillMaxHeight()
-                .fillMaxSize()
+                .fillMaxSize(), contentScale = ContentScale.FillWidth
         )
         Column(
             modifier=Modifier

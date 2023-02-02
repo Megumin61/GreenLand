@@ -170,6 +170,9 @@ fun RallyApp() {
                 composable(route = PhoneLogin.route) {
                     PhoneLoginScreen()
                 }
+                composable(route = VipPage.route) {
+                    VipScreen()
+                }
 
                 composable(route = Accounts.route) {
                     AccountsScreen()
@@ -212,6 +215,9 @@ fun RallyApp() {
                         },
                         nav08 = {
                             navController.navigate(PhoneLogin.route) { launchSingleTop = true; }
+                        },
+                        nav09 = {
+                            navController.navigate(VipPage.route) { launchSingleTop = true; }
                         }
                     )
                 }

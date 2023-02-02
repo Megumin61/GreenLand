@@ -13,14 +13,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.jetpacktest02.ViewModel.UserViewModel
+import com.example.scaffolddemo.ui.theme.Green1
 import com.example.scaffolddemo.ui.theme.GreenMain
 import com.example.scaffolddemo.ui.theme.Text3Gray
 import com.example.scaffolddemo.ui.theme.WechatGreen
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 /**
  * 登录页面_选择登录方式
@@ -30,7 +33,9 @@ import com.example.scaffolddemo.ui.theme.WechatGreen
 
 @Composable
 fun LoginFrontScreen() {
-
+   //配置顶部状态栏颜色
+    rememberSystemUiController().setStatusBarColor(
+        Green1,darkIcons = androidx.compose.material.MaterialTheme.colors.isLight)
 
 
     Surface(modifier = Modifier.fillMaxSize()) {
@@ -40,7 +45,7 @@ fun LoginFrontScreen() {
             contentDescription = null,
             modifier = Modifier
                 .fillMaxHeight()
-                .fillMaxSize()
+                .fillMaxSize(), contentScale = ContentScale.FillWidth
         )
         Column(
             modifier=Modifier

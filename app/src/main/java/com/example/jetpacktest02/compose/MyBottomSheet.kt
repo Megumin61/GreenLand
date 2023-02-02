@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.jetpacktest02.R
@@ -26,6 +27,7 @@ import kotlinx.coroutines.launch
 * 复制修改即可使用
 * (注意：使用该组件需要在@Composable上方增加“@ExperimentalMaterialApi”的声明,详细用法可参考IslandDeliverScreen.kt)
 * */
+
 
 @ExperimentalMaterialApi
 @Composable
@@ -113,4 +115,69 @@ fun MyBottomSheet(){
         }
     )
 
+}
+
+@Preview
+@OptIn(ExperimentalMaterialApi::class)
+@Composable
+fun PreviewContent()
+{
+    Column {
+        ListItem(
+            text = {
+                Box(
+                    modifier = Modifier.fillMaxWidth(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = "选择可见好友",
+                        style = TextStyle(
+                            fontWeight = FontWeight.W900, //设置字体粗细
+                            fontSize = 16.sp,
+                        ),
+                        modifier = Modifier
+                    )
+
+                    Image(
+                        painter = painterResource(id = R.drawable.g4_6_1_ic_cancel),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .size(20.dp)
+                            .offset(x = 160.dp)
+
+                    )
+                }
+
+            }
+        )
+
+        //第一行头像
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(15.dp),
+            horizontalArrangement = Arrangement.Center
+        ) {
+            AvatarItem("全部好友", R.drawable.g4_6_1_ic_allcansee)
+            AvatarItem("幻想世界", R.drawable.g4_3_avatar3)
+            AvatarItem("幻想世界", R.drawable.g4_3_avatar3)
+            AvatarItem("幻想世界", R.drawable.g4_3_avatar3)
+        }
+
+        //第二行头像
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(15.dp),
+            horizontalArrangement = Arrangement.Center
+        ) {
+            AvatarItem("幻想世界", R.drawable.g4_3_avatar3)
+            AvatarItem("幻想世界", R.drawable.g4_3_avatar3)
+            AvatarItem("幻想世界", R.drawable.g4_3_avatar3)
+            AvatarItem("幻想世界", R.drawable.g4_3_avatar3)
+        }
+
+
+    }
 }

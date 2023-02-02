@@ -12,6 +12,7 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.core.view.WindowCompat
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -51,7 +52,7 @@ class RallyActivity : ComponentActivity() {
 
         setContent {
 
-//            WordBookApp()
+//            WordBookApp2()
 //            CounterScreen()
             RallyApp()
         }
@@ -112,6 +113,7 @@ fun RallyApp() {
     val currentBackStack by navController.currentBackStackEntryAsState()
     val Textvalue: String = ""
 
+    val userViewModel: UserViewModel = viewModel()
     // Fetch your currentDestination:
     val currentDestination = currentBackStack?.destination
     // Change the variable to this and use Overview as a backup screen if this returns null
@@ -161,7 +163,7 @@ fun RallyApp() {
             //管理路由：页面跳转
             NavHost(
                 navController = navController,
-                startDestination = Plant.route,
+                startDestination = Message.route,
                 modifier = Modifier.padding(innerPadding)
 
             ) {
@@ -273,6 +275,7 @@ fun RallyApp() {
 
                 composable(route = Message.route) {
                     MessageScreen(
+                        userViewModel,
                         nav01 = {
                             navController.navigate(MessageTap.route) { launchSingleTop = true; }
                         }

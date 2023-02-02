@@ -38,19 +38,25 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.jetpacktest02.R
 import com.example.jetpacktest02.ViewModel.UserViewModel
-import com.example.scaffolddemo.ui.theme.Gray1
-import com.example.scaffolddemo.ui.theme.Green2
+import com.example.scaffolddemo.ui.theme.*
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.google.android.material.color.MaterialColors
 
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun MessageTapScreen(
+fun MessagePicScreen(
 //            bills : (String) -> Unit = {},
     userViewModel: UserViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
     nav01: () -> Unit = {},
     nav02: () -> Unit = {},
 
     ) {
+    //配置顶部状态栏颜色
+    rememberSystemUiController().setStatusBarColor(
+        Color.White, darkIcons = androidx.compose.material.MaterialTheme.colors.isLight
+    )
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -60,7 +66,7 @@ fun MessageTapScreen(
                         contentAlignment = Alignment.Center
                     ) {
                         Text(
-                            text = "拍一拍记录",
+                            text = "收到的图片",
                             style = TextStyle(
                                 fontWeight = FontWeight.W900, //设置字体粗细
                                 fontSize = 18.sp,
@@ -74,7 +80,7 @@ fun MessageTapScreen(
                     IconButton(onClick = nav01) {
                         Icon(
                             painter = painterResource(id = R.drawable.g1_2_0_ic_arrow_left),
-                            contentDescription =""
+                            contentDescription = ""
                         )
 
                     }
@@ -89,11 +95,11 @@ fun MessageTapScreen(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 5.dp, start = 8.dp, end = 8.dp),
+                .padding(top = 5.dp, start = 0.dp, end = 8.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Spacer(Modifier.height(0.dp))
-            TapMessageList(nav01, nav02,userViewModel)
+            PicMessageList(nav01, nav02, userViewModel)
         }
     }
 
@@ -103,39 +109,18 @@ fun MessageTapScreen(
 //@Preview(showBackground = true, backgroundColor = 0xFFF0EAE2, heightDp = 180)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TapMessageList(nav01: () -> Unit = {}, nav02: () -> Unit,    userViewModel: UserViewModel) {
+fun PicMessageList(nav01: () -> Unit = {}, nav02: () -> Unit, userViewModel: UserViewModel) {
 
     val listDat1 by remember {
         mutableStateOf(
             listOf(
                 //如果需要改变下面对象里面的属性，需要单独复制一份生成一个新的对象才可以
-                TapListItemModel(
-                    "幻想世界",
-                    "拍了拍你的向日葵",
-                    R.drawable.g2_1_img_user01,
-                    R.drawable.g2_1_btn_friend,
-                    "1min前"
-                ),
-                TapListItemModel(
-                    "sandr",
-                    "拍了拍你的向日葵",
+                MsgListItemModel(
+                    "Sandor",
+                    "Please vivo 50",
                     R.drawable.g2_1_img_user02,
                     R.drawable.g2_1_btn_friend_disabled,
                     "5min前"
-                ),
-                TapListItemModel(
-                    "施&SHI",
-                    "拍了拍你的向日葵",
-                    R.drawable.g2_1_img_user03,
-                    R.drawable.g2_1_btn_friend,
-                    "5min前"
-                ),
-                TapListItemModel(
-                    "ajunGrit",
-                    "拍了拍你的向日葵",
-                    R.drawable.g2_1_img_user04,
-                    R.drawable.g2_1_btn_friend_disabled,
-                    "12-01"
                 ),
             )
         )
@@ -144,17 +129,24 @@ fun TapMessageList(nav01: () -> Unit = {}, nav02: () -> Unit,    userViewModel: 
         mutableStateOf(
             listOf(
                 //如果需要改变下面对象里面的属性，需要单独复制一份生成一个新的对象才可以
-                TapListItemModel(
+                PicListItemModel(
                     "施&SHI",
-                    "拍了拍你的向日葵",
+                    "等下我们去二饭，你要不要一起来？",
                     R.drawable.g2_1_img_user03,
                     R.drawable.g2_1_btn_friend,
                     "11-29"
                 ),
-                TapListItemModel(
+                PicListItemModel(
                     "ajunGrit",
-                    "向你投放了图片",
+                    "同学你好，能不能麻烦你帮我捡一下橡皮，就在你脚下，谢谢。",
                     R.drawable.g2_1_img_user04,
+                    R.drawable.g2_1_btn_friend,
+                    "11-26"
+                ),
+                PicListItemModel(
+                    "foxBread",
+                    "要不要吃麦当劳？有个优惠券我想我们可以一起拼的样子。买二送一菠萝派还有麦香鱼。",
+                    R.drawable.g2_1_img_user05,
                     R.drawable.g2_1_btn_friend_disabled,
                     "11-26"
                 ),
@@ -169,7 +161,7 @@ fun TapMessageList(nav01: () -> Unit = {}, nav02: () -> Unit,    userViewModel: 
             .padding(horizontal = 16.dp)
     ) {
         listDat1.forEachIndexed { index, listItemModel ->
-            TapMessageItem(
+            MsgPicItem(
                 name = listItemModel.name,
                 msg = listItemModel.msg,
                 res = listItemModel.res,
@@ -188,25 +180,13 @@ fun TapMessageList(nav01: () -> Unit = {}, nav02: () -> Unit,    userViewModel: 
                 .align(Alignment.CenterHorizontally)
 
         )
-        listDat2.forEachIndexed { index, listItemModel ->
-            TapMessageItem(
-                name = listItemModel.name,
-                msg = listItemModel.msg,
-                res = listItemModel.res,
-                res2 = listItemModel.res2,
-                time = listItemModel.time,
-                nav01,
-                nav02,
-                userViewModel
-            )
-        }
 //        Divider()
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TapMessageItem(
+fun MsgPicItem(
     name: String,
     msg: String,
     res: Int,
@@ -216,7 +196,6 @@ fun TapMessageItem(
     nav02: () -> Unit = {},
     userViewModel: UserViewModel
 ) {
-
     ListItem(
         modifier = Modifier
             .clickable(onClick = nav01)
@@ -225,35 +204,59 @@ fun TapMessageItem(
             ),
         colors = ListItemDefaults.colors(containerColor = Color.White),
         headlineText = {
-            Row(
-                horizontalArrangement = Arrangement.SpaceAround,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
+            Column() {
+                Row(
+                    horizontalArrangement = Arrangement.SpaceAround,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = name,
+                        color = Color.Black,
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.W500,
+                    )
+                    Spacer(Modifier.width(12.dp))
+                    Image(
+                        painter = painterResource(id = res2),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .width(40.dp)
+                            .height(40.dp)
+                            .clickable(onClick = {
+                                userViewModel.uiState.value.openDialog.value = true
+                            })
+                    )
+                }
                 Text(
-                    text = name,
-                    color = Color.Black,
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.W500,
-                )
-                Spacer(Modifier.width(8.dp))
-                Image(
-                    painter = painterResource(id = res2),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .width(40.dp)
-                        .height(40.dp).clickable(onClick = {userViewModel.uiState.value.openDialog.value=true})
+                    "给你留言了",
+                    fontSize = 13.sp,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = Gray1,
+                    textAlign = TextAlign.Left,
+                    modifier = Modifier.offset(0.dp, (-5).dp)
                 )
             }
 
         },
         supportingText = {
-            Text(
-                msg,
-                fontSize = 13.sp,
-                style = MaterialTheme.typography.bodySmall,
-                color = Gray1,
-                textAlign = TextAlign.Justify
-            )
+            Spacer(modifier = Modifier.height(4.dp))
+
+            Card(
+                colors = CardDefaults.cardColors(containerColor = BlueGray1),
+//                modifier = Modifier.padding(start = 6.dp, end = 6.dp, top = 2.dp, bottom = 2.dp)
+            ) {
+                Text(
+                    msg,
+                    textAlign = TextAlign.Left,
+                    lineHeight = 20.sp,
+                    color= Color.Black,
+                    style = TextStyle(
+                        fontWeight = FontWeight.Medium, //设置字体粗细
+                        fontSize = 13.sp,
+                    ),
+                    modifier = Modifier.padding(start = 15.dp, end = 15.dp, top = 10.dp, bottom =10.dp)
+                )
+            }
         },
         trailingContent = {
             Text(
@@ -267,20 +270,22 @@ fun TapMessageItem(
             Image(
                 painter = painterResource(id = res),
                 contentDescription = null,
+                alignment = Alignment.TopCenter,
                 modifier = Modifier
-                    .width(45.dp)
-                    .height(45.dp)
-                    .clickable(onClick = nav02)
+                    .width(50.dp)
+                    .height(50.dp)
+                    .clickable(onClick = nav02).offset(0.dp,-25.dp)
             )
         }
     )
+
 }
 
 
-data class TapListItemModel(
-    val name: String,
-    val msg: String,
-    var res: Int,
-    var res2: Int,
-    var time: String
+data class PicListItemModel(
+    val name: String,//用户名
+    val msg: String,//给你留言了
+    var res: Int,//头像
+    var res2: Int,//添加好友图片
+    var time: String//当前时间
 )

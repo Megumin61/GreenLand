@@ -25,7 +25,6 @@ import com.example.jetpacktest02.config.UsersApplication
 import com.example.jetpacktest02.screen.IslandDeliverScreen
 import com.example.jetpacktest02.screen.IslandMemberListScreen
 import com.example.jetpacktest02.screen.IslandScreen
-import com.example.jetpacktest02.screen.MessageMsgScreen
 import com.example.jetpacktest02.ui.main.*
 import com.example.scaffolddemo.ui.theme.ScaffoldDemoTheme
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
@@ -163,7 +162,7 @@ fun RallyApp() {
             //管理路由：页面跳转
             NavHost(
                 navController = navController,
-                startDestination = Message.route,
+                startDestination = MessageMsg.route,
                 modifier = Modifier.padding(innerPadding)
 
             ) {
@@ -278,23 +277,33 @@ fun RallyApp() {
                         userViewModel,
                         nav01 = {
                             navController.navigate(MessageTap.route) { launchSingleTop = true; }
+                        },
+                        nav03 = {
+                            navController.navigate(MessageMsg.route) { launchSingleTop = true; }
                         }
                     )
                 }
                 composable(route = MessageMsg.route) {
-
                     MessageMsgScreen(
+                        userViewModel,
                         //导航函数
                         nav01 = {
-                            navController.navigate(MessageTap.route) { launchSingleTop = true; }
+                            navController.navigate(Message.route) { launchSingleTop = true; }
                         },
-                        nav02 ={
-                            navController.navigate(MessageTap.route)
-                        }
+                    )
+                }
+                composable(route = MessagePic.route) {
+                    MessagePicScreen(
+                        userViewModel,
+                        //导航函数
+                        nav01 = {
+                            navController.navigate(Message.route) { launchSingleTop = true; }
+                        },
                     )
                 }
                 composable(route = MessageTap.route) {
                     MessageTapScreen(
+                        userViewModel,
                         nav01 = {
                             navController.navigate(Message.route) { launchSingleTop = true; }
                         }

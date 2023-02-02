@@ -17,6 +17,9 @@ val Flesh1 = Color(0xfff8ebe1)
 val Green3 = Color(0xffebf3f3)
 val LightGreen = Color(0xff1acea2)
 
+
+
 val Gray1=Color(0xff9598AC)
 val Gray2=Color(0xFF999999)
 val Gray3=Color(0x33D9D9D9)
+val BlueGray1=Color(0xFFF1F2F5)

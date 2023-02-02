@@ -97,6 +97,17 @@ object MessageMsg : RallyDestination {
     override val route = "2.3-message-message"
 }
 
+object MessageTap : RallyDestination {
+    override val icon = Icons.Filled.MoneyOff
+    override val route = "2.2-message-tap"
+}
+
+object MessagePic : RallyDestination {
+    override val icon = Icons.Filled.MoneyOff
+    override val route = "2.4-message-picture"
+}
+
+
 object My : RallyDestination {
     override val icon = Icons.Filled.MoneyOff
     override val route = "7.0-My"
@@ -122,10 +133,7 @@ object PlantLookingForPlanFoot : RallyDestination {
     override val route = "1.4.1-plant-lookingforplan-foot"
 }
 
-object MessageTap : RallyDestination {
-    override val icon = Icons.Filled.MoneyOff
-    override val route = "2.2-message-tap"
-}
+
 
 
 

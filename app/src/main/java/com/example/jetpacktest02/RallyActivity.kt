@@ -6,11 +6,14 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.core.view.WindowCompat
 import androidx.lifecycle.LiveData
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -30,6 +33,7 @@ import com.example.jetpacktest02.screen.MessageMsgScreen
 import com.example.jetpacktest02.ui.main.*
 import com.example.scaffolddemo.ui.theme.ScaffoldDemoTheme
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
 import java.util.Objects
@@ -49,8 +53,11 @@ class RallyActivity : ComponentActivity() {
     @OptIn(DelicateCoroutinesApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        WindowCompat.setDecorFitsSystemWindows(window, true)
+
 
         setContent {
+
 //            WordBookApp()
 //            CounterScreen()
             RallyApp()
@@ -101,6 +108,8 @@ fun RallyApp() {
 //        val currentScreen = rallyTabRowScreens.find { it.route == currentDestination?.route } ?: Overview
 
     ScaffoldDemoTheme {
+
+
         Scaffold(
 
             bottomBar = {
@@ -220,7 +229,7 @@ fun RallyApp() {
                 composable(route = Island.route) {
                     IslandScreen(
                         nav01 = {
-                            navController.popBackStack()
+                            navController.popBackStack()//返回到popUpTo中设置的返回路径route
                         },
                         nav02 = {
 

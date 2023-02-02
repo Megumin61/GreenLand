@@ -15,6 +15,8 @@
  */
 package com.example.jetpacktest02.ViewModel
 
+import java.time.Duration
+
 /**
  * Data class that represents the UI state
  */
@@ -24,4 +26,16 @@ data class UiState(
     val score: Int = 0,
     val isGuessedWordWrong: Boolean = false,
     val isGameOver: Boolean = false
+)
+data class PlayerUiState(
+    val title: String = "",
+    val subTitle: String = "",
+    val duration: Duration? = null,
+    val podcastName: String = "",
+    val author: String = "",
+    val summary: String = "",
+    val podcastImageUrl: String = ""
+)
+data class Plant(
+    val water :Int =100
 )

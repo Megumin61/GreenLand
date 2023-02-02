@@ -17,7 +17,6 @@ class UserViewModel @Inject constructor(val repository: UserRepository) : ViewMo
     val allUsers: LiveData<List<User>> = repository.allUsers.asLiveData()
 
     val _uiState = MutableStateFlow(UiState())
-
     val uiState: StateFlow<UiState> = _uiState.asStateFlow()
 
 
@@ -35,6 +34,17 @@ class UserViewModel @Inject constructor(val repository: UserRepository) : ViewMo
     fun getUser(id: Int): User {
         return repository.getUserById(id)
     }
+    fun UpdateUser(user: User){
+        return repository.updateUser(user)
+    }
+
+    suspend fun InsertUser(user: User){
+        return repository.insertUser(user)
+    }
+    fun DeleteUser(id: Int){
+        return repository.deleteUserById(id)
+    }
+
 
 
 

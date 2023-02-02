@@ -1,6 +1,7 @@
 package com.example.jetpacktest02
 
 import android.os.Bundle
+import android.webkit.WebView
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
@@ -26,6 +27,8 @@ import com.example.jetpacktest02.screen.IslandDeliverScreen
 import com.example.jetpacktest02.screen.IslandMemberListScreen
 import com.example.jetpacktest02.screen.IslandScreen
 import com.example.jetpacktest02.screen.MessageMsgScreen
+import com.example.jetpacktest02.compose.MyTopAppBar
+import com.example.jetpacktest02.screen.*
 import com.example.jetpacktest02.ui.main.*
 import com.example.scaffolddemo.ui.theme.ScaffoldDemoTheme
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
@@ -44,6 +47,7 @@ fun NavHostController.navigateSingleTopTo(route: String) =
 @ExperimentalMaterialApi
 @AndroidEntryPoint
 class RallyActivity : ComponentActivity() {
+
     @OptIn(DelicateCoroutinesApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -272,6 +276,18 @@ fun RallyApp() {
                         }
                     )
                 }
+                composable(route = IslandVisitOther.route) {
+                    IslandVisitOtherScreen(
+                        nav01 = {
+                            navController.popBackStack()
+                        },
+                        nav02 = {
+                            navController.navigate(IslandDeliver.route) {
+                                launchSingleTop = true; popUpTo(IslandVisitOther.route) {}
+                            }
+                        },
+                    )
+                }
 
                 composable(route = Message.route) {
                     MessageScreen(
@@ -288,7 +304,7 @@ fun RallyApp() {
                         nav01 = {
                             navController.navigate(MessageTap.route) { launchSingleTop = true; }
                         },
-                        nav02 ={
+                        nav02 = {
                             navController.navigate(MessageTap.route)
                         }
                     )

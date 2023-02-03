@@ -87,7 +87,7 @@ fun ChooseSeed() {
 
     Column(){
 
-        
+
 
     }
 }

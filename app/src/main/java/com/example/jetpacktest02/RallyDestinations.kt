@@ -107,6 +107,10 @@ object MessagePic : RallyDestination {
     override val route = "2.4-message-picture"
 }
 
+object MessageFriend : RallyDestination {
+    override val icon = Icons.Filled.MoneyOff
+    override val route = "2.5-message-friend"
+}
 
 object My : RallyDestination {
     override val icon = Icons.Filled.MoneyOff

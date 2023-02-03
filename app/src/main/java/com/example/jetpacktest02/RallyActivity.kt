@@ -26,6 +26,7 @@ import com.example.jetpacktest02.config.UsersApplication
 import com.example.jetpacktest02.screen.IslandDeliverScreen
 import com.example.jetpacktest02.screen.IslandMemberListScreen
 import com.example.jetpacktest02.screen.IslandScreen
+import com.example.jetpacktest02.screen.MessageFriendScreen
 import com.example.jetpacktest02.ui.main.*
 import com.example.scaffolddemo.ui.theme.ScaffoldDemoTheme
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
@@ -163,7 +164,7 @@ fun RallyApp() {
             //管理路由：页面跳转
             NavHost(
                 navController = navController,
-                startDestination = MessagePic.route,
+                startDestination = MessageFriend.route,
                 modifier = Modifier.padding(innerPadding)
 
             ) {
@@ -309,6 +310,14 @@ fun RallyApp() {
                 composable(route = MessageTap.route) {
                     MessageTapScreen(
                         userViewModel,
+                        nav01 = {
+                            navController.navigate(Message.route) { launchSingleTop = true; }
+                        }
+                    )
+                }
+                composable(route = MessageFriend.route) {
+                    MessageFriendScreen(
+//                        userViewModel,
                         nav01 = {
                             navController.navigate(Message.route) { launchSingleTop = true; }
                         }

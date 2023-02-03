@@ -14,12 +14,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.debugInspectorInfo
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.jetpacktest02.screen.customTabIndicatorOffset
 import com.example.scaffolddemo.ui.theme.Gray1
 import com.example.scaffolddemo.ui.theme.LightGreen
 
+@Preview
 @Composable
 fun ViewTabRow() {
     var state by remember { mutableStateOf(0) }

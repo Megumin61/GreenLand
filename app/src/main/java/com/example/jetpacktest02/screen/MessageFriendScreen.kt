@@ -9,23 +9,41 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
+import androidx.compose.material.Scaffold
+import androidx.compose.material.Tab
+import androidx.compose.material.TabPosition
+import androidx.compose.material.TabRow
+import androidx.compose.material.TabRowDefaults
+import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Info
+import androidx.compose.material3.*
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.debugInspectorInfo
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.jetpacktest02.R
+import com.example.jetpacktest02.ViewModel.UserViewModel
 import com.example.scaffolddemo.ui.theme.*
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import kotlinx.coroutines.launch
@@ -80,7 +98,8 @@ fun MessageFriendScreen(nav01: () -> Unit = {}) {
                         contentDescription = null,
                         modifier = Modifier
                             .width(100.dp)
-                            .height(100.dp).offset(-10.dp,0.dp)
+                            .height(100.dp)
+                            .offset(-10.dp, 0.dp)
                     )
 
                 },
@@ -91,82 +110,78 @@ fun MessageFriendScreen(nav01: () -> Unit = {}) {
             )
         }
     ) {
-        Column(Modifier.padding(10.dp)) {
-            FriendTabRow()
-        }
-        val messages by remember {
+        val friends by remember {
             mutableStateOf(
                 listOf(
                     //如果需要改变下面对象里面的属性，需要单独复制一份生成一个新的对象才可以
-                    MsgTest(
+                    FriendTest(
                         1,
-                        "aaaa"
+                        "ajunGrit",
+                        "1天前在线",
+                        res =R.drawable.g2_5_img_user05
                     ),
-                    MsgTest(
+                    FriendTest(
                         2,
-                        "bbbbb"
+                        "kevin",
+                        "4天前在线",
+                        res =R.drawable.g2_5_img_user03
                     ),
-                    MsgTest(
+                    FriendTest(
                         3,
-                        "bbbbb"
+                        "aJuan",
+                        "1天前在线",
+                        res =R.drawable.g2_5_img_user04
                     ),
-                    MsgTest(
+                    FriendTest(
                         4,
-                        "ccccccccc"
+                        "sandr",
+                        "在线",
+                        res =R.drawable.g2_5_img_user02
                     ),
-                    MsgTest(
-                        4,
-                        "dcccccccc"
+                    FriendTest(
+                        5,
+                        "liu猪侨",
+                        "在线",
+                        res =R.drawable.g2_5_img_user01
                     ),
-                    MsgTest(
-                        4,
-                        "ecccccccc"
+                    FriendTest(
+                        6,
+                        "joyce",
+                        "1天前在线",
+                        res =R.drawable.g2_1_img_user01
                     ),
-                    MsgTest(
-                        4,
-                        "fcccccccc"
+                    FriendTest(
+                        7,
+                        "foxbread",
+                        "在线",
+                        res =R.drawable.g2_1_img_user05
                     ),
-                    MsgTest(
-                        4,
-                        "gcccccccc"
-                    ),
-                    MsgTest(
-                        4,
-                        "hcccccccc"
-                    ),
-                    MsgTest(
-                        4,
-                        "icccccccc"
-                    ),
-                    MsgTest(
-                        4,
-                        "jcccccccc"
-                    ),
-                    MsgTest(
-                        4,
-                        "kcccccccc"
-                    ),
-                    MsgTest(
-                        4,
-                        "lcccccccc"
-                    ),
-                    MsgTest(
-                        4,
-                        "hcccccccc"
+                    FriendTest(
+                        8,
+                        "kcChang",
+                        "1天前在线",
+                        res =R.drawable.g2_1_img_user03
                     ),
 
                     )
             )
         }
-        val grouped = messages.groupBy { it.msg[0] }
-//        MessageList(grouped)
+        val grouped = friends.groupBy { it.name[0] }
+        Column(Modifier.padding(10.dp)) {
+            FriendTabRow()
+            FriendList(grouped)
+        }
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FriendTabRow() {
     var state by remember { mutableStateOf(0) }
     val titles = listOf("好友", "附近", "可能认识")
+    var text by rememberSaveable(stateSaver = TextFieldValue.Saver) {
+        mutableStateOf(TextFieldValue("", TextRange(0, 7)))
+    }
 
 //    val indicator = @Composable { tabPositions: List<TabPosition> ->
 //        TabIndicator(
@@ -204,14 +219,42 @@ fun FriendTabRow() {
                 )
             }
         }
-//            Text(
-//                modifier = Modifier.align(Alignment.CenterHorizontally),
-//                text = "Fancy tab ${state + 1} selected",
-//                style = MaterialTheme.typography.body2
-//            )
+
+        Spacer(modifier = Modifier.height(15.dp))
+        androidx.compose.material3.TextField(
+            value = text,
+            shape = RoundedCornerShape(25f.dp),
+            onValueChange = { text = it },
+            singleLine = false,
+            leadingIcon = {
+                Image(
+                    painter = painterResource(R.drawable.g2_5_icon_search),
+                    contentDescription = "",
+                    modifier = Modifier.size(20.dp, 20.dp)
+                )
+            },
+            placeholder = {
+                androidx.compose.material3.Text(
+                    "搜索昵称或id",
+                    fontSize = 14.sp,
+                    color = Gray2
+                )
+            },
+//                            label={ Text("写两句话和好友打招呼吧", fontSize = 14.sp, color = Gray2) },
+            modifier = Modifier
+                .height(50.dp)
+                .width(330.dp)
+                .align(Alignment.CenterHorizontally)
+                .border(BorderStroke(1.dp, BlueGray2), RoundedCornerShape(25f.dp)),
+            colors = TextFieldDefaults.textFieldColors(
+                textColor = Gray2,
+                containerColor = Gray3,
+                focusedIndicatorColor = Color.Transparent,
+                unfocusedIndicatorColor = Color.Transparent
+            )
+        )
     }
 }
-
 
 fun Modifier.customTabIndicatorOffset(
     currentTabPosition: TabPosition
@@ -240,43 +283,95 @@ fun Modifier.customTabIndicatorOffset(
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun MessageList(grouped: Map<Char, List<MsgTest>>) {
+fun FriendList(grouped: Map<Char, List<FriendTest>>) {
     val state = rememberLazyListState()
     val coroutinueScope = rememberCoroutineScope()
     Row() {
-        Button(onClick = {
-            coroutinueScope.launch {
-                state.animateScrollToItem(
-                    index = 10
-                )
-            }
-        }) {
-
-        }
-
-        LazyColumn(state = state) {
+//        Button(onClick = {
+//            coroutinueScope.launch {
+//                state.animateScrollToItem(
+//                    index = 1
+//                )
+//            }
+//        }) {
+//
+//        }
+        LazyColumn(state = state, modifier = Modifier.padding(20.dp)) {
             grouped.forEach { (initial, contactsForInitial) ->
                 stickyHeader {
                     Box(
                         modifier = Modifier
-                            .background(Gray2)
-                            .height(80.dp)
+                            .background(Color.White)
+                            .height(20.dp)
                             .fillMaxWidth()
                     ) {
-                        Text(text = initial.toString())
+                        Text(text = initial.toString().uppercase(), color = Gray1)
                     }
                 }
 
                 items(contactsForInitial) { contact ->
-                    Text(text = contact.msg)
+                    FriendMessageItem(contact.name, contact.msg, contact.res)
+                    Divider(thickness = 1.dp, color = BlueGray1)
+                    Spacer(modifier = Modifier.height(10.dp))
                 }
             }
         }
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun FriendMessageItem(
+    name: String,
+    msg: String,
+    res: Int,
+) {
+    ListItem(
+        modifier = Modifier
+//            .clickable(onClick = nav01)
+            .background(
+                color = Color.White
+            ),
+        colors = ListItemDefaults.colors(containerColor = Color.White),
+        headlineText = {
+            Column() {
+                androidx.compose.material3.Text(
+                    text = name,
+                    color = Color.Black,
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.W400,
+                )
+            }
 
-data class MsgTest(
+        },
+        supportingText = {
+            Spacer(modifier = Modifier.height(4.dp))
+            androidx.compose.material3.Text(
+                msg,
+                fontSize = 13.sp,
+                style = MaterialTheme.typography.bodySmall,
+                color = Gray1,
+                textAlign = TextAlign.Left,
+            )
+        },
+        leadingContent = {
+            Image(
+                painter = painterResource(id = res),
+                contentDescription = null,
+                alignment = Alignment.TopCenter,
+                modifier = Modifier
+                    .width(50.dp)
+                    .height(50.dp)
+//                    .clickable(onClick = nav02)
+            )
+        }
+    )
+
+}
+
+data class FriendTest(
     val id: Int,
+    val name: String,
     val msg: String,//给你留言了
+    val res: Int
 )

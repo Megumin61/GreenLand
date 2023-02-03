@@ -55,7 +55,7 @@ import com.example.jetpacktest02.R
 
 
 @Composable
-fun VipScreen() {
+fun ChooseSeed() {
 
     var ifVip by remember{
         mutableStateOf(false)}
@@ -83,112 +83,13 @@ fun VipScreen() {
 
 
 
-        }
-
-        Column(
-            modifier=Modifier
-                .padding(top = 48.dp,start=35.dp)
-            ,horizontalAlignment= Alignment.CenterHorizontally
-//             verticalArrangement = Arrangement.Center
-        ){
-            if (ifVip) {
-                //会员已激活卡片
-                Image(
-                    painter = painterResource(id = com.example.jetpacktest02.R.drawable.g7_0_img_vipcard),
-                    contentDescription = null,
-                    modifier = Modifier.size(width = 333.dp, height = 160.dp).offset(-5.dp,-10.dp)
-                )
-            }
-            if(!ifVip) {
-                //会员未激活卡片
-                Image(
-                    painter = painterResource(id = com.example.jetpacktest02.R.drawable.g7_0_vipinactived),
-                    contentDescription = null,
-                    modifier = Modifier.size(width = 323.dp, height = 155.dp).offset(0.dp,-10.dp)
-                )
-            }
-
-
-
-
-            Button(onClick = {ifdialog=true },
-                shape = RoundedCornerShape(27.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = GreenMain,
-                    contentColor = GreenMain
-                ),
-                modifier = Modifier
-                    .size(width = 204.dp, height = 50.dp)
-                    .offset(70.dp, 490.dp)
-
-                ,
-
-
-            ) {
-
-                Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-                Text(text = "确认协议并开通", color = Color.White , fontSize = 18.sp)
-            }
-
-
-    }
-    if (ifdialog) {
-        //背景颜色
-        Image(
-            painter = painterResource(id = com.example.jetpacktest02.R.drawable.g8_backblur),
-            contentDescription = null,
-            alpha = 0.34f,
-            modifier = Modifier
-                .fillMaxHeight()
-                .fillMaxSize(), contentScale = ContentScale.FillWidth
-        )
-        Box{
-
-
-            Image(
-                painter = painterResource(id = com.example.jetpacktest02.R.drawable.g8_dialog),
-                contentDescription = null,
-                alignment = Alignment.Center,
-                modifier = Modifier
-                    .size(width = 291.dp, height = 362.dp)
-                    .offset(50.dp, 200.dp)
-            )
-
-
-            Text(text = "9.29 ~ 10.29", color = DateBlue , fontSize = 20.sp,
-
-                modifier = Modifier.offset(150.dp,466.dp)
-            )
-
-
-
-            Button(onClick = { ifdialog=false;ifVip=true },
-                shape = RoundedCornerShape(30.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = GreenMain,
-                    contentColor = GreenMain
-                ),
-                modifier = Modifier
-                    .size(width = 201.dp, height = 42.dp)
-                    .offset(96.dp, 506.dp)
-
-            ) {
-                Text(text = "确认", color = Color.White , fontSize = 16.sp)
-            }
-
-            
-        }
-//        Image(
-//            painter = painterResource(id = com.example.jetpacktest02.R.drawable.g8_dialog),
-//            contentDescription = null,
-//            alignment = Alignment.Center,
-//            modifier = Modifier
-//                .size(width = 291.dp, height = 362.dp)
-//                .offset(50.dp, 200.dp)
-//        )
-        if (!ifdialog){}
     }
 
+    Column(){
+
+        
+
+    }
 }
 
 

@@ -142,7 +142,10 @@ object MessageTap : RallyDestination {
     override val icon = Icons.Filled.MoneyOff
     override val route = "2.2-message-tap"
 }
-
+object ChooseSeed : RallyDestination {
+    override val icon = Icons.Filled.MoneyOff
+    override val route = "3.1-message-tap"
+}
 
 
 // Screens to be displayed in the top RallyTabRow

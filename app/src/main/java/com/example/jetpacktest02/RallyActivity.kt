@@ -173,7 +173,9 @@ fun RallyApp() {
                 composable(route = VipPage.route) {
                     VipScreen()
                 }
-
+                composable(route = ChooseSeed.route) {
+                    ChooseSeed()
+                }
                 composable(route = Accounts.route) {
                     AccountsScreen()
                 }

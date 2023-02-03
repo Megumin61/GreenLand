@@ -55,6 +55,7 @@ fun MessageScreen(
     nav01: () -> Unit = {},//拍一拍
     nav02: () -> Unit = {},//好友空间
     nav03: () -> Unit = {},//收到留言
+    nav04: () -> Unit = {},//收到图片
 ) {
     //配置顶部状态栏颜色
     rememberSystemUiController().setStatusBarColor(
@@ -92,7 +93,7 @@ fun MessageScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Spacer(Modifier.height(10.dp))
-            IconButtonList(nav01,nav03)
+            IconButtonList(nav01,nav03,nav04)
             Spacer(Modifier.height(20.dp))
             MessageList(nav01, nav02,userViewModel)
         }
@@ -119,7 +120,7 @@ fun MessageScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun IconButtonList(nav01: () -> Unit = {},nav02: () -> Unit = {}) {
+fun IconButtonList(nav01: () -> Unit = {},nav02: () -> Unit = {},nav03: () -> Unit = {}) {
     Row(
         Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceEvenly,//子元素的水平方向排列效果
@@ -150,6 +151,7 @@ fun IconButtonList(nav01: () -> Unit = {},nav02: () -> Unit = {}) {
             modifier = Modifier
                 .width(80.dp)
                 .height(80.dp)
+                .clickable(onClick = nav03)
 
         )
         Image(

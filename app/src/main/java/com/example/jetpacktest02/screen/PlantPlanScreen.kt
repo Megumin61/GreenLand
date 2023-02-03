@@ -179,6 +179,7 @@ fun NewScreen() {
                     CardPage(planname ="喝水", aimcontent = "目标次数", realcontent ="实际次数", aimnum =25, realnum =18)
                     CardPage(planname ="睡眠", aimcontent = "目标次数", realcontent ="实际次数", aimnum =25, realnum =18)
                 }
+               /* ViewPager*/
 
 
             }

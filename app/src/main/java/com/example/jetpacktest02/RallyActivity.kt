@@ -167,7 +167,7 @@ fun RallyApp() {
             //管理路由：页面跳转
             NavHost(
                 navController = navController,
-                startDestination = Message.route,
+                startDestination = Island.route,
                 modifier = Modifier.padding(innerPadding)
 
             ) {
@@ -253,8 +253,14 @@ fun RallyApp() {
                             navController.navigate(IslandMemberList.route) {
                                 launchSingleTop = true; popUpTo(Island.route) {}
                             }
+                        },
+                        nav03 = {
+                            //导航 目的地、返回路径
+                            navController.navigate(IslandDeliver.route) {
+                                launchSingleTop = true; popUpTo(Island.route) {}
+                            }
+                        },
 
-                        }
                     )
                 }
                 composable(route = IslandMemberList.route) {

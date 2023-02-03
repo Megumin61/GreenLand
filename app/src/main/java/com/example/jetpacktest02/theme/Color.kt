@@ -20,3 +20,5 @@ val LightGreen = Color(0xff1acea2)
 val Gray1=Color(0xff9598AC)
 val Gray2=Color(0xFF999999)
 val Gray3=Color(0x33D9D9D9)
+
+val textGray=Color(0xff9598ac)

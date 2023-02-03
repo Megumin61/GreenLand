@@ -46,19 +46,22 @@ import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.jetpacktest02.R
 import com.example.jetpacktest02.screen.AvatarItem
 import com.example.scaffolddemo.ui.theme.*
+import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.accompanist.pager.HorizontalPager
 import kotlinx.coroutines.launch
 
 /**
  * The Bills screen.
  */
 
-@Preview
+
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun PlanBottomSheet(nav01: () -> Unit={}){
@@ -112,9 +115,11 @@ fun PlanItem(@DrawableRes iconRes:Int){
     modifier = Modifier.padding(horizontal = 20.dp, vertical = 8.dp))
 }
 
-@OptIn(ExperimentalMaterialApi::class)
+
+@OptIn(ExperimentalMaterialApi::class, ExperimentalPagerApi::class)
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 
+/*部分布局样式,CardPage放在里面*/
 @Composable
 fun NewScreen() {
     val state = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
@@ -166,11 +171,17 @@ fun NewScreen() {
         Image(painter = painterResource(id = R.drawable.g1_1_img_flower), contentDescription =null,
             modifier = Modifier
                 .size(290.dp)
-                .offset(50.dp, 130.dp))
-        Box(modifier = Modifier.offset(0.dp,390.dp)) {
-            Image(painter = painterResource(id = R.drawable.g1_4_1_bg_sports)
-                , modifier = Modifier.padding(horizontal = 28.dp)
-                , contentDescription =null)
+                .offset(50.dp, 100.dp))
+        Column(Modifier.fillMaxSize(),verticalArrangement = Arrangement.Bottom) {
+            Box(modifier = Modifier.fillMaxWidth(), Alignment.BottomCenter) {
+                HorizontalPager(count = 3) { page ->
+                    CardPage(planname ="运动", aimcontent = "目标步数", realcontent ="实际步数", aimnum =3000, realnum =2786)
+                    CardPage(planname ="喝水", aimcontent = "目标次数", realcontent ="实际次数", aimnum =25, realnum =18)
+                    CardPage(planname ="睡眠", aimcontent = "目标次数", realcontent ="实际次数", aimnum =25, realnum =18)
+                }
+
+
+            }
         }
     }
     ModalBottomSheetLayout(
@@ -194,9 +205,110 @@ fun NewScreen() {
     )
 }
 
+/*计划卡片样式,需要加日历和百分数水球*/
+@Composable
+fun CardPage(planname:String,aimcontent:String,realcontent:String,aimnum:Int,realnum:Int){
 
+    Card(
+        modifier = Modifier.size(width = 331.dp, height = 410.dp),
+        shape = RoundedCornerShape(topStart = 30.dp,topEnd = 30.dp),
+        colors = CardDefaults.cardColors(containerColor = Color.White)) {
+        Spacer(modifier = Modifier.padding(10.dp))
+        Column(
+            modifier = Modifier
+                .fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Row(modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 30.dp), horizontalArrangement = Arrangement.SpaceBetween) {
+                Text(text = planname, fontSize = 26.sp,
+                    fontWeight = FontWeight.W900,
+                    style = MaterialTheme.typography.labelLarge,
+                    color = Green4,
+                    textAlign = TextAlign.Justify)
 
+                Text(text = "每日打卡", fontSize = 12.sp,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = Gray1,
+                    textAlign = TextAlign.Justify)
+            }
+            Spacer(modifier = Modifier.padding(10.dp))
+            Column(modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 30.dp)) {
+                Text(text = "创建时间："+"当日日期", fontSize = 12.sp,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = Gray1,
+                    textAlign = TextAlign.Justify)
+                Spacer(modifier = Modifier.padding(5.dp))
+                Text(text = "已完成打卡"+"1/5", fontSize = 12.sp,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = Gray1,
+                    textAlign = TextAlign.Justify)
 
+            }
+            Spacer(modifier = Modifier.padding(20.dp))
+            Row(modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 30.dp),horizontalArrangement = Arrangement.SpaceBetween){
+                DayCardItem(23,GreenGray1)
+                DayCardItem(24,Green8)
+                DayCardItem(25,GreenGray1)
+                DayCardItem(26,GreenGray1)
+                DayCardItem(27,GreenGray1)
+                Text(text = "查看全部日历", fontSize = 10.sp,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = Gray1,
+                    textAlign = TextAlign.Justify, modifier = Modifier.padding(top = 11.dp))
+            }
+            Spacer(modifier = Modifier.padding(20.dp))
+            androidx.compose.material.Divider(
+                color = GreenGray1,
+                modifier = Modifier.padding(horizontal = 30.dp)
+            )
+            Spacer(modifier = Modifier.padding(10.dp))
+            Row(horizontalArrangement = Arrangement.SpaceBetween,modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 30.dp)){
+                Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.padding(start = 30.dp)) {
+                    Text(text = aimcontent, fontSize = 14.sp,
+                        style = MaterialTheme.typography.bodySmall,
+                        color = Gray1,
+                        fontWeight = FontWeight.W900,
+                        textAlign = TextAlign.Justify, modifier = Modifier.padding(bottom = 5.dp))
+
+                    Text(text = aimnum.toString(), fontSize = 26.sp,
+                        style = MaterialTheme.typography.labelLarge,
+                        color = Green5,
+                        textAlign = TextAlign.Justify)
+                }
+                Column( horizontalAlignment = Alignment.CenterHorizontally,modifier = Modifier.padding(end = 30.dp)) {
+                    Text(text = realcontent, fontSize = 14.sp,
+                        style = MaterialTheme.typography.bodySmall,
+                        color = Gray1,
+                        fontWeight = FontWeight.W900,
+                        textAlign = TextAlign.Justify, modifier = Modifier.padding(bottom = 5.dp))
+                    Text(text = realnum.toString(), fontSize = 26.sp,
+                        style = MaterialTheme.typography.labelLarge,
+                        color = Green5,
+                        textAlign = TextAlign.Justify)
+                }
+            }
+            Spacer(modifier = Modifier.padding(15.dp))
+            Column(modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 30.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+                Text(text = "百分数", fontSize = 26.sp,
+                    style = MaterialTheme.typography.labelLarge,
+                    color = Green5,
+                    textAlign = TextAlign.Justify)
+            }
+        }
+    }
+
+}
+
+@Preview
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun PlantPlanScreen(
@@ -208,18 +320,10 @@ fun PlantPlanScreen(
 ) {
 
     Box (){
-       /* NewScreen()*/
+
         val state = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
         val scope = rememberCoroutineScope()
         Box() {
-            Image(
-                painter = painterResource(id = R.drawable.g1_4_1_bg),
-                contentDescription = null,
-                modifier = Modifier
-                    .fillMaxHeight()
-                    .fillMaxSize()
-                ,contentScale = ContentScale.FillWidth
-            )
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Box(
                     modifier = Modifier.fillMaxWidth(),
@@ -259,11 +363,6 @@ fun PlantPlanScreen(
                 modifier = Modifier
                     .size(290.dp)
                     .offset(50.dp, 130.dp))
-            Box(modifier = Modifier.offset(0.dp,390.dp)) {
-                Image(painter = painterResource(id = R.drawable.g1_4_1_bg_sports)
-                    , modifier = Modifier.padding(horizontal = 28.dp)
-                    , contentDescription =null)
-            }
         }
         ModalBottomSheetLayout(
             sheetState = state,
@@ -325,7 +424,7 @@ fun PlantPlanScreen(
             }
         )
 
-        /* NewScreen()*/
+         NewScreen()
 
 
         Column {

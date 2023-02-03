@@ -16,6 +16,7 @@
 
 package com.example.jetpacktest02.ui.main
 
+import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -39,6 +40,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.jetpacktest02.R
 import com.example.scaffolddemo.ui.theme.*
+import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.accompanist.pager.HorizontalPager
 
 /**
  * The Bills screen.
@@ -69,144 +72,68 @@ fun PlanCard(){
 }
 
 
+@OptIn(ExperimentalPagerApi::class)
 @Composable
 fun PlantLookingForPlanFootScreen(
 //            bills : (String) -> Unit = {},
     nav01: () -> Unit={},
 
 ) {
-    Column(Modifier.fillMaxSize(),verticalArrangement = Arrangement.Bottom) {
-
-        Text("1.4.1-plant-lookingforplan-foot")
-        Button(
-            onClick = nav01,
-            contentPadding = ButtonDefaults.ButtonWithIconContentPadding
-        ) {
-            Icon(
-                Icons.Filled.Favorite,
-                contentDescription = "Localized description",
-                modifier = Modifier.size(ButtonDefaults.IconSize)
-            )
-            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-            Text("1.2.1-plant-foot")
-        }
-        Column(horizontalAlignment = Alignment.CenterHorizontally,
-             modifier = Modifier.fillMaxWidth()) {
-            Card(modifier = Modifier.size(width = 380.dp, height = 350.dp),
-                shape = RoundedCornerShape(20.dp),
-                colors = CardDefaults.cardColors(containerColor = Color.White)) {
-            }
-
-        }
-        Image(
-            painter = painterResource(id = R.drawable.plant_looking_for_plan_foot),
-            contentDescription = null,
-            modifier = Modifier
-                .fillMaxHeight()
-                .fillMaxSize(),
-            contentScale = ContentScale.FillWidth
+    /*Text("1.4.1-plant-lookingforplan-foot")
+    Button(
+        onClick = nav01,
+        contentPadding = ButtonDefaults.ButtonWithIconContentPadding
+    ) {
+        Icon(
+            Icons.Filled.Favorite,
+            contentDescription = "Localized description",
+            modifier = Modifier.size(ButtonDefaults.IconSize)
         )
-
-    }
-
-
-}
-@Preview
-@Composable
-fun CardTry(){
-
-
-            Card(
-                modifier = Modifier.size(width = 380.dp, height = 450.dp),
-                shape = RoundedCornerShape(20.dp),
-                colors = CardDefaults.cardColors(containerColor = Color.White)) {
-                Spacer(modifier = Modifier.padding(10.dp))
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Row(modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 30.dp), horizontalArrangement = Arrangement.SpaceBetween) {
-                        Text(text = "喝水", fontSize = 26.sp,
-                            style = MaterialTheme.typography.labelLarge,
-                            color = Green4,
-                            textAlign = TextAlign.Justify)
-
-                        Text(text = "每日打卡", fontSize = 12.sp,
-                            style = MaterialTheme.typography.bodySmall,
-                            color = Gray1,
-                            textAlign = TextAlign.Justify)
-                    }
-                    Spacer(modifier = Modifier.padding(10.dp))
-                    Column(modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 30.dp)) {
-                        Text(text = "创建时间："+"当日日期", fontSize = 12.sp,
-                            style = MaterialTheme.typography.bodySmall,
-                            color = Gray1,
-                            textAlign = TextAlign.Justify)
-                        Spacer(modifier = Modifier.padding(5.dp))
-                        Text(text = "已完成打卡"+"1/5", fontSize = 12.sp,
-                            style = MaterialTheme.typography.bodySmall,
-                            color = Gray1,
-                            textAlign = TextAlign.Justify)
-
-                    }
-                    Spacer(modifier = Modifier.padding(20.dp))
-                    Row(modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 30.dp)){
-
-                        Text(text = "查看全部日历", fontSize = 12.sp,
-                            style = MaterialTheme.typography.bodySmall,
-                            color = Gray1,
-                            textAlign = TextAlign.Justify)
-                    }
-                    Spacer(modifier = Modifier.padding(20.dp))
-                    androidx.compose.material.Divider(
-                        color = Color.LightGray,
-                        modifier = Modifier.padding(horizontal = 10.dp)
-                    )
-                    Spacer(modifier = Modifier.padding(10.dp))
-                    Row(horizontalArrangement = Arrangement.SpaceBetween,modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 30.dp)){
-                        Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.padding(start = 30.dp)) {
-                            Text(text = "目标次数", fontSize = 12.sp,
-                                style = MaterialTheme.typography.bodySmall,
-                                color = Gray1,
-                                textAlign = TextAlign.Justify, modifier = Modifier.padding(bottom = 5.dp))
-
-                            Text(text = "25", fontSize = 26.sp,
-                                style = MaterialTheme.typography.labelLarge,
-                                color = Green5,
-                                textAlign = TextAlign.Justify)
-                        }
-                        Column( horizontalAlignment = Alignment.CenterHorizontally,modifier = Modifier.padding(end = 30.dp)) {
-                            Text(text = "实际次数", fontSize = 12.sp,
-                                style = MaterialTheme.typography.bodySmall,
-                                color = Gray1,
-                                textAlign = TextAlign.Justify, modifier = Modifier.padding(bottom = 5.dp))
-                            Text(text = "18", fontSize = 26.sp,
-                                style = MaterialTheme.typography.labelLarge,
-                                color = Green5,
-                                textAlign = TextAlign.Justify)
-                        }
-                    }
-                    Spacer(modifier = Modifier.padding(15.dp))
-                    Column(modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 30.dp), horizontalAlignment = Alignment.CenterHorizontally) {
-                        Text(text = "百分数", fontSize = 26.sp,
-                            style = MaterialTheme.typography.labelLarge,
-                            color = Green5,
-                            textAlign = TextAlign.Justify)
-                    }
-                }
+        Spacer(Modifier.size(ButtonDefaults.IconSpacing))
+        Text("1.2.1-plant-foot")
+    }*/
+    Column(Modifier.fillMaxSize(),verticalArrangement = Arrangement.Bottom) {
+        Box(modifier = Modifier.fillMaxWidth(), Alignment.BottomCenter) {
+            Image(
+                painter = painterResource(id = R.drawable.plant_looking_for_plan_foot),
+                contentDescription = null,
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .fillMaxSize(),
+                contentScale = ContentScale.FillWidth
+            )
+            HorizontalPager(count = 2) { page ->
+                CardPage(planname ="运动", aimcontent = "目标步数", realcontent ="实际步数", aimnum =3000, realnum =2786)
+                CardPage(planname ="喝水", aimcontent = "目标步数", realcontent ="实际步数", aimnum =3000, realnum =2786)
             }
-            
+
+
         }
+    }
+}
+
+
+
+
+
+@Composable
+fun DayCardItem(day:Int,bgcolor:Color){
+    Card(modifier = Modifier.size(width = 32.dp, height = 40.dp),
+        shape = RoundedCornerShape(10.dp),
+        colors = CardDefaults.cardColors(containerColor = bgcolor)) {
+        Column(modifier = Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
+            Text(text = day.toString(), fontSize = 12.sp,
+                style = MaterialTheme.typography.bodySmall,
+                color = Color.Black,
+                textAlign = TextAlign.Justify, modifier = Modifier.padding(start = 2.dp, top = 11.dp))
+        }
+    }
+}
+
+
+
+
+
         
 
 

@@ -15,6 +15,9 @@
  */
 package com.example.jetpacktest02.ViewModel
 
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import java.time.Duration
 
 /**
@@ -25,7 +28,11 @@ data class UiState(
     val currentWordCount: Int = 0,
     val score: Int = 0,
     val isGuessedWordWrong: Boolean = false,
-    val isGameOver: Boolean = false
+    val isGameOver: Boolean = false,
+
+
+    //MessageScreen
+    val openDialog : MutableState<Boolean> = mutableStateOf(false)
 )
 data class PlayerUiState(
     val title: String = "",

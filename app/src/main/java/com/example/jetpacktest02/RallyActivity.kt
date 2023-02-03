@@ -1,6 +1,7 @@
 package com.example.jetpacktest02
 
 import android.os.Bundle
+import android.webkit.WebView
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
@@ -12,6 +13,7 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.core.view.WindowCompat
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -26,7 +28,7 @@ import com.example.jetpacktest02.screen.*
 import com.example.jetpacktest02.screen.IslandDeliverScreen
 import com.example.jetpacktest02.screen.IslandMemberListScreen
 import com.example.jetpacktest02.screen.IslandScreen
-import com.example.jetpacktest02.screen.MessageMsgScreen
+import com.example.jetpacktest02.screen.MessageFriendScreen
 import com.example.jetpacktest02.ui.main.*
 import com.example.scaffolddemo.ui.theme.ScaffoldDemoTheme
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
@@ -53,7 +55,7 @@ class RallyActivity : ComponentActivity() {
 
         setContent {
 
-//            WordBookApp()
+//            WordBookApp2()
 //            CounterScreen()
             RallyApp()
         }
@@ -114,6 +116,7 @@ fun RallyApp() {
     val currentBackStack by navController.currentBackStackEntryAsState()
     val Textvalue: String = ""
 
+    val userViewModel: UserViewModel = viewModel()
     // Fetch your currentDestination:
     val currentDestination = currentBackStack?.destination
     // Change the variable to this and use Overview as a backup screen if this returns null
@@ -163,7 +166,7 @@ fun RallyApp() {
             //管理路由：页面跳转
             NavHost(
                 navController = navController,
-                startDestination = Plant.route,
+                startDestination = MessageFriend.route,
                 modifier = Modifier.padding(innerPadding)
 
             ) {
@@ -290,25 +293,48 @@ fun RallyApp() {
 
                 composable(route = Message.route) {
                     MessageScreen(
+                        userViewModel,
                         nav01 = {
                             navController.navigate(MessageTap.route) { launchSingleTop = true; }
+                        },
+                        nav03 = {
+                            navController.navigate(MessageMsg.route) { launchSingleTop = true; }
+                        },
+                        nav04 = {
+                            navController.navigate(MessagePic.route) { launchSingleTop = true; }
                         }
                     )
                 }
                 composable(route = MessageMsg.route) {
 
                     MessageMsgScreen(
+                        userViewModel,
                         //导航函数
                         nav01 = {
-                            navController.navigate(MessageTap.route) { launchSingleTop = true; }
+                            navController.navigate(Message.route) { launchSingleTop = true; }
                         },
-                        nav02 ={
-                            navController.navigate(MessageTap.route)
-                        }
+                    )
+                }
+                composable(route = MessagePic.route) {
+                    MessagePicScreen(
+                        userViewModel,
+                        //导航函数
+                        nav01 = {
+                            navController.navigate(Message.route) { launchSingleTop = true; }
+                        },
                     )
                 }
                 composable(route = MessageTap.route) {
                     MessageTapScreen(
+                        userViewModel,
+                        nav01 = {
+                            navController.navigate(Message.route) { launchSingleTop = true; }
+                        }
+                    )
+                }
+                composable(route = MessageFriend.route) {
+                    MessageFriendScreen(
+//                        userViewModel,
                         nav01 = {
                             navController.navigate(Message.route) { launchSingleTop = true; }
                         }

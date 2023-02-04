@@ -164,7 +164,7 @@ fun RallyApp() {
             //管理路由：页面跳转
             NavHost(
                 navController = navController,
-                startDestination = Island.route,
+                startDestination = MessageFriend.route,
                 modifier = Modifier.padding(innerPadding)
 
             ) {
@@ -291,6 +291,9 @@ fun RallyApp() {
                         },
                         nav04 = {
                             navController.navigate(MessagePic.route) { launchSingleTop = true; }
+                        },
+                        nav05 = {
+                            navController.navigate(MessageFriend.route) { launchSingleTop = true; }
                         }
                     )
                 }

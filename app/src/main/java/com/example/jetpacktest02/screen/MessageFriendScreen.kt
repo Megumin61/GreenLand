@@ -107,6 +107,7 @@ fun MessageFriendScreen(
                             .width(100.dp)
                             .height(100.dp)
                             .offset(-10.dp, 0.dp)
+//                            .clickable(onClick = {userViewModel.uiState.value.pageState.value=3})
                     )
 
                 },
@@ -198,9 +199,10 @@ fun MessageFriendScreen(
 
             //https://blog.csdn.net/haojiagou/article/details/123040803?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522167548132816800180688371%2522%252C%2522scm%2522%253A%252220140713.130102334..%2522%257D&request_id=167548132816800180688371&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~baidu_landing_v2~default-4-123040803-null-null.142^v73^pc_new_rank,201^v4^add_ask,239^v1^control&utm_term=compose%20viewpager&spm=1018.2226.3001.4187
             //Pager核心代码,count为页面总数
-            HorizontalPager(count = 3, state = pagerState) { page ->
+            HorizontalPager(count = 4, state = pagerState) { page ->
 //                Text(text = "Page: $page")
                 //下面为要滑动切换的界面，可以通过判断page调用不同页面
+                Text(page.toString())
                 FriendList(grouped)
             }
         }

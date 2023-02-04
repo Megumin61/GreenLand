@@ -317,7 +317,7 @@ fun RallyApp() {
                 }
                 composable(route = MessageFriend.route) {
                     MessageFriendScreen(
-//                        userViewModel,
+                        userViewModel=userViewModel,
                         nav01 = {
                             navController.navigate(Message.route) { launchSingleTop = true; }
                         }

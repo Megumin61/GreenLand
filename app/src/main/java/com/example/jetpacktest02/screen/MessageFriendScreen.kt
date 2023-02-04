@@ -17,9 +17,6 @@ import androidx.compose.material.TabPosition
 import androidx.compose.material.TabRow
 import androidx.compose.material.TabRowDefaults
 import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.*
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -45,13 +42,23 @@ import androidx.compose.ui.unit.sp
 import com.example.jetpacktest02.R
 import com.example.jetpacktest02.ViewModel.UserViewModel
 import com.example.scaffolddemo.ui.theme.*
+import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.accompanist.pager.HorizontalPager
+import com.google.accompanist.pager.PagerState
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.DelicateCoroutinesApi
 
+@OptIn(ExperimentalPagerApi::class)
 @Preview
-@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
+@SuppressLint(
+    "UnusedMaterialScaffoldPaddingParameter", "StateFlowValueCalledInComposition",
+    "Range"
+)
 @Composable
-fun MessageFriendScreen(nav01: () -> Unit = {}) {
+fun MessageFriendScreen(
+    nav01: () -> Unit = {},
+    userViewModel: UserViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
+) {
     //配置顶部状态栏颜色
     rememberSystemUiController().setStatusBarColor(
         Color.White, darkIcons = androidx.compose.material.MaterialTheme.colors.isLight
@@ -118,82 +125,100 @@ fun MessageFriendScreen(nav01: () -> Unit = {}) {
                         1,
                         "ajunGrit",
                         "1天前在线",
-                        res =R.drawable.g2_5_img_user05
+                        res = R.drawable.g2_5_img_user05
                     ),
                     FriendTest(
                         2,
                         "kevin",
                         "4天前在线",
-                        res =R.drawable.g2_5_img_user03
+                        res = R.drawable.g2_5_img_user03
                     ),
                     FriendTest(
                         3,
                         "aJuan",
                         "1天前在线",
-                        res =R.drawable.g2_5_img_user04
+                        res = R.drawable.g2_5_img_user04
                     ),
                     FriendTest(
                         4,
                         "sandr",
                         "在线",
-                        res =R.drawable.g2_5_img_user02
+                        res = R.drawable.g2_5_img_user02
                     ),
                     FriendTest(
                         5,
                         "liu猪侨",
                         "在线",
-                        res =R.drawable.g2_5_img_user01
+                        res = R.drawable.g2_5_img_user01
                     ),
                     FriendTest(
                         6,
                         "joyce",
                         "1天前在线",
-                        res =R.drawable.g2_1_img_user01
+                        res = R.drawable.g2_1_img_user01
                     ),
                     FriendTest(
                         7,
                         "foxbread",
                         "在线",
-                        res =R.drawable.g2_1_img_user05
+                        res = R.drawable.g2_1_img_user05
                     ),
                     FriendTest(
                         8,
                         "kcChang",
                         "1天前在线",
-                        res =R.drawable.g2_1_img_user03
+                        res = R.drawable.g2_1_img_user03
                     ),
 
                     )
             )
         }
         val grouped = friends.groupBy { it.name[0] }
+        var state = userViewModel.uiState.value.pageState
+        val pagerState: PagerState = remember { PagerState() }
+
+        //将底部pager的参数和顶部导航栏的参数state绑定，让pager响应顶部导航栏参数变化
+        LaunchedEffect(pagerState) {
+            snapshotFlow { state.value }.collect { page ->
+                pagerState.animateScrollToPage(page)
+            }
+        }
+        //将底部pager的参数和顶部导航栏的参数state绑定
+        LaunchedEffect(pagerState) {
+            snapshotFlow { pagerState.currentPage }.collect { page ->
+                state.value = page
+            }
+        }
+
         Column(Modifier.padding(10.dp)) {
-            FriendTabRow()
-            FriendList(grouped)
+            FriendTabRow(userViewModel, pagerState)
+
+            //https://blog.csdn.net/haojiagou/article/details/123040803?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522167548132816800180688371%2522%252C%2522scm%2522%253A%252220140713.130102334..%2522%257D&request_id=167548132816800180688371&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~baidu_landing_v2~default-4-123040803-null-null.142^v73^pc_new_rank,201^v4^add_ask,239^v1^control&utm_term=compose%20viewpager&spm=1018.2226.3001.4187
+            //Pager核心代码,count为页面总数
+            HorizontalPager(count = 3, state = pagerState) { page ->
+//                Text(text = "Page: $page")
+                //下面为要滑动切换的界面，可以通过判断page调用不同页面
+                FriendList(grouped)
+            }
         }
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@SuppressLint("StateFlowValueCalledInComposition")
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalPagerApi::class, DelicateCoroutinesApi::class)
 @Composable
-fun FriendTabRow() {
-    var state by remember { mutableStateOf(0) }
+fun FriendTabRow(userViewModel: UserViewModel, pagerState: PagerState) {
     val titles = listOf("好友", "附近", "可能认识")
     var text by rememberSaveable(stateSaver = TextFieldValue.Saver) {
         mutableStateOf(TextFieldValue("", TextRange(0, 7)))
     }
 
-//    val indicator = @Composable { tabPositions: List<TabPosition> ->
-//        TabIndicator(
-//        )
-//    }
-
     Column {
         TabRow(
-            selectedTabIndex = state,
+            selectedTabIndex = userViewModel.uiState.value.pageState.value,
             indicator = @Composable { tabPositions ->
                 TabRowDefaults.Indicator(
-                    Modifier.customTabIndicatorOffset(tabPositions[state]),
+                    Modifier.customTabIndicatorOffset(tabPositions[userViewModel.uiState.value.pageState.value]),
                     color = LightGreen
                 )
             }
@@ -203,8 +228,10 @@ fun FriendTabRow() {
                     modifier = Modifier
                         .background(Color.White)
                         .width(10.dp),
-                    selected = state == index,
-                    onClick = { state = index },
+                    selected = userViewModel.uiState.value.pageState.value == index,
+                    onClick = {
+                        userViewModel.uiState.value.pageState.value = index;
+                    },
                     text = {
                         Text(
                             text = title,

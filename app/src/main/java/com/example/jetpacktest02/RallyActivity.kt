@@ -15,10 +15,12 @@ import androidx.compose.ui.Modifier
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.jetpacktest02.Entity.User
 import com.example.jetpacktest02.ViewModel.UserViewModel
 import com.example.jetpacktest02.compose.MyBottomNavBar
@@ -29,6 +31,7 @@ import com.example.jetpacktest02.screen.IslandDeliverScreen
 import com.example.jetpacktest02.screen.IslandMemberListScreen
 import com.example.jetpacktest02.screen.IslandScreen
 import com.example.jetpacktest02.screen.MessageFriendScreen
+import com.example.jetpacktest02.screen.*
 import com.example.jetpacktest02.ui.main.*
 import com.example.scaffolddemo.ui.theme.ScaffoldDemoTheme
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
@@ -166,7 +169,7 @@ fun RallyApp() {
             //管理路由：页面跳转
             NavHost(
                 navController = navController,
-                startDestination = VipPage.route,
+                startDestination = Island.route,
                 modifier = Modifier.padding(innerPadding)
 
             ) {
@@ -291,11 +294,26 @@ fun RallyApp() {
                             navController.navigate(IslandDeliver.route) {
                                 launchSingleTop = true; popUpTo(IslandMemberList.route) {}
                             }
-                        }
+                        },
                     )
                 }
                 composable(route = IslandDeliver.route) {
                     IslandDeliverScreen(
+                        nav01 = {
+                            navController.popBackStack()
+                        }
+                    )
+                }
+                composable(
+                    route = IslandVisitOther.route,
+                    //接收参数方
+                    arguments = listOf(navArgument("res") { type = NavType.IntType },
+                        navArgument("name") { type = NavType.StringType }
+                    )
+                ) {
+                    IslandVisitOtherScreen(
+                        res = it.arguments?.getInt("res"),
+                        name = it.arguments?.getString("name"),
                         nav01 = {
                             navController.popBackStack()
                         }
@@ -313,7 +331,11 @@ fun RallyApp() {
                         },
                         nav04 = {
                             navController.navigate(MessagePic.route) { launchSingleTop = true; }
-                        }
+                        },
+                        nav05 = {
+                            navController.navigate(MessageFriend.route) { launchSingleTop = true; }
+                        },
+                        controller = navController
                     )
                 }
                 composable(route = MessageMsg.route) {
@@ -345,10 +367,12 @@ fun RallyApp() {
                 }
                 composable(route = MessageFriend.route) {
                     MessageFriendScreen(
-                        userViewModel=userViewModel,
+                        userViewModel = userViewModel,
                         nav01 = {
                             navController.navigate(Message.route) { launchSingleTop = true; }
-                        }
+                        },
+                        //参数提供方，添加一个navController
+                        controller = navController
                     )
                 }
                 composable(route = My.route) {

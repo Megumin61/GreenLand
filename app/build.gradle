@@ -47,12 +47,15 @@ android {
 }
 
 dependencies {
+    //lottie 2D动画框架依赖
+    def lottieVersion = "5.2.0"
+    implementation "com.airbnb.android:lottie-compose:$lottieVersion"
+
     //沉浸式状态栏 依赖
     def accompanist_version = "0.15.0"
     implementation "com.google.accompanist:accompanist-insets:$accompanist_version"
     implementation "com.google.accompanist:accompanist-insets-ui:$accompanist_version"
     implementation "com.google.accompanist:accompanist-systemuicontroller:$accompanist_version"
-
 
     //摄像机CameraX依赖
     def camerax_version = "1.0.1"

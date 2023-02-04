@@ -20,6 +20,7 @@ buildscript {
         google()
         mavenCentral()
         jcenter()
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
     }
     ext {
         composeNavigationVersion = '2.5.0-rc01'

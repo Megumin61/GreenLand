@@ -52,6 +52,7 @@ fun PlantScreen(
     nav07: () -> Unit={},
     nav08: () -> Unit={},
     nav09: () -> Unit={},
+    nav10: () -> Unit={},
 
 
 ) {
@@ -178,6 +179,18 @@ fun PlantScreen(
             )
             Spacer(Modifier.size(ButtonDefaults.IconSpacing))
             Text("vip")
+        }
+        Button(
+            onClick = nav10,
+            contentPadding = ButtonDefaults.ButtonWithIconContentPadding
+        ) {
+            Icon(
+                Icons.Filled.Favorite,
+                contentDescription = "Localized description",
+                modifier = Modifier.size(ButtonDefaults.IconSize)
+            )
+            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
+            Text("seedtest")
         }
     }
 }

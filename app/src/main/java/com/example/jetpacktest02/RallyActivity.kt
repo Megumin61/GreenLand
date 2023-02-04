@@ -223,6 +223,9 @@ fun RallyApp() {
                         },
                         nav09 = {
                             navController.navigate(VipPage.route) { launchSingleTop = true; }
+                        },
+                        nav10 = {
+                            navController.navigate(ChooseSeed.route) { launchSingleTop = true; }
                         }
                     )
                 }

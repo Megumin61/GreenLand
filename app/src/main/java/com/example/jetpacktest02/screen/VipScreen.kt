@@ -146,6 +146,8 @@ fun VipScreen() {
 
 
             Image(
+
+
                 painter = painterResource(id = com.example.jetpacktest02.R.drawable.g8_dialog),
                 contentDescription = null,
                 alignment = Alignment.Center,
@@ -194,10 +196,8 @@ fun VipScreen() {
 
 //@Composable
 //fun DialogUI(){
-//    val shouldShowDialog=remember{
-//        mutableStateOf(true)
-//    }
-//    if(shouldShowDialog.value){
+//
+//
 //        AlertDialog(onDismissRequest = { shouldShowDialog.value=false },
 //
 ////            title = { Text(text = "Dialog")},
@@ -222,7 +222,7 @@ fun VipScreen() {
 //
 //    }
 
-//}
+
 
 
 

@@ -243,8 +243,16 @@ fun IslandScreen(
                                     //消息发送时间标注
                                     Row(
                                         modifier = Modifier.fillMaxWidth(),
-                                        horizontalArrangement = Arrangement.End
+                                        horizontalArrangement = Arrangement.SpaceBetween,
+                                        verticalAlignment = Alignment.CenterVertically
                                     ) {
+                                        Text(
+                                            buildAnnotatedString {
+                                                append("sandro")
+                                            },
+                                            fontSize = 12.sp,
+                                            color = Gray1
+                                        )
                                         Text(
                                             buildAnnotatedString {
 //                            withStyle(

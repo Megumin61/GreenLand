@@ -32,8 +32,11 @@ data class UiState(
 
 
     //MessageScreen
-    val openDialog : MutableState<Boolean> = mutableStateOf(false)
+    val openDialog: MutableState<Boolean> = mutableStateOf(false)
+
+
 )
+
 data class PlayerUiState(
     val title: String = "",
     val subTitle: String = "",
@@ -43,6 +46,15 @@ data class PlayerUiState(
     val summary: String = "",
     val podcastImageUrl: String = ""
 )
+
 data class Plant(
-    val water :Int =100
+    val water: Int = 100
+)
+
+//好友岛页面 用户数据
+data class PlantModelState(
+    val userName: String = "",//用户名
+    val plantType: String = "",//用户当前的植物品种
+    val msg: String = "",//用户发布的文字消息
+    val hasRead: Boolean = false//用户发布的文字消息是否已读,若已读，将消除植物右上角小红点
 )

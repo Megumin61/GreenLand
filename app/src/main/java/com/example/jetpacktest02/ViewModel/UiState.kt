@@ -18,12 +18,15 @@ package com.example.jetpacktest02.ViewModel
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.accompanist.pager.PagerState
+import com.google.accompanist.pager.rememberPagerState
 import java.time.Duration
 
 /**
  * Data class that represents the UI state
  */
-data class UiState(
+data class UiState @OptIn(ExperimentalPagerApi::class) constructor(
     val currentScrambledWord: String = "",
     val currentWordCount: Int = 0,
     val score: Int = 0,
@@ -32,7 +35,9 @@ data class UiState(
 
 
     //MessageScreen
-    val openDialog : MutableState<Boolean> = mutableStateOf(false)
+    val openDialog : MutableState<Boolean> = mutableStateOf(false),
+    //MessageFriendScreen
+    val pageState :MutableState<Int> = mutableStateOf(0)
 )
 data class PlayerUiState(
     val title: String = "",

@@ -174,7 +174,10 @@ fun MessageFriendScreen(
             )
         }
         val grouped = friends.groupBy { it.name[0] }
+
+        //state为顶部的tab导航栏绑定参数
         var state = userViewModel.uiState.value.pageState
+        //pagerState为底部viewpager参数
         val pagerState: PagerState = remember { PagerState() }
 
         //将底部pager的参数和顶部导航栏的参数state绑定，让pager响应顶部导航栏参数变化

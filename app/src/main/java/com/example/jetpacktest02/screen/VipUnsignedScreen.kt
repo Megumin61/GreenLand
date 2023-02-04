@@ -16,24 +16,40 @@
 
 package com.example.jetpacktest02.ui.main
 
+import android.graphics.Point
+import android.text.Html.ImageGetter
+import android.util.Log
+import android.widget.Toast
+import androidx.compose.animation.core.FloatTweenSpec
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.geometry.CornerRadius
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.modifier.modifierLocalConsumer
+import androidx.compose.ui.platform.textInputServiceFactory
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.jetpacktest02.R
 import com.example.scaffolddemo.ui.theme.Purple200
 
@@ -48,11 +64,15 @@ fun VipUnsignedScreen(
     nav01: () -> Unit={},
 
     ) {
-    Column(modifier = Modifier.padding(top = 20.dp, start = 26.dp,end=26.dp),) {
+    Column(modifier = Modifier
+        .padding(top = 20.dp, start = 26.dp, end = 26.dp)
+        ) {
+
         VipCardImage()
         Spacer(modifier = Modifier.height(14.dp))
         LazyColumn(
-            Modifier.fillMaxWidth() // 宽度填满父空间
+            Modifier
+                .fillMaxWidth() // 宽度填满父空间
                 .height(450.dp),
             verticalArrangement = Arrangement.spacedBy(14.dp),
             content = {
@@ -191,3 +211,8 @@ fun btn2(){
 
     }
 }
+
+
+
+
+

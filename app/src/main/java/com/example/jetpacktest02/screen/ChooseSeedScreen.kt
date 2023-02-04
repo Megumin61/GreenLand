@@ -107,7 +107,8 @@ fun ChooseSeed(nav01: () -> Unit={},)
             )
         }
     ) {}
-    Page1()
+
+    Page2()
 
 
 }
@@ -144,10 +145,10 @@ fun Page1(){
                     ),
                     modifier = Modifier
                         .size(width = 50.dp, height = 30.dp)
-                        .offset(20.dp, -5.dp)
+                        .offset(20.dp, -5.dp),contentPadding = PaddingValues(0.dp)
 
                 ) {
-                    Text(text = "黄色", color = Color.White)
+                    Text(text = "黄色", color = Color.White, fontSize = 12.sp)
                 }
             }else{
                 Button(onClick = { ifcolor=1 },
@@ -158,10 +159,10 @@ fun Page1(){
                     ),
                     modifier = Modifier
                         .size(width = 50.dp, height = 30.dp)
-                        .offset(20.dp, -5.dp)
+                        .offset(20.dp, -5.dp),contentPadding = PaddingValues(0.dp)
 
                 ) {
-                    Text(text = "黄色", color = GreenMain)
+                    Text(text = "黄色", color = GreenMain, fontSize = 12.sp)
                 }
 
             }
@@ -176,10 +177,10 @@ fun Page1(){
                     ),
                     modifier = Modifier
                         .size(width = 50.dp, height = 30.dp)
-                        .offset(35.dp, -5.dp)
+                        .offset(35.dp, -5.dp),contentPadding = PaddingValues(0.dp)
 
                 ) {
-                    Text(text = "蓝色", color = Color.White)
+                    Text(text = "蓝色", color = Color.White, fontSize = 12.sp)
                 }
             }else{
                 Button(onClick = { ifcolor=2 },
@@ -190,10 +191,10 @@ fun Page1(){
                     ),
                     modifier = Modifier
                         .size(width = 50.dp, height = 30.dp)
-                        .offset(35.dp, -5.dp)
+                        .offset(35.dp, -5.dp),contentPadding = PaddingValues(0.dp)
 
                 ) {
-                    Text(text = "蓝色", color = GreenMain)
+                    Text(text = "蓝色", color = GreenMain, fontSize = 12.sp)
                 }
 
             }
@@ -208,10 +209,10 @@ fun Page1(){
                     ),
                     modifier = Modifier
                         .size(width = 50.dp, height = 30.dp)
-                        .offset(50.dp, -5.dp)
+                        .offset(50.dp, -5.dp),contentPadding = PaddingValues(0.dp)
 
                 ) {
-                    Text(text = "红色", color = Color.White)
+                    Text(text = "红色", color = Color.White, fontSize = 12.sp)
                 }
             }else{
                 Button(onClick = { ifcolor=3 },
@@ -222,10 +223,10 @@ fun Page1(){
                     ),
                     modifier = Modifier
                         .size(width = 50.dp, height = 30.dp)
-                        .offset(50.dp, -5.dp)
+                        .offset(50.dp, -5.dp),contentPadding = PaddingValues(0.dp)
 
                 ) {
-                    Text(text = "红色", color = GreenMain)
+                    Text(text = "红色", color = GreenMain, fontSize = 12.sp)
                 }
 
             }
@@ -251,10 +252,11 @@ fun Page1(){
                     ),
                     modifier = Modifier
                         .size(width = 50.dp, height = 30.dp)
-                        .offset(20.dp, -5.dp).padding(0.dp)
+                        .offset(20.dp, -5.dp)
+                        .padding(0.dp),contentPadding = PaddingValues(0.dp)
 
                 ) {
-                    Text(text = "自然", color = Color.White)
+                    Text(text = "自然", color = Color.White, fontSize = 12.sp)
                 }
             }else{
                 Button(onClick = { ifshape=1 },
@@ -265,10 +267,11 @@ fun Page1(){
                     ),
                     modifier = Modifier
                         .size(width = 50.dp, height = 30.dp)
-                        .offset(20.dp, -5.dp).padding(0.dp)
+                        .offset(20.dp, -5.dp)
+                        .padding(0.dp),contentPadding = PaddingValues(0.dp)
 
                 ) {
-                    Text(text = "自然", color = GreenMain)
+                    Text(text = "自然", color = GreenMain, fontSize = 12.sp)
                 }
 
             }
@@ -283,9 +286,10 @@ fun Page1(){
                     ),
                     modifier = Modifier
                         .size(width = 50.dp, height = 30.dp)
-                        .offset(35.dp, -5.dp).padding(0.dp)
+                        .offset(35.dp, -5.dp)
+                        .padding(0.dp),contentPadding = PaddingValues(0.dp)
                 ) {
-                    Text(text = "清新", color = Color.White)
+                    Text(text = "清新", color = Color.White, fontSize = 12.sp)
                 }
             }else{
                 Button(onClick = { ifshape=2 },
@@ -296,10 +300,11 @@ fun Page1(){
                     ),
                     modifier = Modifier
                         .size(width = 50.dp, height = 30.dp)
-                        .offset(35.dp, -5.dp).padding(0.dp)
+                        .offset(35.dp, -5.dp)
+                        .padding(0.dp),contentPadding = PaddingValues(0.dp)
 
                 ) {
-                    Text(text = "清新", color = GreenMain)
+                    Text(text = "清新", color = GreenMain, fontSize = 12.sp)
                 }
 
             }
@@ -314,10 +319,11 @@ fun Page1(){
                     ),
                     modifier = Modifier
                         .size(width = 50.dp, height = 30.dp)
-                        .offset(50.dp, -5.dp).padding(0.dp)
+                        .offset(50.dp, -5.dp)
+                        .padding(0.dp),contentPadding = PaddingValues(0.dp)
 
                 ) {
-                    Text(text = "幽静", color = Color.White)
+                    Text(text = "幽静", color = Color.White, fontSize = 12.sp)
                 }
             }else{
                 Button(onClick = { ifshape=3 },
@@ -328,10 +334,11 @@ fun Page1(){
                     ),
                     modifier = Modifier
                         .size(width = 50.dp, height = 30.dp)
-                        .offset(50.dp, -5.dp).padding(0.dp)
+                        .offset(50.dp, -5.dp)
+                        .padding(0.dp),contentPadding = PaddingValues(0.dp)
 
                 ) {
-                    Text(text = "幽静", color = GreenMain)
+                    Text(text = "幽静", color = GreenMain, fontSize = 12.sp)
                 }
 
             }
@@ -356,10 +363,11 @@ fun Page1(){
                     ),
                     modifier = Modifier
                         .size(width = 50.dp, height = 30.dp)
-                        .offset(20.dp, -5.dp).padding(0.dp)
+                        .offset(20.dp, -5.dp)
+                        .padding(0.dp),contentPadding = PaddingValues(0.dp)
 
                 ) {
-                    Text(text = "自然", color = Color.White)
+                    Text(text = "魅力", color = Color.White, fontSize = 12.sp)
                 }
             }else{
                 Button(onClick = { ifmeaning=1 },
@@ -370,10 +378,11 @@ fun Page1(){
                     ),
                     modifier = Modifier
                         .size(width = 50.dp, height = 30.dp)
-                        .offset(20.dp, -5.dp).padding(0.dp)
+                        .offset(20.dp, -5.dp)
+                        .padding(0.dp),contentPadding = PaddingValues(0.dp)
 
                 ) {
-                    Text(text = "自然", color = GreenMain)
+                    Text(text = "魅力", color = GreenMain, fontSize = 12.sp)
                 }
 
             }
@@ -388,9 +397,10 @@ fun Page1(){
                     ),
                     modifier = Modifier
                         .size(width = 50.dp, height = 30.dp)
-                        .offset(35.dp, -5.dp).padding(0.dp)
+                        .offset(35.dp, -5.dp)
+                        .padding(0.dp),contentPadding = PaddingValues(0.dp)
                 ) {
-                    Text(text = "清新", color = Color.White)
+                    Text(text = "希望", color = Color.White, fontSize = 12.sp)
                 }
             }else{
                 Button(onClick = { ifmeaning=2 },
@@ -401,10 +411,11 @@ fun Page1(){
                     ),
                     modifier = Modifier
                         .size(width = 50.dp, height = 30.dp)
-                        .offset(35.dp, -5.dp).padding(0.dp)
+                        .offset(35.dp, -5.dp)
+                        .padding(0.dp),contentPadding = PaddingValues(0.dp)
 
                 ) {
-                    Text(text = "清新", color = GreenMain)
+                    Text(text = "希望", color = GreenMain, fontSize = 12.sp)
                 }
 
             }
@@ -419,10 +430,11 @@ fun Page1(){
                     ),
                     modifier = Modifier
                         .size(width = 50.dp, height = 30.dp)
-                        .offset(50.dp, -5.dp).padding(0.dp)
+                        .offset(50.dp, -5.dp)
+                        .padding(0.dp),contentPadding = PaddingValues(0.dp)
 
                 ) {
-                    Text(text = "幽静", color = Color.White)
+                    Text(text = "友爱", color = Color.White, fontSize = 12.sp)
                 }
             }else{
                 Button(onClick = { ifmeaning=3 },
@@ -433,10 +445,11 @@ fun Page1(){
                     ),
                     modifier = Modifier
                         .size(width = 50.dp, height = 30.dp)
-                        .offset(50.dp, -5.dp).padding(0.dp)
+                        .offset(50.dp, -5.dp)
+                        .padding(0.dp),contentPadding = PaddingValues(0.dp)
 
                 ) {
-                    Text(text = "幽静", color = GreenMain)
+                    Text(text = "友爱", color = GreenMain, fontSize = 12.sp)
                 }
 
             }
@@ -450,10 +463,11 @@ fun Page1(){
                     ),
                     modifier = Modifier
                         .size(width = 50.dp, height = 30.dp)
-                        .offset(65.dp, -5.dp).padding(0.dp)
+                        .offset(65.dp, -5.dp)
+                        .padding(0.dp),contentPadding = PaddingValues(0.dp)
 
                 ) {
-                    Text(text = "幽静", color = Color.White)
+                    Text(text = "和谐", color = Color.White, fontSize = 12.sp)
                 }
             }else{
                 Button(onClick = { ifmeaning=4 },
@@ -464,10 +478,11 @@ fun Page1(){
                     ),
                     modifier = Modifier
                         .size(width = 50.dp, height = 30.dp)
-                        .offset(65.dp, -5.dp).padding(0.dp)
+                        .offset(65.dp, -5.dp)
+                        .padding(0.dp),contentPadding = PaddingValues(0.dp)
 
                 ) {
-                    Text(text = "幽静", color = GreenMain)
+                    Text(text = "和谐", color = GreenMain, fontSize = 12.sp)
                 }
 
             }
@@ -576,8 +591,8 @@ fun Page1(){
     Column(modifier=Modifier
         .padding(top = 600.dp,start=30.dp),
         horizontalAlignment= Alignment.CenterHorizontally
-             ) {
-                Button(onClick = {},
+    ) {
+        Button(onClick = {},
             shape = RoundedCornerShape(27.dp),border = BorderStroke(1.dp, GreenMain),
             colors = ButtonDefaults.buttonColors(
                 containerColor = GreenMain,
@@ -616,26 +631,96 @@ fun Page2(){
 //            ,
 //            horizontalArrangement = Arrangement.Center
         ) {
-            if(ifseed==1){
-                Image(
 
-                    painter = painterResource(id = com.example.jetpacktest02.R.drawable.g3_flower),
-                    contentDescription = null,
-                    alignment = Alignment.Center,
-                    modifier = Modifier
-                        .size(width = 89.dp, height = 171.dp)
-                        .offset(120.dp, -90.dp).padding(0.dp)
-                )
-            }
-        }
 
 
         Text(text = "选取神秘植物", color = Color.Black , fontSize = 16.sp,fontWeight = FontWeight.W600, modifier = Modifier
-            .offset(-10.dp, -20.dp)
+            .offset(-10.dp, 120.dp)
             .fillMaxWidth(),
             textAlign = TextAlign.Center
         )
 
+    }
+
+
+        Row(modifier = Modifier.fillMaxWidth().offset(36.dp,-10.dp)) {
+
+
+
+
+            if(ifseed==1){
+                Image(
+
+                    painter = painterResource(id = com.example.jetpacktest02.R.drawable.g3_seed_1),
+                    contentDescription = null,
+                    alignment = Alignment.Center,
+                    modifier = Modifier
+                        .size(width = 78.dp, height = 78.dp)
+                        .offset(0.dp, -0.dp)
+                )
+            }else{
+                Image(
+
+                    painter = painterResource(id = com.example.jetpacktest02.R.drawable.g3_2_1_segmentedbtn_seed3),
+                    contentDescription = null,
+                    alignment = Alignment.Center,
+                    modifier = Modifier
+                        .size(width = 78.dp, height = 78.dp)
+                        .offset(0.dp, -0.dp)
+                        .clickable() { ifseed = 1 }
+                )
+            }
+
+            if (ifseed==2){
+
+                Image(
+
+                    painter = painterResource(id = com.example.jetpacktest02.R.drawable.g3_seed_2),
+                    contentDescription = null,
+                    alignment = Alignment.Center,
+                    modifier = Modifier
+                        .size(width = 78.dp, height = 78.dp)
+                        .offset(20.dp, -0.dp)
+                )
+            }else{
+                Image(
+
+                    painter = painterResource(id = com.example.jetpacktest02.R.drawable.g3_2_1_segmentedbtn_seed2),
+                    contentDescription = null,
+                    alignment = Alignment.Center,
+                    modifier = Modifier
+                        .size(width = 78.dp, height = 78.dp)
+                        .offset(20.dp, -0.dp)
+                        .clickable() { ifseed = 2 }
+                )
+            }
+
+            if (ifseed==3){
+
+                Image(
+
+                    painter = painterResource(id = com.example.jetpacktest02.R.drawable.g3_seed_3),
+                    contentDescription = null,
+                    alignment = Alignment.Center,
+                    modifier = Modifier
+                        .size(width = 78.dp, height = 78.dp)
+                        .offset(40.dp, -0.dp)
+                )
+            }else{
+                Image(
+
+                    painter = painterResource(id = com.example.jetpacktest02.R.drawable.g3_2_1_segmentedbtn_seed1),
+                    contentDescription = null,
+                    alignment = Alignment.Center,
+                    modifier = Modifier
+                        .size(width = 78.dp, height = 78.dp)
+                        .offset(40.dp, -0.dp)
+                        .clickable() { ifseed = 3 }
+                )
+
+            }
+
+        }
         Image(
             painter = painterResource(id = com.example.jetpacktest02.R.drawable.g3_2_1_img_plant),
             contentDescription = null,
@@ -644,77 +729,7 @@ fun Page2(){
                 .size(width = 178.dp, height = 158.dp)
                 .offset(80.dp, 190.dp)
         )
-
-
-
-        if(ifseed==1){
-            Image(
-
-                painter = painterResource(id = com.example.jetpacktest02.R.drawable.g3_flower),
-                contentDescription = null,
-                alignment = Alignment.Center,
-                modifier = Modifier
-                    .size(width = 89.dp, height = 171.dp)
-                    .offset(120.dp, -90.dp)
-            )
-
-
         }
-        if (ifseed==2){
-
-            Image(
-
-                painter = painterResource(id = com.example.jetpacktest02.R.drawable.g3_meatmuch),
-                contentDescription = null,
-                alignment = Alignment.Center,
-                modifier = Modifier
-                    .size(width = 112.dp, height = 75.dp)
-                    .offset(110.dp, -10.dp)
-            )
-
-
-        }
-        if (ifseed==3){
-
-            Image(
-
-                painter = painterResource(id = com.example.jetpacktest02.R.drawable.g3_godpeople),
-                contentDescription = null,
-                alignment = Alignment.Center,
-                modifier = Modifier
-                    .size(width = 110.dp, height = 129.dp)
-                    .offset(110.dp, -55.dp)
-            )
-
-        }
-
-//        Image(
-//
-//            painter = painterResource(id = com.example.jetpacktest02.R.drawable.g4_2_img_flower_shadowed),
-//            contentDescription = null,
-//            alignment = Alignment.Center,
-//            modifier = Modifier
-//                .size(width = 89.dp, height = 171.dp)
-//                .offset(120.dp, -75.dp)
-//        )
-
-//        Button(onClick = {},
-//            shape = RoundedCornerShape(27.dp),border = BorderStroke(1.dp, GreenMain),
-//            colors = ButtonDefaults.buttonColors(
-//                containerColor = GreenMain,
-//                contentColor = GreenMain
-//            ),
-//
-//            modifier = Modifier
-//                .size(width = 136.dp, height = 48.dp)
-//                .offset(100.dp, 60.dp)
-//
-//        ) {
-//            Text(text = "种下", color = Color.White, fontSize = 16.sp)
-//        }
-
-
-    }
     Column(modifier=Modifier
         .padding(top = 600.dp,start=30.dp),
         horizontalAlignment= Alignment.CenterHorizontally

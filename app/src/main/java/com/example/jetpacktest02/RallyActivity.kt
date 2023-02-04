@@ -159,7 +159,7 @@ fun RallyApp() {
             //管理路由：页面跳转
             NavHost(
                 navController = navController,
-                startDestination = SetPlanSports.route,
+                startDestination =PlantPlan.route,
                 modifier = Modifier.padding(innerPadding)
 
             ) {

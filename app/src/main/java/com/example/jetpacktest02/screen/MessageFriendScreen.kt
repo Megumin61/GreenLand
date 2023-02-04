@@ -7,6 +7,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -18,6 +19,7 @@ import androidx.compose.material.TabRow
 import androidx.compose.material.TabRowDefaults
 import androidx.compose.material.Text
 import androidx.compose.material3.*
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -36,20 +38,24 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import com.example.jetpacktest02.Entity.User
 import com.example.jetpacktest02.R
 import com.example.jetpacktest02.ViewModel.UserViewModel
+import com.example.jetpacktest02.config.UsersApplication
 import com.example.scaffolddemo.ui.theme.*
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.PagerState
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalPagerApi::class)
-@Preview
 @SuppressLint(
     "UnusedMaterialScaffoldPaddingParameter", "StateFlowValueCalledInComposition",
     "Range"
@@ -58,6 +64,7 @@ import kotlinx.coroutines.DelicateCoroutinesApi
 fun MessageFriendScreen(
     nav01: () -> Unit = {},
     userViewModel: UserViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
+    controller: NavHostController
 ) {
     //配置顶部状态栏颜色
     rememberSystemUiController().setStatusBarColor(
@@ -199,11 +206,11 @@ fun MessageFriendScreen(
 
             //https://blog.csdn.net/haojiagou/article/details/123040803?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522167548132816800180688371%2522%252C%2522scm%2522%253A%252220140713.130102334..%2522%257D&request_id=167548132816800180688371&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~baidu_landing_v2~default-4-123040803-null-null.142^v73^pc_new_rank,201^v4^add_ask,239^v1^control&utm_term=compose%20viewpager&spm=1018.2226.3001.4187
             //Pager核心代码,count为页面总数
-            HorizontalPager(count = 4, state = pagerState) { page ->
+            HorizontalPager(count = 3, state = pagerState) { page ->
 //                Text(text = "Page: $page")
                 //下面为要滑动切换的界面，可以通过判断page调用不同页面
-                Text(page.toString())
-                FriendList(grouped)
+//                Text(page.toString())
+                FriendList(grouped, controller = controller)
             }
         }
     }
@@ -315,20 +322,19 @@ fun Modifier.customTabIndicatorOffset(
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun FriendList(grouped: Map<Char, List<FriendTest>>) {
+fun FriendList(grouped: Map<Char, List<FriendTest>>, controller: NavHostController) {
     val state = rememberLazyListState()
     val coroutinueScope = rememberCoroutineScope()
-    Row() {
-//        Button(onClick = {
-//            coroutinueScope.launch {
-//                state.animateScrollToItem(
-//                    index = 1
-//                )
-//            }
-//        }) {
-//
-//        }
-        LazyColumn(state = state, modifier = Modifier.padding(20.dp)) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween,//子元素的水平方向排列效果
+    ) {
+        LazyColumn(
+            state = state, modifier = Modifier
+                .padding(20.dp)
+                .width(300.dp),
+            horizontalAlignment = Alignment.Start
+        ) {
             grouped.forEach { (initial, contactsForInitial) ->
                 stickyHeader {
                     Box(
@@ -342,12 +348,13 @@ fun FriendList(grouped: Map<Char, List<FriendTest>>) {
                 }
 
                 items(contactsForInitial) { contact ->
-                    FriendMessageItem(contact.name, contact.msg, contact.res)
+                    FriendMessageItem(contact.name, contact.msg, contact.res, controller)
                     Divider(thickness = 1.dp, color = BlueGray1)
                     Spacer(modifier = Modifier.height(10.dp))
                 }
             }
         }
+        TextButton(state)
     }
 }
 
@@ -357,13 +364,17 @@ fun FriendMessageItem(
     name: String,
     msg: String,
     res: Int,
+    controller: NavHostController
 ) {
     ListItem(
         modifier = Modifier
 //            .clickable(onClick = nav01)
             .background(
                 color = Color.White
-            ),
+            )
+            .clickable(onClick = {
+                controller.navigate("4.5-island-visitOther/$res/$name")//这里将商品id拼接到参数后面
+            }),
         colors = ListItemDefaults.colors(containerColor = Color.White),
         headlineText = {
             Column() {
@@ -399,6 +410,37 @@ fun FriendMessageItem(
         }
     )
 
+}
+
+@Composable
+fun TextButton(state: LazyListState) {
+    val coroutineScope = rememberCoroutineScope()
+
+    LazyColumn(
+        modifier = Modifier.offset(-5.dp, 20.dp),
+        horizontalAlignment = Alignment.End
+    ) {
+        // Add 5 items
+        // 添加多个
+        val firstWord: String = "ABCDEFGHIJKLMNOPQISVUVWXYZ0000"
+        items(26) { index ->
+            val letter: Char = firstWord[index]
+            androidx.compose.material3.TextButton(onClick = {
+                coroutineScope.launch {
+                    // Animate scroll to the first item
+                    state.animateScrollToItem(index = 10)
+                }
+            }, modifier = Modifier.size(36.dp)) {
+                androidx.compose.material3.Text(
+                    text = "$letter",
+                    color = Gray4,
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.W500,
+                )
+            }
+        }
+
+    }
 }
 
 data class FriendTest(

@@ -81,7 +81,7 @@ object IslandMemberList : RallyDestination {
 }
 object IslandVisitOther : RallyDestination {
     override val icon = Icons.Filled.MoneyOff
-    override val route = "4.5-island-visitOther"
+    override val route = "4.5-island-visitOther/{res}/{name}"
 }
 object IslandDeliver : RallyDestination {
     override val icon = Icons.Filled.MoneyOff

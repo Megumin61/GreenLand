@@ -41,6 +41,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import androidx.navigation.NavHostController
 import com.example.jetpacktest02.R
 import com.example.jetpacktest02.ViewModel.UserViewModel
 import com.example.scaffolddemo.ui.theme.*
@@ -57,6 +58,7 @@ fun MessageScreen(
     nav03: () -> Unit = {},//收到留言
     nav04: () -> Unit = {},//收到图片
     nav05: () -> Unit = {},//好友列表
+    controller: NavHostController
 ) {
     //配置顶部状态栏颜色
     rememberSystemUiController().setStatusBarColor(
@@ -97,7 +99,7 @@ fun MessageScreen(
             Spacer(Modifier.height(10.dp))
             IconButtonList(nav01, nav03, nav04, nav05)
             Spacer(Modifier.height(20.dp))
-            MessageList(nav01, nav02, nav03,nav04, nav05,userViewModel)
+            MessageList(nav01, nav02, nav03, nav04, nav05, userViewModel=userViewModel,controller=controller)
         }
 
 //        Column {
@@ -182,6 +184,7 @@ fun MessageList(
     nav03: () -> Unit = {},//收到留言
     nav04: () -> Unit = {},//收到图片
     nav05: () -> Unit = {},//好友列表
+    controller: NavHostController,
     userViewModel: UserViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
 ) {
 
@@ -211,7 +214,7 @@ fun MessageList(
                     R.drawable.g2_1_img_user03,
                     R.drawable.g2_1_btn_friend,
                     "14min前",
-                            nav03
+                    nav03
                 ),
                 ListItemModel(
                     "ajunGrit",
@@ -286,8 +289,8 @@ fun MessageList(
                 res = listItemModel.res,
                 res2 = listItemModel.res2,
                 time = listItemModel.time,
-                nav01=listItemModel.nav,
-                nav02,
+                nav01 = listItemModel.nav,
+                controller = controller,
                 userViewModel
             )
         }
@@ -304,7 +307,7 @@ fun MessageItem(
     res2: Int,
     time: String,
     nav01: () -> Unit = {},//整条消息的跳转
-    nav02: () -> Unit = {},
+    controller: NavHostController,
     userViewModel: UserViewModel = androidx.lifecycle.viewmodel.compose.viewModel()
 ) {
 
@@ -364,7 +367,9 @@ fun MessageItem(
                 modifier = Modifier
                     .width(45.dp)
                     .height(45.dp)
-                    .clickable(onClick = nav02)
+                    .clickable(onClick = {
+                        controller.navigate("4.5-island-visitOther/$res/$name")//这里将id拼接到参数后面
+                    }),
             )
         }
     )

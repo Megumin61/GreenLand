@@ -108,7 +108,7 @@ fun ChooseSeed(nav01: () -> Unit={},)
         }
     ) {}
 
-    Page2()
+    Page1()
 
 
 }

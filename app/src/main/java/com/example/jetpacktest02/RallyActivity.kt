@@ -166,7 +166,7 @@ fun RallyApp() {
             //管理路由：页面跳转
             NavHost(
                 navController = navController,
-                startDestination = Island.route,
+                startDestination = ChooseSeed.route,
                 modifier = Modifier.padding(innerPadding)
 
             ) {
@@ -177,7 +177,9 @@ fun RallyApp() {
                     VipScreen()
                 }
                 composable(route = ChooseSeed.route) {
-                    ChooseSeed()
+                    ChooseSeed(
+                        )
+
                 }
                 composable(route = Accounts.route) {
                     AccountsScreen()
@@ -289,7 +291,7 @@ fun RallyApp() {
                             navController.navigate(IslandDeliver.route) {
                                 launchSingleTop = true; popUpTo(IslandMemberList.route) {}
                             }
-                        },
+                        }
                     )
                 }
                 composable(route = IslandDeliver.route) {

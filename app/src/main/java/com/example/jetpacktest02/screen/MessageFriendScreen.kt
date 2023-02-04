@@ -249,75 +249,7 @@ fun FriendTabRow(userViewModel: UserViewModel, pagerState: PagerState) {
                 )
             }
         }
-            if(state.equals(0)){
-                Spacer(modifier = Modifier.height(15.dp))
-                androidx.compose.material3.TextField(
-                    value = text,
-                    shape = RoundedCornerShape(25f.dp),
-                    onValueChange = { text = it },
-                    singleLine = false,
-                    leadingIcon = {
-                        Image(
-                            painter = painterResource(R.drawable.g2_5_icon_search),
-                            contentDescription = "",
-                            modifier = Modifier.size(20.dp, 20.dp)
-                        )
-                    },
-                    placeholder = {
-                        androidx.compose.material3.Text(
-                            "搜索昵称或id",
-                            fontSize = 14.sp,
-                            color = Gray2
-                        )
-                    },
-//                            label={ Text("写两句话和好友打招呼吧", fontSize = 14.sp, color = Gray2) },
-                    modifier = Modifier
-                        .height(50.dp)
-                        .width(330.dp)
-                        .align(Alignment.CenterHorizontally)
-                        .border(BorderStroke(1.dp, BlueGray2), RoundedCornerShape(25f.dp)),
-                    colors = TextFieldDefaults.textFieldColors(
-                        textColor = Gray2,
-                        containerColor = Gray3,
-                        focusedIndicatorColor = Color.Transparent,
-                        unfocusedIndicatorColor = Color.Transparent
-                    )
-                )
-            }
-        if(state.equals(1)){
-            Spacer(modifier = Modifier.height(15.dp))
-            androidx.compose.material3.TextField(
-                value = text,
-                shape = RoundedCornerShape(25f.dp),
-                onValueChange = { text = it },
-                singleLine = false,
-                leadingIcon = {
-                    Image(
-                        painter = painterResource(R.drawable.g2_5_icon_search),
-                        contentDescription = "",
-                        modifier = Modifier.size(20.dp, 20.dp)
-                    )
-                },
-                placeholder = {
-                    androidx.compose.material3.Text(
-                        "test",
-                        fontSize = 14.sp,
-                        color = Gray2
-                    )
-                },
-//                            label={ Text("写两句话和好友打招呼吧", fontSize = 14.sp, color = Gray2) },
-                modifier = Modifier
-                    .height(50.dp)
-                    .width(330.dp)
-                    .align(Alignment.CenterHorizontally)
-                    .border(BorderStroke(1.dp, BlueGray2), RoundedCornerShape(25f.dp)),
-                colors = TextFieldDefaults.textFieldColors(
-                    textColor = Gray2,
-                    containerColor = Gray3,
-                    focusedIndicatorColor = Color.Transparent,
-                    unfocusedIndicatorColor = Color.Transparent
-                )
-            )
+
         }
 //        Spacer(modifier = Modifier.height(15.dp))
 //        androidx.compose.material3.TextField(
@@ -352,7 +284,7 @@ fun FriendTabRow(userViewModel: UserViewModel, pagerState: PagerState) {
 //                unfocusedIndicatorColor = Color.Transparent
 //            )
 //        )
-    }
+
 }
 
 fun Modifier.customTabIndicatorOffset(

@@ -11,9 +11,9 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.TopAppBar
 import androidx.compose.material3.AlertDialogDefaults.shape
 import androidx.compose.material.Card
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -39,7 +39,9 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 
 @Composable
-fun FriendList(nav02: () -> Unit = {}) {
+fun FriendList(
+     nav03: () -> Unit = {}
+    ,nav02: () -> Unit = {}) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.Center
@@ -73,6 +75,18 @@ fun FriendList(nav02: () -> Unit = {}) {
 
                     Spacer(modifier = Modifier.height(20.dp))
                     FriendItem(nav02)
+                }
+                Button(
+                    onClick = nav03,
+                    contentPadding = ButtonDefaults.ButtonWithIconContentPadding
+                ) {
+                    androidx.compose.material3.Icon(
+                        Icons.Filled.Favorite,
+                        contentDescription = "Localized description",
+                        modifier = Modifier.size(ButtonDefaults.IconSize)
+                    )
+                    Spacer(Modifier.size(ButtonDefaults.IconSpacing))
+                    Text("1.2-plant-plan")
                 }
             }
         }

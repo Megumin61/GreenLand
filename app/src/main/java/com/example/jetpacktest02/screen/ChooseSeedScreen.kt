@@ -1,211 +1,744 @@
 package com.example.jetpacktest02.screen
 
+import androidx.compose.material.Button
+import androidx.compose.material.Text
+import android.annotation.SuppressLint
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
-
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.*
+import androidx.compose.material.Scaffold
+import androidx.compose.material.Tab
+import androidx.compose.material.TabPosition
+import androidx.compose.material.TabRow
+import androidx.compose.material.TabRowDefaults
+import androidx.compose.material.Text
 import androidx.compose.material3.*
-
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.scale
+import androidx.compose.ui.composed
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.debugInspectorInfo
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.jetpacktest02.ChooseSeed
+import com.example.jetpacktest02.R
 import com.example.jetpacktest02.ViewModel.UserViewModel
 import com.example.scaffolddemo.ui.theme.*
+import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.accompanist.pager.HorizontalPager
+import com.google.accompanist.pager.PagerState
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import androidx.compose.ui.window.Dialog
-import androidx.compose.foundation.layout.*
-
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.rememberSaveable
-
-import androidx.compose.ui.draw.scale
-
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.style.TextOverflow
-
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import androidx.compose.ui.window.Dialog
-import com.example.jetpacktest02.R
+import kotlinx.coroutines.DelicateCoroutinesApi
 
 
 /**
- * vip界面
+ * 种子选择界面
  * 负责人：skc
  */
 
 
+
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun ChooseSeed() {
-
-    var ifVip by remember{
-        mutableStateOf(false)}
-    val openDialog=remember{
-        mutableStateOf(false)
-    }
-    var ifdialog by remember{
-        mutableStateOf(false)}
-
-
+fun ChooseSeed(nav01: () -> Unit={},)
+{
     //配置顶部状态栏颜色
     rememberSystemUiController().setStatusBarColor(
-        Green1,darkIcons = androidx.compose.material.MaterialTheme.colors.isLight)
+        Color.White, darkIcons = androidx.compose.material.MaterialTheme.colors.isLight
+    )
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .offset(0.dp, 10.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        androidx.compose.material3.Text(
+                            text = "选择种子",
+                            style = TextStyle(
+                                fontWeight = FontWeight.W900, //设置字体粗细
+                                fontSize = 18.sp,
+                            ),
+                            modifier = Modifier.offset(-28.dp,0.dp)//向左偏移一段距离
+                        )
+                    }
+                },
+                //左侧按钮
+                navigationIcon = {
+                    IconButton(onClick = nav01, modifier = Modifier.offset(0.dp,10.dp)) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.g1_2_0_ic_arrow_left),
+                            contentDescription = ""
+                        )
+
+                    }
+                },
 
 
-    Surface(modifier = Modifier.fillMaxSize()) {
-        SeedTabRow()
+                backgroundColor = Color.White,
+                contentColor = Color.Black,
+                elevation = 0.dp, //设置阴影
+            )
+        }
+    ) {}
+    Page1()
 
+
+}
+@Composable
+fun Page1(){
+    var ifcolor by remember{
+        mutableStateOf(1)}
+    var ifshape by remember{
+        mutableStateOf(1)}
+    var ifmeaning by remember{
+        mutableStateOf(1)}
+
+    Column(
+        modifier=Modifier
+            .padding(top = 160.dp,start=30.dp),
+//        horizontalAlignment= Alignment.CenterHorizontally
+//             verticalArrangement = Arrangement.Center
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth()
+//            ,
+//            horizontalArrangement = Arrangement.Center
+        ) {
+            Text(text = "01 颜色", color = Color.Black , fontSize = 14.sp,fontWeight = FontWeight.W600, modifier = Modifier.offset(0.dp,2.dp)
+            )
+
+            if(ifcolor==1){
+
+                Button(onClick = {  },
+                    shape = RoundedCornerShape(15.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = GreenMain,
+                        contentColor = GreenMain
+                    ),
+                    modifier = Modifier
+                        .size(width = 50.dp, height = 30.dp)
+                        .offset(20.dp, -5.dp)
+
+                ) {
+                    Text(text = "黄色", color = Color.White)
+                }
+            }else{
+                Button(onClick = { ifcolor=1 },
+                    shape = RoundedCornerShape(15.dp),border = BorderStroke(1.dp, GreenMain),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color.White,
+                        contentColor = Color.White
+                    ),
+                    modifier = Modifier
+                        .size(width = 50.dp, height = 30.dp)
+                        .offset(20.dp, -5.dp)
+
+                ) {
+                    Text(text = "黄色", color = GreenMain)
+                }
+
+            }
+
+            if(ifcolor==2){
+
+                Button(onClick = {  },
+                    shape = RoundedCornerShape(15.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = GreenMain,
+                        contentColor = GreenMain
+                    ),
+                    modifier = Modifier
+                        .size(width = 50.dp, height = 30.dp)
+                        .offset(35.dp, -5.dp)
+
+                ) {
+                    Text(text = "蓝色", color = Color.White)
+                }
+            }else{
+                Button(onClick = { ifcolor=2 },
+                    shape = RoundedCornerShape(15.dp),border = BorderStroke(1.dp, GreenMain),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color.White,
+                        contentColor = Color.White
+                    ),
+                    modifier = Modifier
+                        .size(width = 50.dp, height = 30.dp)
+                        .offset(35.dp, -5.dp)
+
+                ) {
+                    Text(text = "蓝色", color = GreenMain)
+                }
+
+            }
+
+            if(ifcolor==3){
+
+                Button(onClick = {  },
+                    shape = RoundedCornerShape(15.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = GreenMain,
+                        contentColor = GreenMain
+                    ),
+                    modifier = Modifier
+                        .size(width = 50.dp, height = 30.dp)
+                        .offset(50.dp, -5.dp)
+
+                ) {
+                    Text(text = "红色", color = Color.White)
+                }
+            }else{
+                Button(onClick = { ifcolor=3 },
+                    shape = RoundedCornerShape(15.dp),border = BorderStroke(1.dp, GreenMain),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color.White,
+                        contentColor = Color.White
+                    ),
+                    modifier = Modifier
+                        .size(width = 50.dp, height = 30.dp)
+                        .offset(50.dp, -5.dp)
+
+                ) {
+                    Text(text = "红色", color = GreenMain)
+                }
+
+            }
+
+        }
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .offset(0.dp, 10.dp)
+//            ,
+//            horizontalArrangement = Arrangement.Center
+        ) {
+            Text(text = "02 植物形态", color = Color.Black , fontSize = 14.sp,fontWeight = FontWeight.W600, modifier = Modifier.offset(0.dp,2.dp)
+            )
+
+            if(ifshape==1){
+
+                Button(onClick = {  },
+                    shape = RoundedCornerShape(15.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = GreenMain,
+                        contentColor = GreenMain
+                    ),
+                    modifier = Modifier
+                        .size(width = 50.dp, height = 30.dp)
+                        .offset(20.dp, -5.dp).padding(0.dp)
+
+                ) {
+                    Text(text = "自然", color = Color.White)
+                }
+            }else{
+                Button(onClick = { ifshape=1 },
+                    shape = RoundedCornerShape(15.dp),border = BorderStroke(1.dp, GreenMain),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color.White,
+                        contentColor = Color.White
+                    ),
+                    modifier = Modifier
+                        .size(width = 50.dp, height = 30.dp)
+                        .offset(20.dp, -5.dp).padding(0.dp)
+
+                ) {
+                    Text(text = "自然", color = GreenMain)
+                }
+
+            }
+
+            if(ifshape==2){
+
+                Button(onClick = {  },
+                    shape = RoundedCornerShape(15.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = GreenMain,
+                        contentColor = GreenMain
+                    ),
+                    modifier = Modifier
+                        .size(width = 50.dp, height = 30.dp)
+                        .offset(35.dp, -5.dp).padding(0.dp)
+                ) {
+                    Text(text = "清新", color = Color.White)
+                }
+            }else{
+                Button(onClick = { ifshape=2 },
+                    shape = RoundedCornerShape(15.dp),border = BorderStroke(1.dp, GreenMain),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color.White,
+                        contentColor = Color.White
+                    ),
+                    modifier = Modifier
+                        .size(width = 50.dp, height = 30.dp)
+                        .offset(35.dp, -5.dp).padding(0.dp)
+
+                ) {
+                    Text(text = "清新", color = GreenMain)
+                }
+
+            }
+
+            if(ifshape==3){
+
+                Button(onClick = {  },
+                    shape = RoundedCornerShape(15.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = GreenMain,
+                        contentColor = GreenMain
+                    ),
+                    modifier = Modifier
+                        .size(width = 50.dp, height = 30.dp)
+                        .offset(50.dp, -5.dp).padding(0.dp)
+
+                ) {
+                    Text(text = "幽静", color = Color.White)
+                }
+            }else{
+                Button(onClick = { ifshape=3 },
+                    shape = RoundedCornerShape(15.dp),border = BorderStroke(1.dp, GreenMain),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color.White,
+                        contentColor = Color.White
+                    ),
+                    modifier = Modifier
+                        .size(width = 50.dp, height = 30.dp)
+                        .offset(50.dp, -5.dp).padding(0.dp)
+
+                ) {
+                    Text(text = "幽静", color = GreenMain)
+                }
+
+            }
+        }
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .offset(0.dp, 20.dp)
+//            ,
+//            horizontalArrangement = Arrangement.Center
+        ) {
+            Text(text = "03 植物意义", color = Color.Black , fontSize = 14.sp,fontWeight = FontWeight.W600, modifier = Modifier.offset(0.dp,2.dp)
+            )
+
+            if(ifmeaning==1){
+
+                Button(onClick = {  },
+                    shape = RoundedCornerShape(15.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = GreenMain,
+                        contentColor = GreenMain
+                    ),
+                    modifier = Modifier
+                        .size(width = 50.dp, height = 30.dp)
+                        .offset(20.dp, -5.dp).padding(0.dp)
+
+                ) {
+                    Text(text = "自然", color = Color.White)
+                }
+            }else{
+                Button(onClick = { ifmeaning=1 },
+                    shape = RoundedCornerShape(15.dp),border = BorderStroke(1.dp, GreenMain),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color.White,
+                        contentColor = Color.White
+                    ),
+                    modifier = Modifier
+                        .size(width = 50.dp, height = 30.dp)
+                        .offset(20.dp, -5.dp).padding(0.dp)
+
+                ) {
+                    Text(text = "自然", color = GreenMain)
+                }
+
+            }
+
+            if(ifmeaning==2){
+
+                Button(onClick = {  },
+                    shape = RoundedCornerShape(15.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = GreenMain,
+                        contentColor = GreenMain
+                    ),
+                    modifier = Modifier
+                        .size(width = 50.dp, height = 30.dp)
+                        .offset(35.dp, -5.dp).padding(0.dp)
+                ) {
+                    Text(text = "清新", color = Color.White)
+                }
+            }else{
+                Button(onClick = { ifmeaning=2 },
+                    shape = RoundedCornerShape(15.dp),border = BorderStroke(1.dp, GreenMain),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color.White,
+                        contentColor = Color.White
+                    ),
+                    modifier = Modifier
+                        .size(width = 50.dp, height = 30.dp)
+                        .offset(35.dp, -5.dp).padding(0.dp)
+
+                ) {
+                    Text(text = "清新", color = GreenMain)
+                }
+
+            }
+
+            if(ifmeaning==3){
+
+                Button(onClick = {  },
+                    shape = RoundedCornerShape(15.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = GreenMain,
+                        contentColor = GreenMain
+                    ),
+                    modifier = Modifier
+                        .size(width = 50.dp, height = 30.dp)
+                        .offset(50.dp, -5.dp).padding(0.dp)
+
+                ) {
+                    Text(text = "幽静", color = Color.White)
+                }
+            }else{
+                Button(onClick = { ifmeaning=3 },
+                    shape = RoundedCornerShape(15.dp),border = BorderStroke(1.dp, GreenMain),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color.White,
+                        contentColor = Color.White
+                    ),
+                    modifier = Modifier
+                        .size(width = 50.dp, height = 30.dp)
+                        .offset(50.dp, -5.dp).padding(0.dp)
+
+                ) {
+                    Text(text = "幽静", color = GreenMain)
+                }
+
+            }
+            if(ifmeaning==4){
+
+                Button(onClick = {  },
+                    shape = RoundedCornerShape(15.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = GreenMain,
+                        contentColor = GreenMain
+                    ),
+                    modifier = Modifier
+                        .size(width = 50.dp, height = 30.dp)
+                        .offset(65.dp, -5.dp).padding(0.dp)
+
+                ) {
+                    Text(text = "幽静", color = Color.White)
+                }
+            }else{
+                Button(onClick = { ifmeaning=4 },
+                    shape = RoundedCornerShape(15.dp),border = BorderStroke(1.dp, GreenMain),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color.White,
+                        contentColor = Color.White
+                    ),
+                    modifier = Modifier
+                        .size(width = 50.dp, height = 30.dp)
+                        .offset(65.dp, -5.dp).padding(0.dp)
+
+                ) {
+                    Text(text = "幽静", color = GreenMain)
+                }
+
+            }
+
+
+
+        }
+
+        Text(text = "生成本周的个性植物", color = Color.Black , fontSize = 16.sp,fontWeight = FontWeight.W600, modifier = Modifier
+            .offset(-10.dp, 50.dp)
+            .fillMaxWidth(),
+            textAlign = TextAlign.Center
+        )
+
+        Image(
+            painter = painterResource(id = com.example.jetpacktest02.R.drawable.g3_2_1_img_plant),
+            contentDescription = null,
+            alignment = Alignment.Center,
+            modifier = Modifier
+                .size(width = 178.dp, height = 158.dp)
+                .offset(80.dp, 190.dp)
+        )
+
+
+
+        if (ifmeaning==1){
+            Image(
+
+                painter = painterResource(id = com.example.jetpacktest02.R.drawable.g3_flower),
+                contentDescription = null,
+                alignment = Alignment.Center,
+                modifier = Modifier
+                    .size(width = 89.dp, height = 171.dp)
+                    .offset(120.dp, -90.dp)
+            )
+
+
+        }
+        if (ifmeaning==2){
+
+            Image(
+
+                painter = painterResource(id = com.example.jetpacktest02.R.drawable.g3_meatmuch),
+                contentDescription = null,
+                alignment = Alignment.Center,
+                modifier = Modifier
+                    .size(width = 112.dp, height = 75.dp)
+                    .offset(110.dp, -10.dp)
+            )
+
+
+        }
+        if (ifmeaning==3){
+
+            Image(
+
+                painter = painterResource(id = com.example.jetpacktest02.R.drawable.g3_godpeople),
+                contentDescription = null,
+                alignment = Alignment.Center,
+                modifier = Modifier
+                    .size(width = 110.dp, height = 129.dp)
+                    .offset(110.dp, -55.dp)
+            )
+
+        }
+        if (ifmeaning==4){
+
+            Image(
+
+                painter = painterResource(id = com.example.jetpacktest02.R.drawable.g3_grass),
+                contentDescription = null,
+                alignment = Alignment.Center,
+                modifier = Modifier
+                    .size(width = 108.dp, height = 124.dp)
+                    .offset(110.dp, -45.dp)
+            )
+
+        }
 //        Image(
-//            painter = painterResource(id = com.example.jetpacktest02.R.drawable.g8_vip_page),
+//
+//            painter = painterResource(id = com.example.jetpacktest02.R.drawable.g4_2_img_flower_shadowed),
 //            contentDescription = null,
+//            alignment = Alignment.Center,
 //            modifier = Modifier
-//                .fillMaxHeight()
-//                .fillMaxSize(), contentScale = ContentScale.FillWidth
+//                .size(width = 89.dp, height = 171.dp)
+//                .offset(120.dp, -75.dp)
 //        )
 
+//        Button(onClick = {},
+//            shape = RoundedCornerShape(27.dp),border = BorderStroke(1.dp, GreenMain),
+//            colors = ButtonDefaults.buttonColors(
+//                containerColor = GreenMain,
+//                contentColor = GreenMain
+//            ),
+//
+//            modifier = Modifier
+//                .size(width = 136.dp, height = 48.dp)
+//                .offset(100.dp, 60.dp)
+//
+//        ) {
+//            Text(text = "种下", color = Color.White, fontSize = 16.sp)
+//        }
 
 
     }
+    Column(modifier=Modifier
+        .padding(top = 600.dp,start=30.dp),
+        horizontalAlignment= Alignment.CenterHorizontally
+             ) {
+                Button(onClick = {},
+            shape = RoundedCornerShape(27.dp),border = BorderStroke(1.dp, GreenMain),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = GreenMain,
+                contentColor = GreenMain
+            ),
 
-    Column(){
+            modifier = Modifier
+                .size(width = 136.dp, height = 48.dp)
+                .offset(100.dp, 60.dp)
 
-
+        ) {
+            Text(text = "种下", color = Color.White, fontSize = 16.sp)
+        }
 
     }
+
+
+
+
+
 }
 
-
-//@Composable
-//fun DialogUI(){
-//    val shouldShowDialog=remember{
-//        mutableStateOf(true)
-//    }
-//    if(shouldShowDialog.value){
-//        AlertDialog(onDismissRequest = { shouldShowDialog.value=false },
-//
-////            title = { Text(text = "Dialog")},
-////            Image(painter = painterResource(id = com.example.jetpacktest02.R.drawable.g7_0_vipinactived)
-////                , contentDescription =null ),
-//
-//            text = { Text(text = "This is jetpack compose")},
-//            confirmButton = {
-//                Button(onClick = { shouldShowDialog.value=false},
-//                    colors = ButtonDefaults.buttonColors(
-//                    containerColor = GreenMain,
-//                    contentColor = GreenMain)
-//
-//
-//                ) {
-//                    Text(text = "确认", color = Color.White)
-//                }
-//            }
-//
-//
-//        )
-//
-//    }
-
-//}
-
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SeedTabRow() {
-    var state by remember { mutableStateOf(0) }
-    val titles = listOf("自定义", "随机")
-    var text by rememberSaveable(stateSaver = TextFieldValue.Saver) {
-        mutableStateOf(TextFieldValue("", TextRange(0, 7)))
-    }
+fun Page2(){
+    var ifseed by remember{
+        mutableStateOf(1)}
 
-//    val indicator = @Composable { tabPositions: List<TabPosition> ->
-//        TabIndicator(
-//        )
-//    }
-
-    Column {
-        androidx.compose.material.TabRow(
-            selectedTabIndex = state,
-            indicator = @Composable { tabPositions ->
-                androidx.compose.material.TabRowDefaults.Indicator(
-                    Modifier.customTabIndicatorOffset(tabPositions[state]),
-                    color = LightGreen
-                )
-            }
+    Column(
+        modifier=Modifier
+            .padding(top = 160.dp,start=30.dp),
+//        horizontalAlignment= Alignment.CenterHorizontally
+//             verticalArrangement = Arrangement.Center
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth()
+//            ,
+//            horizontalArrangement = Arrangement.Center
         ) {
-            titles.forEachIndexed { index, title ->
-                androidx.compose.material.Tab(
+            if(ifseed==1){
+                Image(
+
+                    painter = painterResource(id = com.example.jetpacktest02.R.drawable.g3_flower),
+                    contentDescription = null,
+                    alignment = Alignment.Center,
                     modifier = Modifier
-                        .background(Color.White)
-                        .width(10.dp),
-                    selected = state == index,
-                    onClick = { state = index },
-                    text = {
-                        androidx.compose.material.Text(
-                            text = title,
-                            maxLines = 2,
-                            overflow = TextOverflow.Ellipsis,
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.W800,
-                        )
-                    },
-                    selectedContentColor = Color.Black,
-                    unselectedContentColor = Gray1
+                        .size(width = 89.dp, height = 171.dp)
+                        .offset(120.dp, -90.dp).padding(0.dp)
                 )
             }
         }
 
-        Spacer(modifier = Modifier.height(15.dp))
-        androidx.compose.material3.TextField(
-            value = text,
-            shape = RoundedCornerShape(25f.dp),
-            onValueChange = { text = it },
-            singleLine = false,
-            leadingIcon = {
-                Image(
-                    painter = painterResource(R.drawable.g2_5_icon_search),
-                    contentDescription = "",
-                    modifier = Modifier.size(20.dp, 20.dp)
-                )
-            },
-            placeholder = {
-                androidx.compose.material3.Text(
-                    "搜索昵称或id",
-                    fontSize = 14.sp,
-                    color = Gray2
-                )
-            },
-//                            label={ Text("写两句话和好友打招呼吧", fontSize = 14.sp, color = Gray2) },
-            modifier = Modifier
-                .height(50.dp)
-                .width(330.dp)
-                .align(Alignment.CenterHorizontally)
-                .border(BorderStroke(1.dp, BlueGray2), RoundedCornerShape(25f.dp)),
-            colors = TextFieldDefaults.textFieldColors(
-                textColor = Gray2,
-                containerColor = Gray3,
-                focusedIndicatorColor = Color.Transparent,
-                unfocusedIndicatorColor = Color.Transparent
-            )
+
+        Text(text = "选取神秘植物", color = Color.Black , fontSize = 16.sp,fontWeight = FontWeight.W600, modifier = Modifier
+            .offset(-10.dp, -20.dp)
+            .fillMaxWidth(),
+            textAlign = TextAlign.Center
         )
+
+        Image(
+            painter = painterResource(id = com.example.jetpacktest02.R.drawable.g3_2_1_img_plant),
+            contentDescription = null,
+            alignment = Alignment.Center,
+            modifier = Modifier
+                .size(width = 178.dp, height = 158.dp)
+                .offset(80.dp, 190.dp)
+        )
+
+
+
+        if(ifseed==1){
+            Image(
+
+                painter = painterResource(id = com.example.jetpacktest02.R.drawable.g3_flower),
+                contentDescription = null,
+                alignment = Alignment.Center,
+                modifier = Modifier
+                    .size(width = 89.dp, height = 171.dp)
+                    .offset(120.dp, -90.dp)
+            )
+
+
+        }
+        if (ifseed==2){
+
+            Image(
+
+                painter = painterResource(id = com.example.jetpacktest02.R.drawable.g3_meatmuch),
+                contentDescription = null,
+                alignment = Alignment.Center,
+                modifier = Modifier
+                    .size(width = 112.dp, height = 75.dp)
+                    .offset(110.dp, -10.dp)
+            )
+
+
+        }
+        if (ifseed==3){
+
+            Image(
+
+                painter = painterResource(id = com.example.jetpacktest02.R.drawable.g3_godpeople),
+                contentDescription = null,
+                alignment = Alignment.Center,
+                modifier = Modifier
+                    .size(width = 110.dp, height = 129.dp)
+                    .offset(110.dp, -55.dp)
+            )
+
+        }
+
+//        Image(
+//
+//            painter = painterResource(id = com.example.jetpacktest02.R.drawable.g4_2_img_flower_shadowed),
+//            contentDescription = null,
+//            alignment = Alignment.Center,
+//            modifier = Modifier
+//                .size(width = 89.dp, height = 171.dp)
+//                .offset(120.dp, -75.dp)
+//        )
+
+//        Button(onClick = {},
+//            shape = RoundedCornerShape(27.dp),border = BorderStroke(1.dp, GreenMain),
+//            colors = ButtonDefaults.buttonColors(
+//                containerColor = GreenMain,
+//                contentColor = GreenMain
+//            ),
+//
+//            modifier = Modifier
+//                .size(width = 136.dp, height = 48.dp)
+//                .offset(100.dp, 60.dp)
+//
+//        ) {
+//            Text(text = "种下", color = Color.White, fontSize = 16.sp)
+//        }
+
+
     }
+    Column(modifier=Modifier
+        .padding(top = 600.dp,start=30.dp),
+        horizontalAlignment= Alignment.CenterHorizontally
+    ) {
+        Button(onClick = {},
+            shape = RoundedCornerShape(27.dp),border = BorderStroke(1.dp, GreenMain),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = GreenMain,
+                contentColor = GreenMain
+            ),
+
+            modifier = Modifier
+                .size(width = 136.dp, height = 48.dp)
+                .offset(100.dp, 60.dp)
+
+        ) {
+            Text(text = "种下", color = Color.White, fontSize = 16.sp)
+        }
+
+    }
+
+
+
+
+
 }
-//@Preview (name = "Light Mode")
-//@Composable
-//fun DefaultPreview(){
-//    VipScreen()
-//}
+

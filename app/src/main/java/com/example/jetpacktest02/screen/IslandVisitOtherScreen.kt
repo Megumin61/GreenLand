@@ -406,7 +406,7 @@ fun IslandVisitOtherScreen(
                                     alpha = 0.34f
                                 )
                         ) {
-
+                            //加载进度条
                             CircularProgressIndicator(progress = loadProgress.value / 100, modifier = Modifier.offset(y = 250.dp),color= LightGreen)
 
                         }
@@ -420,29 +420,3 @@ fun IslandVisitOtherScreen(
     }
 }
 
-
-@Preview("Light Mode")
-@Composable
-fun DefaultPreview() {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(
-                brush = Brush.verticalGradient(
-                    colors = listOf(
-                        Green1,
-                        Green2
-                    )
-                )
-            )
-    ) {
-        //页面内容的最外层Col
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(horizontal = 55.dp, vertical = 40.dp)
-        ) {
-
-        }
-    }
-}

@@ -1,7 +1,6 @@
 package com.example.jetpacktest02
 
 import android.os.Bundle
-import android.webkit.WebView
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
@@ -13,7 +12,6 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.core.view.WindowCompat
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -23,12 +21,8 @@ import com.example.jetpacktest02.Entity.User
 import com.example.jetpacktest02.ViewModel.UserViewModel
 import com.example.jetpacktest02.compose.MyBottomNavBar
 import com.example.jetpacktest02.config.UsersApplication
-import com.example.jetpacktest02.screen.IslandDeliverScreen
-import com.example.jetpacktest02.screen.IslandMemberListScreen
-import com.example.jetpacktest02.screen.IslandScreen
-import com.example.jetpacktest02.screen.MessageMsgScreen
-import com.example.jetpacktest02.compose.MyTopAppBar
 import com.example.jetpacktest02.screen.*
+import com.example.jetpacktest02.ui.main.MessageMsgScreen
 import com.example.jetpacktest02.ui.main.*
 import com.example.scaffolddemo.ui.theme.ScaffoldDemoTheme
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
@@ -47,7 +41,6 @@ fun NavHostController.navigateSingleTopTo(route: String) =
 @ExperimentalMaterialApi
 @AndroidEntryPoint
 class RallyActivity : ComponentActivity() {
-
     @OptIn(DelicateCoroutinesApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,7 +49,7 @@ class RallyActivity : ComponentActivity() {
 
         setContent {
 
-//            WordBookApp2()
+//            WordBookApp()
 //            CounterScreen()
             RallyApp()
         }
@@ -117,7 +110,6 @@ fun RallyApp() {
     val currentBackStack by navController.currentBackStackEntryAsState()
     val Textvalue: String = ""
 
-    val userViewModel: UserViewModel = viewModel()
     // Fetch your currentDestination:
     val currentDestination = currentBackStack?.destination
     // Change the variable to this and use Overview as a backup screen if this returns null
@@ -167,7 +159,7 @@ fun RallyApp() {
             //管理路由：页面跳转
             NavHost(
                 navController = navController,
-                startDestination = Island.route,
+                startDestination = Plant.route,
                 modifier = Modifier.padding(innerPadding)
 
             ) {
@@ -221,9 +213,60 @@ fun RallyApp() {
                             navController.navigate(PlantLookingForPlanFoot.route) {
                                 launchSingleTop = true;
                             }
-                        }
+                        },
+                        nav05 = {
+                            navController.navigate(PlanList.route) {
+                                launchSingleTop = true;
+                            }}
                     )
                 }
+                composable(route = PlanList.route) {
+                    PlanListScreen(
+                        nav01 = {
+                            navController.navigate(SetPlanSports.route) { launchSingleTop = true; }
+                        },
+                        nav02 = {
+                            navController.navigate(SetPlanDrink.route) {
+                                launchSingleTop = true;
+                            }
+                        },
+                        nav03 = {
+                            navController.navigate(SetPlanSleep.route) {
+                                launchSingleTop = true;
+                            }
+                        },
+                        nav04 = {
+                            navController.navigate(SetPlanEating.route) {
+                                launchSingleTop = true;
+                            }
+                        },
+                        nav05 = {
+                            navController.navigate(SetPlanDiy.route) {
+                                launchSingleTop = true;
+                            }
+                        },
+
+                    )
+                }
+
+                composable(route = SetPlanSports.route) {
+                    SetPlanSportsScreen(
+                    )
+                }
+                composable(route = SetPlanDrink.route) {
+                    SetPlanDrinkScreen()
+                }
+                composable(route = SetPlanSleep.route) {
+                    SetPlanSleepScreen()
+                }
+                composable(route = SetPlanEating.route) {
+                    SetPlanEatingScreen()
+                }
+                composable(route = SetPlanDiy.route) {
+                    SetPlanDiyScreen()
+                }
+
+
                 composable(route = Dailyhealthmessage.route) {
                     DailyhealthmessageScreen(
                         nav01 = {
@@ -282,22 +325,9 @@ fun RallyApp() {
                         }
                     )
                 }
-                composable(route = IslandVisitOther.route) {
-                    IslandVisitOtherScreen(
-                        nav01 = {
-                            navController.popBackStack()
-                        },
-                        nav02 = {
-                            navController.navigate(IslandDeliver.route) {
-                                launchSingleTop = true; popUpTo(IslandVisitOther.route) {}
-                            }
-                        },
-                    )
-                }
 
                 composable(route = Message.route) {
                     MessageScreen(
-                        userViewModel,
                         nav01 = {
                             navController.navigate(MessageTap.route) { launchSingleTop = true; }
                         }
@@ -310,7 +340,7 @@ fun RallyApp() {
                         nav01 = {
                             navController.navigate(MessageTap.route) { launchSingleTop = true; }
                         },
-                        nav02 = {
+                        nav02 ={
                             navController.navigate(MessageTap.route)
                         }
                     )

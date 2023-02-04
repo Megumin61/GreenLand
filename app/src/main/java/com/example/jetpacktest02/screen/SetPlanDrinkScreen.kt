@@ -1,0 +1,163 @@
+package com.example.jetpacktest02.screen
+
+import android.annotation.SuppressLint
+import android.service.chooser.ChooserTargetService
+import androidx.annotation.DrawableRes
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Card
+import androidx.compose.material.Scaffold
+import androidx.compose.material.TopAppBar
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.Modifier
+
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.imageResource
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.example.jetpacktest02.R
+import com.example.jetpacktest02.ui.main.PlanItem
+import com.example.scaffolddemo.ui.theme.Green1
+import com.example.scaffolddemo.ui.theme.Green2
+import com.example.scaffolddemo.ui.theme.Green5
+
+
+
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
+@Preview
+@Composable
+fun SetPlanDrinkScreen(){
+    var aimnum by rememberSaveable  {mutableStateOf("")}
+
+    Surface(modifier = Modifier.fillMaxSize()){
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier
+                .fillMaxSize()
+                .background(
+                    brush = Brush.verticalGradient(
+                        colors = listOf(
+                            Green1,
+                            Green2
+                        )
+                    )
+                )
+        ){
+            Scaffold(
+                topBar = {
+                    TopAppBar(title = {
+                        Box(
+                            modifier = Modifier.fillMaxWidth(),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(
+                                text = "修改计划",
+                                style = TextStyle(
+                                    fontWeight = FontWeight.W900, //设置字体粗细
+                                    fontSize = 18.sp,
+                                ),
+                                modifier = Modifier.offset(-150.dp, 0.dp)//向左偏移一段距离
+                            )
+                        }
+                    },
+                        backgroundColor = Green1,
+                        contentColor = Color.Black,
+                        elevation = 0.dp, //设置阴影
+                        //左侧按钮
+                        navigationIcon = {
+
+                            IconButton(onClick = {}) {
+                                Icon(
+                                    bitmap = ImageBitmap.imageResource(id = R.drawable.g1_2_0_ic_arrow_left),
+                                    contentDescription = null
+                                ) }
+                        },
+                        //右侧按钮
+                        actions = {
+//                            IconButton(onClick = {}) {
+//                                Icon(
+//                                    Icons.Default.Settings,
+//                                    contentDescription = "",
+//                                )
+//                            }
+                        }
+
+                    )
+                }
+            ) {
+
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(
+                            brush = Brush.verticalGradient(
+                                colors = listOf(
+                                    Green1,
+                                    Green2
+                                )
+                            )
+                        )
+                ) {
+
+                    Spacer(Modifier.height(10.dp))
+                    PlanItem(iconRes = R.drawable.g1_2_icbg_drinkwater)
+                    Box(){
+                        Image(painter = painterResource(id = R.drawable.g1_2_1_bg_dailyaim), contentDescription =null, modifier = Modifier
+                            .padding(horizontal = 32.dp))
+                        AimNum(aimnum = aimnum, onNumChange = {aimnum=it})
+
+                        Row(Modifier.padding(vertical = 100.dp)) {
+                            WorkDaySlider()
+                        }
+
+                        Image(painter = painterResource(id = R.drawable.g1_2_3_btn_blankremind1), contentDescription =null,
+                            modifier = Modifier
+                                .padding(horizontal = 48.dp)
+                                .padding(top = 182.dp))
+                        Image(painter = painterResource(id = R.drawable.g1_2_4_btn_deleteclock), contentDescription =null,modifier = Modifier
+                            .padding(horizontal = 48.dp)
+                            .padding(top = 280.dp))
+                        Image(painter = painterResource(id = R.drawable.g1_2_3_btn_blankremind), contentDescription =null,modifier = Modifier
+                            .padding(horizontal = 48.dp)
+                            .padding(top = 390.dp))
+
+                        Button(onClick = { /*TODO*/ }, modifier = Modifier
+                            .padding(top = 460.dp, start = 122.dp)
+                            .width(136.dp)
+                            .height(54.dp)
+                            ,colors = ButtonDefaults.buttonColors(containerColor = Green5)
+
+
+                        ) {
+                            Text(text = "确认", fontSize = 20.sp, fontWeight = FontWeight.W900)
+
+
+                        }
+                    }
+
+
+                }
+            }
+
+        }
+    }
+
+}
+

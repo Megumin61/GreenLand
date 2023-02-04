@@ -59,14 +59,14 @@ fun MsgDialogCard(openDialog : MutableState<Boolean>) {
                         )
                         Spacer(modifier = Modifier.height(20.dp))
                         Image(
-                            painter = painterResource(id = R.drawable.g2_1_img_user02),
+                            painter = painterResource(id = R.drawable.g2_1_img_user04),
                             contentDescription = "",
                             modifier = Modifier
                                 .align(Alignment.CenterHorizontally)
                                 .scale(1.2f)
                         )
                         Spacer(modifier = Modifier.height(5.dp))
-                        androidx.compose.material3.Text(text = "阿卷", modifier = Modifier.align(
+                        androidx.compose.material3.Text(text = "施&SHI", modifier = Modifier.align(
                             Alignment.CenterHorizontally))
                         Spacer(modifier = Modifier.height(15.dp))
                         TextField(

@@ -38,6 +38,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
@@ -46,14 +47,15 @@ import com.example.jetpacktest02.ViewModel.UserViewModel
 import com.example.scaffolddemo.ui.theme.*
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
-
+@Preview
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun MessageScreen(
 //            bills : (String) -> Unit = {},
     userViewModel: UserViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
     nav01: () -> Unit = {},//拍一拍
-    nav02: () -> Unit = {},//添加好友
+    nav02: () -> Unit = {},//好友空间
+    nav03: () -> Unit = {},//收到留言
 ) {
     //配置顶部状态栏颜色
     rememberSystemUiController().setStatusBarColor(
@@ -87,11 +89,11 @@ fun MessageScreen(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 5.dp, start = 8.dp, end = 8.dp),
+                .padding(top = 5.dp, start = 0.dp, end = 8.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Spacer(Modifier.height(10.dp))
-            IconButtonList(nav01)
+            IconButtonList(nav01,nav03)
             Spacer(Modifier.height(20.dp))
             MessageList(nav01, nav02,userViewModel)
         }
@@ -118,7 +120,7 @@ fun MessageScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun IconButtonList(nav01: () -> Unit = {}) {
+fun IconButtonList(nav01: () -> Unit = {},nav02: () -> Unit = {}) {
     Row(
         Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceEvenly,//子元素的水平方向排列效果
@@ -140,6 +142,7 @@ fun IconButtonList(nav01: () -> Unit = {}) {
             modifier = Modifier
                 .width(80.dp)
                 .height(80.dp)
+                .clickable(onClick = nav02)
 
         )
         Image(
@@ -374,14 +377,14 @@ fun DialogCard(userViewModel: UserViewModel = androidx.lifecycle.viewmodel.compo
                         )
                         Spacer(modifier = Modifier.height(20.dp))
                         Image(
-                            painter = painterResource(id = R.drawable.g2_1_img_user02),
+                            painter = painterResource(id = R.drawable.g2_1_img_user03),
                             contentDescription = "",
                             modifier = Modifier
                                 .align(Alignment.CenterHorizontally)
                                 .scale(1.2f)
                         )
                         Spacer(modifier = Modifier.height(5.dp))
-                        Text(text = "阿卷", modifier = Modifier.align(Alignment.CenterHorizontally))
+                        Text(text = "施&SHI", modifier = Modifier.align(Alignment.CenterHorizontally))
                         Spacer(modifier = Modifier.height(15.dp))
                         TextField(
                             value = text,

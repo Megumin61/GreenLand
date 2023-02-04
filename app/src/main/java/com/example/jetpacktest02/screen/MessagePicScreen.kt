@@ -45,7 +45,7 @@ import com.google.android.material.color.MaterialColors
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun MessageMsgScreen(
+fun MessagePicScreen(
 //            bills : (String) -> Unit = {},
     userViewModel: UserViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
     nav01: () -> Unit = {},
@@ -66,7 +66,7 @@ fun MessageMsgScreen(
                         contentAlignment = Alignment.Center
                     ) {
                         Text(
-                            text = "收到的留言",
+                            text = "收到的图片",
                             style = TextStyle(
                                 fontWeight = FontWeight.W900, //设置字体粗细
                                 fontSize = 18.sp,
@@ -99,7 +99,7 @@ fun MessageMsgScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Spacer(Modifier.height(0.dp))
-            MsgMessageList(nav01, nav02, userViewModel)
+            PicMessageList(nav01, nav02, userViewModel)
         }
     }
 
@@ -109,7 +109,7 @@ fun MessageMsgScreen(
 //@Preview(showBackground = true, backgroundColor = 0xFFF0EAE2, heightDp = 180)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MsgMessageList(nav01: () -> Unit = {}, nav02: () -> Unit, userViewModel: UserViewModel) {
+fun PicMessageList(nav01: () -> Unit = {}, nav02: () -> Unit, userViewModel: UserViewModel) {
 
     val listDat1 by remember {
         mutableStateOf(
@@ -129,21 +129,21 @@ fun MsgMessageList(nav01: () -> Unit = {}, nav02: () -> Unit, userViewModel: Use
         mutableStateOf(
             listOf(
                 //如果需要改变下面对象里面的属性，需要单独复制一份生成一个新的对象才可以
-                MsgListItemModel(
+                PicListItemModel(
                     "施&SHI",
                     "等下我们去二饭，你要不要一起来？",
                     R.drawable.g2_1_img_user03,
                     R.drawable.g2_1_btn_friend,
                     "11-29"
                 ),
-                MsgListItemModel(
+                PicListItemModel(
                     "ajunGrit",
                     "同学你好，能不能麻烦你帮我捡一下橡皮，就在你脚下，谢谢。",
                     R.drawable.g2_1_img_user04,
                     R.drawable.g2_1_btn_friend,
                     "11-26"
                 ),
-                MsgListItemModel(
+                PicListItemModel(
                     "foxBread",
                     "要不要吃麦当劳？有个优惠券我想我们可以一起拼的样子。买二送一菠萝派还有麦香鱼。",
                     R.drawable.g2_1_img_user05,
@@ -161,7 +161,7 @@ fun MsgMessageList(nav01: () -> Unit = {}, nav02: () -> Unit, userViewModel: Use
             .padding(horizontal = 16.dp)
     ) {
         listDat1.forEachIndexed { index, listItemModel ->
-            MsgMessageItem(
+            MsgPicItem(
                 name = listItemModel.name,
                 msg = listItemModel.msg,
                 res = listItemModel.res,
@@ -180,25 +180,13 @@ fun MsgMessageList(nav01: () -> Unit = {}, nav02: () -> Unit, userViewModel: Use
                 .align(Alignment.CenterHorizontally)
 
         )
-        listDat2.forEachIndexed { index, listItemModel ->
-            MsgMessageItem(
-                name = listItemModel.name,
-                msg = listItemModel.msg,
-                res = listItemModel.res,
-                res2 = listItemModel.res2,
-                time = listItemModel.time,
-                nav01,
-                nav02,
-                userViewModel
-            )
-        }
 //        Divider()
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MsgMessageItem(
+fun MsgPicItem(
     name: String,
     msg: String,
     res: Int,
@@ -254,7 +242,7 @@ fun MsgMessageItem(
             Spacer(modifier = Modifier.height(4.dp))
 
             Card(
-                colors = CardDefaults.cardColors(containerColor = Gray1),
+                colors = CardDefaults.cardColors(containerColor = BlueGray1),
 //                modifier = Modifier.padding(start = 6.dp, end = 6.dp, top = 2.dp, bottom = 2.dp)
             ) {
                 Text(
@@ -294,14 +282,10 @@ fun MsgMessageItem(
 }
 
 
-data class MsgListItemModel(
+data class PicListItemModel(
     val name: String,//用户名
     val msg: String,//给你留言了
     var res: Int,//头像
     var res2: Int,//添加好友图片
     var time: String//当前时间
 )
-
-class MessageMsgScreen {
-
-}

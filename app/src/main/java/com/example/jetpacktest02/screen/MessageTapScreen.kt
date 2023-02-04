@@ -37,6 +37,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.jetpacktest02.R
+import com.example.jetpacktest02.ViewModel.UserViewModel
 import com.example.scaffolddemo.ui.theme.Gray1
 import com.example.scaffolddemo.ui.theme.Green2
 
@@ -45,6 +46,7 @@ import com.example.scaffolddemo.ui.theme.Green2
 @Composable
 fun MessageTapScreen(
 //            bills : (String) -> Unit = {},
+    userViewModel: UserViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
     nav01: () -> Unit = {},
     nav02: () -> Unit = {},
 
@@ -83,6 +85,7 @@ fun MessageTapScreen(
             )
         }
     ) {
+        DialogCard(userViewModel)
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -90,7 +93,7 @@ fun MessageTapScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Spacer(Modifier.height(0.dp))
-            TapMessageList(nav01, nav02)
+            TapMessageList(nav01, nav02,userViewModel)
         }
     }
 
@@ -100,7 +103,7 @@ fun MessageTapScreen(
 //@Preview(showBackground = true, backgroundColor = 0xFFF0EAE2, heightDp = 180)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TapMessageList(nav01: () -> Unit = {}, nav02: () -> Unit) {
+fun TapMessageList(nav01: () -> Unit = {}, nav02: () -> Unit,    userViewModel: UserViewModel) {
 
     val listDat1 by remember {
         mutableStateOf(
@@ -173,7 +176,8 @@ fun TapMessageList(nav01: () -> Unit = {}, nav02: () -> Unit) {
                 res2 = listItemModel.res2,
                 time = listItemModel.time,
                 nav01,
-                nav02
+                nav02,
+                userViewModel
             )
         }
         Image(
@@ -192,7 +196,8 @@ fun TapMessageList(nav01: () -> Unit = {}, nav02: () -> Unit) {
                 res2 = listItemModel.res2,
                 time = listItemModel.time,
                 nav01,
-                nav02
+                nav02,
+                userViewModel
             )
         }
 //        Divider()
@@ -208,7 +213,8 @@ fun TapMessageItem(
     res2: Int,
     time: String,
     nav01: () -> Unit = {},
-    nav02: () -> Unit = {}
+    nav02: () -> Unit = {},
+    userViewModel: UserViewModel
 ) {
 
     ListItem(
@@ -235,7 +241,7 @@ fun TapMessageItem(
                     contentDescription = null,
                     modifier = Modifier
                         .width(40.dp)
-                        .height(40.dp)
+                        .height(40.dp).clickable(onClick = {userViewModel.uiState.value.openDialog.value=true})
                 )
             }
 

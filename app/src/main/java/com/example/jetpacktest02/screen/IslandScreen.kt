@@ -46,6 +46,7 @@ import com.example.scaffolddemo.ui.theme.*
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import kotlinx.coroutines.delay
 
+@Preview
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun IslandScreen(

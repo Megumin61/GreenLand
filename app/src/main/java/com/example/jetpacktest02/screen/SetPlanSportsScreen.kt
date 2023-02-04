@@ -1,16 +1,19 @@
 package com.example.jetpacktest02.screen
 
 import android.annotation.SuppressLint
+import android.app.TimePickerDialog
+import android.icu.util.Calendar
 import android.service.chooser.ChooserTargetService
 import androidx.annotation.DrawableRes
 import androidx.compose.animation.animateContentSize
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.*
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.Card
+import androidx.compose.material.MaterialTheme.colors
 import androidx.compose.material.Scaffold
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
@@ -27,9 +30,12 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -39,20 +45,28 @@ import androidx.compose.ui.unit.sp
 import com.example.jetpacktest02.R
 import com.example.jetpacktest02.ui.main.PlanItem
 import com.example.scaffolddemo.ui.theme.*
+import kotlinx.coroutines.delay
+import kotlin.math.roundToInt
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AimNum(aimnum: String, onNumChange: (String) -> Unit){
+fun AimNum(aimnum: String, onNumChange: (String) -> Unit) {
     Column(modifier = Modifier.padding(4.dp)) {
 
         OutlinedTextField(
 
-            singleLine=false,
+            singleLine = false,
             shape = RoundedCornerShape(10.dp),
             value = aimnum,
             onValueChange = onNumChange,
-            placeholder = { androidx.compose.material3.Text("设定目标", fontSize = 16.sp, color = Gray2)},
+            placeholder = {
+                androidx.compose.material3.Text(
+                    "设定目标",
+                    fontSize = 16.sp,
+                    color = Gray2
+                )
+            },
             modifier = Modifier
                 .size(400.dp, 60.dp)
                 .align(Alignment.CenterHorizontally),
@@ -60,19 +74,69 @@ fun AimNum(aimnum: String, onNumChange: (String) -> Unit){
                 textColor = Color.Black,
                 containerColor = Gray3,
                 focusedIndicatorColor = Color.Transparent,
-                unfocusedIndicatorColor  = Color.Transparent
-            ))
-
+                unfocusedIndicatorColor = Color.Transparent
+            )
+        )
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Preview
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun SetPlanSportsScreen(){
-    var aimnum by rememberSaveable  {mutableStateOf("")}
+fun SetPlanSportsScreen() {
 
-    Surface(modifier = Modifier.fillMaxSize()){
+    // Fetching local context
+    val mContext = LocalContext.current
+
+    // Declaring and initializing a calendar
+    val mCalendar = Calendar.getInstance()
+    val mHour = mCalendar[Calendar.HOUR_OF_DAY]
+    val mMinute = mCalendar[Calendar.MINUTE]
+
+    // Value for storing time as a string
+    val mTime = remember { mutableStateOf("") }
+    val remindListData = remember {
+        mutableStateListOf(
+            remindItemModel("9:00", 5f),
+            remindItemModel("12:30", 5f),
+            remindItemModel("18:20", 5f),
+        )
+    }
+    var changedIndex by remember {
+        mutableStateOf(0)
+    }
+    var changedRemindTime by remember {
+        mutableStateOf("")
+    }
+    // Creating a TimePicker dialog
+    val mTimePickerDialog = TimePickerDialog(
+        mContext,
+        { _, mHour: Int, mMinute: Int ->
+            mTime.value = "$mHour:$mMinute"
+            changedRemindTime = mTime.value
+            remindListData[changedIndex] = remindItemModel(changedRemindTime, 5f)
+        },
+        mHour, mMinute, false,
+    )
+
+    var aimnum by rememberSaveable { mutableStateOf("") }
+    //轻提醒列表
+
+
+    LaunchedEffect(remindListData) {
+
+    }
+
+//    val remindListData =
+//        mutableListOf(
+//            remindItemModel("9:00", "5分钟"),
+//            remindItemModel("12:30", "5分钟"),
+//            remindItemModel("18:20", "5分钟"),
+//        )
+
+
+    Surface(modifier = Modifier.fillMaxSize()) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
@@ -85,7 +149,7 @@ fun SetPlanSportsScreen(){
                         )
                     )
                 )
-        ){
+        ) {
             Scaffold(
                 topBar = {
                     TopAppBar(title = {
@@ -113,17 +177,11 @@ fun SetPlanSportsScreen(){
                                 Icon(
                                     bitmap = ImageBitmap.imageResource(id = R.drawable.g1_2_0_ic_arrow_left),
                                     contentDescription = null
-                                ) }
+                                )
+                            }
                         },
                         //右侧按钮
-                        actions = {
-//                            IconButton(onClick = {}) {
-//                                Icon(
-//                                    Icons.Default.Settings,
-//                                    contentDescription = "",
-//                                )
-//                            }
-                        }
+                        actions = { }
 
                     )
                 }
@@ -133,6 +191,7 @@ fun SetPlanSportsScreen(){
                     horizontalAlignment = Alignment.CenterHorizontally,
                     modifier = Modifier
                         .fillMaxSize()
+                        .verticalScroll(rememberScrollState())
                         .background(
                             brush = Brush.verticalGradient(
                                 colors = listOf(
@@ -152,19 +211,26 @@ fun SetPlanSportsScreen(){
                         Modifier
                             .fillMaxWidth()
                             .padding(horizontal = 24.dp),
-                            shape = RoundedCornerShape(30.dp),
-                            colors = CardDefaults.cardColors(containerColor = Color.White)
-                        ){
-                        Column(modifier = Modifier
-                            .animateContentSize()
-                            .padding(20.dp)) {
-                            Row(modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(horizontal = 10.dp), horizontalArrangement = Arrangement.SpaceBetween) {
-                                Text(text = "每日目标", fontSize = 18.sp,
+                        shape = RoundedCornerShape(30.dp),
+                        colors = CardDefaults.cardColors(containerColor = Color.White)
+                    ) {
+                        Column(
+                            modifier = Modifier
+                                .padding(20.dp)
+                        ) {
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(horizontal = 10.dp),
+                                horizontalArrangement = Arrangement.SpaceBetween
+                            ) {
+                                Text(
+                                    text = "每日目标", fontSize = 18.sp,
                                     fontWeight = FontWeight.W900,
                                     color = Color.Black,
-                                    textAlign = TextAlign.Justify)}
+                                    textAlign = TextAlign.Justify
+                                )
+                            }
 
                             Spacer(modifier = Modifier.padding(5.dp))
                             androidx.compose.material.Divider(
@@ -173,83 +239,233 @@ fun SetPlanSportsScreen(){
                                 thickness = 2.dp
                             )
                             Spacer(modifier = Modifier.padding(5.dp))
-                            Row(modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(horizontal = 10.dp), horizontalArrangement = Arrangement.SpaceBetween) {
-                                Text(text = "提醒时间", fontSize = 14.sp,
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(horizontal = 10.dp),
+                                horizontalArrangement = Arrangement.SpaceBetween
+                            ) {
+                                Text(
+                                    text = "提醒时间", fontSize = 14.sp,
                                     fontWeight = FontWeight.W900,
                                     color = Gray5,
-                                    textAlign = TextAlign.Justify)}
+                                    textAlign = TextAlign.Justify
+                                )
+                            }
                             Spacer(modifier = Modifier.padding(8.dp))
-                            Row(modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(horizontal = 10.dp), horizontalArrangement = Arrangement.SpaceBetween) {
-                                DayItem()}
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(horizontal = 10.dp),
+                                horizontalArrangement = Arrangement.SpaceBetween
+                            ) {
+                                DayItem()
+                            }
                             Spacer(modifier = Modifier.padding(8.dp))
 
-                            Row(modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(horizontal = 10.dp), horizontalArrangement = Arrangement.SpaceBetween) {
-                            Text(text = "目标次数", fontSize = 14.sp,
-                                fontWeight = FontWeight.W900,
-                                color = Gray5,
-                                textAlign = TextAlign.Justify)}
-                            Spacer(modifier = Modifier.padding(8.dp))
-                            AimNum(aimnum = aimnum, onNumChange = {aimnum=it})
-                            Spacer(modifier = Modifier.padding(8.dp))
-                            Row(modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(horizontal = 10.dp), horizontalArrangement = Arrangement.SpaceBetween) {
-                                Text(text = "轻提醒", fontSize = 14.sp,
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(horizontal = 10.dp),
+                                horizontalArrangement = Arrangement.SpaceBetween
+                            ) {
+                                Text(
+                                    text = "目标次数", fontSize = 14.sp,
                                     fontWeight = FontWeight.W900,
                                     color = Gray5,
-                                    textAlign = TextAlign.Justify)}
+                                    textAlign = TextAlign.Justify
+                                )
+                            }
                             Spacer(modifier = Modifier.padding(8.dp))
-                            Column(Modifier.padding(horizontal = 4.dp)) {
-                                Card(shape = RoundedCornerShape(10.dp)
-                                    ,colors = CardDefaults.cardColors(containerColor = Gray3)
-                                    , modifier = Modifier
-                                        .height(60.dp)
-                                        .fillMaxWidth()) {
-                                    Row(Modifier.padding(horizontal = 10.dp)) {
-                                        Text(text = "上午", fontSize = 18.sp,
-                                            color = Color.Black, modifier = Modifier.offset(5.dp,10.dp))
-                                        Text(text = "9 : 00", fontSize = 24.sp,
-                                            fontWeight = FontWeight.W900,
-                                            color = Color.Black, modifier = Modifier.offset(10.dp,6.dp))
-                                        IconButton(onClick = { /*TODO*/ }, modifier = Modifier.offset(145.dp,0.dp)) {
-                                            Icon(painter = painterResource(id = R.drawable.g1_2_4_ic_deleteclock), contentDescription =null )
+                            AimNum(aimnum = aimnum, onNumChange = { aimnum = it })
+                            Spacer(modifier = Modifier.padding(8.dp))
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(horizontal = 10.dp),
+                                horizontalArrangement = Arrangement.SpaceBetween
+                            ) {
+                                Text(
+                                    text = "轻提醒", fontSize = 14.sp,
+                                    fontWeight = FontWeight.W900,
+                                    color = Gray5,
+                                    textAlign = TextAlign.Justify
+                                )
+                            }
+                            Spacer(modifier = Modifier.padding(8.dp))
+                            Column(
+                                Modifier.padding(horizontal = 4.dp),
+                                horizontalAlignment = Alignment.CenterHorizontally
+                            ) {
+
+                                //轻提醒项目卡片 遍历数组remindListData
+                                remindListData.forEachIndexed { index, remindItemModel ->
+                                    Card(
+                                        shape = RoundedCornerShape(10.dp),
+                                        colors = CardDefaults.cardColors(containerColor = Gray3),
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                    ) {
+                                        Row(
+                                            Modifier
+                                                .padding(start = 13.dp, end = 20.dp, top = 10.dp)
+                                                .fillMaxWidth(),
+                                            horizontalArrangement = Arrangement.SpaceBetween,
+                                            verticalAlignment = Alignment.CenterVertically
+                                        ) {
+                                            Row(
+                                                verticalAlignment = Alignment.CenterVertically,
+                                                modifier = Modifier.clickable(
+                                                    onClick = {
+                                                        mTimePickerDialog.show()
+                                                        changedIndex = index
+                                                    },
+                                                    indication = null,
+                                                    interactionSource = MutableInteractionSource()
+                                                )
+                                            ) {
+                                                Spacer(modifier = Modifier.width(6.dp))
+                                                Text(
+                                                    text = remindItemModel.remindTime,
+                                                    fontSize = 24.sp,
+                                                    fontWeight = FontWeight.W700,
+                                                    color = Color.Black,
+                                                )
+                                            }
+                                            Image(
+                                                painter = painterResource(id = R.drawable.g1_2_4_ic_deleteclock),
+                                                contentDescription = null,
+                                                modifier = Modifier
+                                                    .size(15.dp)
+                                                    .clickable(
+                                                        onClick = {
+                                                            remindListData.removeAt(index)
+                                                        },
+                                                        indication = null,
+                                                        interactionSource = MutableInteractionSource()
+                                                    )
+                                            )
+                                        }
+                                        Row(
+                                            Modifier
+                                                .padding(start = 20.dp, top = 0.dp)
+                                                .fillMaxWidth(),
+                                            horizontalArrangement = Arrangement.SpaceBetween,
+                                            verticalAlignment = Alignment.CenterVertically
+                                        ) {
+                                            Row(
+                                                verticalAlignment = Alignment.CenterVertically
+                                            ) {
+                                                Text(
+                                                    text = "再提醒间隔 ${remindItemModel.remindInterval.roundToInt()}分钟",
+                                                    fontSize = 12.sp,
+                                                    color = Color.Black,
+                                                )
+                                                Slider(
+                                                    value = remindItemModel.remindInterval,
+                                                    onValueChange = {
+                                                        remindListData[index] = remindItemModel(
+                                                            remindItemModel.remindTime,
+                                                            it
+                                                        )
+                                                    },
+                                                    colors = SliderDefaults.colors(
+                                                        thumbColor = Green5,
+                                                        activeTrackColor = Green5,
+                                                        inactiveTrackColor = Green7
+                                                    ),
+                                                    valueRange = 1f..15f,
+                                                    steps = 13,
+                                                    modifier = Modifier.width(150.dp)
+                                                )
+//                                                BasicTextField(
+//                                                    value = remindItemModel.remindInterval,
+//                                                    onValueChange = {
+//                                                        remindItemModel.remindInterval = it
+//                                                    },
+//                                                    modifier = Modifier
+//                                                        .background(Gray6, CircleShape),
+//                                                    decorationBox = { innerTextField ->
+//                                                        Row(
+//                                                            verticalAlignment = Alignment.CenterVertically,
+//                                                            modifier = Modifier.padding(horizontal = 10.dp)
+//                                                        ) {
+//                                                            Box(
+//                                                                modifier = Modifier
+//                                                                    .weight(1f)
+//                                                                    .fillMaxSize(),
+//                                                                contentAlignment = Alignment.TopStart
+//                                                            ) {
+//                                                                innerTextField()
+//                                                            }
+//                                                        }
+//                                                    }
+//                                                )
+                                            }
                                         }
                                     }
+
+                                    Spacer(modifier = Modifier.height(20.dp))
                                 }
-                                Spacer(modifier = Modifier.padding(10.dp))
-                                Card(shape = RoundedCornerShape(10.dp)
-                                    ,colors = CardDefaults.cardColors(containerColor = Gray3)
-                                    , modifier = Modifier
+
+                                //增加提醒按钮
+                                Card(
+                                    shape = RoundedCornerShape(10.dp),
+                                    colors = CardDefaults.cardColors(containerColor = Gray3),
+                                    modifier = Modifier
                                         .height(35.dp)
-                                        .fillMaxWidth()) {
-                                    Row(Modifier.padding(horizontal = 10.dp)) {
-                                        IconButton(onClick = { /*TODO*/ }) {
-                                            Icon(painter = painterResource(id = R.drawable.g1_2_4_ic_deleteclock), contentDescription =null )
-                                        }
+                                        .fillMaxWidth()
+                                        .clickable(
+                                            onClick = {
+                                                remindListData.add(
+                                                    remindItemModel(
+                                                        "12:00",
+                                                        5f
+                                                    )
+                                                )
+                                            },
+                                            indication = null,
+                                            interactionSource = MutableInteractionSource()
+                                        )
+
+                                ) {
+                                    Row(
+                                        Modifier
+                                            .padding(horizontal = 20.dp)
+                                            .fillMaxHeight(),
+                                        verticalAlignment = Alignment.CenterVertically
+                                    ) {
+                                        Image(
+                                            painter = painterResource(id = R.drawable.g1_2_4_ic_addclock),
+                                            contentDescription = null,
+                                            modifier = Modifier
+                                                .size(15.dp)
+
+                                        )
                                     }
                                 }
                                 Spacer(modifier = Modifier.padding(16.dp))
-                                Button(onClick = { /*TODO*/ }, modifier = Modifier.padding(start = 80.dp)
-                                    .width(136.dp)
-                                    .height(54.dp)
-                                    ,colors = ButtonDefaults.buttonColors(containerColor = Green5)
+                                Button(
+                                    onClick = { /*TODO*/ },
+                                    modifier = Modifier
+                                        .width(136.dp)
+                                        .height(54.dp),
+                                    colors = ButtonDefaults.buttonColors(containerColor = Green5)
                                 ) {
-                                    Text(text = "确认", fontSize = 20.sp, fontWeight = FontWeight.W900)
+                                    Text(
+                                        text = "确认",
+                                        fontSize = 20.sp,
+                                        fontWeight = FontWeight.W900
+                                    )
                                 }
                                 Spacer(modifier = Modifier.padding(10.dp))
                             }
                         }
 
 
-
-
                     }
+
+                    Spacer(Modifier.height(20.dp))
 
 //                        Image(painter = painterResource(id = R.drawable.g1_2_1_bg_dailyaim), contentDescription =null, modifier = Modifier
 //                            .padding(horizontal = 32.dp))
@@ -282,29 +498,30 @@ fun SetPlanSportsScreen(){
 //
 //
 //                        }
-                    }
-
-
                 }
+
+
             }
-
         }
-    }
 
+    }
+}
 
 
 @Composable
-public fun WorkDaySlider(){
+public fun WorkDaySlider() {
 
     Box(modifier = Modifier.fillMaxWidth(), Alignment.Center) {
 
 
-        Column(modifier = Modifier
-            .height(28.dp)
-            .width(205.dp)
-            .background(color = Color(0xff7FC7A8))
-            .clip(RoundedCornerShape(10.dp))
-            .offset(-5.dp, -5.dp)) {
+        Column(
+            modifier = Modifier
+                .height(28.dp)
+                .width(205.dp)
+                .background(color = Color(0xff7FC7A8))
+                .clip(RoundedCornerShape(10.dp))
+                .offset(-5.dp, -5.dp)
+        ) {
 
         }
         Column {
@@ -315,8 +532,9 @@ public fun WorkDaySlider(){
     }
 
 }
+
 @Composable
-public fun DayItem(){
+public fun DayItem() {
     Row() {
         Text(
             text = "周一",
@@ -367,5 +585,10 @@ public fun DayItem(){
             style = MaterialTheme.typography.bodyMedium,
 
             )
-    }}
+    }
+}
 
+data class remindItemModel(
+    var remindTime: String,
+    var remindInterval: Float,
+)

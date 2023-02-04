@@ -33,7 +33,9 @@ import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 
 import androidx.compose.ui.Alignment
@@ -55,6 +57,7 @@ import com.example.jetpacktest02.screen.AvatarItem
 import com.example.scaffolddemo.ui.theme.*
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
+import com.google.accompanist.pager.rememberPagerState
 import kotlinx.coroutines.launch
 
 /**
@@ -122,6 +125,14 @@ fun PlanItem(@DrawableRes iconRes:Int){
 /*部分布局样式,CardPage放在里面*/
 @Composable
 fun NewScreen() {
+    //控制卡片pager的切换
+    val pagerState = rememberPagerState()
+    LaunchedEffect(pagerState) {
+        snapshotFlow { pagerState.currentPage }.collect { page ->
+            pagerState.animateScrollToPage(page)
+        }
+    }
+
     val state = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
     val scope = rememberCoroutineScope()
     Box() {
@@ -174,10 +185,15 @@ fun NewScreen() {
                 .offset(50.dp, 100.dp))
         Column(Modifier.fillMaxSize(),verticalArrangement = Arrangement.Bottom) {
             Box(modifier = Modifier.fillMaxWidth(), Alignment.BottomCenter) {
-                HorizontalPager(count = 3) { page ->
-                    CardPage(planname ="运动", aimcontent = "目标步数", realcontent ="实际步数", aimnum =3000, realnum =2786)
-                    CardPage(planname ="喝水", aimcontent = "目标次数", realcontent ="实际次数", aimnum =25, realnum =18)
-                    CardPage(planname ="睡眠", aimcontent = "目标次数", realcontent ="实际次数", aimnum =25, realnum =18)
+                HorizontalPager(count = 3,state = pagerState) { page ->
+                    when(page){
+                        0->{
+                            CardPage(planname ="运动", aimcontent = "目标步数", realcontent ="实际步数", aimnum =3000, realnum =2786)}
+                        1->{
+                            CardPage(planname ="喝水", aimcontent = "目标次数", realcontent ="实际次数", aimnum =25, realnum =18)}
+                        2->{
+                            CardPage(planname ="睡眠", aimcontent = "目标次数", realcontent ="实际次数", aimnum =25, realnum =18)}
+                    }
                 }
                /* ViewPager*/
 
@@ -209,6 +225,7 @@ fun NewScreen() {
 /*计划卡片样式,需要加日历和百分数水球*/
 @Composable
 fun CardPage(planname:String,aimcontent:String,realcontent:String,aimnum:Int,realnum:Int){
+
 
     Card(
         modifier = Modifier.size(width = 331.dp, height = 410.dp),

@@ -81,7 +81,7 @@ object IslandMemberList : RallyDestination {
 }
 object IslandVisitOther : RallyDestination {
     override val icon = Icons.Filled.MoneyOff
-    override val route = "4.5-island-visitOther"
+    override val route = "4.5-island-visitOther/{res}/{name}"
 }
 object IslandDeliver : RallyDestination {
     override val icon = Icons.Filled.MoneyOff
@@ -95,6 +95,21 @@ object Message : RallyDestination {
 object MessageMsg : RallyDestination {
     override val icon = Icons.Filled.MoneyOff
     override val route = "2.3-message-message"
+}
+
+object MessageTap : RallyDestination {
+    override val icon = Icons.Filled.MoneyOff
+    override val route = "2.2-message-tap"
+}
+
+object MessagePic : RallyDestination {
+    override val icon = Icons.Filled.MoneyOff
+    override val route = "2.4-message-picture"
+}
+
+object MessageFriend : RallyDestination {
+    override val icon = Icons.Filled.MoneyOff
+    override val route = "2.5-message-friend"
 }
 
 object My : RallyDestination {
@@ -122,10 +137,7 @@ object PlantLookingForPlanFoot : RallyDestination {
     override val route = "1.4.1-plant-lookingforplan-foot"
 }
 
-object MessageTap : RallyDestination {
-    override val icon = Icons.Filled.MoneyOff
-    override val route = "2.2-message-tap"
-}
+
 
 
 

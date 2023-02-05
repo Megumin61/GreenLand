@@ -15,13 +15,39 @@
  */
 package com.example.jetpacktest02.ViewModel
 
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.accompanist.pager.PagerState
+import com.google.accompanist.pager.rememberPagerState
+import java.time.Duration
+
 /**
  * Data class that represents the UI state
  */
-data class UiState(
+data class UiState @OptIn(ExperimentalPagerApi::class) constructor(
     val currentScrambledWord: String = "",
     val currentWordCount: Int = 0,
     val score: Int = 0,
     val isGuessedWordWrong: Boolean = false,
-    val isGameOver: Boolean = false
+    val isGameOver: Boolean = false,
+
+
+    //MessageScreen
+    val openDialog : MutableState<Boolean> = mutableStateOf(false),
+    //MessageFriendScreen
+    val pageState :MutableState<Int> = mutableStateOf(0)
+)
+data class PlayerUiState(
+    val title: String = "",
+    val subTitle: String = "",
+    val duration: Duration? = null,
+    val podcastName: String = "",
+    val author: String = "",
+    val summary: String = "",
+    val podcastImageUrl: String = ""
+)
+data class Plant(
+    val water :Int =100
 )

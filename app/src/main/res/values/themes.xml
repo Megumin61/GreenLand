@@ -14,5 +14,8 @@
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <item name="android:navigationBarColor">#00000000</item>
         <!-- Customize your theme here. -->
+
+<!--        设置底部小白条颜色-->
+<!--        <item name="android:navigationBarColor">#00000000</item>-->
     </style>
 </resources>

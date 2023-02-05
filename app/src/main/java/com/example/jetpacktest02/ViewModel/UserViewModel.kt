@@ -12,7 +12,7 @@ import javax.inject.Inject
 
 
 @HiltViewModel
-class UserViewModel @Inject constructor(val repository: UserRepository) : ViewModel() {
+class UserViewModel @Inject  constructor(val repository: UserRepository) : ViewModel() {
 
     val allUsers: LiveData<List<User>> = repository.allUsers.asLiveData()
 
@@ -35,6 +35,17 @@ class UserViewModel @Inject constructor(val repository: UserRepository) : ViewMo
     fun getUser(id: Int): User {
         return repository.getUserById(id)
     }
+    fun UpdateUser(user: User){
+        return repository.updateUser(user)
+    }
+
+    suspend fun InsertUser(user: User){
+        return repository.insertUser(user)
+    }
+    fun DeleteUser(id: Int){
+        return repository.deleteUserById(id)
+    }
+
 
 
 

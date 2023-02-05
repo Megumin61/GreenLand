@@ -5,35 +5,51 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
+import androidx.compose.material.Icon
+import androidx.compose.material.Scaffold
+import androidx.compose.material3.*
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
 import com.example.jetpacktest02.R
-import com.example.scaffolddemo.ui.theme.Flesh1
-import com.example.scaffolddemo.ui.theme.Flesh2
-import com.example.scaffolddemo.ui.theme.Green1
-import com.example.scaffolddemo.ui.theme.Green2
+import com.example.scaffolddemo.ui.theme.*
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
+@OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun IslandNearbyMemberListScreen(
     nav01: () -> Unit = {},
     nav02: () -> Unit = {}
 ) {
+
+    var text by rememberSaveable(stateSaver = TextFieldValue.Saver) {
+        mutableStateOf(TextFieldValue("", TextRange(0, 7)))
+    }
+    var requestFriendDialog by remember {
+        mutableStateOf(false)
+    }
+
     //配置顶部状态栏颜色
     rememberSystemUiController().setStatusBarColor(
         Flesh2, darkIcons = androidx.compose.material.MaterialTheme.colors.isLight
@@ -95,10 +111,96 @@ fun IslandNearbyMemberListScreen(
 
                 //页面组件
                 Spacer(modifier = Modifier.height(20.dp))
-                NearbyFriendList(nav02)
+                NearbyFriendList(nav02,{requestFriendDialog = true})
                 Spacer(modifier = Modifier.height(20.dp))
                 SwitchArea()
 
+            }
+
+            //添加好友弹窗
+            if (requestFriendDialog) {
+                Dialog(
+                    onDismissRequest = { requestFriendDialog = false },
+                ) {
+                    Column() {
+                        androidx.compose.material3.Card(
+//                    onClick = { /* Do something */ },
+                            modifier = Modifier.size(width = 380.dp, height = 350.dp),
+                            shape = RoundedCornerShape(20.dp),
+                            colors = CardDefaults.cardColors(containerColor = Color.White)
+                        ) {
+                            Column(
+                                Modifier
+                                    .fillMaxWidth()
+                                    .padding(10.dp),
+                                verticalArrangement = Arrangement.SpaceEvenly,
+                            ) {
+                                Spacer(modifier = Modifier.height(15.dp))
+                                Text(
+                                    text = "好友申请",
+                                    style = TextStyle(
+                                        fontWeight = FontWeight.ExtraBold, //设置字体粗细
+                                        fontSize = 22.sp,
+                                    ),
+                                    modifier = Modifier.align(Alignment.CenterHorizontally)
+                                )
+                                Spacer(modifier = Modifier.height(20.dp))
+                                Image(
+                                    painter = painterResource(id = R.drawable.g2_1_img_user04),
+                                    contentDescription = "",
+                                    modifier = Modifier
+                                        .align(Alignment.CenterHorizontally)
+                                        .scale(1.2f)
+                                )
+                                Spacer(modifier = Modifier.height(5.dp))
+                                Text(
+                                    text = "施&SHI", modifier = Modifier.align(
+                                        Alignment.CenterHorizontally
+                                    )
+                                )
+                                Spacer(modifier = Modifier.height(15.dp))
+                                androidx.compose.material3.TextField(
+                                    value = text,
+                                    shape = RoundedCornerShape(10.dp),
+                                    onValueChange = { text = it },
+                                    singleLine = false,
+                                    placeholder = {
+                                        Text(
+                                            "写两句话和好友打招呼吧",
+                                            fontSize = 14.sp,
+                                            color = Gray2
+                                        )
+                                    },
+//                            label={ Text("写两句话和好友打招呼吧", fontSize = 14.sp, color = Gray2) },
+                                    modifier = Modifier
+                                        .size(250.dp, 60.dp)
+                                        .align(Alignment.CenterHorizontally),
+                                    colors = TextFieldDefaults.textFieldColors(
+                                        textColor = Gray2,
+                                        containerColor = Gray3,
+                                        focusedIndicatorColor = Color.Transparent,
+                                        unfocusedIndicatorColor = Color.Transparent
+                                    )
+                                )
+                                Spacer(modifier = Modifier.height(40.dp))
+                                Image(
+                                    painter = painterResource(id = R.drawable.g4_4_btn_addfriend),
+                                    contentDescription = "",
+                                    modifier = Modifier
+                                        .align(Alignment.CenterHorizontally)
+                                        .clickable(onClick = { requestFriendDialog = false }),
+                                )
+                            }
+                        }
+                        Spacer(modifier = Modifier.height(40.dp))
+                        Image(
+                            painter = painterResource(id = R.drawable.g4_4_btn_close),
+                            contentDescription = "",
+                            modifier = Modifier
+                                .align(Alignment.CenterHorizontally).clickable(onClick = {requestFriendDialog=false})
+                        )
+                    }
+                }
             }
         }
     }
@@ -106,7 +208,7 @@ fun IslandNearbyMemberListScreen(
 
 
 @Composable
-fun NearbyFriendList(nav02: () -> Unit = {}) {
+fun NearbyFriendList(nav02: () -> Unit = {},showRequestFriendDialog: () -> Unit) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.Center
@@ -131,13 +233,13 @@ fun NearbyFriendList(nav02: () -> Unit = {}) {
                         .fillMaxSize()
                         .padding(5.dp, 15.dp, 15.dp, 15.dp)
                 ) {
-                    NearbyFriendItem(nav02)
+                    NearbyFriendItem(nav02,showRequestFriendDialog)
                     Spacer(modifier = Modifier.height(20.dp))
-                    NearbyFriendItem(nav02)
+                    NearbyFriendItem(nav02,showRequestFriendDialog)
                     Spacer(modifier = Modifier.height(20.dp))
-                    NearbyFriendItem(nav02)
+                    NearbyFriendItem(nav02,showRequestFriendDialog)
                     Spacer(modifier = Modifier.height(20.dp))
-                    NearbyFriendItem(nav02)
+                    NearbyFriendItem(nav02,showRequestFriendDialog)
                 }
             }
         }
@@ -147,7 +249,7 @@ fun NearbyFriendList(nav02: () -> Unit = {}) {
 
 
 @Composable
-fun NearbyFriendItem(nav02: () -> Unit = {}) {
+fun NearbyFriendItem(nav02: () -> Unit = {},showRequestFriendDialog:()->Unit={}) {
     Row(modifier = Modifier.height(50.dp)) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -200,16 +302,16 @@ fun NearbyFriendItem(nav02: () -> Unit = {}) {
                 ) {
                     //用户头像
                     Image(
-                        painter = painterResource(id = R.drawable.g4_2_ic_friendtag),
+                        painter = painterResource(id = R.drawable.g2_2_btn_friend),
                         contentDescription = null,
                         modifier = Modifier
-                            .width(40.dp),
+                            .width(40.dp).clickable(onClick = showRequestFriendDialog),
                     )
                 }
             }
             //私信按钮
             Row(
-                horizontalArrangement = Arrangement.End
+                horizontalArrangement = Arrangement.End, modifier = Modifier.padding(end = 5.dp)
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.g4_3_ic_sendmessage),

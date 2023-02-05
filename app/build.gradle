@@ -48,6 +48,9 @@ android {
 }
 
 dependencies {
+    //日历依赖
+    implementation("com.himanshoe:kalendar:1.2.0")
+
     //lottie 2D动画框架依赖
     def lottieVersion = "5.2.0"
     implementation "com.airbnb.android:lottie-compose:$lottieVersion"

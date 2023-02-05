@@ -154,12 +154,10 @@ fun RallyApp() {
             }
         ) { innerPadding ->
 
-//            val navController = rememberNavController()
-
             //管理路由：页面跳转
             NavHost(
                 navController = navController,
-                startDestination =Plant.route,
+                startDestination =PlantPlan.route,
                 modifier = Modifier.padding(innerPadding)
 
             ) {

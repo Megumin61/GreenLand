@@ -38,6 +38,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
@@ -52,6 +53,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import com.airbnb.lottie.compose.*
 import com.airbnb.lottie.model.content.CircleShape
 import com.example.jetpacktest02.R
@@ -60,12 +63,13 @@ import com.example.scaffolddemo.ui.theme.*
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
+import com.himanshoe.kalendar.Kalendar
+import com.himanshoe.kalendar.color.KalendarThemeColor
+import com.himanshoe.kalendar.model.KalendarEvent
+import com.himanshoe.kalendar.model.KalendarType
 import kotlinx.coroutines.launch
+import kotlinx.datetime.LocalDate
 import kotlin.math.roundToInt
-
-/**
- * The Bills screen.
- */
 
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -124,12 +128,15 @@ fun PlanItem(@DrawableRes iconRes: Int) {
 }
 
 
-@OptIn(ExperimentalMaterialApi::class, ExperimentalPagerApi::class)
+@OptIn(ExperimentalMaterialApi::class, ExperimentalPagerApi::class, ExperimentalComposeUiApi::class)
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 
 /*部分布局样式,CardPage放在里面*/
 @Composable
 fun NewScreen() {
+    var openCalendar by remember {
+        mutableStateOf(false)
+    }
     //控制卡片pager的切换
     val pagerState = rememberPagerState()
     LaunchedEffect(pagerState) {
@@ -203,7 +210,8 @@ fun NewScreen() {
                                 aimcontent = "目标步数",
                                 realcontent = "实际步数",
                                 aimnum = 3000,
-                                realnum = 2786
+                                realnum = 2786,
+                                { openCalendar = true }
                             )
                         }
                         1 -> {
@@ -212,7 +220,8 @@ fun NewScreen() {
                                 aimcontent = "目标次数",
                                 realcontent = "实际次数",
                                 aimnum = 25,
-                                realnum = 18
+                                realnum = 18,
+                                { openCalendar = true }
                             )
                         }
                         2 -> {
@@ -221,7 +230,8 @@ fun NewScreen() {
                                 aimcontent = "目标次数",
                                 realcontent = "实际次数",
                                 aimnum = 25,
-                                realnum = 18
+                                realnum = 18,
+                                { openCalendar = true }
                             )
                         }
                     }
@@ -232,6 +242,100 @@ fun NewScreen() {
             }
         }
     }
+    //日历弹窗组件
+    if (openCalendar) {
+
+        Dialog(
+            onDismissRequest = { openCalendar=false},
+
+        ) {
+            Kalendar(
+                kalendarType = KalendarType.Firey, kalendarThemeColors = listOf(
+                    KalendarThemeColor(
+                        Color(0xffEAFEFD),
+                        Color(0XFFBBDED8),
+                        Color(0xFF8BABA8)
+                    ),
+                    KalendarThemeColor(
+                        Color(0xffEAFEFD),
+                        Color(0XFFBBDED8),
+                        Color(0xFF8BABA8)
+                    ),
+                    KalendarThemeColor(
+                        Color(0xffEAFEFD),
+                        Color(0XFFBBDED8),
+                        Color(0xFF8BABA8)
+                    ),
+                    KalendarThemeColor(
+                        Color(0xffEAFEFD),
+                        Color(0XFFBBDED8),
+                        Color(0xFF8BABA8)
+                    ),
+                    KalendarThemeColor(
+                        Color(0xffEAFEFD),
+                        Color(0XFFBBDED8),
+                        Color(0xFF8BABA8)
+                    ),
+                    KalendarThemeColor(
+                        Color(0xffEAFEFD),
+                        Color(0XFFBBDED8),
+                        Color(0xFF8BABA8)
+                    ),
+                    KalendarThemeColor(
+                        Color(0xffEAFEFD),
+                        Color(0XFFBBDED8),
+                        Color(0xFF8BABA8)
+                    ),
+                    KalendarThemeColor(
+                        Color(0xffEAFEFD),
+                        Color(0XFFBBDED8),
+                        Color(0xFF8BABA8)
+                    ),
+                    KalendarThemeColor(
+                        Color(0xffEAFEFD),
+                        Color(0XFFBBDED8),
+                        Color(0xFF8BABA8)
+                    ),
+                    KalendarThemeColor(
+                        Color(0xffEAFEFD),
+                        Color(0XFFBBDED8),
+                        Color(0xFF8BABA8)
+                    ),
+                    KalendarThemeColor(
+                        Color(0xffEAFEFD),
+                        Color(0XFFBBDED8),
+                        Color(0xFF8BABA8)
+                    ),
+                    KalendarThemeColor(
+                        Color(0xffEAFEFD),
+                        Color(0XFFBBDED8),
+                        Color(0xFF8BABA8)
+                    ),
+                ),
+                kalendarEvents = listOf(
+                    KalendarEvent(LocalDate(2023, 2, 5), "Birthday"),
+                    KalendarEvent(LocalDate(2023, 2, 5), "Birthday"),
+                    KalendarEvent(LocalDate(2023, 2, 5), "Birthday"),
+                    KalendarEvent(LocalDate(2023, 2, 23), "Birthday"),
+                    KalendarEvent(LocalDate(2023, 2, 23), "Party"),
+                    KalendarEvent(LocalDate(2023, 2, 23), "Club"),
+                ),
+                modifier = Modifier.clip(RoundedCornerShape(15.dp))
+            )
+            Row(modifier = Modifier.offset(y = 0.dp).fillMaxWidth().padding(10.dp), horizontalArrangement = Arrangement.End) {
+                Image(
+                    painter = painterResource(id = R.drawable.g4_6_1_ic_cancel),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .size(20.dp)
+                        .clickable(onClick = {openCalendar=false})                )
+            }
+
+        }
+    }
+
+
+
     ModalBottomSheetLayout(
         sheetState = state,
         sheetShape = MaterialTheme.shapes.large,
@@ -255,7 +359,14 @@ fun NewScreen() {
 
 /*计划卡片样式,需要加日历和百分数水球*/
 @Composable
-fun CardPage(planname: String, aimcontent: String, realcontent: String, aimnum: Int, realnum: Int) {
+fun CardPage(
+    planname: String,
+    aimcontent: String,
+    realcontent: String,
+    aimnum: Int,
+    realnum: Int,
+    openCalendar: () -> Unit = {}
+) {
     var planProgress by remember {
         mutableStateOf(0.6f)
     }
@@ -332,10 +443,14 @@ fun CardPage(planname: String, aimcontent: String, realcontent: String, aimnum: 
                 DayCardItem(26, GreenGray1)
                 DayCardItem(27, GreenGray1)
                 Text(
-                    text = "查看全部日历", fontSize = 10.sp,
+                    text = "查看全部日历",
+                    fontSize = 10.sp,
                     style = MaterialTheme.typography.bodySmall,
                     color = Gray1,
-                    textAlign = TextAlign.Justify, modifier = Modifier.padding(top = 11.dp)
+                    textAlign = TextAlign.Justify,
+                    modifier = Modifier
+                        .padding(top = 11.dp)
+                        .clickable(onClick = openCalendar)
                 )
             }
             Spacer(modifier = Modifier.padding(10.dp))
@@ -387,7 +502,7 @@ fun CardPage(planname: String, aimcontent: String, realcontent: String, aimnum: 
                     )
                 }
             }
-        Spacer(modifier = Modifier.height(20.dp))
+            Spacer(modifier = Modifier.height(20.dp))
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -403,7 +518,7 @@ fun CardPage(planname: String, aimcontent: String, realcontent: String, aimnum: 
                             .clip(CircleShape), contentScale = ContentScale.FillBounds
                     )
                     Text(
-                        text = "${(planProgress*100f).roundToInt()}%", fontSize = 15.sp,
+                        text = "${(planProgress * 100f).roundToInt()}%", fontSize = 15.sp,
                         color = Color(0xff445B60),
                         fontWeight = FontWeight.W700,
                     )

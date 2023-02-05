@@ -558,7 +558,6 @@ public fun DayItem() {
     }
     Column(modifier = Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
 
-
 //      周一...周四
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
             daysList.forEachIndexed { index, item ->

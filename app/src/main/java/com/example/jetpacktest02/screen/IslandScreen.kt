@@ -2,7 +2,6 @@ package com.example.jetpacktest02.screen
 
 import android.annotation.SuppressLint
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.Image
@@ -16,8 +15,6 @@ import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Scaffold
 import androidx.compose.material.TopAppBar
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -31,15 +28,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.font.FontWeight.Companion.W700
 import androidx.compose.ui.text.font.FontWeight.Companion.W800
-import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.*
+import androidx.compose.ui.window.Dialog
 import com.airbnb.lottie.compose.*
 import com.example.jetpacktest02.R
 import com.example.scaffolddemo.ui.theme.*
@@ -55,6 +50,14 @@ fun IslandScreen(
     nav03: () -> Unit = {},
     nav04: () -> Unit = {},
 ) {
+    var showImgDialog by remember {
+        mutableStateOf(false)
+    }
+    LaunchedEffect(key1 = showImgDialog) {
+        delay(5000)
+        showImgDialog = false
+    }
+
     var msgVisible by remember {
         mutableStateOf(false)
     }
@@ -282,8 +285,7 @@ fun IslandScreen(
                     }
 
                     // 地图扫描动画背景
-                    MapBgAnimation({ msgVisible = true },nav03,nav04)
-
+                    MapBgAnimation({ msgVisible = true }, nav03, nav04, { showImgDialog = true })
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -307,6 +309,91 @@ fun IslandScreen(
 
 
             }
+
+            //图片消息弹窗
+            if (showImgDialog) {
+                Dialog(
+                    onDismissRequest = { showImgDialog = false },
+                ) {
+                    Column(
+                        modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        //头像、用户名、好友标签、发布时间
+                        Row(
+                            modifier = Modifier,
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            //头像、用户名、好友标签
+                            Row(
+                                modifier = Modifier,
+                                horizontalArrangement = Arrangement.Start,
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Image(
+                                    painter = painterResource(id = R.drawable.g4_3_avatar1),
+                                    contentDescription = null,
+                                    modifier = Modifier.size(40.dp)
+                                )
+                                Spacer(modifier = Modifier.width(5.dp))
+                                Text(
+                                    text = "skccc",
+                                    style = TextStyle(
+                                        fontWeight = FontWeight.W600, //设置字体粗细
+                                        fontSize = 18.sp,
+                                        color = Color.White
+                                    ),
+                                )
+                                Spacer(modifier = Modifier.width(5.dp))
+                                Image(
+                                    painter = painterResource(id = R.drawable.g4_2_ic_friendtag),
+                                    contentDescription = null,
+                                    modifier = Modifier
+                                        .width(40.dp)
+                                        .clickable { }
+                                )
+                            }
+
+                            //发布时间
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.End,
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Text(
+                                    text = "22分钟前",
+                                    style = TextStyle(
+                                        fontWeight = FontWeight.W400, //设置字体粗细
+                                        fontSize = 15.sp,
+                                        color = Color.White
+                                    ),
+                                )
+                            }
+                        }
+                        //图片消息
+                        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
+                            Image(
+                                painter = painterResource(id = R.drawable.g4_6_img_imgmsg),
+                                contentDescription = null,
+                                modifier = Modifier.fillMaxWidth().height(300.dp)
+                            )
+                        }
+                        //关闭按钮
+                        Row(modifier = Modifier.fillMaxWidth().height(30.dp), horizontalArrangement = Arrangement.Center) {
+                            Image(
+                                painter = painterResource(id = R.drawable.g4_6_1_ic_cancel),
+                                contentDescription = null,
+                                modifier = Modifier.width(20.dp)
+                            )
+                        }
+                    }
+
+
+                }
+            }
+
+
         }
 
     }
@@ -320,10 +407,12 @@ fun plantModelItem(
     plantType: Int,
     offsetX: Float = 0f,
     offsetY: Float = 0f,
-    hasMsg: Boolean,
-    showMsg: () -> Unit = {},
-    nav:() -> Unit = {},
-    nav2:()->Unit={}
+    textMsg: String,
+    imgMsg: Int,
+    showTextMsg: () -> Unit = {},
+    nav2: () -> Unit = {},
+    showImgDialog: () -> Unit = {}
+
 ) {
     Column(
         modifier = Modifier.offset(offsetX * 100.dp, offsetY * 100.dp),
@@ -332,7 +421,7 @@ fun plantModelItem(
     ) {
         Box(modifier = Modifier, contentAlignment = Alignment.TopEnd) {
             //右上角消息小红点
-            if (hasMsg) {
+            if (textMsg != "" || imgMsg != 0) {
                 Row(modifier = Modifier.padding(6.dp)) {
                     Image(
                         painter = painterResource(id = R.drawable.g4_2_ic_msgdot),
@@ -340,7 +429,7 @@ fun plantModelItem(
                         modifier = Modifier
                             .size(7.dp)
                             .clickable(
-                                onClick = showMsg
+                                onClick = showTextMsg
                             )
                     )
                 }
@@ -348,19 +437,21 @@ fun plantModelItem(
             }
 
             //植物图片
-            if (hasMsg) {
+            if (textMsg != "" || imgMsg != 0) {
                 Image(
                     painter = painterResource(id = plantType),
                     contentDescription = null,
                     modifier = Modifier
-                        .size(90.dp).clickable(onClick = nav2)
+                        .size(90.dp)
+                        .clickable(onClick = showImgDialog)
                 )
             } else {
                 Image(
                     painter = painterResource(id = plantType),
                     contentDescription = null,
                     modifier = Modifier
-                        .size(90.dp).clickable(onClick = nav2)
+                        .size(90.dp)
+                        .clickable(onClick = nav2)
                 )
             }
 
@@ -379,7 +470,12 @@ fun plantModelItem(
 }
 
 @Composable
-fun MapBgAnimation(showMsg: () -> Unit = {},nav:()->Unit={},nav2:()->Unit={}) {
+fun MapBgAnimation(
+    showMsg: () -> Unit = {},
+    nav: () -> Unit = {},
+    nav2: () -> Unit = {},
+    showImgDialog: () -> Unit
+) {
 
     //控制播放
     var isPlaying by remember {
@@ -415,11 +511,61 @@ fun MapBgAnimation(showMsg: () -> Unit = {},nav:()->Unit={},nav2:()->Unit={}) {
                 .size(450.dp)
                 .alpha(if (isPlaying == false) 0f else 1f)
         )
-        plantModelItem("ajunGrit", R.drawable.g4_2_img_flower_shadowed, 0f, 0f, false, showMsg,nav2)
-        plantModelItem("sancho", R.drawable.g4_2_img_cactus_shadowed, -1.2f, 1.3f, true, showMsg,nav2)
-        plantModelItem("megumin", R.drawable.g4_2_img_cactus_shadowed, 1f, 1f, false, showMsg,nav2)
-        plantModelItem("skccc", R.drawable.g4_2_img_grass_shadowed, -1f, -0.7f, false, showMsg,nav2)
-        plantModelItem("foxbread", R.drawable.g4_2_img_flower_shadowed, 0.7f, -1.0f, false, showMsg,nav2)
+        plantModelItem(
+            "ajunGrit",
+            R.drawable.g4_2_img_flower_shadowed,
+            0f,
+            0f,
+            "",
+            0,
+            showMsg,
+            nav2,
+            showImgDialog
+        )
+        plantModelItem(
+            "sancho",
+            R.drawable.g4_2_img_cactus_shadowed,
+            -1.2f,
+            1.3f,
+            "true",
+            0,
+            showMsg,
+            nav2,
+            showImgDialog
+        )
+        plantModelItem(
+            "megumin",
+            R.drawable.g4_2_img_cactus_shadowed,
+            1f,
+            1f,
+            "",
+            0,
+            showMsg,
+            nav2,
+            showImgDialog
+        )
+        plantModelItem(
+            "skccc",
+            R.drawable.g4_2_img_grass_shadowed,
+            -1f,
+            -0.7f,
+            "",
+            0,
+            showMsg,
+            nav2,
+            showImgDialog
+        )
+        plantModelItem(
+            "foxbread",
+            R.drawable.g4_2_img_flower_shadowed,
+            0.7f,
+            -1.0f,
+            "",
+            1,
+            showMsg,
+            nav2,
+            showImgDialog
+        )
     }
 
 

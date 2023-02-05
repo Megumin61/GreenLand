@@ -310,7 +310,7 @@ fun IslandMemberListScreen(
                         contentAlignment = Alignment.Center
                     ) {
                         Text(
-                            text = "成员列表",
+                            text = "好友列表",
                             style = TextStyle(
                                 fontWeight = FontWeight.W900, //设置字体粗细
                                 fontSize = 18.sp,
@@ -324,7 +324,6 @@ fun IslandMemberListScreen(
                     elevation = 0.dp, //设置阴影
                     //左侧按钮
                     navigationIcon = {
-
                         IconButton(onClick = nav01) {
                             Icon(
                                 bitmap = ImageBitmap.imageResource(id = R.drawable.g1_2_0_ic_arrow_left),

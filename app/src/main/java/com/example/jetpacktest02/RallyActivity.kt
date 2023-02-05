@@ -58,7 +58,7 @@ class RallyActivity : ComponentActivity() {
     override fun onResume() {
         super.onResume()
         GlobalScope.launch {
-            val user = User("jjuntan","18148991553")
+            val user = User("jjuntan", "18148991553")
             UsersApplication.database.userDao().insertUser(user)
         }
     }
@@ -77,7 +77,7 @@ fun WordBookApp(userViewModel: UserViewModel = androidx.lifecycle.viewmodel.comp
 
 
     //增：往数据库中插入某个user对象，可以不传id，id为主键自增
-    val user_insert = User("Hello","13333")
+    val user_insert = User("Hello", "13333")
 
     //查：根据id查询某个user，
 //    val user_query : User= userViewModel.getUser(1)
@@ -90,7 +90,7 @@ fun WordBookApp(userViewModel: UserViewModel = androidx.lifecycle.viewmodel.comp
 //    userViewModel.DeleteUser(1)
 
 
-    Column{
+    Column {
 //        Text(text = "query_name:"+user_query.name)
 //        Text(text = "query_phone:"+user_query.phoneNumber)
 
@@ -157,7 +157,7 @@ fun RallyApp() {
             //管理路由：页面跳转
             NavHost(
                 navController = navController,
-                startDestination =Island.route,
+                startDestination = Plant.route,
                 modifier = Modifier.padding(innerPadding)
 
             ) {
@@ -215,7 +215,8 @@ fun RallyApp() {
                         nav05 = {
                             navController.navigate(PlanList.route) {
                                 launchSingleTop = true;
-                            }}
+                            }
+                        }
                     )
                 }
                 composable(route = PlanList.route) {
@@ -244,7 +245,7 @@ fun RallyApp() {
                             }
                         },
 
-                    )
+                        )
                 }
 
                 composable(route = SetPlanSports.route) {
@@ -280,6 +281,13 @@ fun RallyApp() {
                                 IslandChooseIsland.route
                             ) {}
                             }
+                        },
+                        nav02 = {
+                            navController.navigate(IslandExplore.route) {
+                                launchSingleTop = true;popUpTo(
+                                IslandChooseIsland.route
+                            ) {}
+                            }
                         }
                     )
                 }
@@ -289,7 +297,6 @@ fun RallyApp() {
                             navController.popBackStack()//返回到popUpTo中设置的返回路径route
                         },
                         nav02 = {
-
                             //导航 目的地、返回路径
                             navController.navigate(IslandMemberList.route) {
                                 launchSingleTop = true; popUpTo(Island.route) {}
@@ -308,7 +315,33 @@ fun RallyApp() {
                             }
                         },
 
-                    )
+                        )
+                }
+                composable(route = IslandExplore.route) {
+                    IslandExploreScreen(
+                        nav01 = {
+                            navController.popBackStack()//返回到popUpTo中设置的返回路径route
+                        },
+                        nav02 = {
+                            //导航 目的地、返回路径
+                            navController.navigate(IslandNearbyMemberList.route) {
+                                launchSingleTop = true; popUpTo(IslandExplore.route) {}
+                            }
+                        },
+                        nav03 = {
+                            //导航 目的地、返回路径
+                            navController.navigate(IslandDeliver.route) {
+                                launchSingleTop = true; popUpTo(IslandExplore.route) {}
+                            }
+                        },
+                        nav04 = {
+                            //导航 目的地、返回路径
+                            navController.navigate(IslandVisitOther.route) {
+                                launchSingleTop = true; popUpTo(IslandExplore.route) {}
+                            }
+                        },
+
+                        )
                 }
                 composable(route = IslandMemberList.route) {
                     IslandMemberListScreen(
@@ -318,6 +351,18 @@ fun RallyApp() {
                         nav02 = {
                             navController.navigate(IslandDeliver.route) {
                                 launchSingleTop = true; popUpTo(IslandMemberList.route) {}
+                            }
+                        },
+                    )
+                }
+                composable(route = IslandNearbyMemberList.route) {
+                    IslandNearbyMemberListScreen(
+                        nav01 = {
+                            navController.popBackStack()
+                        },
+                        nav02 = {
+                            navController.navigate(IslandDeliver.route) {
+                                launchSingleTop = true; popUpTo(IslandNearbyMemberList.route) {}
                             }
                         },
                     )
@@ -351,7 +396,7 @@ fun RallyApp() {
                         nav01 = {
                             navController.navigate(MessageTap.route) { launchSingleTop = true; }
                         },
-                        nav02 ={
+                        nav02 = {
                             navController.navigate(MessageTap.route)
                         }
                     )

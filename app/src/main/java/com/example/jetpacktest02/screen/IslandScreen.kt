@@ -64,7 +64,7 @@ fun IslandScreen(
 
     //配置顶部状态栏颜色
     rememberSystemUiController().setStatusBarColor(
-        Flesh2, darkIcons = androidx.compose.material.MaterialTheme.colors.isLight
+        Green1, darkIcons = androidx.compose.material.MaterialTheme.colors.isLight
     )
 
 
@@ -87,7 +87,7 @@ fun IslandScreen(
                         )
                     }
                 },
-                    backgroundColor = Flesh2,
+                    backgroundColor = Green1,
                     contentColor = Color.Black,
                     elevation = 0.dp, //设置阴影
                     //左侧按钮
@@ -114,8 +114,8 @@ fun IslandScreen(
                     .background(
                         brush = Brush.verticalGradient(
                             colors = listOf(
-                                Flesh2,
-                                Flesh1
+                                Green1,
+                                Green2
                             )
                         )
                     )
@@ -142,7 +142,7 @@ fun IslandScreen(
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .offset(y = -80.dp),
+                        .offset(y = -65.dp),
                     horizontalArrangement = Arrangement.Center
                 ) {
                     Image(

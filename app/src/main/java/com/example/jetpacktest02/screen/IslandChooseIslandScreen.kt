@@ -58,7 +58,7 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 @Composable
 fun IslandChooseIslandScreen(
 //            bills : (String) -> Unit = {},
-    nav01: () -> Unit = {},
+    nav01: () -> Unit = {}, nav02: () -> Unit = {},
 ) {
     //配置顶部状态栏颜色
     rememberSystemUiController().setStatusBarColor(
@@ -165,7 +165,7 @@ fun IslandChooseIslandScreen(
                             .height(230.dp)
                             .align(Alignment.CenterHorizontally)
                             .clickable(
-                                enabled = true, onClick = nav01,
+                                enabled = true, onClick = nav02,
                             ),
 
                         )

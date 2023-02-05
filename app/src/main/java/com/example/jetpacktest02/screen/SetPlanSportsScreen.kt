@@ -105,6 +105,7 @@ fun SetPlanSportsScreen() {
 
     // Value for storing time as a string
     val mTime = remember { mutableStateOf("") }
+
     val remindListData = remember {
         mutableStateListOf(
             remindItemModel("9:00", 5f),
@@ -112,6 +113,7 @@ fun SetPlanSportsScreen() {
             remindItemModel("18:20", 5f),
         )
     }
+
     var changedIndex by remember {
         mutableStateOf(0)
     }

@@ -153,7 +153,7 @@ fun TapMessageList(nav01: () -> Unit = {}, nav02: () -> Unit,    userViewModel: 
                 ),
                 TapListItemModel(
                     "ajunGrit",
-                    "向你投放了图片",
+                    "拍了拍你的向日葵",
                     R.drawable.g2_1_img_user04,
                     R.drawable.g2_1_btn_friend_disabled,
                     "11-26"

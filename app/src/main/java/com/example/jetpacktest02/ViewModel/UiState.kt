@@ -18,25 +18,24 @@ package com.example.jetpacktest02.ViewModel
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.navigation.NavDestination
+import androidx.navigation.NavHostController
+import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.accompanist.pager.PagerState
+import com.google.accompanist.pager.rememberPagerState
 import java.time.Duration
 
 /**
  * Data class that represents the UI state
  */
-data class UiState(
-    val currentScrambledWord: String = "",
-    val currentWordCount: Int = 0,
-    val score: Int = 0,
-    val isGuessedWordWrong: Boolean = false,
-    val isGameOver: Boolean = false,
-
+data class UiState @OptIn(ExperimentalPagerApi::class) constructor(
+    var currentRoot: String = "",
 
     //MessageScreen
-    val openDialog: MutableState<Boolean> = mutableStateOf(false)
-
-
+    val openDialog : MutableState<Boolean> = mutableStateOf(false),
+    //MessageFriendScreen
+    val pageState :MutableState<Int> = mutableStateOf(0)
 )
-
 data class PlayerUiState(
     val title: String = "",
     val subTitle: String = "",
@@ -46,15 +45,6 @@ data class PlayerUiState(
     val summary: String = "",
     val podcastImageUrl: String = ""
 )
-
 data class Plant(
-    val water: Int = 100
-)
-
-//好友岛页面 用户数据
-data class PlantModelState(
-    val userName: String = "",//用户名
-    val plantType: String = "",//用户当前的植物品种
-    val msg: String = "",//用户发布的文字消息
-    val hasRead: Boolean = false//用户发布的文字消息是否已读,若已读，将消除植物右上角小红点
+    val water :Int =100
 )

@@ -1,5 +1,6 @@
 package com.example.jetpacktest02
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -13,10 +14,12 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.core.view.WindowCompat
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.jetpacktest02.Entity.User
 import com.example.jetpacktest02.ViewModel.UserViewModel
 import com.example.jetpacktest02.compose.MyBottomNavBar
@@ -99,10 +102,11 @@ fun WordBookApp(userViewModel: UserViewModel = androidx.lifecycle.viewmodel.comp
     }
 }
 
+@SuppressLint("StateFlowValueCalledInComposition")
 @ExperimentalPermissionsApi
 @ExperimentalMaterialApi
 @Composable
-fun RallyApp() {
+fun RallyApp( userViewModel: UserViewModel = androidx.lifecycle.viewmodel.compose.viewModel()) {
 
 //    val users by viewModel.allUsers.observeAsState(listOf())
     var currentScreen: RallyDestination by remember { mutableStateOf(Overview) }
@@ -112,8 +116,9 @@ fun RallyApp() {
 
     // Fetch your currentDestination:
     val currentDestination = currentBackStack?.destination
-    // Change the variable to this and use Overview as a backup screen if this returns null
-//        val currentScreen = rallyTabRowScreens.find { it.route == currentDestination?.route } ?: Overview
+    if (currentDestination != null) {
+        userViewModel.uiState.value.currentRoot= currentDestination.route.toString()
+    }
 
     ScaffoldDemoTheme {
 
@@ -161,16 +166,6 @@ fun RallyApp() {
                 modifier = Modifier.padding(innerPadding)
 
             ) {
-                composable(route = Accounts.route) {
-                    AccountsScreen()
-                }
-                composable(route = Bills.route) {
-                    BillsScreen(
-                        bills = {
-                            navController.navigate(Accounts.route)
-                        }
-                    )
-                }
                 composable(route = Plant.route) {
                     PlantScreen(
                         nav01 = {
@@ -374,8 +369,16 @@ fun RallyApp() {
                         }
                     )
                 }
-                composable(route = IslandVisitOther.route) {
+                composable(
+                    route = IslandVisitOther.route,
+                    //接收参数方
+                    arguments = listOf(navArgument("res") { type = NavType.IntType },
+                        navArgument("name") { type = NavType.StringType }
+                    )
+                ) {
                     IslandVisitOtherScreen(
+                        res = it.arguments?.getInt("res"),
+                        name = it.arguments?.getString("name"),
                         nav01 = {
                             navController.popBackStack()
                         }
@@ -386,7 +389,17 @@ fun RallyApp() {
                     MessageScreen(
                         nav01 = {
                             navController.navigate(MessageTap.route) { launchSingleTop = true; }
-                        }
+                        },
+                        nav03 = {
+                            navController.navigate(MessageMsg.route) { launchSingleTop = true; }
+                        },
+                        nav04 = {
+                            navController.navigate(MessagePic.route) { launchSingleTop = true; }
+                        },
+                        nav05 = {
+                            navController.navigate(MessageFriend.route) { launchSingleTop = true; }
+                        },
+                        controller = navController
                     )
                 }
                 composable(route = MessageMsg.route) {
@@ -406,6 +419,16 @@ fun RallyApp() {
                         nav01 = {
                             navController.navigate(Message.route) { launchSingleTop = true; }
                         }
+                    )
+                }
+                composable(route = MessageFriend.route) {
+                    MessageFriendScreen(
+                        userViewModel = userViewModel,
+                        nav01 = {
+                            navController.navigate(Message.route) { launchSingleTop = true; }
+                        },
+                        //参数提供方，添加一个navController
+                        controller = navController
                     )
                 }
                 composable(route = My.route) {

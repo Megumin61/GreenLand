@@ -38,6 +38,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
@@ -85,7 +87,7 @@ fun MessageFriendScreen(
                                 fontWeight = FontWeight.W900, //设置字体粗细
                                 fontSize = 18.sp,
                             ),
-                            modifier = Modifier.offset(15.dp, 0.dp)//向左偏移一段距离
+                            modifier = Modifier.offset(-25.dp, 0.dp)//向左偏移一段距离
                         )
                     }
                 },
@@ -101,22 +103,15 @@ fun MessageFriendScreen(
                 },
                 //右侧按钮
                 actions = {
-//                    IconButton(onClick = nav01) {
-//                        Icon(
-//                            painter = painterResource(id = R.drawable.g2_5_1_btn_friend),
-//                            contentDescription = ""
-//                        )
-//                    }
-                    Image(
-                        painter = painterResource(id = R.drawable.g2_5_btn_friend),
-                        contentDescription = null,
-                        modifier = Modifier
-                            .width(100.dp)
-                            .height(100.dp)
-                            .offset(-10.dp, 0.dp)
-//                            .clickable(onClick = {userViewModel.uiState.value.pageState.value=3})
-                    )
-
+//                    Image(
+//                        painter = painterResource(id = R.drawable.g2_5_btn_friend),
+//                        contentDescription = null,
+//                        modifier = Modifier
+//                            .width(100.dp)
+//                            .height(100.dp)
+//                            .offset(-10.dp, 0.dp)
+////                            .clickable(onClick = {userViewModel.uiState.value.pageState.value=3})
+//                    )
                 },
 
                 backgroundColor = Color.White,
@@ -197,16 +192,18 @@ fun MessageFriendScreen(
         //将底部pager的参数和顶部导航栏的参数state绑定
         LaunchedEffect(pagerState) {
             snapshotFlow { pagerState.currentPage }.collect { page ->
-                state.value = page
+                if (page != 3) {
+                    state.value = page
+                }
             }
         }
 
-        Column(Modifier.padding(10.dp)) {
+        Column(Modifier.padding(5.dp)) {
             FriendTabRow(userViewModel, pagerState)
-
+            Text(text = userViewModel.uiState.value.currentRoot)
             //https://blog.csdn.net/haojiagou/article/details/123040803?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522167548132816800180688371%2522%252C%2522scm%2522%253A%252220140713.130102334..%2522%257D&request_id=167548132816800180688371&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~baidu_landing_v2~default-4-123040803-null-null.142^v73^pc_new_rank,201^v4^add_ask,239^v1^control&utm_term=compose%20viewpager&spm=1018.2226.3001.4187
             //Pager核心代码,count为页面总数
-            HorizontalPager(count = 3, state = pagerState) { page ->
+            HorizontalPager(count = 4, state = pagerState) { page ->
 //                Text(text = "Page: $page")
                 //下面为要滑动切换的界面，可以通过判断page调用不同页面
 //                Text(page.toString())
@@ -224,39 +221,64 @@ fun FriendTabRow(userViewModel: UserViewModel, pagerState: PagerState) {
     var text by rememberSaveable(stateSaver = TextFieldValue.Saver) {
         mutableStateOf(TextFieldValue("", TextRange(0, 7)))
     }
-
+    val coroutineScope = rememberCoroutineScope()
     Column {
-        TabRow(
-            selectedTabIndex = userViewModel.uiState.value.pageState.value,
-            indicator = @Composable { tabPositions ->
-                TabRowDefaults.Indicator(
-                    Modifier.customTabIndicatorOffset(tabPositions[userViewModel.uiState.value.pageState.value]),
-                    color = LightGreen
-                )
-            }
+        Row(
+            modifier = Modifier
+                .height(40.dp)
+                .fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            titles.forEachIndexed { index, title ->
-                Tab(
-                    modifier = Modifier
-                        .background(Color.White)
-                        .width(10.dp),
-                    selected = userViewModel.uiState.value.pageState.value == index,
-                    onClick = {
-                        userViewModel.uiState.value.pageState.value = index;
-                    },
-                    text = {
-                        Text(
-                            text = title,
-                            maxLines = 2,
-                            overflow = TextOverflow.Ellipsis,
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.W800,
-                        )
-                    },
-                    selectedContentColor = Color.Black,
-                    unselectedContentColor = Gray1
-                )
+            TabRow(
+                modifier = Modifier.width(270.dp),
+                backgroundColor = Color.White,
+                selectedTabIndex = userViewModel.uiState.value.pageState.value,
+                indicator = @Composable { tabPositions ->
+                    TabRowDefaults.Indicator(
+                        Modifier.customTabIndicatorOffset(tabPositions[userViewModel.uiState.value.pageState.value]),
+                        color = LightGreen
+                    )
+                },
+
+                ) {
+                titles.forEachIndexed { index, title ->
+                    Tab(
+                        modifier = Modifier
+                            .background(Color.White)
+                            .padding(0.dp),
+                        selected = userViewModel.uiState.value.pageState.value == index,
+                        onClick = {
+                            userViewModel.uiState.value.pageState.value = index;
+                        },
+                        text = {
+                            Text(
+                                text = title,
+                                maxLines = 2,
+                                overflow = TextOverflow.Ellipsis,
+                                fontSize = 13.sp,
+                                fontWeight = FontWeight.W800,
+                            )
+                        },
+                        selectedContentColor = Color.Black,
+                        unselectedContentColor = Gray1
+                    )
+                }
             }
+            Spacer(modifier = Modifier.width(10.dp))
+            Image(
+                painter = painterResource(id = R.drawable.g2_5_btn_friend),
+                contentDescription = null,
+                modifier = Modifier
+                    .width(100.dp)
+                    .height(100.dp)
+                    .offset(-10.dp, 0.dp)
+                    .clickable(onClick = {
+                        coroutineScope.launch {
+                            // Animate scroll to the first item
+                            pagerState.animateScrollToPage(3)
+                        }
+
+                    })
+            )
         }
 
         Spacer(modifier = Modifier.height(15.dp))
@@ -373,7 +395,7 @@ fun FriendMessageItem(
                 color = Color.White
             )
             .clickable(onClick = {
-                controller.navigate("4.5-island-visitOther/$res/$name")//这里将商品id拼接到参数后面
+                controller.navigate("4.5-island-visitOther/$res/$name")//这里将参数拼接到参数后面
             }),
         colors = ListItemDefaults.colors(containerColor = Color.White),
         headlineText = {

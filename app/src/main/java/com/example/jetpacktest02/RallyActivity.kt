@@ -1,5 +1,6 @@
 package com.example.jetpacktest02
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -101,6 +102,7 @@ fun WordBookApp(userViewModel: UserViewModel = androidx.lifecycle.viewmodel.comp
     }
 }
 
+@SuppressLint("StateFlowValueCalledInComposition")
 @ExperimentalPermissionsApi
 @ExperimentalMaterialApi
 @Composable
@@ -115,6 +117,9 @@ fun RallyApp() {
     val userViewModel: UserViewModel = viewModel()
     // Fetch your currentDestination:
     val currentDestination = currentBackStack?.destination
+    if (currentDestination != null) {
+        userViewModel.uiState.value.currentRoot= currentDestination.route.toString()
+    }
 
     ScaffoldDemoTheme {
 
@@ -164,16 +169,6 @@ fun RallyApp() {
                 modifier = Modifier.padding(innerPadding)
 
             ) {
-                composable(route = Accounts.route) {
-                    AccountsScreen()
-                }
-                composable(route = Bills.route) {
-                    BillsScreen(
-                        bills = {
-                            navController.navigate(Accounts.route)
-                        }
-                    )
-                }
                 composable(route = Plant.route) {
                     PlantScreen(
                         nav01 = {

@@ -17,6 +17,7 @@
 package com.example.jetpacktest02.ui.main
 
 import android.annotation.SuppressLint
+import android.widget.Space
 import androidx.activity.compose.BackHandler
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
@@ -52,6 +53,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.airbnb.lottie.compose.*
+import com.airbnb.lottie.model.content.CircleShape
 import com.example.jetpacktest02.R
 import com.example.jetpacktest02.screen.AvatarItem
 import com.example.scaffolddemo.ui.theme.*
@@ -385,19 +387,20 @@ fun CardPage(planname: String, aimcontent: String, realcontent: String, aimnum: 
                     )
                 }
             }
-
+        Spacer(modifier = Modifier.height(20.dp))
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(), horizontalArrangement = Arrangement.Center
             ) {
                 Box(modifier = Modifier, contentAlignment = Alignment.Center) {
-
                     LottieAnimation(
                         composition = composition,
                         progress = { progress },
                         modifier = Modifier
-                            .height(150.dp)
+                            .height(75.dp)
+                            .width(200.dp)
+                            .clip(CircleShape), contentScale = ContentScale.FillBounds
                     )
                     Text(
                         text = "${(planProgress*100f).roundToInt()}%", fontSize = 15.sp,
@@ -405,7 +408,6 @@ fun CardPage(planname: String, aimcontent: String, realcontent: String, aimnum: 
                         fontWeight = FontWeight.W700,
                     )
                 }
-
             }
         }
     }

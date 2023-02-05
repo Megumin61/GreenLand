@@ -130,7 +130,7 @@ fun IslandDeliverScreen(
                         brush = Brush.verticalGradient(
                             colors = listOf(
                                 Flesh1,
-                                Green3
+                                Flesh2
                             )
                         )
                     )

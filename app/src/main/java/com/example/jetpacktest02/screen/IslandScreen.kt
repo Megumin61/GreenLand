@@ -52,7 +52,8 @@ import kotlinx.coroutines.delay
 fun IslandScreen(
     nav01: () -> Unit = {},
     nav02: () -> Unit = {},
-    nav03:()->Unit={}
+    nav03: () -> Unit = {},
+    nav04: () -> Unit = {},
 ) {
     var msgVisible by remember {
         mutableStateOf(false)
@@ -60,7 +61,7 @@ fun IslandScreen(
 
     //配置顶部状态栏颜色
     rememberSystemUiController().setStatusBarColor(
-        Flesh1, darkIcons = androidx.compose.material.MaterialTheme.colors.isLight
+        Flesh2, darkIcons = androidx.compose.material.MaterialTheme.colors.isLight
     )
 
 
@@ -83,7 +84,7 @@ fun IslandScreen(
                         )
                     }
                 },
-                    backgroundColor = Flesh1,
+                    backgroundColor = Flesh2,
                     contentColor = Color.Black,
                     elevation = 0.dp, //设置阴影
                     //左侧按钮
@@ -110,8 +111,8 @@ fun IslandScreen(
                     .background(
                         brush = Brush.verticalGradient(
                             colors = listOf(
-                                Flesh1,
-                                Green3
+                                Flesh2,
+                                Flesh1
                             )
                         )
                     )
@@ -281,7 +282,7 @@ fun IslandScreen(
                     }
 
                     // 地图扫描动画背景
-                    MapBgAnimation({ msgVisible = true })
+                    MapBgAnimation({ msgVisible = true },nav03,nav04)
 
                     Row(
                         modifier = Modifier
@@ -305,7 +306,6 @@ fun IslandScreen(
                 }
 
 
-
             }
         }
 
@@ -321,7 +321,9 @@ fun plantModelItem(
     offsetX: Float = 0f,
     offsetY: Float = 0f,
     hasMsg: Boolean,
-    showMsg: () -> Unit = {}
+    showMsg: () -> Unit = {},
+    nav:() -> Unit = {},
+    nav2:()->Unit={}
 ) {
     Column(
         modifier = Modifier.offset(offsetX * 100.dp, offsetY * 100.dp),
@@ -337,7 +339,9 @@ fun plantModelItem(
                         contentDescription = null,
                         modifier = Modifier
                             .size(7.dp)
-                            .clickable(onClick = showMsg)
+                            .clickable(
+                                onClick = showMsg
+                            )
                     )
                 }
             } else {
@@ -349,14 +353,14 @@ fun plantModelItem(
                     painter = painterResource(id = plantType),
                     contentDescription = null,
                     modifier = Modifier
-                        .size(90.dp)
+                        .size(90.dp).clickable(onClick = nav2)
                 )
             } else {
                 Image(
                     painter = painterResource(id = plantType),
                     contentDescription = null,
                     modifier = Modifier
-                        .size(90.dp)
+                        .size(90.dp).clickable(onClick = nav2)
                 )
             }
 
@@ -375,7 +379,7 @@ fun plantModelItem(
 }
 
 @Composable
-fun MapBgAnimation(showMsg: () -> Unit = {}) {
+fun MapBgAnimation(showMsg: () -> Unit = {},nav:()->Unit={},nav2:()->Unit={}) {
 
     //控制播放
     var isPlaying by remember {
@@ -385,7 +389,7 @@ fun MapBgAnimation(showMsg: () -> Unit = {}) {
     var speed by remember {
         mutableStateOf(1f)
     }
-    LaunchedEffect(1){
+    LaunchedEffect(1) {
         delay(2000)
         isPlaying = false
     }
@@ -407,13 +411,15 @@ fun MapBgAnimation(showMsg: () -> Unit = {}) {
         LottieAnimation(
             composition = composition,
             progress = { progress },
-            modifier = Modifier.size(450.dp).alpha(if (isPlaying==false) 0f else 1f)
+            modifier = Modifier
+                .size(450.dp)
+                .alpha(if (isPlaying == false) 0f else 1f)
         )
-        plantModelItem("ajunGrit", R.drawable.g4_2_img_flower_shadowed, 0f, 0f, false, showMsg)
-        plantModelItem("sancho", R.drawable.g4_2_img_cactus_shadowed, -1.2f, 1.3f, true, showMsg)
-        plantModelItem("megumin", R.drawable.g4_2_img_cactus_shadowed, 1f, 1f, false, showMsg)
-        plantModelItem("skccc", R.drawable.g4_2_img_grass_shadowed, -1f, -0.7f, false, showMsg)
-        plantModelItem("foxbread", R.drawable.g4_2_img_flower_shadowed, 0.7f, -1.0f, false, showMsg)
+        plantModelItem("ajunGrit", R.drawable.g4_2_img_flower_shadowed, 0f, 0f, false, showMsg,nav2)
+        plantModelItem("sancho", R.drawable.g4_2_img_cactus_shadowed, -1.2f, 1.3f, true, showMsg,nav2)
+        plantModelItem("megumin", R.drawable.g4_2_img_cactus_shadowed, 1f, 1f, false, showMsg,nav2)
+        plantModelItem("skccc", R.drawable.g4_2_img_grass_shadowed, -1f, -0.7f, false, showMsg,nav2)
+        plantModelItem("foxbread", R.drawable.g4_2_img_flower_shadowed, 0.7f, -1.0f, false, showMsg,nav2)
     }
 
 

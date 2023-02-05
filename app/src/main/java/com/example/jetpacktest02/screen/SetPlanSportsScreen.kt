@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package com.example.jetpacktest02.screen
 
 import android.annotation.SuppressLint
@@ -7,16 +9,21 @@ import android.service.chooser.ChooserTargetService
 import androidx.annotation.DrawableRes
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.*
+import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.draggable
+import androidx.compose.foundation.gestures.rememberDraggableState
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.Card
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme.colors
 import androidx.compose.material.Scaffold
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Done
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material3.*
 import androidx.compose.material3.AlertDialogDefaults.shape
@@ -31,6 +38,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.painterResource
@@ -46,6 +54,7 @@ import com.example.jetpacktest02.R
 import com.example.jetpacktest02.ui.main.PlanItem
 import com.example.scaffolddemo.ui.theme.*
 import kotlinx.coroutines.delay
+import kotlin.math.absoluteValue
 import kotlin.math.roundToInt
 
 
@@ -242,7 +251,7 @@ fun SetPlanSportsScreen() {
                             Row(
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .padding(horizontal = 10.dp),
+                                    .padding(horizontal = 0.dp),
                                 horizontalArrangement = Arrangement.SpaceBetween
                             ) {
                                 Text(
@@ -257,7 +266,7 @@ fun SetPlanSportsScreen() {
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .padding(horizontal = 10.dp),
-                                horizontalArrangement = Arrangement.SpaceBetween
+                                horizontalArrangement = Arrangement.SpaceEvenly
                             ) {
                                 DayItem()
                             }
@@ -533,62 +542,90 @@ public fun WorkDaySlider() {
 
 }
 
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)
 @Composable
 public fun DayItem() {
-    Row() {
-        Text(
-            text = "周一",
-            fontSize = 12.sp,
-            color = Color(0xff9598AC),
-            style = MaterialTheme.typography.bodyMedium,
-            modifier = Modifier.padding(end = 17.dp)
+    val daysList = remember {
+        mutableStateListOf(
+            weekdaysModel("周一", true),
+            weekdaysModel("周二", true),
+            weekdaysModel("周三", true),
+            weekdaysModel("周四", true),
+            weekdaysModel("周五", true),
+            weekdaysModel("周六", false),
+            weekdaysModel("周日", false),
         )
-        Text(
-            text = "周二",
-            fontSize = 12.sp,
-            color = Color(0xff9598AC),
-            style = MaterialTheme.typography.bodyMedium,
-            modifier = Modifier.padding(end = 17.dp)
-        )
-        Text(
-            text = "周三",
-            fontSize = 12.sp,
-            color = Color(0xff9598AC),
-            style = MaterialTheme.typography.bodyMedium,
-            modifier = Modifier.padding(end = 17.dp)
-        )
-        Text(
-            text = "周四",
-            fontSize = 12.sp,
-            color = Color(0xff9598AC),
-            style = MaterialTheme.typography.bodyMedium,
-            modifier = Modifier.padding(end = 17.dp)
-        )
-        Text(
-            text = "周五",
-            fontSize = 12.sp,
-            color = Color(0xff9598AC),
-            style = MaterialTheme.typography.bodyMedium,
-            modifier = Modifier.padding(end = 17.dp)
-        )
-        Text(
-            text = "周六",
-            fontSize = 12.sp,
-            color = Color(0xff9598AC),
-            style = MaterialTheme.typography.bodyMedium,
-            modifier = Modifier.padding(end = 17.dp)
-        )
-        Text(
-            text = "周日",
-            fontSize = 12.sp,
-            color = Color(0xff9598AC),
-            style = MaterialTheme.typography.bodyMedium,
-
-            )
     }
+    Column(modifier = Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
+
+
+//      周一...周四
+        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
+            daysList.forEachIndexed { index, item ->
+                //标签组件
+                if (index < 3)
+                    FilterChip(
+                        onClick = { daysList[index] = weekdaysModel(item.name, !item.selected) },
+                        selected = item.selected,
+                        label = { Text(text = item.name, fontSize = 10.sp) },
+                        leadingIcon = if (item.selected) {
+                            {
+                                Icon(
+                                    imageVector = Icons.Filled.Done,
+                                    contentDescription = "Localized Description",
+                                    modifier = Modifier.size(FilterChipDefaults.IconSize),
+                                    tint=Color.White
+                                )
+                            }
+                        } else {
+                            null
+                        },
+                        colors = FilterChipDefaults.filterChipColors(
+                            selectedLabelColor = Color.White,
+                            selectedContainerColor = Green5
+                        )
+                    )
+            }
+        }
+        //周五...周日
+        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
+            daysList.forEachIndexed { index, item ->
+                //标签组件
+                if (index >= 3)
+                    FilterChip(
+                        onClick = { daysList[index] = weekdaysModel(item.name, !item.selected) },
+                        selected = item.selected,
+                        label = { Text(text = item.name, fontSize = 10.sp) },
+                        leadingIcon = if (item.selected) {
+                            {
+                                Icon(
+                                    imageVector = Icons.Filled.Done,
+                                    contentDescription = "Localized Description",
+                                    modifier = Modifier.size(FilterChipDefaults.IconSize),
+                                    tint = Color.White
+                                )
+                            }
+                        } else {
+                            null
+                        },
+                        colors = FilterChipDefaults.filterChipColors(
+                            selectedLabelColor = Color.White,
+                            selectedContainerColor = Green5
+                        )
+                    )
+            }
+        }
+    }
+
+
 }
 
 data class remindItemModel(
     var remindTime: String,
     var remindInterval: Float,
+)
+
+data class weekdaysModel(
+    var name: String,
+    var selected: Boolean
 )

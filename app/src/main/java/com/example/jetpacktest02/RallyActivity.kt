@@ -159,7 +159,7 @@ fun RallyApp() {
             //管理路由：页面跳转
             NavHost(
                 navController = navController,
-                startDestination =PlantPlan.route,
+                startDestination =Plant.route,
                 modifier = Modifier.padding(innerPadding)
 
             ) {
@@ -303,6 +303,12 @@ fun RallyApp() {
                                 launchSingleTop = true; popUpTo(Island.route) {}
                             }
                         },
+                        nav04 = {
+                            //导航 目的地、返回路径
+                            navController.navigate(IslandVisitOther.route) {
+                                launchSingleTop = true; popUpTo(Island.route) {}
+                            }
+                        },
 
                     )
                 }
@@ -320,6 +326,13 @@ fun RallyApp() {
                 }
                 composable(route = IslandDeliver.route) {
                     IslandDeliverScreen(
+                        nav01 = {
+                            navController.popBackStack()
+                        }
+                    )
+                }
+                composable(route = IslandVisitOther.route) {
+                    IslandVisitOtherScreen(
                         nav01 = {
                             navController.popBackStack()
                         }

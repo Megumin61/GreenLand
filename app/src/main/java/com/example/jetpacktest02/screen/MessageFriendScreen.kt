@@ -25,6 +25,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -120,95 +121,10 @@ fun MessageFriendScreen(
             )
         }
     ) {
-        val friends by remember {
-            mutableStateOf(
-                listOf(
-                    //如果需要改变下面对象里面的属性，需要单独复制一份生成一个新的对象才可以
-                    FriendTest(
-                        1,
-                        "ajunGrit",
-                        "1天前在线",
-                        res = R.drawable.g2_5_img_user05
-                    ),
-                    FriendTest(
-                        2,
-                        "kevin",
-                        "4天前在线",
-                        res = R.drawable.g2_5_img_user03
-                    ),
-                    FriendTest(
-                        3,
-                        "aJuan",
-                        "1天前在线",
-                        res = R.drawable.g2_5_img_user04
-                    ),
-                    FriendTest(
-                        4,
-                        "sandr",
-                        "在线",
-                        res = R.drawable.g2_5_img_user02
-                    ),
-                    FriendTest(
-                        5,
-                        "liu猪侨",
-                        "在线",
-                        res = R.drawable.g2_5_img_user01
-                    ),
-                    FriendTest(
-                        6,
-                        "joyce",
-                        "1天前在线",
-                        res = R.drawable.g2_1_img_user01
-                    ),
-                    FriendTest(
-                        7,
-                        "foxbread",
-                        "在线",
-                        res = R.drawable.g2_1_img_user05
-                    ),
-                    FriendTest(
-                        8,
-                        "kcChang",
-                        "1天前在线",
-                        res = R.drawable.g2_1_img_user03
-                    ),
-
-                    )
-            )
-        }
-        val grouped = friends.groupBy { it.name[0] }
-
-        //state为顶部的tab导航栏绑定参数
-        var state = userViewModel.uiState.value.pageState
-        //pagerState为底部viewpager参数
-        val pagerState: PagerState = remember { PagerState() }
-
-        //将底部pager的参数和顶部导航栏的参数state绑定，让pager响应顶部导航栏参数变化
-        LaunchedEffect(pagerState) {
-            snapshotFlow { state.value }.collect { page ->
-                pagerState.animateScrollToPage(page)
-            }
-        }
-        //将底部pager的参数和顶部导航栏的参数state绑定
-        LaunchedEffect(pagerState) {
-            snapshotFlow { pagerState.currentPage }.collect { page ->
-                if (page != 3) {
-                    state.value = page
-                }
-            }
-        }
 
         Column(Modifier.padding(5.dp)) {
-            FriendTabRow(userViewModel, pagerState)
+            FriendTabRow(userViewModel, controller)
             Text(text = userViewModel.uiState.value.currentRoot)
-            //https://blog.csdn.net/haojiagou/article/details/123040803?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522167548132816800180688371%2522%252C%2522scm%2522%253A%252220140713.130102334..%2522%257D&request_id=167548132816800180688371&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~baidu_landing_v2~default-4-123040803-null-null.142^v73^pc_new_rank,201^v4^add_ask,239^v1^control&utm_term=compose%20viewpager&spm=1018.2226.3001.4187
-            //Pager核心代码,count为页面总数
-            HorizontalPager(count = 4, state = pagerState) { page ->
-//                Text(text = "Page: $page")
-                //下面为要滑动切换的界面，可以通过判断page调用不同页面
-//                Text(page.toString())
-                FriendList(grouped, controller = controller)
-            }
         }
     }
 }
@@ -216,12 +132,116 @@ fun MessageFriendScreen(
 @SuppressLint("StateFlowValueCalledInComposition")
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalPagerApi::class, DelicateCoroutinesApi::class)
 @Composable
-fun FriendTabRow(userViewModel: UserViewModel, pagerState: PagerState) {
+fun FriendTabRow(
+    userViewModel: UserViewModel,
+    controller: NavHostController
+) {
     val titles = listOf("好友", "附近", "可能认识")
     var text by rememberSaveable(stateSaver = TextFieldValue.Saver) {
         mutableStateOf(TextFieldValue("", TextRange(0, 7)))
     }
+    userViewModel.uiState.value.searchText = text.text
     val coroutineScope = rememberCoroutineScope()
+
+    //认识的好友
+    val friends by remember {
+        mutableStateOf(
+            listOf(
+                //如果需要改变下面对象里面的属性，需要单独复制一份生成一个新的对象才可以
+                FriendTest(
+                    1,
+                    "ajunGrit",
+                    "1天前在线",
+                    res = R.drawable.g2_5_img_user05,
+                    count = "有 3 个共同朋友"
+                ),
+                FriendTest(
+                    2,
+                    "kevin",
+                    "4天前在线",
+                    res = R.drawable.g2_5_img_user03,
+                    count = "有 1 个共同朋友"
+                ),
+                FriendTest(
+                    3,
+                    "aJuan",
+                    "1天前在线",
+                    res = R.drawable.g2_5_img_user04,
+                    count = "有 0 个共同朋友"
+                ),
+                FriendTest(
+                    4,
+                    "sandr",
+                    "在线",
+                    res = R.drawable.g2_5_img_user02,
+                    count = "有 1 个共同朋友"
+                ),
+                FriendTest(
+                    5,
+                    "liu猪侨",
+                    "在线",
+                    res = R.drawable.g2_5_img_user01,
+                    count = "有 1 个共同朋友"
+                ),
+                FriendTest(
+                    6,
+                    "joyce",
+                    "1天前在线",
+                    res = R.drawable.g2_1_img_user01,
+                    count = "有 2 个共同朋友"
+                ),
+                FriendTest(
+                    7,
+                    "foxbread",
+                    "在线",
+                    res = R.drawable.g2_1_img_user05,
+                    count = "有 4 个共同朋友"
+                ),
+                FriendTest(
+                    8,
+                    "kcChang",
+                    "1天前在线",
+                    res = R.drawable.g2_1_img_user03,
+                    count = "有 6 个共同朋友"
+                ),
+
+                )
+        )
+    }
+    val grouped: Map<Char, List<FriendTest>>
+    val result = mutableListOf<FriendTest>()
+    if (userViewModel.uiState.value.searchText != "") {
+        for (i: FriendTest in friends) {
+            if (i.name.contains(userViewModel.uiState.value.searchText)) {
+                result.add(i)
+            }
+        }
+        grouped = result.groupBy { it.name[0] }
+    } else {
+        grouped = friends.groupBy { it.name[0] }
+    }
+
+
+    //state为顶部的tab导航栏绑定参数
+    val state = userViewModel.uiState.value.pageState
+    //pagerState为底部viewpager参数
+    val pagerState: PagerState = remember { PagerState() }
+
+    //将底部pager的参数和顶部导航栏的参数state绑定，让pager响应顶部导航栏参数变化
+    LaunchedEffect(pagerState) {
+        snapshotFlow { state.value }.collect { page ->
+            pagerState.animateScrollToPage(page)
+        }
+    }
+    //将底部pager的参数和顶部导航栏的参数state绑定
+    LaunchedEffect(pagerState) {
+        snapshotFlow { pagerState.currentPage }.collect { page ->
+            if (page != 3) {
+                state.value = page
+            }
+        }
+    }
+
     Column {
         Row(
             modifier = Modifier
@@ -314,6 +334,39 @@ fun FriendTabRow(userViewModel: UserViewModel, pagerState: PagerState) {
                 unfocusedIndicatorColor = Color.Transparent
             )
         )
+
+        HorizontalPager(count = 4, state = pagerState) { page ->
+//                Text(text = "Page: $page")
+            //下面为要滑动切换的界面，可以通过判断page调用不同页面
+//                Text(page.toString())
+            if (page == 0) {
+                FriendList(
+                    grouped = grouped,
+                    controller = controller,
+                    isFriend = false,
+                    isSearch = false,
+                    userViewModel
+                )
+            }
+            if (page ==1 ||page==2) {
+                FriendList(
+                    grouped = grouped,
+                    controller = controller,
+                    isFriend = true,
+                    isSearch = false,
+                    userViewModel
+                )
+            }
+            if (page == 3) {
+                FriendList(
+                    grouped = grouped,
+                    controller = controller,
+                    isFriend = true,
+                    isSearch = true,
+                    userViewModel
+                )
+            }
+        }
     }
 }
 
@@ -341,10 +394,15 @@ fun Modifier.customTabIndicatorOffset(
 
 }
 
-
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun FriendList(grouped: Map<Char, List<FriendTest>>, controller: NavHostController) {
+fun FriendList(
+    grouped: Map<Char, List<FriendTest>>,
+    controller: NavHostController,
+    isFriend: Boolean,
+    isSearch:Boolean,
+    userViewModel: UserViewModel
+) {
     val state = rememberLazyListState()
     val coroutinueScope = rememberCoroutineScope()
     Row(
@@ -370,7 +428,26 @@ fun FriendList(grouped: Map<Char, List<FriendTest>>, controller: NavHostControll
                 }
 
                 items(contactsForInitial) { contact ->
-                    FriendMessageItem(contact.name, contact.msg, contact.res, controller)
+                    if(isSearch==true)
+                    {
+                        FriendMessageItem(
+                            contact.name,
+                            contact.count,
+                            contact.res,
+                            controller,
+                            isFriend,
+                            userViewModel = userViewModel
+                        )
+                    }else{
+                        FriendMessageItem(
+                            contact.name,
+                            contact.msg,
+                            contact.res,
+                            controller,
+                            isFriend,
+                            userViewModel = userViewModel
+                        )
+                    }
                     Divider(thickness = 1.dp, color = BlueGray1)
                     Spacer(modifier = Modifier.height(10.dp))
                 }
@@ -386,7 +463,9 @@ fun FriendMessageItem(
     name: String,
     msg: String,
     res: Int,
-    controller: NavHostController
+    controller: NavHostController,
+    isFriend: Boolean,
+    userViewModel: UserViewModel
 ) {
     ListItem(
         modifier = Modifier
@@ -399,13 +478,29 @@ fun FriendMessageItem(
             }),
         colors = ListItemDefaults.colors(containerColor = Color.White),
         headlineText = {
-            Column() {
+            Row(
+                horizontalArrangement = Arrangement.SpaceAround,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
                 androidx.compose.material3.Text(
                     text = name,
                     color = Color.Black,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.W400,
                 )
+                if (isFriend == true) {
+                    Spacer(Modifier.width(8.dp))
+                    Image(
+                        painter = painterResource(id = R.drawable.g2_1_btn_friend),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .width(40.dp)
+                            .height(40.dp)
+                            .clickable(onClick = {
+                                userViewModel._uiState.value.openDialog.value = true
+                            })
+                    )
+                }
             }
 
         },
@@ -433,6 +528,76 @@ fun FriendMessageItem(
     )
 
 }
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun UserInfoItem(
+    name: String,
+    count: String,
+    res: Int,
+    controller: NavHostController,
+    userViewModel: UserViewModel
+) {
+    ListItem(
+        modifier = Modifier
+//            .clickable(onClick = nav01)
+            .background(
+                color = Color.White
+            )
+            .clickable(onClick = {
+                controller.navigate("4.5-island-visitOther/$res/$name")//这里将参数拼接到参数后面
+            }),
+        colors = ListItemDefaults.colors(containerColor = Color.White),
+        headlineText = {
+            Row(
+                horizontalArrangement = Arrangement.SpaceAround,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                androidx.compose.material3.Text(
+                    text = name,
+                    color = Color.Black,
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.W400,
+                )
+                Spacer(Modifier.width(8.dp))
+                Image(
+                    painter = painterResource(id = R.drawable.g2_1_btn_friend),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .width(40.dp)
+                        .height(40.dp)
+                        .clickable(onClick = {
+                            userViewModel._uiState.value.openDialog.value = true
+                        })
+                )
+            }
+
+        },
+        supportingText = {
+            Spacer(modifier = Modifier.height(4.dp))
+            androidx.compose.material3.Text(
+                count,
+                fontSize = 13.sp,
+                style = MaterialTheme.typography.bodySmall,
+                color = Gray1,
+                textAlign = TextAlign.Left,
+            )
+        },
+        leadingContent = {
+            Image(
+                painter = painterResource(id = res),
+                contentDescription = null,
+                alignment = Alignment.TopCenter,
+                modifier = Modifier
+                    .width(50.dp)
+                    .height(50.dp)
+//                    .clickable(onClick = nav02)
+            )
+        }
+    )
+
+}
+
 
 @Composable
 fun TextButton(state: LazyListState) {
@@ -469,5 +634,6 @@ data class FriendTest(
     val id: Int,
     val name: String,
     val msg: String,//给你留言了
+    val count: String,//共同好友数量
     val res: Int
 )

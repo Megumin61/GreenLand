@@ -18,6 +18,7 @@ package com.example.jetpacktest02.ViewModel
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.navigation.NavDestination
 import androidx.navigation.NavHostController
 import com.google.accompanist.pager.ExperimentalPagerApi
@@ -28,14 +29,18 @@ import java.time.Duration
 /**
  * Data class that represents the UI state
  */
-data class UiState @OptIn(ExperimentalPagerApi::class) constructor(
+data class UiState constructor(
     var currentRoot: String = "",
 
     //MessageScreen
-    val openDialog : MutableState<Boolean> = mutableStateOf(false),
+    val openDialog: MutableState<Boolean> = mutableStateOf(false),
+
     //MessageFriendScreen
-    val pageState :MutableState<Int> = mutableStateOf(0)
+    val pageState: MutableState<Int> = mutableStateOf(0),
+    var searchText: String = ""
 )
+
+
 data class PlayerUiState(
     val title: String = "",
     val subTitle: String = "",
@@ -45,6 +50,7 @@ data class PlayerUiState(
     val summary: String = "",
     val podcastImageUrl: String = ""
 )
+
 data class Plant(
-    val water :Int =100
+    val water: Int = 100
 )

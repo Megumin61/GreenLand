@@ -17,29 +17,23 @@
 package com.example.jetpacktest02.ui.main
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.combinedClickable
+import androidx.annotation.DrawableRes
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material.icons.filled.MoreVert
-import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -48,25 +42,26 @@ import androidx.compose.ui.unit.sp
 import com.example.jetpacktest02.R
 import com.example.scaffolddemo.ui.theme.Green1
 import com.example.scaffolddemo.ui.theme.Green2
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.example.scaffolddemo.ui.theme.Green5
 
 /**
- * 群岛/选择岛屿页面
- * 负责人：谭家俊
+ * The Bills screen.
  */
+
+
+
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
+@Preview
 @Composable
-fun IslandChooseIslandScreen(
-//            bills : (String) -> Unit = {},
-    nav01: () -> Unit = {}, nav02: () -> Unit = {},
-) {
-    //配置顶部状态栏颜色
-    rememberSystemUiController().setStatusBarColor(
-        Green1, darkIcons = androidx.compose.material.MaterialTheme.colors.isLight)
+fun PlanListScreen(
+    nav01: () -> Unit={},
+    nav02: () -> Unit={},
+    nav03: () -> Unit={},
+    nav04: () -> Unit={},
+    nav05: () -> Unit={}
+){
 
-
-    Surface(modifier = Modifier.fillMaxSize()) {
-        //绘制背景渐变色
+    Surface(modifier = Modifier.fillMaxSize()){
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
@@ -79,22 +74,21 @@ fun IslandChooseIslandScreen(
                         )
                     )
                 )
-        ) {
-            //顶部菜单栏
-            Scaffold(
+        ){
+            androidx.compose.material.Scaffold(
                 topBar = {
-                    TopAppBar(title = {
+                    androidx.compose.material.TopAppBar(title = {
                         Box(
                             modifier = Modifier.fillMaxWidth(),
                             contentAlignment = Alignment.Center
                         ) {
                             Text(
-                                text = "岛屿选择",
+                                text = "每日计划",
                                 style = TextStyle(
                                     fontWeight = FontWeight.W900, //设置字体粗细
                                     fontSize = 18.sp,
                                 ),
-                                modifier = Modifier.offset(-35.dp, 0.dp)//向左偏移一段距离
+                                modifier = Modifier.offset(-150.dp, 0.dp)//向左偏移一段距离
                             )
                         }
                     },
@@ -104,12 +98,11 @@ fun IslandChooseIslandScreen(
                         //左侧按钮
                         navigationIcon = {
 
-//                            IconButton(onClick = {}) {
-//                                Icon(
-//                                    Icons.Default.Menu,
-//                                    contentDescription = "",
-//                                )
-//                            }
+                            IconButton(onClick = {}) {
+                                Icon(
+                                    bitmap = ImageBitmap.imageResource(id = R.drawable.g1_2_0_ic_arrow_left),
+                                    contentDescription = null
+                                ) }
                         },
                         //右侧按钮
                         actions = {
@@ -125,8 +118,10 @@ fun IslandChooseIslandScreen(
                 }
             ) {
 
+                var scrollState = rememberScrollState()
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
+
                     modifier = Modifier
                         .fillMaxSize()
                         .background(
@@ -137,63 +132,56 @@ fun IslandChooseIslandScreen(
                                 )
                             )
                         )
+                        .verticalScroll(scrollState)
                 ) {
-                    Spacer(Modifier.height(40.dp))
-
-                    Image(
-                        painter = painterResource(id = R.drawable.g4_1_bn_friendisland),
-                        contentDescription = null,
-                        modifier = Modifier
-                            .width(377.dp)
-                            .height(230.dp)
-                            .align(Alignment.CenterHorizontally)
-                            .clickable(enabled = true, onClick = nav01),
-                    )
-
+                    Spacer(Modifier.height(10.dp))
                     Text(
-                        text = "·关注朋友们的生活状态，增进互动",
+                        text = "正在进行的计划",
                         style = MaterialTheme.typography.bodyLarge,
-                        color = Color(0xff9598ac)
+                        color = Color(0xff445B60)
                     )
-
-                    Spacer(Modifier.height(25.dp))
                     Image(
-                        painter = painterResource(id = R.drawable.g4_1_bn_exploreisland),
-                        contentDescription = null,
-                        modifier = Modifier
-                            .width(377.dp)
-                            .height(230.dp)
-                            .align(Alignment.CenterHorizontally)
-                            .clickable(
-                                enabled = true, onClick = nav02,
-                            ),
-
-                        )
-                    Text(
-                        text = "·探索附近的岛友，多样互动，让生活更有乐趣",
-                        style = MaterialTheme.typography.bodyLarge,
-                        color = Color(0xff9598ac)
+                        painter = painterResource(id = R.drawable.g1_2_icbg_sports),
+                        contentDescription = null, modifier = Modifier.clickable(onClick = nav01)
                     )
+                    Image(
+                        painter = painterResource(id = R.drawable.g1_2_icbg_drinkwater),
+                        contentDescription = null,modifier = Modifier.clickable(onClick = nav02)
+                    )
+                    Image(
+                        painter = painterResource(id = R.drawable.g1_2_icbg_sleep),
+                        contentDescription = null,modifier = Modifier.clickable(onClick = nav03)
+                    )
+                    Image(
+                        painter = painterResource(id = R.drawable.g1_2_icbg_eating),
+                        contentDescription = null,modifier = Modifier.clickable(onClick = nav04)
+                    )
+
+                    Spacer(Modifier.height(5.dp))
+
+                    /*Text(
+                        text = "今天已完成",
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = Color(0xff445B60)
+                    )*/
+                    Spacer(Modifier.height(5.dp))
+                    Button(onClick =  nav05 , modifier = Modifier
+                        .width(136.dp)
+                        .height(54.dp)
+                        ,colors = ButtonDefaults.buttonColors(containerColor = Green5)
+                    ) {
+                        Text(text = "添加计划", fontSize = 20.sp, fontWeight = FontWeight.W900)
+                    }
                 }
             }
 
         }
     }
 
-//        Text("4.1-island-chooseIsland")
-//        Button(
-//            onClick = nav01,
-//            contentPadding = ButtonDefaults.ButtonWithIconContentPadding
-//        ) {
-//            Icon(
-//                Icons.Filled.Favorite,
-//                contentDescription = "Localized description",
-//                modifier = Modifier.size(ButtonDefaults.IconSize)
-//            )
-//            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-//            Text("1.1-Plant")
-//        }
 
 
 }
+
+
+
 

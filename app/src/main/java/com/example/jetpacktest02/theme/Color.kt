@@ -12,18 +12,23 @@ val bgc=Color(0xFFFFFFFF)
 
 val Green1=Color(0xffbceee8)
 val Green2=Color(0xffe0ede4)
-
-val Flesh1 = Color(0xfff8ebe1)
-val Green3 = Color(0xffebf3f3)
+val Green3=Color(0xff55d9a4)
+val Green4= Color(0xff445B60)
+val Green5=Color(0xff7FC7A8)
+val Green6=Color(0xffBBEEE8)
+val Green7=Color(0xffE3EDE3)
+val Green8=Color(0xff9AD6BC)
 val LightGreen = Color(0xff1acea2)
-
-
-
+val Flesh1 = Color(0xfff8ebe1)
+val Yellow1=Color(0xffF7EBDE)
 val Gray1=Color(0xff9598AC)
-val Gray2=Color(0xFF999999)
-val Gray3=Color(0x33D9D9D9)
+val Gray2=Color(0XFF999999)
+val Gray3=Color( 0x33D9D9D9)
 val Gray4=Color(0xFFC6C7D1)
+val Gray5=Color(0xff494A59)
 val BlueGray1=Color(0xFFF1F2F5)
-val BlueGray2=Color(0xFFE4E5EB)
-
+val GreenGray1=Color(0xffEBF3F4)
 val textGray=Color(0xff9598ac)
+val Gray6 = Color(0xfff7f7f7)
+val Flesh2 = Color(0xffEBF3F4)
+val BlueGray2=Color(0xFFE4E5EB)

@@ -26,6 +26,7 @@ import com.example.jetpacktest02.ViewModel.UserViewModel
 import com.example.jetpacktest02.compose.MyBottomNavBar
 import com.example.jetpacktest02.config.UsersApplication
 import com.example.jetpacktest02.screen.*
+import com.example.jetpacktest02.ui.main.MessageMsgScreen
 import com.example.jetpacktest02.ui.main.*
 import com.example.scaffolddemo.ui.theme.ScaffoldDemoTheme
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
@@ -52,19 +53,19 @@ class RallyActivity : ComponentActivity() {
 
         setContent {
 
-//            WordBookApp2()
+//            WordBookApp()
 //            CounterScreen()
             RallyApp()
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        GlobalScope.launch {
-            val user = User("jjuntan", "18148991553")
-            UsersApplication.database.userDao().insertUser(user)
-        }
-    }
+//    override fun onResume() {
+//        super.onResume()
+//        GlobalScope.launch {
+//            val user = User("jjuntan", "18148991553")
+//            UsersApplication.database.userDao().insertUser(user)
+//        }
+//    }
 
 
 }
@@ -106,7 +107,7 @@ fun WordBookApp(userViewModel: UserViewModel = androidx.lifecycle.viewmodel.comp
 @ExperimentalPermissionsApi
 @ExperimentalMaterialApi
 @Composable
-fun RallyApp() {
+fun RallyApp( ) {
 
 //    val users by viewModel.allUsers.observeAsState(listOf())
     var currentScreen: RallyDestination by remember { mutableStateOf(Overview) }
@@ -114,7 +115,7 @@ fun RallyApp() {
     val currentBackStack by navController.currentBackStackEntryAsState()
     val Textvalue: String = ""
 
-    val userViewModel: UserViewModel = viewModel()
+    val userViewModel:UserViewModel= viewModel()
     // Fetch your currentDestination:
     val currentDestination = currentBackStack?.destination
     if (currentDestination != null) {
@@ -160,12 +161,10 @@ fun RallyApp() {
             }
         ) { innerPadding ->
 
-//            val navController = rememberNavController()
-
             //管理路由：页面跳转
             NavHost(
                 navController = navController,
-                startDestination = MessageFriend.route,
+                startDestination = Plant.route,
                 modifier = Modifier.padding(innerPadding)
 
             ) {
@@ -209,9 +208,61 @@ fun RallyApp() {
                             navController.navigate(PlantLookingForPlanFoot.route) {
                                 launchSingleTop = true;
                             }
+                        },
+                        nav05 = {
+                            navController.navigate(PlanList.route) {
+                                launchSingleTop = true;
+                            }
                         }
                     )
                 }
+                composable(route = PlanList.route) {
+                    PlanListScreen(
+                        nav01 = {
+                            navController.navigate(SetPlanSports.route) { launchSingleTop = true; }
+                        },
+                        nav02 = {
+                            navController.navigate(SetPlanDrink.route) {
+                                launchSingleTop = true;
+                            }
+                        },
+                        nav03 = {
+                            navController.navigate(SetPlanSleep.route) {
+                                launchSingleTop = true;
+                            }
+                        },
+                        nav04 = {
+                            navController.navigate(SetPlanEating.route) {
+                                launchSingleTop = true;
+                            }
+                        },
+                        nav05 = {
+                            navController.navigate(SetPlanDiy.route) {
+                                launchSingleTop = true;
+                            }
+                        },
+
+                        )
+                }
+
+                composable(route = SetPlanSports.route) {
+                    SetPlanSportsScreen(
+                    )
+                }
+                composable(route = SetPlanDrink.route) {
+                    SetPlanDrinkScreen()
+                }
+                composable(route = SetPlanSleep.route) {
+                    SetPlanSleepScreen()
+                }
+                composable(route = SetPlanEating.route) {
+                    SetPlanEatingScreen()
+                }
+                composable(route = SetPlanDiy.route) {
+                    SetPlanDiyScreen()
+                }
+
+
                 composable(route = Dailyhealthmessage.route) {
                     DailyhealthmessageScreen(
                         nav01 = {
@@ -227,6 +278,13 @@ fun RallyApp() {
                                 IslandChooseIsland.route
                             ) {}
                             }
+                        },
+                        nav02 = {
+                            navController.navigate(IslandExplore.route) {
+                                launchSingleTop = true;popUpTo(
+                                IslandChooseIsland.route
+                            ) {}
+                            }
                         }
                     )
                 }
@@ -236,7 +294,6 @@ fun RallyApp() {
                             navController.popBackStack()//返回到popUpTo中设置的返回路径route
                         },
                         nav02 = {
-
                             //导航 目的地、返回路径
                             navController.navigate(IslandMemberList.route) {
                                 launchSingleTop = true; popUpTo(Island.route) {}
@@ -248,7 +305,39 @@ fun RallyApp() {
                                 launchSingleTop = true; popUpTo(Island.route) {}
                             }
                         },
-
+                        nav04 = {
+                            //导航 目的地、返回路径
+                            navController.navigate(IslandVisitOther.route) {
+                                launchSingleTop = true; popUpTo(Island.route) {}
+                            }
+                        },
+                        userViewModel
+                        )
+                }
+                composable(route = IslandExplore.route) {
+                    IslandExploreScreen(
+                        nav01 = {
+                            navController.popBackStack()//返回到popUpTo中设置的返回路径route
+                        },
+                        nav02 = {
+                            //导航 目的地、返回路径
+                            navController.navigate(IslandNearbyMemberList.route) {
+                                launchSingleTop = true; popUpTo(IslandExplore.route) {}
+                            }
+                        },
+                        nav03 = {
+                            //导航 目的地、返回路径
+                            navController.navigate(IslandDeliver.route) {
+                                launchSingleTop = true; popUpTo(IslandExplore.route) {}
+                            }
+                        },
+                        nav04 = {
+                            //导航 目的地、返回路径
+                            navController.navigate(IslandVisitOther.route) {
+                                launchSingleTop = true; popUpTo(IslandExplore.route) {}
+                            }
+                        },
+                        userViewModel
                         )
                 }
                 composable(route = IslandMemberList.route) {
@@ -259,6 +348,19 @@ fun RallyApp() {
                         nav02 = {
                             navController.navigate(IslandDeliver.route) {
                                 launchSingleTop = true; popUpTo(IslandMemberList.route) {}
+                            }
+                        },
+                        userViewModel = userViewModel
+                    )
+                }
+                composable(route = IslandNearbyMemberList.route) {
+                    IslandNearbyMemberListScreen(
+                        nav01 = {
+                            navController.popBackStack()
+                        },
+                        nav02 = {
+                            navController.navigate(IslandDeliver.route) {
+                                launchSingleTop = true; popUpTo(IslandNearbyMemberList.route) {}
                             }
                         },
                     )
@@ -310,17 +412,11 @@ fun RallyApp() {
                         userViewModel,
                         //导航函数
                         nav01 = {
-                            navController.navigate(Message.route) { launchSingleTop = true; }
+                            navController.navigate(MessageTap.route) { launchSingleTop = true; }
                         },
-                    )
-                }
-                composable(route = MessagePic.route) {
-                    MessagePicScreen(
-                        userViewModel,
-                        //导航函数
-                        nav01 = {
-                            navController.navigate(Message.route) { launchSingleTop = true; }
-                        },
+                        nav02 = {
+                            navController.navigate(MessageTap.route)
+                        }
                     )
                 }
                 composable(route = MessageTap.route) {

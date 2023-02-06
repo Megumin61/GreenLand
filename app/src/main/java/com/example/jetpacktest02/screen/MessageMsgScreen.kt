@@ -254,7 +254,7 @@ fun MsgMessageItem(
             Spacer(modifier = Modifier.height(4.dp))
 
             Card(
-                colors = CardDefaults.cardColors(containerColor = BlueGray1),
+                colors = CardDefaults.cardColors(containerColor = Gray1),
 //                modifier = Modifier.padding(start = 6.dp, end = 6.dp, top = 2.dp, bottom = 2.dp)
             ) {
                 Text(
@@ -301,3 +301,7 @@ data class MsgListItemModel(
     var res2: Int,//添加好友图片
     var time: String//当前时间
 )
+
+class MessageMsgScreen {
+
+}

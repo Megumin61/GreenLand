@@ -74,15 +74,24 @@ object Island : RallyDestination {
     override val icon = Icons.Filled.MoneyOff
     override val route = "4.2-island"
 }
+object IslandExplore : RallyDestination {
+    override val icon = Icons.Filled.MoneyOff
+    override val route = "4.2-islandExplore"
+}
 
 object IslandMemberList : RallyDestination {
     override val icon = Icons.Filled.MoneyOff
     override val route = "4.3-island-memberList"
 }
+object IslandNearbyMemberList : RallyDestination {
+    override val icon = Icons.Filled.MoneyOff
+    override val route = "4.3-island-nearbyMemberList"
+}
 object IslandVisitOther : RallyDestination {
     override val icon = Icons.Filled.MoneyOff
     override val route = "4.5-island-visitOther/{res}/{name}"
 }
+
 object IslandDeliver : RallyDestination {
     override val icon = Icons.Filled.MoneyOff
     override val route = "4.6-island-deliver"
@@ -138,6 +147,30 @@ object PlantLookingForPlanFoot : RallyDestination {
 }
 
 
+object PlanList : RallyDestination {
+    override val icon = Icons.Filled.MoneyOff
+    override val route = "1.2.0-plant-finish a plan"
+}
+object SetPlanSports : RallyDestination {
+    override val icon = Icons.Filled.MoneyOff
+    override val route = "plant-sports"
+}
+object SetPlanDrink : RallyDestination {
+    override val icon = Icons.Filled.MoneyOff
+    override val route = "1.2.4-plant-drink"
+}
+object SetPlanSleep : RallyDestination {
+    override val icon = Icons.Filled.MoneyOff
+    override val route = "1.2.7-plant-sleeping"
+}
+object SetPlanEating : RallyDestination {
+    override val icon = Icons.Filled.MoneyOff
+    override val route = "1.2.6-plant-eating"
+}
+object SetPlanDiy : RallyDestination {
+    override val icon = Icons.Filled.MoneyOff
+    override val route = "1.2.5-plant-diyplan"
+}
 
 
 

@@ -1,6 +1,13 @@
 package com.example.jetpacktest02.screen
 
 import android.annotation.SuppressLint
+import android.content.ContentResolver
+import android.provider.ContactsContract
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.result.launch
+import androidx.annotation.RequiresPermission
+import androidx.compose.animation.*
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
@@ -12,10 +19,10 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
+import androidx.compose.material.Button
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Tab
 import androidx.compose.material.TabPosition
-import androidx.compose.material.TabRow
 import androidx.compose.material.TabRowDefaults
 import androidx.compose.material.Text
 import androidx.compose.material3.*
@@ -25,12 +32,12 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.*
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.debugInspectorInfo
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextRange
@@ -39,26 +46,23 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import com.example.jetpacktest02.Entity.User
 import com.example.jetpacktest02.R
 import com.example.jetpacktest02.ViewModel.UserViewModel
-import com.example.jetpacktest02.config.UsersApplication
+import com.example.jetpacktest02.ui.main.DialogCard
 import com.example.scaffolddemo.ui.theme.*
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.PagerState
+import com.google.accompanist.permissions.*
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import kotlinx.coroutines.DelicateCoroutinesApi
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalPagerApi::class)
+@OptIn(ExperimentalPagerApi::class, ExperimentalPermissionsApi::class)
 @SuppressLint(
     "UnusedMaterialScaffoldPaddingParameter", "StateFlowValueCalledInComposition",
     "Range"
@@ -121,21 +125,64 @@ fun MessageFriendScreen(
             )
         }
     ) {
-
+        DialogCard(userViewModel)
+        val state = remember {
+            mutableStateOf(true)
+        }
         Column(Modifier.padding(5.dp)) {
             FriendTabRow(userViewModel, controller)
+//            Column(
+//                modifier = Modifier.fillMaxSize(),
+//                horizontalAlignment = Alignment.CenterHorizontally,
+//                verticalArrangement = Arrangement.Center
+//            ) {
+//                AnimatedVisibility(
+//                    visible = state.value,
+//                    enter = slideInVertically(initialOffsetY = { -40 }) + expandVertically(
+//                        expandFrom = Alignment.Top
+//                    ) + fadeIn(initialAlpha = 0.3f), exit = shrinkHorizontally() + fadeOut()
+//                ) {
+//                    Text(
+//                        text = "ssss",
+//                        fontWeight = FontWeight.W900,
+//                        style = MaterialTheme.typography.headlineMedium
+//                    )
+//                    Image(
+//                        painter = painterResource(id = R.drawable.g2_5_btn_friend),
+//                        contentDescription = null,
+//                        modifier = Modifier
+//                            .width(100.dp)
+//                            .height(100.dp)
+//                            .offset(-10.dp, 0.dp)
+//                            .clickable(onClick = {
+//                                state.value = !state.value
+//                            })
+//                    )
+//                }
+//                Button(onClick = { state.value = !state.value }) {
+//                    Text(if (state.value) "隐藏" else "显示")
+//                }
+//            }
             Text(text = userViewModel.uiState.value.currentRoot)
         }
     }
 }
 
 @SuppressLint("StateFlowValueCalledInComposition")
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalPagerApi::class, DelicateCoroutinesApi::class)
+@OptIn(
+    ExperimentalMaterial3Api::class, ExperimentalPagerApi::class, DelicateCoroutinesApi::class,
+    ExperimentalPermissionsApi::class
+)
 @Composable
 fun FriendTabRow(
     userViewModel: UserViewModel,
     controller: NavHostController
 ) {
+    //申请查看联系人权限
+//    val permissionState =
+//        rememberPermissionState(permission = android.Manifest.permission.READ_CONTACTS)
+
+
     val titles = listOf("好友", "附近", "可能认识")
     var text by rememberSaveable(stateSaver = TextFieldValue.Saver) {
         mutableStateOf(TextFieldValue("", TextRange(0, 7)))
@@ -348,7 +395,7 @@ fun FriendTabRow(
                     userViewModel
                 )
             }
-            if (page ==1 ||page==2) {
+            if (page == 1 || page == 2) {
                 FriendList(
                     grouped = grouped,
                     controller = controller,
@@ -358,12 +405,10 @@ fun FriendTabRow(
                 )
             }
             if (page == 3) {
-                FriendList(
+                IconButtonFriendList(
                     grouped = grouped,
                     controller = controller,
-                    isFriend = true,
-                    isSearch = true,
-                    userViewModel
+                    userViewModel = userViewModel
                 )
             }
         }
@@ -400,7 +445,7 @@ fun FriendList(
     grouped: Map<Char, List<FriendTest>>,
     controller: NavHostController,
     isFriend: Boolean,
-    isSearch:Boolean,
+    isSearch: Boolean,
     userViewModel: UserViewModel
 ) {
     val state = rememberLazyListState()
@@ -428,8 +473,7 @@ fun FriendList(
                 }
 
                 items(contactsForInitial) { contact ->
-                    if(isSearch==true)
-                    {
+                    if (isSearch == true) {
                         FriendMessageItem(
                             contact.name,
                             contact.count,
@@ -438,7 +482,7 @@ fun FriendList(
                             isFriend,
                             userViewModel = userViewModel
                         )
-                    }else{
+                    } else {
                         FriendMessageItem(
                             contact.name,
                             contact.msg,
@@ -529,75 +573,85 @@ fun FriendMessageItem(
 
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalPermissionsApi::class)
 @Composable
-fun UserInfoItem(
-    name: String,
-    count: String,
-    res: Int,
+fun IconButtonFriendList(
+    grouped: Map<Char, List<FriendTest>>,
     controller: NavHostController,
     userViewModel: UserViewModel
+//    permissionState: PermissionState
+//    nav01: () -> Unit = {},//通讯录
+//    nav02: () -> Unit = {},//二维码和添加好友
 ) {
-    ListItem(
-        modifier = Modifier
-//            .clickable(onClick = nav01)
-            .background(
-                color = Color.White
-            )
-            .clickable(onClick = {
-                controller.navigate("4.5-island-visitOther/$res/$name")//这里将参数拼接到参数后面
-            }),
-        colors = ListItemDefaults.colors(containerColor = Color.White),
-        headlineText = {
-            Row(
-                horizontalArrangement = Arrangement.SpaceAround,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                androidx.compose.material3.Text(
-                    text = name,
-                    color = Color.Black,
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.W400,
-                )
-                Spacer(Modifier.width(8.dp))
-                Image(
-                    painter = painterResource(id = R.drawable.g2_1_btn_friend),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .width(40.dp)
-                        .height(40.dp)
-                        .clickable(onClick = {
-                            userViewModel._uiState.value.openDialog.value = true
-                        })
-                )
-            }
-
-        },
-        supportingText = {
-            Spacer(modifier = Modifier.height(4.dp))
-            androidx.compose.material3.Text(
-                count,
-                fontSize = 13.sp,
-                style = MaterialTheme.typography.bodySmall,
-                color = Gray1,
-                textAlign = TextAlign.Left,
-            )
-        },
-        leadingContent = {
-            Image(
-                painter = painterResource(id = res),
-                contentDescription = null,
-                alignment = Alignment.TopCenter,
-                modifier = Modifier
-                    .width(50.dp)
-                    .height(50.dp)
-//                    .clickable(onClick = nav02)
-            )
-        }
+    val isContact = remember {
+        mutableStateOf(false)
+    }
+    //获取读取通讯录的权限
+    val locationPermissionsState = rememberMultiplePermissionsState(
+        listOf(
+            android.Manifest.permission.READ_CONTACTS
+        )
     )
+    Column() {
+        Row(
+            Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceEvenly,//子元素的水平方向排列效果
 
+        ) {
+            Spacer(Modifier.height(50.dp))
+            //通讯录
+            Image(
+                painter = painterResource(id = R.drawable.g2_5_1_ic_directory),
+                contentDescription = null,
+                modifier = Modifier
+                    .width(80.dp)
+                    .height(80.dp)
+                    .clickable(onClick = {
+//                    permissionState.launchPermissionRequest()
+                        isContact.value = !isContact.value;
+                        locationPermissionsState.launchMultiplePermissionRequest()
+                    })
+
+            )
+            Image(
+                painter = painterResource(id = R.drawable.g2_5_1_ic_code),
+                contentDescription = null,
+                modifier = Modifier
+                    .width(80.dp)
+                    .height(80.dp)
+//                .clickable(onClick = nav02)
+
+            )
+            Image(
+                painter = painterResource(id = R.drawable.g2_5_1_ic_scan),
+                contentDescription = null,
+                modifier = Modifier
+                    .width(80.dp)
+                    .height(80.dp)
+            )
+            Image(
+                painter = painterResource(id = R.drawable.g2_5_1_ic_scan1),
+                contentDescription = null,
+                modifier = Modifier
+                    .width(80.dp)
+                    .height(80.dp)
+//                .clickable(onClick = nav02)
+            )
+
+        }
+        if (isContact.value == false) {
+            FriendList(
+                grouped = grouped,
+                controller = controller,
+                isFriend = true,
+                isSearch = true,
+                userViewModel
+            )
+        } else {
+            Sample(locationPermissionsState, userViewModel,controller)
+        }
+    }
 }
-
 
 @Composable
 fun TextButton(state: LazyListState) {
@@ -629,6 +683,112 @@ fun TextButton(state: LazyListState) {
 
     }
 }
+
+@SuppressLint("Range", "Recycle", "StateFlowValueCalledInComposition")
+@OptIn(ExperimentalPermissionsApi::class)
+@Composable
+private fun Sample(
+    locationPermissionsState: MultiplePermissionsState,
+    userViewModel: UserViewModel,
+    controller: NavHostController
+) {
+    val contactsList = ArrayList<String>()
+    val context = LocalContext.current
+    val contentResolver: ContentResolver = context.contentResolver
+
+//    val locationPermissionsState = rememberMultiplePermissionsState(
+//        listOf(
+//            android.Manifest.permission.READ_CONTACTS
+//        )
+//    )
+    if (locationPermissionsState.allPermissionsGranted) {
+//        Text("Thanks! I can access your exact location :D")
+//        Text(userViewModel.uiState.value.searchText)
+        contentResolver.query(
+            ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+            null, null, null, null
+        )?.apply {
+            while (moveToNext()) {
+                // 获取联系人姓名
+                val displayName = getString(
+                    getColumnIndex(
+                        ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME
+                    )
+                )
+                // 获取联系人手机号
+                val number = getString(
+                    getColumnIndex(
+                        ContactsContract.CommonDataKinds.Phone.NUMBER
+                    )
+                )
+//                contactsList.add("$displayName\n$number")
+                contactsList.add(displayName)
+            }
+        }
+        //通讯录用户，初始化，填充获取通讯录名称至对象
+        val friendlist = mutableListOf<FriendTest>()
+        for(i:String in contactsList)
+        {
+            friendlist.add(FriendTest(0,i,"有 1 个共同朋友","有 1 个共同朋友",R.drawable.g2_5_img_user01))
+        }
+
+        val grouped: Map<Char, List<FriendTest>>
+        val result = mutableListOf<FriendTest>()
+        if (userViewModel.uiState.value.searchText != "") {
+            for (i: FriendTest in friendlist) {
+                if (i.name.contains(userViewModel.uiState.value.searchText)) {
+                    result.add(i)
+                }
+            }
+            grouped = result.groupBy { it.name[0] }
+        } else {
+            grouped = friendlist.groupBy { it.name[0] }
+        }
+
+        Text(text = contactsList[0])
+        FriendList(
+            grouped = grouped,
+            controller = controller,
+            isFriend = true,
+            isSearch = true,
+            userViewModel
+        )
+
+    }
+
+//    else {
+//        Column {
+//            val allPermissionsRevoked =
+//                locationPermissionsState.permissions.size ==
+//                        locationPermissionsState.revokedPermissions.size
+//
+//            val textToShow = if (!allPermissionsRevoked) {
+//                // If not all the permissions are revoked, it's because the user accepted the COARSE
+//                // location permission, but not the FINE one.
+//                "Yay! Thanks for letting me access your approximate location. " +
+//                        "But you know what would be great? If you allow me to know where you " +
+//                        "exactly are. Thank you!"
+//            } else if (locationPermissionsState.shouldShowRationale) {
+//                // Both location permissions have been denied
+//                "Getting your exact location is important for this app. " +
+//                        "Please grant us fine location. Thank you :D"
+//            } else {
+//                // First time the user sees this feature or the user doesn't want to be asked again
+//                "This feature requires location permission"
+//            }
+//
+//            val buttonText = if (!allPermissionsRevoked) {
+//                "Allow precise location"
+//            } else {
+//                "Request permissions"
+//            }
+//            Text(text = textToShow)
+//            Spacer(modifier = Modifier.height(8.dp))
+//            Button(onClick = { locationPermissionsState.launchMultiplePermissionRequest() }) {
+//                Text(buttonText)
+//            }
+}
+
 
 data class FriendTest(
     val id: Int,

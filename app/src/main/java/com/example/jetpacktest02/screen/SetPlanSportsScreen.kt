@@ -54,6 +54,7 @@ import androidx.compose.ui.unit.sp
 import com.example.jetpacktest02.R
 import com.example.jetpacktest02.ui.main.PlanItem
 import com.example.scaffolddemo.ui.theme.*
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import kotlinx.coroutines.delay
 /*import kotlin.collections.EmptyList.size*/
 import kotlin.math.absoluteValue
@@ -110,6 +111,9 @@ public fun AimNum(aimnum: String, onNumChange: (String) -> Unit) {
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun SetPlanSportsScreen() {
+    rememberSystemUiController().setStatusBarColor(
+        Green1, darkIcons = androidx.compose.material.MaterialTheme.colors.isLight
+    )
 
     // Fetching local context
     val mContext = LocalContext.current

@@ -1,9 +1,7 @@
 package com.example.jetpacktest02.screen
 
 import android.annotation.SuppressLint
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.*
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -32,34 +30,31 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.font.FontWeight.Companion.W800
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.*
 import androidx.compose.ui.window.Dialog
 import com.airbnb.lottie.compose.*
 import com.example.jetpacktest02.R
+import com.example.jetpacktest02.ViewModel.UserViewModel
+import com.example.jetpacktest02.ViewModel.friendItem
 import com.example.scaffolddemo.ui.theme.*
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import kotlinx.coroutines.delay
 
-@Preview
-@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
+//好友岛页面
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter", "StateFlowValueCalledInComposition")
 @Composable
 fun IslandScreen(
     nav01: () -> Unit = {},
     nav02: () -> Unit = {},
     nav03: () -> Unit = {},
     nav04: () -> Unit = {},
+    userViewModel: UserViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
 ) {
-    var showImgDialog by remember {
-        mutableStateOf(false)
-    }
-    LaunchedEffect(key1 = showImgDialog) {
-        delay(5000)
-        showImgDialog = false
-    }
-
-    var msgVisible by remember {
-        mutableStateOf(false)
+    LaunchedEffect(key1 = userViewModel._uiState.value.msgItem.value) {
+        if (userViewModel._uiState.value.showTextMsg.value == true) {
+            delay(3000)
+            userViewModel._uiState.value.showTextMsg.value = false
+        }
     }
 
     //配置顶部状态栏颜色
@@ -161,10 +156,12 @@ fun IslandScreen(
                             .offset(y = -70.dp)
                     ) {
                         AnimatedVisibility(
-                            visible = msgVisible,
+                            visible = userViewModel.uiState.value.showTextMsg.value,
                             enter = slideInVertically(initialOffsetY = { 100 }) + fadeIn(
                                 initialAlpha = 0.3f
-                            )
+                            ),
+                            exit = fadeOut(targetAlpha = 0f) + slideOutVertically()
+
                         ) {
                             Card(
                                 modifier = Modifier
@@ -189,7 +186,6 @@ fun IslandScreen(
                                 ) {
                                     //文字输入区
                                     Row(modifier = Modifier) {
-                                        var text by remember { mutableStateOf("大家新年快乐鸭！！！开工大吉！！大家新年快乐鸭！！！开工大吉！！大家新年快乐鸭！！！开工大吉！！") }
                                         Box(
                                             modifier = Modifier
                                                 .fillMaxSize()
@@ -197,9 +193,8 @@ fun IslandScreen(
                                             contentAlignment = Alignment.TopStart
                                         ) {
                                             BasicTextField(readOnly = true,
-                                                value = text,
+                                                value = userViewModel.uiState.value.msgItem.value.textMsg,
                                                 onValueChange = {
-                                                    text = it
                                                 },
                                                 textStyle = TextStyle(
                                                     color = textGray,
@@ -253,7 +248,7 @@ fun IslandScreen(
                                     ) {
                                         Text(
                                             buildAnnotatedString {
-                                                append("sandro")
+                                                append(userViewModel.uiState.value.msgItem.value.userName)
                                             },
                                             fontSize = 12.sp,
                                             color = Gray1
@@ -269,7 +264,7 @@ fun IslandScreen(
 //                            ) {
 //                                append("20")
 //                            }
-                                                append("3分钟前")
+                                                append(userViewModel.uiState.value.msgItem.value.msgTime)
                                             },
                                             fontSize = 12.sp,
                                             color = Gray1
@@ -285,7 +280,7 @@ fun IslandScreen(
                     }
 
                     // 地图扫描动画背景
-                    MapBgAnimation({ msgVisible = true }, nav03, nav04, { showImgDialog = true })
+                    MapBgAnimation(nav03, nav04, userViewModel = userViewModel)
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -311,12 +306,16 @@ fun IslandScreen(
             }
 
             //图片消息弹窗
-            if (showImgDialog) {
+            if (userViewModel.uiState.value.showImgMsgDialog.value) {
                 Dialog(
-                    onDismissRequest = { showImgDialog = false },
+                    onDismissRequest = {
+                        userViewModel._uiState.value.showImgMsgDialog.value = false
+                    },
                 ) {
                     Column(
-                        modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 20.dp),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         //头像、用户名、好友标签、发布时间
@@ -332,13 +331,13 @@ fun IslandScreen(
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
                                 Image(
-                                    painter = painterResource(id = R.drawable.g4_3_avatar1),
+                                    painter = painterResource(id = userViewModel.uiState.value.msgItem.value.userAvatar),
                                     contentDescription = null,
                                     modifier = Modifier.size(40.dp)
                                 )
                                 Spacer(modifier = Modifier.width(5.dp))
                                 Text(
-                                    text = "skccc",
+                                    text = userViewModel.uiState.value.msgItem.value.userName,
                                     style = TextStyle(
                                         fontWeight = FontWeight.W600, //设置字体粗细
                                         fontSize = 18.sp,
@@ -362,7 +361,7 @@ fun IslandScreen(
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
                                 Text(
-                                    text = "22分钟前",
+                                    text = userViewModel.uiState.value.msgItem.value.msgTime,
                                     style = TextStyle(
                                         fontWeight = FontWeight.W400, //设置字体粗细
                                         fontSize = 15.sp,
@@ -372,19 +371,37 @@ fun IslandScreen(
                             }
                         }
                         //图片消息
-                        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.Center
+                        ) {
                             Image(
-                                painter = painterResource(id = R.drawable.g4_6_img_imgmsg),
+                                painter = painterResource(id = userViewModel.uiState.value.msgItem.value.imgMsg),
                                 contentDescription = null,
-                                modifier = Modifier.fillMaxWidth().height(300.dp)
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(300.dp)
                             )
                         }
                         //关闭按钮
-                        Row(modifier = Modifier.fillMaxWidth().height(30.dp), horizontalArrangement = Arrangement.Center) {
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(30.dp), horizontalArrangement = Arrangement.Center
+                        ) {
                             Image(
                                 painter = painterResource(id = R.drawable.g4_6_1_ic_cancel),
                                 contentDescription = null,
-                                modifier = Modifier.width(20.dp)
+                                modifier = Modifier
+                                    .width(20.dp)
+                                    .clickable(
+                                        onClick = {
+                                            userViewModel.uiState.value.showImgMsgDialog.value =
+                                                false
+                                        },
+                                        indication = null,
+                                        interactionSource = MutableInteractionSource()
+                                    )
                             )
                         }
                     }
@@ -401,6 +418,7 @@ fun IslandScreen(
 }
 
 
+@SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 fun plantModelItem(
     username: String,
@@ -409,10 +427,9 @@ fun plantModelItem(
     offsetY: Float = 0f,
     textMsg: String,
     imgMsg: Int,
-    showTextMsg: () -> Unit = {},
     nav2: () -> Unit = {},
-    showImgDialog: () -> Unit = {}
-
+    userViewModel: UserViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
+    item: friendItem
 ) {
     Column(
         modifier = Modifier.offset(offsetX * 100.dp, offsetY * 100.dp),
@@ -420,6 +437,7 @@ fun plantModelItem(
         verticalArrangement = Arrangement.Center
     ) {
         Box(modifier = Modifier, contentAlignment = Alignment.TopEnd) {
+
             //右上角消息小红点
             if (textMsg != "" || imgMsg != 0) {
                 Row(modifier = Modifier.padding(6.dp)) {
@@ -429,7 +447,10 @@ fun plantModelItem(
                         modifier = Modifier
                             .size(7.dp)
                             .clickable(
-                                onClick = showTextMsg
+                                onClick = {
+                                },
+                                indication = null,
+                                interactionSource = MutableInteractionSource()
                             )
                     )
                 }
@@ -443,7 +464,52 @@ fun plantModelItem(
                     contentDescription = null,
                     modifier = Modifier
                         .size(90.dp)
-                        .clickable(onClick = showImgDialog)
+                        .clickable(
+                            onClick = {
+                                if (textMsg != "") {
+                                    userViewModel.uiState.value.msgItem.value = item
+                                    userViewModel.uiState.value.showImgMsgDialog.value = false
+                                    userViewModel.uiState.value.showTextMsg.value = true
+                                    //清空好友的消息,用于消除红点
+                                    userViewModel.uiState.value.friendListData[userViewModel.uiState.value.friendListData.indexOf(
+                                        item
+                                    )] =
+                                        friendItem(
+                                            item.userName,
+                                            item.userAvatar,
+                                            item.userPlant,
+                                            item.offsetX,
+                                            item.offsetY,
+                                            "",
+                                            0,
+                                            item.onlineTime,
+                                            item.msgTime
+                                        )
+
+                                } else if (imgMsg != 0) {
+                                    userViewModel.uiState.value.msgItem.value = item
+                                    userViewModel.uiState.value.showTextMsg.value = false
+                                    userViewModel.uiState.value.showImgMsgDialog.value = true
+                                    //清空好友的消息,用于消除红点
+                                    userViewModel.uiState.value.friendListData[userViewModel.uiState.value.friendListData.indexOf(
+                                        item
+                                    )] =
+                                        friendItem(
+                                            item.userName,
+                                            item.userAvatar,
+                                            item.userPlant,
+                                            item.offsetX,
+                                            item.offsetY,
+                                            "",
+                                            0,
+                                            item.onlineTime,
+                                            item.msgTime
+                                        )
+                                }
+                            },
+                            indication = null,
+                            interactionSource = MutableInteractionSource()
+                        )
                 )
             } else {
                 Image(
@@ -451,7 +517,11 @@ fun plantModelItem(
                     contentDescription = null,
                     modifier = Modifier
                         .size(90.dp)
-                        .clickable(onClick = nav2)
+                        .clickable(
+                            onClick = nav2,
+                            indication = null,
+                            interactionSource = MutableInteractionSource()
+                        )
                 )
             }
 
@@ -469,14 +539,13 @@ fun plantModelItem(
 
 }
 
+@SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 fun MapBgAnimation(
-    showMsg: () -> Unit = {},
     nav: () -> Unit = {},
     nav2: () -> Unit = {},
-    showImgDialog: () -> Unit
+    userViewModel: UserViewModel = androidx.lifecycle.viewmodel.compose.viewModel()
 ) {
-
     //控制播放
     var isPlaying by remember {
         mutableStateOf(true)
@@ -511,83 +580,34 @@ fun MapBgAnimation(
                 .size(450.dp)
                 .alpha(if (isPlaying == false) 0f else 1f)
         )
+        //用户本人的植物模型
         plantModelItem(
-            "ajunGrit",
-            R.drawable.g4_2_img_flower_shadowed,
-            0f,
-            0f,
-            "",
-            0,
-            showMsg,
+            userViewModel.uiState.value.meItem.value.userName,
+            userViewModel.uiState.value.meItem.value.userPlant,
+            userViewModel.uiState.value.meItem.value.offsetX,
+            userViewModel.uiState.value.meItem.value.offsetY,
+            userViewModel.uiState.value.meItem.value.textMsg,
+            userViewModel.uiState.value.meItem.value.imgMsg,
             nav2,
-            showImgDialog
+            userViewModel = userViewModel,
+            userViewModel.uiState.value.meItem.value
         )
-        plantModelItem(
-            "sancho",
-            R.drawable.g4_2_img_cactus_shadowed,
-            -1.2f,
-            1.3f,
-            "true",
-            0,
-            showMsg,
-            nav2,
-            showImgDialog
-        )
-        plantModelItem(
-            "megumin",
-            R.drawable.g4_2_img_cactus_shadowed,
-            1f,
-            1f,
-            "",
-            0,
-            showMsg,
-            nav2,
-            showImgDialog
-        )
-        plantModelItem(
-            "skccc",
-            R.drawable.g4_2_img_grass_shadowed,
-            -1f,
-            -0.7f,
-            "",
-            0,
-            showMsg,
-            nav2,
-            showImgDialog
-        )
-        plantModelItem(
-            "foxbread",
-            R.drawable.g4_2_img_flower_shadowed,
-            0.7f,
-            -1.0f,
-            "",
-            1,
-            showMsg,
-            nav2,
-            showImgDialog
-        )
-    }
 
-
-}
-
-@Preview("Light Mode")
-@Composable
-fun DefaultPreview() {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
-            .fillMaxSize()
-            .background(
-                brush = Brush.verticalGradient(
-                    colors = listOf(
-                        Flesh1,
-                        Green3
-                    )
-                )
+        userViewModel.uiState.value.friendListData.forEachIndexed { index, item ->
+            plantModelItem(
+                item.userName,
+                item.userPlant,
+                item.offsetX,
+                item.offsetY,
+                item.textMsg,
+                item.imgMsg,
+                nav2,
+                userViewModel = userViewModel,
+                item
             )
-    ) {
+        }
 
     }
+
 
 }

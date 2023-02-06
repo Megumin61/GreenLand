@@ -13,6 +13,7 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.core.view.WindowCompat
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -58,13 +59,13 @@ class RallyActivity : ComponentActivity() {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        GlobalScope.launch {
-            val user = User("jjuntan", "18148991553")
-            UsersApplication.database.userDao().insertUser(user)
-        }
-    }
+//    override fun onResume() {
+//        super.onResume()
+//        GlobalScope.launch {
+//            val user = User("jjuntan", "18148991553")
+//            UsersApplication.database.userDao().insertUser(user)
+//        }
+//    }
 
 
 }
@@ -106,7 +107,7 @@ fun WordBookApp(userViewModel: UserViewModel = androidx.lifecycle.viewmodel.comp
 @ExperimentalPermissionsApi
 @ExperimentalMaterialApi
 @Composable
-fun RallyApp( userViewModel: UserViewModel = androidx.lifecycle.viewmodel.compose.viewModel()) {
+fun RallyApp( ) {
 
 //    val users by viewModel.allUsers.observeAsState(listOf())
     var currentScreen: RallyDestination by remember { mutableStateOf(Overview) }
@@ -114,6 +115,7 @@ fun RallyApp( userViewModel: UserViewModel = androidx.lifecycle.viewmodel.compos
     val currentBackStack by navController.currentBackStackEntryAsState()
     val Textvalue: String = ""
 
+    val userViewModel:UserViewModel= viewModel()
     // Fetch your currentDestination:
     val currentDestination = currentBackStack?.destination
     if (currentDestination != null) {
@@ -309,7 +311,7 @@ fun RallyApp( userViewModel: UserViewModel = androidx.lifecycle.viewmodel.compos
                                 launchSingleTop = true; popUpTo(Island.route) {}
                             }
                         },
-
+                        userViewModel
                         )
                 }
                 composable(route = IslandExplore.route) {
@@ -335,7 +337,7 @@ fun RallyApp( userViewModel: UserViewModel = androidx.lifecycle.viewmodel.compos
                                 launchSingleTop = true; popUpTo(IslandExplore.route) {}
                             }
                         },
-
+                        userViewModel
                         )
                 }
                 composable(route = IslandMemberList.route) {
@@ -348,6 +350,7 @@ fun RallyApp( userViewModel: UserViewModel = androidx.lifecycle.viewmodel.compos
                                 launchSingleTop = true; popUpTo(IslandMemberList.route) {}
                             }
                         },
+                        userViewModel = userViewModel
                     )
                 }
                 composable(route = IslandNearbyMemberList.route) {
@@ -387,6 +390,7 @@ fun RallyApp( userViewModel: UserViewModel = androidx.lifecycle.viewmodel.compos
 
                 composable(route = Message.route) {
                     MessageScreen(
+                        userViewModel,
                         nav01 = {
                             navController.navigate(MessageTap.route) { launchSingleTop = true; }
                         },
@@ -405,6 +409,7 @@ fun RallyApp( userViewModel: UserViewModel = androidx.lifecycle.viewmodel.compos
                 composable(route = MessageMsg.route) {
 
                     MessageMsgScreen(
+                        userViewModel,
                         //导航函数
                         nav01 = {
                             navController.navigate(MessageTap.route) { launchSingleTop = true; }
@@ -416,6 +421,7 @@ fun RallyApp( userViewModel: UserViewModel = androidx.lifecycle.viewmodel.compos
                 }
                 composable(route = MessageTap.route) {
                     MessageTapScreen(
+                        userViewModel,
                         nav01 = {
                             navController.navigate(Message.route) { launchSingleTop = true; }
                         }

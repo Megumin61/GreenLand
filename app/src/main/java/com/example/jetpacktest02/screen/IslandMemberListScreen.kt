@@ -1,9 +1,8 @@
 package com.example.jetpacktest02.screen
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
@@ -32,14 +31,20 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.jetpacktest02.R
+import com.example.jetpacktest02.ViewModel.UserViewModel
+import com.example.jetpacktest02.ViewModel.friendItem
 import com.example.scaffolddemo.ui.theme.Flesh1
 import com.example.scaffolddemo.ui.theme.Green1
 import com.example.scaffolddemo.ui.theme.Green2
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 
+@SuppressLint("StateFlowValueCalledInComposition")
 @Composable
-fun FriendList(nav02: () -> Unit = {}) {
+fun FriendList(
+    nav02: () -> Unit = {},
+    userViewModel: UserViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
+) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.Center
@@ -52,7 +57,6 @@ fun FriendList(nav02: () -> Unit = {}) {
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(325.dp)
                     .padding(15.dp) // 外边距
                 ,
                 backgroundColor = Color.White,
@@ -65,14 +69,14 @@ fun FriendList(nav02: () -> Unit = {}) {
                         .fillMaxSize()
                         .padding(5.dp, 15.dp, 15.dp, 15.dp)
                 ) {
-                    FriendItem(nav02)
-                    Spacer(modifier = Modifier.height(20.dp))
-                    FriendItem(nav02)
-                    Spacer(modifier = Modifier.height(20.dp))
-                    FriendItem(nav02)
+                    userViewModel.uiState.value.friendListData.forEachIndexed { index, item ->
+                        FriendItem(nav02, userViewModel, item)
+                        if (index == userViewModel.uiState.value.friendListData.size - 1) {
+                        } else {
+                            Spacer(modifier = Modifier.height(20.dp))
+                        }
 
-                    Spacer(modifier = Modifier.height(20.dp))
-                    FriendItem(nav02)
+                    }
                 }
             }
         }
@@ -161,12 +165,11 @@ fun InviteCard() {
     }
 }
 
+@SuppressLint("StateFlowValueCalledInComposition")
 @Composable
-fun SwitchArea() {
-    var meVisible by remember {
-        mutableStateOf(true)
-    }
-
+fun SwitchArea(
+    userViewModel: UserViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
+) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.Start
@@ -182,14 +185,14 @@ fun SwitchArea() {
             ) {
                 Column() {
                     //按钮
-                    if (meVisible) {
+                    if (userViewModel.uiState.value.meVisible.value) {
                         Image(
                             painter = painterResource(id = R.drawable.g4_3_btn_becomeinvisible),
                             contentDescription = null,
                             modifier = Modifier
                                 .size(55.dp)
                                 .clickable(onClick = {
-                                    meVisible = !meVisible
+                                    userViewModel.uiState.value.meVisible.value = !userViewModel.uiState.value.meVisible.value
                                 }),
                         )
                     } else {
@@ -199,13 +202,13 @@ fun SwitchArea() {
                             modifier = Modifier
                                 .size(55.dp)
                                 .clickable(onClick = {
-                                    meVisible = !meVisible
+                                    userViewModel.uiState.value.meVisible.value = !userViewModel.uiState.value.meVisible.value
                                 }),
                         )
                     }
 
                     Spacer(modifier = Modifier.height(10.dp))
-                    when (meVisible) {
+                    when (userViewModel.uiState.value.meVisible.value) {
                         true -> {
                             Text(
                                 text = "所有人可见",
@@ -233,18 +236,25 @@ fun SwitchArea() {
     }
 }
 
+@SuppressLint("StateFlowValueCalledInComposition")
 @Composable
-fun FriendItem(nav02: () -> Unit = {}) {
-    Row(modifier = Modifier.height(50.dp)) {
+fun FriendItem(
+    nav02: () -> Unit = {},
+    userViewModel: UserViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
+    item: friendItem
+) {
+    Row(modifier = Modifier.height(50.dp),verticalAlignment = Alignment.CenterVertically,) {
         Row(
             horizontalArrangement = Arrangement.Start,
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.padding(start = 10.dp)
         ) {
             //用户头像
             Image(
-                painter = painterResource(id = R.drawable.g4_3_avatar1),
+                painter = painterResource(id = item.userAvatar),
                 contentDescription = null,
                 modifier = Modifier
-                    .size(60.dp),
+                    .size(45.dp),
             )
             Column(
                 modifier = Modifier
@@ -254,7 +264,7 @@ fun FriendItem(nav02: () -> Unit = {}) {
             ) {
                 //用户名字
                 Text(
-                    text = "ajunGrit",
+                    text = item.userName,
                     style = TextStyle(
                         fontWeight = FontWeight.W700, //设置字体粗细
                         fontSize = 14.sp,
@@ -262,7 +272,7 @@ fun FriendItem(nav02: () -> Unit = {}) {
                 )
                 //上线记录
                 Text(
-                    text = "1天前在线",
+                    text = item.onlineTime,
                     style = TextStyle(
                         fontWeight = FontWeight.W400, //设置字体粗细
                         fontSize = 14.sp,
@@ -282,23 +292,25 @@ fun FriendItem(nav02: () -> Unit = {}) {
                 contentDescription = null,
                 modifier = Modifier
                     .size(65.dp)
-                    .clickable(onClick = nav02)
+                    .clickable(onClick = nav02, interactionSource = MutableInteractionSource(), indication = null)
             )
         }
     }
 
 }
 
-@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
+
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter", "StateFlowValueCalledInComposition")
 @Composable
 fun IslandMemberListScreen(
     nav01: () -> Unit = {},
-    nav02: () -> Unit = {}
+    nav02: () -> Unit = {},
+    userViewModel: UserViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
 ) {
     //配置顶部状态栏颜色
     rememberSystemUiController().setStatusBarColor(
-        Green1, darkIcons = androidx.compose.material.MaterialTheme.colors.isLight)
-
+        Green1, darkIcons = androidx.compose.material.MaterialTheme.colors.isLight
+    )
 
     Surface(modifier = Modifier.fillMaxSize()) {
         //顶部菜单栏
@@ -343,6 +355,7 @@ fun IslandMemberListScreen(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier
                     .fillMaxSize()
+                    .verticalScroll(rememberScrollState())
                     .background(
                         brush = Brush.verticalGradient(
                             colors = listOf(
@@ -356,9 +369,10 @@ fun IslandMemberListScreen(
                 //页面组件
                 InviteCard()
                 Spacer(modifier = Modifier.height(20.dp))
-                FriendList(nav02)
+                FriendList(nav02, userViewModel = userViewModel)
                 Spacer(modifier = Modifier.height(20.dp))
-                SwitchArea()
+                SwitchArea(userViewModel)
+                Spacer(modifier = Modifier.height(20.dp))
 
             }
         }

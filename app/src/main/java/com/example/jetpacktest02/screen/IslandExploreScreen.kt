@@ -39,6 +39,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.example.jetpacktest02.R
+import com.example.jetpacktest02.ViewModel.UserViewModel
 import com.example.scaffolddemo.ui.theme.*
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import kotlinx.coroutines.delay
@@ -52,6 +53,7 @@ fun IslandExploreScreen(
     nav02: () -> Unit = {},
     nav03: () -> Unit = {},
     nav04: () -> Unit = {},
+    userViewModel: UserViewModel
 ) {
     var showImgDialog by remember {
         mutableStateOf(false)
@@ -288,7 +290,7 @@ fun IslandExploreScreen(
                     }
 
                     // 地图扫描动画背景
-                    MapBgAnimation({ msgVisible = true }, nav03, nav04, { showImgDialog = true })
+                    MapBgAnimation(nav03, nav04, userViewModel =userViewModel )
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()

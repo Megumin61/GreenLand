@@ -124,7 +124,9 @@ fun SetPlanSportsScreen() {
 
     val remindListData = remember {
         mutableStateListOf(
-            remindItemModel(true, "9:00", 5f),
+            remindItemModel("9:00", 5f),
+
+            remindItemModel("12:00", 5f),// 数组的最后一个元素 不会显示
             /*remindItemModel("12:30", 5f),
             remindItemModel("18:20", 5f),*/
         )
@@ -146,18 +148,13 @@ fun SetPlanSportsScreen() {
         { _, mHour: Int, mMinute: Int ->
             mTime.value = "$mHour:$mMinute"
             changedRemindTime = mTime.value
-            remindListData[changedIndex] = remindItemModel(true, changedRemindTime, 5f)
+            remindListData[changedIndex] = remindItemModel(changedRemindTime, 5f)
         },
         mHour, mMinute, false,
     )
 
     var aimnum by rememberSaveable { mutableStateOf("") }
     //轻提醒列表
-
-
-    LaunchedEffect(remindListData) {
-
-    }
 
 
 
@@ -329,10 +326,13 @@ fun SetPlanSportsScreen() {
                                 //轻提醒项目卡片 遍历数组remindListData
                                 remindListData.forEachIndexed { index, remindItemModel ->
                                     AnimatedVisibility(
-                                        visible = remindItemModel.boolshow, enter =/*slideInVertically(initialOffsetY = { -40 }
+                                        visible = if (index == remindListData.size - 1) false else true,
+                                        
+                                        enter =/*slideInVertically(initialOffsetY = { -40 }
                                     ) +*/ expandVertically(
                                             expandFrom = Alignment.Top
-                                        ) + fadeIn(initialAlpha = 0.3f)
+                                        ) + fadeIn(initialAlpha = 0.3f),
+                                        exit= fadeOut(targetAlpha = 0f) + shrinkVertically(shrinkTowards = Alignment.Top)
                                     ) {
                                         Card(
                                             shape = RoundedCornerShape(10.dp),
@@ -404,7 +404,7 @@ fun SetPlanSportsScreen() {
                                                         value = remindItemModel.remindInterval,
                                                         onValueChange = {
                                                             remindListData[index] = remindItemModel(
-                                                                true,
+
                                                                 remindItemModel.remindTime,
                                                                 it
                                                             )
@@ -446,7 +446,10 @@ fun SetPlanSportsScreen() {
                                         }
                                     }
 
-                                    Spacer(modifier = Modifier.height(20.dp))
+                                    if (index == remindListData.size - 1) {
+                                    } else {
+                                        Spacer(modifier = Modifier.height(20.dp))
+                                    }
                                 }
 
                                 //增加提醒按钮
@@ -463,13 +466,10 @@ fun SetPlanSportsScreen() {
 //                                                    showstate.value = !showstate.value
                                                 remindListData.add(
                                                     remindItemModel(
-                                                        false,
                                                         "12:00",
                                                         5f
                                                     )
                                                 )
-                                                remindListData[remindListData.size - 1] =
-                                                    remindItemModel(true, "12:00", 5f)
                                             },
                                             indication = null,
                                             interactionSource = MutableInteractionSource()
@@ -653,7 +653,6 @@ public fun DayItem() {
 }
 
 data class remindItemModel(
-    var boolshow: Boolean,
     var remindTime: String,
     var remindInterval: Float,
 )

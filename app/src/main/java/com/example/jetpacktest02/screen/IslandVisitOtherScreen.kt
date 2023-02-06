@@ -4,36 +4,23 @@ import android.annotation.SuppressLint
 import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.*
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.*
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.composed
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.platform.debugInspectorInfo
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.semantics.Role
-import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.semantics.stateDescription
-import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -50,6 +37,8 @@ fun IslandVisitOtherScreen(
     //导航函数
     nav01: () -> Unit = {},
     nav02: () -> Unit = {},
+    res: Int?,//用户头像
+    name:String?//用户名字
 ) {
     var webView: WebView
 
@@ -82,19 +71,23 @@ fun IslandVisitOtherScreen(
                         horizontalArrangement = Arrangement.Center,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Image(
-                            painter = painterResource(id = R.drawable.g4_3_avatar1),
-                            contentDescription = null,
-                            modifier = Modifier.size(40.dp)
-                        )
+                        res?.let { painterResource(id = it) }?.let {
+                            Image(
+                                painter = it,
+                                contentDescription = null,
+                                modifier = Modifier.size(40.dp)
+                            )
+                        }
                         Spacer(modifier = Modifier.width(15.dp))
-                        Text(
-                            text = "skccc",
-                            style = TextStyle(
-                                fontWeight = FontWeight.W600, //设置字体粗细
-                                fontSize = 18.sp,
-                            ),
-                        )
+                        if (name != null) {
+                            Text(
+                                text = name,
+                                style = TextStyle(
+                                    fontWeight = FontWeight.W600, //设置字体粗细
+                                    fontSize = 18.sp,
+                                ),
+                            )
+                        }
                     }
                 },
                     backgroundColor = Green1,

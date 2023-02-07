@@ -311,7 +311,8 @@ fun RallyApp( ) {
                                 launchSingleTop = true; popUpTo(Island.route) {}
                             }
                         },
-                        userViewModel
+                        userViewModel,
+                        controller = navController
                         )
                 }
                 composable(route = IslandExplore.route) {
@@ -337,7 +338,8 @@ fun RallyApp( ) {
                                 launchSingleTop = true; popUpTo(IslandExplore.route) {}
                             }
                         },
-                        userViewModel
+                        userViewModel,
+                        controller = navController
                         )
                 }
                 composable(route = IslandMemberList.route) {

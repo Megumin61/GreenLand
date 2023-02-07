@@ -595,17 +595,17 @@ fun IconButtonFriendList(
     Column() {
         Row(
             Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceEvenly,//子元素的水平方向排列效果
+            horizontalArrangement = Arrangement.SpaceAround,//子元素的水平方向排列效果
 
         ) {
-            Spacer(Modifier.height(50.dp))
+            Spacer(Modifier.height(30.dp))
             //通讯录
             Image(
                 painter = painterResource(id = R.drawable.g2_5_1_ic_directory),
                 contentDescription = null,
                 modifier = Modifier
-                    .width(80.dp)
-                    .height(80.dp)
+                    .width(100.dp)
+                    .height(100.dp)
                     .clickable(onClick = {
 //                    permissionState.launchPermissionRequest()
                         isContact.value = !isContact.value;
@@ -617,8 +617,8 @@ fun IconButtonFriendList(
                 painter = painterResource(id = R.drawable.g2_5_1_ic_code),
                 contentDescription = null,
                 modifier = Modifier
-                    .width(80.dp)
-                    .height(80.dp)
+                    .width(100.dp)
+                    .height(100.dp)
 //                .clickable(onClick = nav02)
 
             )
@@ -626,15 +626,15 @@ fun IconButtonFriendList(
                 painter = painterResource(id = R.drawable.g2_5_1_ic_scan),
                 contentDescription = null,
                 modifier = Modifier
-                    .width(80.dp)
-                    .height(80.dp)
+                    .width(100.dp)
+                    .height(100.dp)
             )
             Image(
                 painter = painterResource(id = R.drawable.g2_5_1_ic_scan1),
                 contentDescription = null,
                 modifier = Modifier
-                    .width(80.dp)
-                    .height(80.dp)
+                    .width(100.dp)
+                    .height(100.dp)
 //                .clickable(onClick = nav02)
             )
 

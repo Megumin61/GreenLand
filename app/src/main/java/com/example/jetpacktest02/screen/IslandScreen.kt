@@ -32,6 +32,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.font.FontWeight.Companion.W800
 import androidx.compose.ui.unit.*
 import androidx.compose.ui.window.Dialog
+import androidx.navigation.NavHostController
 import com.airbnb.lottie.compose.*
 import com.example.jetpacktest02.R
 import com.example.jetpacktest02.ViewModel.UserViewModel
@@ -49,6 +50,7 @@ fun IslandScreen(
     nav03: () -> Unit = {},
     nav04: () -> Unit = {},
     userViewModel: UserViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
+    controller:NavHostController
 ) {
     LaunchedEffect(key1 = userViewModel._uiState.value.msgItem.value) {
         if (userViewModel._uiState.value.showTextMsg.value == true) {
@@ -280,7 +282,7 @@ fun IslandScreen(
                     }
 
                     // 地图扫描动画背景
-                    MapBgAnimation(nav03, nav04, userViewModel = userViewModel)
+                    MapBgAnimation(nav03, nav04, userViewModel = userViewModel,controller)
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -421,15 +423,16 @@ fun IslandScreen(
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 fun plantModelItem(
-    username: String,
-    plantType: Int,
+    name: String,
+    res: Int,//plantType
     offsetX: Float = 0f,
     offsetY: Float = 0f,
     textMsg: String,
     imgMsg: Int,
     nav2: () -> Unit = {},
     userViewModel: UserViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
-    item: friendItem
+    item: friendItem,
+    controller:NavHostController
 ) {
     Column(
         modifier = Modifier.offset(offsetX * 100.dp, offsetY * 100.dp),
@@ -460,7 +463,7 @@ fun plantModelItem(
             //植物图片
             if (textMsg != "" || imgMsg != 0) {
                 Image(
-                    painter = painterResource(id = plantType),
+                    painter = painterResource(id = res),
                     contentDescription = null,
                     modifier = Modifier
                         .size(90.dp)
@@ -485,7 +488,7 @@ fun plantModelItem(
                                             item.onlineTime,
                                             item.msgTime
                                         )
-
+//                                    controller.navigate("4.5-island-visitOther/$res/$name")
                                 } else if (imgMsg != 0) {
                                     userViewModel.uiState.value.msgItem.value = item
                                     userViewModel.uiState.value.showTextMsg.value = false
@@ -505,6 +508,7 @@ fun plantModelItem(
                                             item.onlineTime,
                                             item.msgTime
                                         )
+                                    controller.navigate("4.5-island-visitOther/$res/$name")//这里将id拼接到参数后面
                                 }
                             },
                             indication = null,
@@ -513,12 +517,14 @@ fun plantModelItem(
                 )
             } else {
                 Image(
-                    painter = painterResource(id = plantType),
+                    painter = painterResource(id = res),
                     contentDescription = null,
                     modifier = Modifier
                         .size(90.dp)
                         .clickable(
-                            onClick = nav2,
+                            onClick = {
+                                controller.navigate("4.5-island-visitOther/$res/$name")
+                                      } ,
                             indication = null,
                             interactionSource = MutableInteractionSource()
                         )
@@ -528,7 +534,7 @@ fun plantModelItem(
         }
         //用户名
         Text(
-            text = username,
+            text = name,
             style = TextStyle(
                 fontWeight = FontWeight.W500, //设置字体粗细
                 fontSize = 12.sp,
@@ -544,7 +550,8 @@ fun plantModelItem(
 fun MapBgAnimation(
     nav: () -> Unit = {},
     nav2: () -> Unit = {},
-    userViewModel: UserViewModel = androidx.lifecycle.viewmodel.compose.viewModel()
+    userViewModel: UserViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
+    controller: NavHostController
 ) {
     //控制播放
     var isPlaying by remember {
@@ -590,7 +597,8 @@ fun MapBgAnimation(
             userViewModel.uiState.value.meItem.value.imgMsg,
             nav2,
             userViewModel = userViewModel,
-            userViewModel.uiState.value.meItem.value
+            userViewModel.uiState.value.meItem.value,
+            controller
         )
 
         userViewModel.uiState.value.friendListData.forEachIndexed { index, item ->
@@ -603,7 +611,8 @@ fun MapBgAnimation(
                 item.imgMsg,
                 nav2,
                 userViewModel = userViewModel,
-                item
+                item,
+                controller
             )
         }
 

@@ -195,7 +195,14 @@ fun RallyApp( ) {
                             }
                         },
                         nav07 = {
-                            navController.navigate(VipUnsigned.route) { launchSingleTop = true; }
+                            navController.navigate(Test.route) { launchSingleTop = true; }
+                        }
+                    )
+                }
+                composable(route = Test.route) {
+                    TestScreen(
+                        nav01 = {
+                            navController.navigate(Plant.route) { launchSingleTop = true; }
                         }
                     )
                 }
@@ -311,7 +318,8 @@ fun RallyApp( ) {
                                 launchSingleTop = true; popUpTo(Island.route) {}
                             }
                         },
-                        userViewModel
+                        userViewModel,
+                        controller = navController
                         )
                 }
                 composable(route = IslandExplore.route) {
@@ -337,7 +345,8 @@ fun RallyApp( ) {
                                 launchSingleTop = true; popUpTo(IslandExplore.route) {}
                             }
                         },
-                        userViewModel
+                        userViewModel,
+                        controller = navController
                         )
                 }
                 composable(route = IslandMemberList.route) {
@@ -407,16 +416,13 @@ fun RallyApp( ) {
                     )
                 }
                 composable(route = MessageMsg.route) {
-
                     MessageMsgScreen(
                         userViewModel,
                         //导航函数
                         nav01 = {
-                            navController.navigate(MessageTap.route) { launchSingleTop = true; }
+                            navController.navigate(Message.route) { launchSingleTop = true; }
                         },
-                        nav02 = {
-                            navController.navigate(MessageTap.route)
-                        }
+                        controller=navController
                     )
                 }
                 composable(route = MessageTap.route) {
@@ -434,6 +440,18 @@ fun RallyApp( ) {
                             navController.navigate(Message.route) { launchSingleTop = true; }
                         },
                         //参数提供方，添加一个navController
+                        controller = navController
+                    )
+                }
+                composable(route = MessagePic.route) {
+                    MessagePicScreen(
+                        userViewModel = userViewModel,
+                        nav01 = {
+                            navController.navigate(Message.route) { launchSingleTop = true; }
+                        },
+                        nav02 = {
+                            navController.navigate(Message.route) { launchSingleTop = true; }
+                        },
                         controller = navController
                     )
                 }

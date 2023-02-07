@@ -38,6 +38,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import androidx.navigation.NavHostController
 import com.example.jetpacktest02.R
 import com.example.jetpacktest02.ViewModel.UserViewModel
 import com.example.scaffolddemo.ui.theme.*
@@ -53,7 +54,8 @@ fun IslandExploreScreen(
     nav02: () -> Unit = {},
     nav03: () -> Unit = {},
     nav04: () -> Unit = {},
-    userViewModel: UserViewModel
+    userViewModel: UserViewModel,
+    controller: NavHostController
 ) {
     var showImgDialog by remember {
         mutableStateOf(false)
@@ -290,7 +292,7 @@ fun IslandExploreScreen(
                     }
 
                     // 地图扫描动画背景
-                    MapBgAnimation(nav03, nav04, userViewModel =userViewModel )
+                    MapBgAnimation(nav03, nav04, userViewModel =userViewModel ,controller=controller)
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()

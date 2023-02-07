@@ -36,6 +36,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.example.jetpacktest02.R
 import com.example.jetpacktest02.ViewModel.UserViewModel
 import com.example.scaffolddemo.ui.theme.*
@@ -49,7 +50,7 @@ fun MessageMsgScreen(
 //            bills : (String) -> Unit = {},
     userViewModel: UserViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
     nav01: () -> Unit = {},
-    nav02: () -> Unit = {},
+    controller: NavHostController
 
     ) {
     //配置顶部状态栏颜色
@@ -99,7 +100,7 @@ fun MessageMsgScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Spacer(Modifier.height(0.dp))
-            MsgMessageList(nav01, nav02, userViewModel)
+            MsgMessageList(nav01, userViewModel,controller)
         }
     }
 
@@ -109,7 +110,7 @@ fun MessageMsgScreen(
 //@Preview(showBackground = true, backgroundColor = 0xFFF0EAE2, heightDp = 180)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MsgMessageList(nav01: () -> Unit = {}, nav02: () -> Unit, userViewModel: UserViewModel) {
+fun MsgMessageList(nav01: () -> Unit = {},  userViewModel: UserViewModel,controller:NavHostController) {
 
     val listDat1 by remember {
         mutableStateOf(
@@ -168,8 +169,8 @@ fun MsgMessageList(nav01: () -> Unit = {}, nav02: () -> Unit, userViewModel: Use
                 res2 = listItemModel.res2,
                 time = listItemModel.time,
                 nav01,
-                nav02,
-                userViewModel
+                userViewModel,
+                controller
             )
         }
         Image(
@@ -188,8 +189,8 @@ fun MsgMessageList(nav01: () -> Unit = {}, nav02: () -> Unit, userViewModel: Use
                 res2 = listItemModel.res2,
                 time = listItemModel.time,
                 nav01,
-                nav02,
-                userViewModel
+                userViewModel,
+                controller
             )
         }
 //        Divider()
@@ -205,12 +206,12 @@ fun MsgMessageItem(
     res2: Int,
     time: String,
     nav01: () -> Unit = {},
-    nav02: () -> Unit = {},
-    userViewModel: UserViewModel
+    userViewModel: UserViewModel,
+    controller: NavHostController
 ) {
     ListItem(
         modifier = Modifier
-            .clickable(onClick = nav01)
+//            .clickable(onClick = nav01)
             .background(
                 color = Color.White
             ),
@@ -254,7 +255,7 @@ fun MsgMessageItem(
             Spacer(modifier = Modifier.height(4.dp))
 
             Card(
-                colors = CardDefaults.cardColors(containerColor = Gray1),
+                colors = CardDefaults.cardColors(containerColor = BlueGray1),
 //                modifier = Modifier.padding(start = 6.dp, end = 6.dp, top = 2.dp, bottom = 2.dp)
             ) {
                 Text(
@@ -286,7 +287,10 @@ fun MsgMessageItem(
                 modifier = Modifier
                     .width(50.dp)
                     .height(50.dp)
-                    .clickable(onClick = nav02).offset(0.dp,-25.dp)
+                    .clickable(onClick = {
+                        controller.navigate("4.5-island-visitOther/$res/$name")//这里将id拼接到参数后面
+                    })
+                    .offset(0.dp,-25.dp)
             )
         }
     )
@@ -301,7 +305,3 @@ data class MsgListItemModel(
     var res2: Int,//添加好友图片
     var time: String//当前时间
 )
-
-class MessageMsgScreen {
-
-}

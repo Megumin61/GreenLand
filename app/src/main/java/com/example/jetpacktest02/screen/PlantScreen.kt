@@ -152,7 +152,7 @@ fun PlantScreen(
                 modifier = Modifier.size(ButtonDefaults.IconSize)
             )
             Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-            Text("8.1-Vip（unsigned）")
+            Text("test")
         }
     }
 }

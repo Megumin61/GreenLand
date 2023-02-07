@@ -38,13 +38,16 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.jetpacktest02.Entity.User
+import com.example.jetpacktest02.HealthTabTest
 import com.example.jetpacktest02.R
 import com.example.jetpacktest02.ViewModel.UserViewModel
 import com.example.jetpacktest02.config.UsersApplication
+import com.example.jetpacktest02.ui.main.BarChart
 import com.example.scaffolddemo.ui.theme.*
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
@@ -63,7 +66,7 @@ import kotlinx.coroutines.launch
 )
 
 @Composable
-fun MessageFriendScreen(
+fun HealthTabTestScreen(
     nav01: () -> Unit = {},
     userViewModel: UserViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
     controller: NavHostController
@@ -82,7 +85,7 @@ fun MessageFriendScreen(
                         contentAlignment = Alignment.Center
                     ) {
                         androidx.compose.material3.Text(
-                            text = "好友列表",
+                            text = "健康总结",
                             style = TextStyle(
                                 fontWeight = FontWeight.W900, //设置字体粗细
                                 fontSize = 18.sp,
@@ -204,7 +207,7 @@ fun MessageFriendScreen(
         }
 
         Column(Modifier.padding(10.dp)) {
-            FriendTabRow(userViewModel, pagerState)
+            HealthTabRow(userViewModel, pagerState)
 
             //https://blog.csdn.net/haojiagou/article/details/123040803?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522167548132816800180688371%2522%252C%2522scm%2522%253A%252220140713.130102334..%2522%257D&request_id=167548132816800180688371&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~baidu_landing_v2~default-4-123040803-null-null.142^v73^pc_new_rank,201^v4^add_ask,239^v1^control&utm_term=compose%20viewpager&spm=1018.2226.3001.4187
             //Pager核心代码,count为页面总数
@@ -212,7 +215,7 @@ fun MessageFriendScreen(
 //                Text(text = "Page: $page")
                 //下面为要滑动切换的界面，可以通过判断page调用不同页面
 //                Text(page.toString())
-                FriendList(grouped, controller = controller)
+                BarChart()
             }
         }
     }
@@ -221,8 +224,8 @@ fun MessageFriendScreen(
 @SuppressLint("StateFlowValueCalledInComposition")
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalPagerApi::class, DelicateCoroutinesApi::class)
 @Composable
-fun FriendTabRow(userViewModel: UserViewModel, pagerState: PagerState) {
-    val titles = listOf("好友", "附近", "可能认识")
+fun HealthTabRow(userViewModel: UserViewModel, pagerState: PagerState) {
+    val titles = listOf("本周", "过往")
     var text by rememberSaveable(stateSaver = TextFieldValue.Saver) {
         mutableStateOf(TextFieldValue("", TextRange(0, 7)))
     }
@@ -232,7 +235,7 @@ fun FriendTabRow(userViewModel: UserViewModel, pagerState: PagerState) {
             selectedTabIndex = userViewModel.uiState.value.pageState.value,
             indicator = @Composable { tabPositions ->
                 TabRowDefaults.Indicator(
-                    Modifier.customTabIndicatorOffset(tabPositions[userViewModel.uiState.value.pageState.value]),
+                    Modifier.HealthcustomTabIndicatorOffset(tabPositions[userViewModel.uiState.value.pageState.value]),
                     color = LightGreen
                 )
             }
@@ -297,7 +300,7 @@ fun FriendTabRow(userViewModel: UserViewModel, pagerState: PagerState) {
     }
 }
 
-fun Modifier.customTabIndicatorOffset(
+fun Modifier.HealthcustomTabIndicatorOffset(
     currentTabPosition: TabPosition
 ): Modifier = composed(
     inspectorInfo = debugInspectorInfo {
@@ -324,7 +327,7 @@ fun Modifier.customTabIndicatorOffset(
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun FriendList(grouped: Map<Char, List<FriendTest>>, controller: NavHostController) {
+fun HealthArea(grouped: Map<Char, List<FriendTest>>, controller: NavHostController) {
     val state = rememberLazyListState()
     val coroutinueScope = rememberCoroutineScope()
     Row(
@@ -360,94 +363,4 @@ fun FriendList(grouped: Map<Char, List<FriendTest>>, controller: NavHostControll
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun FriendMessageItem(
-    name: String,
-    msg: String,
-    res: Int,
-    controller: NavHostController
-) {
-    ListItem(
-        modifier = Modifier
-//            .clickable(onClick = nav01)
-            .background(
-                color = Color.White
-            )
-            .clickable(onClick = {
-                controller.navigate("4.5-island-visitOther/$res/$name")//这里将商品id拼接到参数后面
-            }),
-        colors = ListItemDefaults.colors(containerColor = Color.White),
-        headlineText = {
-            Column() {
-                androidx.compose.material3.Text(
-                    text = name,
-                    color = Color.Black,
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.W400,
-                )
-            }
 
-        },
-        supportingText = {
-            Spacer(modifier = Modifier.height(4.dp))
-            androidx.compose.material3.Text(
-                msg,
-                fontSize = 13.sp,
-                style = MaterialTheme.typography.bodySmall,
-                color = Gray1,
-                textAlign = TextAlign.Left,
-            )
-        },
-        leadingContent = {
-            Image(
-                painter = painterResource(id = res),
-                contentDescription = null,
-                alignment = Alignment.TopCenter,
-                modifier = Modifier
-                    .width(50.dp)
-                    .height(50.dp)
-//                    .clickable(onClick = nav02)
-            )
-        }
-    )
-
-}
-
-@Composable
-fun TextButton(state: LazyListState) {
-    val coroutineScope = rememberCoroutineScope()
-
-    LazyColumn(
-        modifier = Modifier.offset(-5.dp, 20.dp),
-        horizontalAlignment = Alignment.End
-    ) {
-        // Add 5 items
-        // 添加多个
-        val firstWord: String = "ABCDEFGHIJKLMNOPQISVUVWXYZ0000"
-        items(26) { index ->
-            val letter: Char = firstWord[index]
-            androidx.compose.material3.TextButton(onClick = {
-                coroutineScope.launch {
-                    // Animate scroll to the first item
-                    state.animateScrollToItem(index = 10)
-                }
-            }, modifier = Modifier.size(36.dp)) {
-                androidx.compose.material3.Text(
-                    text = "$letter",
-                    color = Gray4,
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.W500,
-                )
-            }
-        }
-
-    }
-}
-
-data class FriendTest(
-    val id: Int,
-    val name: String,
-    val msg: String,//给你留言了
-    val res: Int
-)

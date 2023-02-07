@@ -137,8 +137,25 @@ object PlantLookingForPlanFoot : RallyDestination {
     override val route = "1.4.1-plant-lookingforplan-foot"
 }
 
+object HealthConclusion : RallyDestination {
+    override val icon = Icons.Filled.MoneyOff
+    override val route = "6.1_conclusion_thisweek"
+}
 
+object HealthShare : RallyDestination {
+    override val icon = Icons.Filled.MoneyOff
+    override val route = "6.3_Share"
+}
 
+object HealthPast : RallyDestination {
+    override val icon = Icons.Filled.MoneyOff
+    override val route = "6.2_conclusion_past"
+}
+
+object HealthTabTest : RallyDestination {
+    override val icon = Icons.Filled.MoneyOff
+    override val route = "6test"
+}
 
 
 // Screens to be displayed in the top RallyTabRow

@@ -26,6 +26,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.TabPosition
 import androidx.compose.material.TabRowDefaults
@@ -48,6 +49,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.ContentDrawScope
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.platform.InspectorInfo
 import androidx.compose.ui.platform.InspectorValueInfo
 import androidx.compose.ui.platform.debugInspectorInfo
@@ -68,7 +70,7 @@ import org.intellij.lang.annotations.JdkConstants.HorizontalAlignment
 /**
  * The Bills screen.
  */
-@Preview(showBackground=true,widthDp=393,heightDp=2000)
+@Preview(showBackground=true,widthDp=393,heightDp=851)
 @Composable
 fun HealthPastScreen(
 //            bills : (String) -> Unit = {},
@@ -101,45 +103,49 @@ fun HealthPastScreen(
 
             }*/
 
+Column(modifier=Modifier.padding(top=10.dp)) {
+    LazyRowPlant01()
+    LazyColumn(
+        Modifier
+            .fillMaxWidth() // 宽度填满父空间
+            .height(2000.dp)
+            .padding(top = 0.dp, start = 26.dp, end = 26.dp),
 
-            LazyColumn(
-                Modifier
-                    .fillMaxWidth() // 宽度填满父空间
-                    .height(2000.dp)
-                    .padding(top = 20.dp, start = 26.dp, end = 26.dp),
 
+        verticalArrangement = Arrangement.spacedBy(22.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
 
-                verticalArrangement = Arrangement.spacedBy(22.dp),
-                horizontalAlignment = Alignment.CenterHorizontally,
+        content = {
 
-                content = {
-                    item{
-                    Row (verticalAlignment = Alignment.CenterVertically,
+            item{
+                Row (verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(24.dp)){
-                        ImgPlant()
-                        InformationRow()
-                    }
+                    ImgPlant()
+                    InformationRow()
+                }
 
 
-                    }
-                    item{
-                        StepFrame()
-                    }
-                    item{
-                        SitFrame()
-                    }
-                    item{
-                        WaterFrame()
-                    }
-                    item{
-                        ImgAdviceFrame()
-                    }
-                    item{
-                        BtnGetConclusion()
-                    }
+            }
+            item{
+                StepFrame()
+            }
+            item{
+                SitFrame()
+            }
+            item{
+                WaterFrame()
+            }
+            item{
+                ImgAdviceFrame()
+            }
+            item{
+                BtnGetConclusion()
+            }
 
 
-                })
+        })
+}
+
         }
     }
 
@@ -168,14 +174,95 @@ fun HealthPastScreen(
 
 @Composable
 fun LazyRowPlant01(){
-    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-        Image(
-            painter = painterResource(id = R.drawable.g6_2_plant1),
-            contentDescription = null,
-        )
-        Text(text = "9.1")
+Box(contentAlignment = Alignment.Center, modifier = Modifier.padding(0.dp)
+){
+    Image(
+        painter = painterResource(id = R.drawable.g6_2_rowbg),
+        contentDescription = null,
+    )
+    LazyRow(modifier =Modifier.width(320.dp),
+        horizontalArrangement = Arrangement.spacedBy(10.dp),
+        content =
+        {
+            item{
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    Image(
+                        painter = painterResource(id = R.drawable.g6_2_plant7),
+                        contentDescription = null,
+                    )
+                    Text(text = "8.18", fontSize = 12.sp,color=Color(149,152,172))
+                }
+            }
+            item{
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    Image(
+                        painter = painterResource(id = R.drawable.g6_2_plant8),
+                        contentDescription = null,
+                    )
+                    Text(text = "8.25", fontSize = 12.sp,color=Color(149,152,172))
+                }
+            }
+            item{
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    Image(
+                        painter = painterResource(id = R.drawable.g6_2_plant1),
+                        contentDescription = null,
+                    )
+                    Text(text = "9.1", fontSize = 12.sp,color=Color(149,152,172))
+                }
+            }
+            item{
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    Image(
+                        painter = painterResource(id = R.drawable.g6_2_plant2),
+                        contentDescription = null,
+                    )
+                    Text(text = "9.8", fontSize = 12.sp,color=Color(149,152,172))
+                }
+            }
+            item{
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    Image(
+                        painter = painterResource(id = R.drawable.g6_2_plant3),
+                        contentDescription = null,
+                    )
+                    Text(text = "9.15", fontSize = 12.sp,color=Color(149,152,172))
+                }
+            }
+            item{
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    Image(
+                        painter = painterResource(id = R.drawable.g6_2_plant4),
+                        contentDescription = null,
+                    )
+                    Text(text = "9.22", fontSize = 12.sp,color=Color(149,152,172))
+                }
+            }
+            item{
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    Image(
+                        painter = painterResource(id = R.drawable.g6_2_plant5),
+                        contentDescription = null,
+                    )
+                    Text(text = "9.29", fontSize = 12.sp)
+                }
+            }
+            item{
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    Image(
+                        painter = painterResource(id = R.drawable.g6_2_plant6),
+                        contentDescription = null,
+                    )
+                    Text(text = "10.6", fontSize = 12.sp,color=Color(149,152,172))
+                }
+            }
 
-    }
+
+        }
+    )
+
+}
+
    
 }
 

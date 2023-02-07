@@ -160,7 +160,7 @@ fun RallyApp() {
             //管理路由：页面跳转
             NavHost(
                 navController = navController,
-                startDestination = MessageFriend.route,
+                startDestination = Plant.route,
                 modifier = Modifier.padding(innerPadding)
 
             ) {
@@ -381,6 +381,15 @@ fun RallyApp() {
                         nav01 = {
                             navController.navigate(Plant.route) { launchSingleTop = true; }
                         }
+                    )
+                }
+
+                composable(route = HealthConclusion.route) {
+                    HealthConclusionScreen(
+                        nav01 = {
+                            navController.navigate(HealthTabTest.route) { launchSingleTop = true; }
+                        }
+
                     )
                 }
 

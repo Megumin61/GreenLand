@@ -203,7 +203,7 @@ fun RallyApp( ) {
                     TestScreen(
                         nav01 = {
                             navController.navigate(Plant.route) { launchSingleTop = true; }
-                        }
+                        },userViewModel=userViewModel
                     )
                 }
                 composable(route = PlantPlan.route) {
@@ -389,8 +389,8 @@ fun RallyApp( ) {
                     )
                 ) {
                     IslandVisitOtherScreen(
-                        res = it.arguments?.getInt("res"),
-                        name = it.arguments?.getString("name"),
+                        res = it.arguments?.getInt("res"), //传递用户头像
+                        name = it.arguments?.getString("name"), //传递用户名称
                         nav01 = {
                             navController.popBackStack()
                         }

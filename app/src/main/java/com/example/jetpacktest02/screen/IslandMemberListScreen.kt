@@ -8,7 +8,6 @@ import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Scaffold
 import androidx.compose.material.TopAppBar
-import androidx.compose.material3.AlertDialogDefaults.shape
 import androidx.compose.material.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -23,17 +22,14 @@ import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.font.FontWeight.Companion.W400
 import androidx.compose.ui.text.font.FontWeight.Companion.W600
 import androidx.compose.ui.text.font.FontWeight.Companion.W900
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.jetpacktest02.R
 import com.example.jetpacktest02.ViewModel.UserViewModel
-import com.example.jetpacktest02.ViewModel.friendItem
-import com.example.scaffolddemo.ui.theme.Flesh1
+import com.example.jetpacktest02.ViewModel.FriendItem
 import com.example.scaffolddemo.ui.theme.Green1
 import com.example.scaffolddemo.ui.theme.Green2
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
@@ -241,7 +237,7 @@ fun SwitchArea(
 fun FriendItem(
     nav02: () -> Unit = {},
     userViewModel: UserViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
-    item: friendItem
+    item: FriendItem
 ) {
     Row(modifier = Modifier.height(50.dp),verticalAlignment = Alignment.CenterVertically,) {
         Row(

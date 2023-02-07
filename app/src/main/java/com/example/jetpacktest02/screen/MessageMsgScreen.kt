@@ -305,7 +305,3 @@ data class MsgListItemModel(
     var res2: Int,//添加好友图片
     var time: String//当前时间
 )
-
-class MessageMsgScreen {
-
-}

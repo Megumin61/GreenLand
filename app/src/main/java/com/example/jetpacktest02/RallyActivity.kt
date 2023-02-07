@@ -195,7 +195,14 @@ fun RallyApp( ) {
                             }
                         },
                         nav07 = {
-                            navController.navigate(VipUnsigned.route) { launchSingleTop = true; }
+                            navController.navigate(Test.route) { launchSingleTop = true; }
+                        }
+                    )
+                }
+                composable(route = Test.route) {
+                    TestScreen(
+                        nav01 = {
+                            navController.navigate(Plant.route) { launchSingleTop = true; }
                         }
                     )
                 }

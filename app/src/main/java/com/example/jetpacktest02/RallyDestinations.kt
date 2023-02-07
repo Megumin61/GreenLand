@@ -171,7 +171,10 @@ object SetPlanDiy : RallyDestination {
     override val icon = Icons.Filled.MoneyOff
     override val route = "1.2.5-plant-diyplan"
 }
-
+object Test : RallyDestination {
+    override val icon = Icons.Filled.MoneyOff
+    override val route = "test"
+}
 
 
 // Screens to be displayed in the top RallyTabRow

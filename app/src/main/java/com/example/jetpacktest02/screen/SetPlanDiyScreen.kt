@@ -5,14 +5,12 @@ import android.app.TimePickerDialog
 import android.icu.util.Calendar
 import androidx.annotation.DrawableRes
 import androidx.compose.animation.*
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.*
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
+import androidx.compose.material.MaterialTheme.typography
 import androidx.compose.material.Scaffold
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
@@ -37,6 +35,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.jetpacktest02.R
+import com.example.jetpacktest02.ViewModel.DiyplanName
 import com.example.jetpacktest02.ui.main.PlanItem
 import com.example.scaffolddemo.ui.theme.*
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
@@ -54,10 +53,51 @@ fun DrawReactDemo() {
     })
 }*/
 
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+public fun DiyPlanName(PlanName: String, onNumChange: (String) -> Unit) {
+
+    /*Box(Modifier.fillMaxWidth()) {*/
+
+        Column(modifier = Modifier.padding(4.dp)) {
+            OutlinedTextField(
+                singleLine = false,
+                shape = RoundedCornerShape(10.dp),
+                value = PlanName,
+                onValueChange = onNumChange,
+                textStyle = TextStyle(
+                    fontSize = 30.sp,
+                    color = Green4,
+                    fontWeight = FontWeight.W900
+                ),
+                placeholder = {
+                    androidx.compose.material3.Text(
+                        "自定义",
+                        fontSize = 30.sp,
+                        color = textGray,
+                        fontWeight = FontWeight.W900
+                    )
+                },
+                modifier = Modifier
+                    .size(160.dp,80.dp)
+                    .padding(start = 30.dp, top = 10.dp)
+                    .align(Alignment.CenterHorizontally),
+                colors = TextFieldDefaults.textFieldColors(
+                    textColor = Green4,
+                    containerColor = Color.White,
+                    focusedIndicatorColor = Color.Transparent,
+                    unfocusedIndicatorColor = Color.Transparent
+                )
+            )
+        }
+    }
+/*}*/
+
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Preview
 @Composable
-fun SetPlanDiyScreen(){
+fun SetPlanDiyScreen(
+    nav01: () -> Unit={}){
     rememberSystemUiController().setStatusBarColor(
         Green1, darkIcons = androidx.compose.material.MaterialTheme.colors.isLight
     )
@@ -73,9 +113,9 @@ fun SetPlanDiyScreen(){
 
     val remindListData = remember {
         mutableStateListOf(
-            remindItemModel("23:00", 5f),
+            remindItemModel("12:00", 5f),
 
-            remindItemModel("12:00", 5f),// 数组的最后一个元素 不会显示
+            //remindItemModel("12:00", 5f),// 数组的最后一个元素 不会显示
             /*remindItemModel("12:30", 5f),
             remindItemModel("18:20", 5f),*/
         )
@@ -163,6 +203,7 @@ fun SetPlanDiyScreen(){
                     horizontalAlignment = Alignment.CenterHorizontally,
                     modifier = Modifier
                         .fillMaxSize()
+                        .verticalScroll(rememberScrollState())
                         .background(
                             brush = Brush.verticalGradient(
                                 colors = listOf(
@@ -179,8 +220,8 @@ fun SetPlanDiyScreen(){
                             painter = painterResource(id = R.drawable.g1_2_icbg_newdiy),
                             contentDescription = null, modifier = Modifier.fillMaxWidth()
                         )
-
-
+                        var PlanName by rememberSaveable { mutableStateOf("")}
+                        DiyPlanName(PlanName=PlanName, onNumChange={ PlanName = it })
                     }
 
 
@@ -405,7 +446,7 @@ fun SetPlanDiyScreen(){
                                 }
                                 Spacer(modifier = Modifier.padding(16.dp))
                                 Button(
-                                    onClick = { /*TODO*/ },
+                                    onClick =  nav01 ,
                                     modifier = Modifier
                                         .width(136.dp)
                                         .height(54.dp),
@@ -430,6 +471,14 @@ fun SetPlanDiyScreen(){
         }
     }
 }
+
+/*
+@Composable
+fun InputDiyPlanName(){
+
+    DiyplanName
+}
+*/
 
 
 

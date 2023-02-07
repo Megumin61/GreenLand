@@ -171,6 +171,10 @@ object SetPlanDiy : RallyDestination {
     override val icon = Icons.Filled.MoneyOff
     override val route = "1.2.5-plant-diyplan"
 }
+object PlanListAdded : RallyDestination {
+    override val icon = Icons.Filled.MoneyOff
+    override val route = "1.2-plant-dailyplan"
+}
 
 
 

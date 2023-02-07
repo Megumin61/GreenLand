@@ -134,3 +134,8 @@ data class friendItem(
     val onlineTime: String = "",
     val msgTime: String = ""
 )
+
+//Diy计划名称，SetPlanDiy输入，PlanListAdded输出
+data class DiyplanName(
+    val diyplanName: String=""
+)

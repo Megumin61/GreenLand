@@ -216,6 +216,7 @@ fun RallyApp( ) {
                         }
                     )
                 }
+
                 composable(route = PlanList.route) {
                     PlanListScreen(
                         nav01 = {
@@ -258,8 +259,19 @@ fun RallyApp( ) {
                 composable(route = SetPlanEating.route) {
                     SetPlanEatingScreen()
                 }
+
                 composable(route = SetPlanDiy.route) {
-                    SetPlanDiyScreen()
+                    SetPlanDiyScreen(
+                        nav01 = {
+                            navController.navigate(PlanListAdded.route) {
+                                launchSingleTop = true;
+                            }
+                        }
+
+                    )
+                }
+                composable(route = PlanListAdded.route) {
+                    PlanListAddedScreen()
                 }
 
 

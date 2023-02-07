@@ -387,8 +387,9 @@ fun RallyApp() {
                 composable(route = HealthConclusion.route) {
                     HealthConclusionScreen(
                         nav01 = {
-                            navController.navigate(HealthTabTest.route) { launchSingleTop = true; }
+                            navController.navigate(Plant.route) { launchSingleTop = true; }
                         }
+
 
                     )
                 }

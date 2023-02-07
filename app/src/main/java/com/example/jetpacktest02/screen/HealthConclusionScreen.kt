@@ -63,19 +63,36 @@ import com.example.jetpacktest02.R
 import com.example.jetpacktest02.compose.MyTopAppBar
 import com.example.scaffolddemo.ui.theme.Gray1
 import com.example.scaffolddemo.ui.theme.Green1
+import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.accompanist.pager.HorizontalPager
+import com.google.accompanist.pager.HorizontalPagerIndicator
+import com.google.accompanist.pager.rememberPagerState
 import org.intellij.lang.annotations.JdkConstants.HorizontalAlignment
 
 /**
  * The Bills screen.
  */
+@OptIn(ExperimentalPagerApi::class)
 @Preview(showBackground=true,widthDp=393,heightDp=851)
 @Composable
 fun HealthConclusionScreen(
 //            bills : (String) -> Unit = {},
     nav01: () -> Unit={},
+    nav02: () -> Unit={}
 
 ) {
     Column {
+
+// 水平指示器
+        var currentIndex = 0
+        val pagerState = rememberPagerState(initialPage = currentIndex)
+        HorizontalPager(count = 2) { page ->
+            Text(text = "Page: $page")
+        }
+
+
+
+
         HealthTopAppBar()
         HealthViewTabRow()
         Box(

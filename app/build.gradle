@@ -140,8 +140,12 @@ dependencies {
 
 
 
-    // 指示器
-    implementation "com.google.accompanist:accompanist-pager-indicators: 0.24.2-alpha "
+ /*   // 指示器
+    implementation "com.google.accompanist:accompanist-pager-indicators: 0.24.2-alpha "*/
+//viewpage
+    implementation "com.google.accompanist:accompanist-pager:$accompanist_version"
+//viewpage指示器
+    implementation "com.google.accompanist:accompanist-pager-indicators:$accompanist_version"
 
 
 }

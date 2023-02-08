@@ -696,11 +696,6 @@ private fun Sample(
     val context = LocalContext.current
     val contentResolver: ContentResolver = context.contentResolver
 
-//    val locationPermissionsState = rememberMultiplePermissionsState(
-//        listOf(
-//            android.Manifest.permission.READ_CONTACTS
-//        )
-//    )
     if (locationPermissionsState.allPermissionsGranted) {
 //        Text("Thanks! I can access your exact location :D")
 //        Text(userViewModel.uiState.value.searchText)

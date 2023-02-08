@@ -59,13 +59,13 @@ class RallyActivity : ComponentActivity() {
         }
     }
 
-//    override fun onResume() {
-//        super.onResume()
+    override fun onResume() {
+        super.onResume()
 //        GlobalScope.launch {
 //            val user = User("jjuntan", "18148991553")
 //            UsersApplication.database.userDao().insertUser(user)
 //        }
-//    }
+    }
 
 
 }
@@ -91,7 +91,7 @@ fun WordBookApp(userViewModel: UserViewModel = androidx.lifecycle.viewmodel.comp
 //    userViewModel.UpdateUser(user_edit)
 
     //删：删除某个id为1的user对象
-//    userViewModel.DeleteUser(1)
+    userViewModel.DeleteUser(1)
 
 
     Column {
@@ -99,7 +99,7 @@ fun WordBookApp(userViewModel: UserViewModel = androidx.lifecycle.viewmodel.comp
 //        Text(text = "query_phone:"+user_query.phoneNumber)
 
 //        Text(user_edit.phoneNumber)
-        Text(users.size.toString())
+//        Text(users.size.toString())
     }
 }
 
@@ -196,7 +196,8 @@ fun RallyApp( ) {
                         },
                         nav07 = {
                             navController.navigate(Test.route) { launchSingleTop = true; }
-                        }
+                        },
+                        userViewModel=userViewModel
                     )
                 }
                 composable(route = Test.route) {

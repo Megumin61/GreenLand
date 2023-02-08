@@ -18,31 +18,74 @@ package com.example.jetpacktest02.ViewModel
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.ui.text.input.TextFieldValue
-import androidx.navigation.NavDestination
-import androidx.navigation.NavHostController
 import com.example.jetpacktest02.R
-import com.google.accompanist.pager.ExperimentalPagerApi
-import com.google.accompanist.pager.PagerState
 import com.google.accompanist.pager.rememberPagerState
 import java.time.Duration
 
 /**
  * Data class that represents the UI state
  */
-data class UiState constructor(
+data class UiState(
     var currentRoot: String = "",
     //MessageScreen
     val openDialog: MutableState<Boolean> = mutableStateOf(false),
     //MessageFriendScreen
     val pageState: MutableState<Int> = mutableStateOf(0),
     var searchText: String = "",
+    val waterValue:Int=0,
+    val tabMessageList: MutableList<TapListItemModel> =
+        mutableStateListOf(
+            //如果需要改变下面对象里面的属性，需要单独复制一份生成一个新的对象才可以
+            TapListItemModel(
+                "幻想世界",
+                "拍了拍我",
+                R.drawable.g2_1_img_user01,
+                R.drawable.g2_1_btn_friend,
+                "1min前"
+            ),
+            TapListItemModel(
+                "sandr",
+                "拍了拍我",
+                R.drawable.g2_1_img_user02,
+                R.drawable.g2_1_btn_friend_disabled,
+                "5min前"
+            ),
+            TapListItemModel(
+                "施&SHI",
+                "拍了拍我",
+                R.drawable.g2_1_img_user03,
+                R.drawable.g2_1_btn_friend,
+                "5min前"
+            ),
+            TapListItemModel(
+                "ajunGrit",
+                "拍了拍我",
+                R.drawable.g2_1_img_user04,
+                R.drawable.g2_1_btn_friend_disabled,
+                "12-01"
+            ),
+            TapListItemModel(
+                "ajunGrit",
+                "拍了拍我",
+                R.drawable.g2_1_img_user04,
+                R.drawable.g2_1_btn_friend_disabled,
+                "12-01"
+            ),
+            TapListItemModel(
+                "ajunGrit",
+                "拍了拍我",
+                R.drawable.g2_1_img_user04,
+                R.drawable.g2_1_btn_friend_disabled,
+                "12-01"
+            ),
+
+            ),
 
 
-    //IslandMemberListScreen
+//IslandMemberListScreen
     val meVisible: MutableState<Boolean> = mutableStateOf(true),//用户是否被他人可见
-    //IslandScreen
+
+//IslandScreen
     val meItem: MutableState<friendItem> = mutableStateOf(
         friendItem(
             userName = "ajunGrit", //本人用户名
@@ -136,4 +179,13 @@ data class friendItem(
     val imgMsg: Int = 0,//图片消息
     val onlineTime: String = "",
     val msgTime: String = ""
+)
+
+//消息，拍一拍消息列表对象
+data class TapListItemModel(
+    val name: String,
+    val msg: String,
+    var res: Int,
+    var res2: Int,
+    var time: String
 )

@@ -16,11 +16,15 @@
 
 package com.example.jetpacktest02.ui.main
 
-import android.widget.Space
+import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.BasicText
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material3.*
@@ -29,14 +33,20 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.font.FontWeight.Companion.W500
 import androidx.compose.ui.text.font.FontWeight.Companion.W900
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.jetpacktest02.R
+import com.example.jetpacktest02.ViewModel.TapListItemModel
+import com.example.jetpacktest02.ViewModel.UserViewModel
+import com.example.scaffolddemo.ui.theme.*
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 /**
@@ -44,6 +54,7 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
  */
 
 //viewModel: UserViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
+@SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 fun PlantScreen(
 //            bills : (String) -> Unit = {},
@@ -54,8 +65,9 @@ fun PlantScreen(
     nav05: () -> Unit = {},
     nav06: () -> Unit = {},
     nav07: () -> Unit = {},
+    userViewModel: UserViewModel
 
-    ) {
+) {
     //配置顶部状态栏颜色
     rememberSystemUiController().setStatusBarColor(
         Color.White, darkIcons = androidx.compose.material.MaterialTheme.colors.isLight
@@ -69,13 +81,6 @@ fun PlantScreen(
             .fillMaxSize()
     )
     Column {
-        Button(
-            onClick = {
-            },
-        ) {
-            BasicText(text = "Add 1")
-        }
-
         Text("1.1-Plant")
         Button(
             onClick = nav01,
@@ -162,13 +167,22 @@ fun PlantScreen(
             Text("test")
         }
     }
-    MainPlantPage()
+    MainPlantPage(userViewModel, nav01)
 
 }
 
-@Preview
+//@Preview
+@SuppressLint("StateFlowValueCalledInComposition")
 @Composable
-fun MainPlantPage() {
+fun MainPlantPage(
+    userViewModel: UserViewModel,
+    nav01: () -> Unit = {},//计划
+) {
+    val feelingValue: Int = 0
+
+    val energyValue: Int = 0
+    val allEnergyValue: Int = 0
+
     Column() {
         Image(
             painter = painterResource(id = R.drawable.g1_1_ic_ar),
@@ -190,7 +204,7 @@ fun MainPlantPage() {
             Column(
                 horizontalAlignment = CenterHorizontally,
                 verticalArrangement = Arrangement.Top,
-                modifier = Modifier.offset(5.dp,30.dp)
+                modifier = Modifier.offset(5.dp, 30.dp)
             ) {
                 Text(
                     "Joyce的向日葵",
@@ -233,12 +247,17 @@ fun MainPlantPage() {
                         .width(80.dp)
                         .offset(10.dp, 0.dp)
 
+                ) {
+                    Column(
+                        horizontalAlignment = CenterHorizontally,
+                        verticalArrangement = Arrangement.Center
                     ) {
-                    Column(horizontalAlignment = CenterHorizontally, verticalArrangement = Arrangement.Center) {
                         Image(
                             painter = painterResource(id = R.drawable.g1_1_ic_plan),
                             contentDescription = null,
-                            modifier = Modifier.size(60.dp)
+                            modifier = Modifier
+                                .size(60.dp)
+                                .clickable(onClick = nav01)
                         )
                         Spacer(modifier = Modifier.height(20.dp))
                         Image(
@@ -249,15 +268,26 @@ fun MainPlantPage() {
                     }
                 }
                 Spacer(modifier = Modifier.height(60.dp))
-                Image(
-                    painter = painterResource(id = R.drawable.g1_1_ic_energy),
-                    contentDescription = null,
-                    modifier = Modifier.scale(1.2f)
-                )
+                Box(modifier = Modifier.align(Alignment.Start)) {
+                    Image(
+                        painter = painterResource(id = R.drawable.g1_1_ic_energy),
+                        contentDescription = null,
+                        modifier = Modifier.scale(1.2f)
+                    )
+                    Text(
+                        text = allEnergyValue.toString(),
+                        fontWeight = W500,
+                        color = Green9,
+                        modifier = Modifier.offset(72.dp, 12.dp)
+                    )
+                }
             }
         }
         //心情、水分、能量
-        Row(horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier.offset(0.dp,-20.dp)) {
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = Modifier.offset(0.dp, -20.dp)
+        ) {
             Column(
                 horizontalAlignment = Alignment.Start,
                 modifier = Modifier
@@ -265,49 +295,120 @@ fun MainPlantPage() {
                     .fillMaxHeight()
             ) {
                 Spacer(modifier = Modifier.height(10.dp))
-                Image(
-                    painter = painterResource(id = R.drawable.g1_1_ic_feeling),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .align(Alignment.Start)
-                        .width(140.dp)
-                )
+                Box(modifier = Modifier.align(Alignment.Start)) {
+                    Image(
+                        painter = painterResource(id = R.drawable.g1_1_ic_feeling),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .width(140.dp)
+                    )
+                    Text(
+                        text = feelingValue.toString() + "g",
+                        fontWeight = W900,
+                        color = BlueGray3,
+                        modifier = Modifier.offset(80.dp, 30.dp)
+                    )
+                }
+
                 Spacer(modifier = Modifier.height(10.dp))
-                Image(
-                    painter = painterResource(id = R.drawable.g1_1_ic_water),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .align(Alignment.Start)
-                        .width(140.dp)
-                )
+                Box(modifier = Modifier.align(Alignment.Start)) {
+                    Image(
+                        painter = painterResource(id = R.drawable.g1_1_ic_water),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .width(140.dp)
+                    )
+                    Text(
+                        text = userViewModel.uiState.value.waterValue.toString()+ "g",
+                        fontWeight = W900,
+                        color = BlueGray3,
+                        modifier = Modifier.offset(80.dp, 30.dp)
+                    )
+                }
                 Spacer(modifier = Modifier.height(10.dp))
-                Image(
-                    painter = painterResource(id = R.drawable.g1_1_ic_huoli),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .align(Alignment.Start)
-                        .width(140.dp)
-                )
+                Box(modifier = Modifier.align(Alignment.Start)) {
+                    Image(
+                        painter = painterResource(id = R.drawable.g1_1_ic_huoli),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .width(140.dp)
+                    )
+                    Text(
+                        text = energyValue.toString() + "g",
+                        fontWeight = W900,
+                        color = BlueGray3,
+                        modifier = Modifier.offset(80.dp, 30.dp)
+                    )
+                }
             }
-            Column(horizontalAlignment = Alignment.End, modifier = Modifier
-                .fillMaxWidth()
-                .padding(20.dp)) {
+            //消息
+            Column(
+                horizontalAlignment = Alignment.End, modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(20.dp)
+            ) {
                 Image(
                     painter = painterResource(id = R.drawable.g1_1_ic_message),
                     contentDescription = null,
 
                     )
-                Image(
-                    painter = painterResource(id = R.drawable.g1_1icbg_message),
-                    contentDescription = null,
-                )
+                Box() {
+                    Image(
+                        painter = painterResource(id = R.drawable.g1_1icbg_message),
+                        contentDescription = null,
+                    )
+                    LazyColumn(modifier = Modifier.height(160.dp).padding(8.dp)) {
+//                        userViewModel.uiState.value.tabMessageList.forEach {listItemModel->
+//                            PlantMsgItem(listItemModel)
+//
+//                        }
+                        items(userViewModel.uiState.value.tabMessageList){item->
+                            PlantMsgItem(item)
+                            Spacer(modifier = Modifier.height(2.dp))
+                        }
+                    }
+                }
             }
-
         }
         Image(
             painter = painterResource(id = R.drawable.g1_1_ic_arrow_down),
             contentDescription = null,
-            modifier = Modifier.align(Alignment.CenterHorizontally)
+            modifier = Modifier.align(CenterHorizontally).offset(0.dp, (-50).dp)
         )
+
     }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun PlantMsgItem(listItemModel: TapListItemModel){
+    Row(Modifier.padding(8.dp)){
+        Image(
+            painter = painterResource(id = listItemModel.res),
+            contentDescription = null,
+            modifier = Modifier
+                .width(28.dp)
+                .height(28.dp)
+                .border(width = 1.dp, color = LightGreen, shape = RoundedCornerShape(15.dp))
+//                    .clickable(onClick = nav02)
+        )
+        Spacer(modifier = Modifier.width(6.dp))
+        Column() {
+            Text(
+                text = listItemModel.name,
+                color = Color.Black,
+                fontSize = 12.sp,
+                fontWeight = FontWeight.W500,
+            )
+            Text(
+                listItemModel.msg,
+                fontSize = 10.sp,
+                style = MaterialTheme.typography.bodySmall,
+                color = Gray1,
+                textAlign = TextAlign.Justify
+            )
+        }
+    }
+
+
 }

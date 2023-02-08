@@ -107,7 +107,7 @@ fun WordBookApp(userViewModel: UserViewModel = androidx.lifecycle.viewmodel.comp
 @ExperimentalPermissionsApi
 @ExperimentalMaterialApi
 @Composable
-fun RallyApp( ) {
+fun RallyApp() {
 
 //    val users by viewModel.allUsers.observeAsState(listOf())
     var currentScreen: RallyDestination by remember { mutableStateOf(Overview) }
@@ -115,11 +115,11 @@ fun RallyApp( ) {
     val currentBackStack by navController.currentBackStackEntryAsState()
     val Textvalue: String = ""
 
-    val userViewModel:UserViewModel= viewModel()
+    val userViewModel: UserViewModel = viewModel()
     // Fetch your currentDestination:
     val currentDestination = currentBackStack?.destination
     if (currentDestination != null) {
-        userViewModel.uiState.value.currentRoot= currentDestination.route.toString()
+        userViewModel.uiState.value.currentRoot = currentDestination.route.toString()
     }
 
     ScaffoldDemoTheme {
@@ -204,7 +204,7 @@ fun RallyApp( ) {
                     TestScreen(
                         nav01 = {
                             navController.navigate(Plant.route) { launchSingleTop = true; }
-                        }
+                        }, userViewModel = userViewModel
                     )
                 }
                 composable(route = PlantPlan.route) {
@@ -321,7 +321,7 @@ fun RallyApp( ) {
                         },
                         userViewModel,
                         controller = navController
-                        )
+                    )
                 }
                 composable(route = IslandExplore.route) {
                     IslandExploreScreen(
@@ -348,7 +348,7 @@ fun RallyApp( ) {
                         },
                         userViewModel,
                         controller = navController
-                        )
+                    )
                 }
                 composable(route = IslandMemberList.route) {
                     IslandMemberListScreen(
@@ -360,7 +360,7 @@ fun RallyApp( ) {
                                 launchSingleTop = true; popUpTo(IslandMemberList.route) {}
                             }
                         },
-                        userViewModel = userViewModel
+                        userViewModel = userViewModel,navController=navController
                     )
                 }
                 composable(route = IslandNearbyMemberList.route) {
@@ -372,14 +372,18 @@ fun RallyApp( ) {
                             navController.navigate(IslandDeliver.route) {
                                 launchSingleTop = true; popUpTo(IslandNearbyMemberList.route) {}
                             }
+
                         },
+
+                        userViewModel = userViewModel, navController = navController
                     )
                 }
                 composable(route = IslandDeliver.route) {
                     IslandDeliverScreen(
                         nav01 = {
                             navController.popBackStack()
-                        }
+                        },
+                        userViewModel = userViewModel
                     )
                 }
                 composable(
@@ -390,8 +394,8 @@ fun RallyApp( ) {
                     )
                 ) {
                     IslandVisitOtherScreen(
-                        res = it.arguments?.getInt("res"),
-                        name = it.arguments?.getString("name"),
+                        res = it.arguments?.getInt("res"), //传递用户头像
+                        name = it.arguments?.getString("name"), //传递用户名称
                         nav01 = {
                             navController.popBackStack()
                         }
@@ -423,7 +427,7 @@ fun RallyApp( ) {
                         nav01 = {
                             navController.navigate(Message.route) { launchSingleTop = true; }
                         },
-                        controller=navController
+                        controller = navController
                     )
                 }
                 composable(route = MessageTap.route) {

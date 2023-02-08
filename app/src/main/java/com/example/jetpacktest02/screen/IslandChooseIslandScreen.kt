@@ -21,6 +21,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -62,7 +63,8 @@ fun IslandChooseIslandScreen(
 ) {
     //配置顶部状态栏颜色
     rememberSystemUiController().setStatusBarColor(
-        Green1, darkIcons = androidx.compose.material.MaterialTheme.colors.isLight)
+        Green1, darkIcons = androidx.compose.material.MaterialTheme.colors.isLight
+    )
 
 
     Surface(modifier = Modifier.fillMaxSize()) {
@@ -147,7 +149,12 @@ fun IslandChooseIslandScreen(
                             .width(377.dp)
                             .height(230.dp)
                             .align(Alignment.CenterHorizontally)
-                            .clickable(enabled = true, onClick = nav01),
+                            .clickable(
+                                enabled = true,
+                                onClick = nav01,
+                                indication = null,
+                                interactionSource = MutableInteractionSource()
+                            ),
                     )
 
                     Text(
@@ -165,7 +172,10 @@ fun IslandChooseIslandScreen(
                             .height(230.dp)
                             .align(Alignment.CenterHorizontally)
                             .clickable(
-                                enabled = true, onClick = nav02,
+                                enabled = true,
+                                onClick = nav02,
+                                indication = null,
+                                interactionSource = MutableInteractionSource()
                             ),
 
                         )
@@ -179,21 +189,6 @@ fun IslandChooseIslandScreen(
 
         }
     }
-
-//        Text("4.1-island-chooseIsland")
-//        Button(
-//            onClick = nav01,
-//            contentPadding = ButtonDefaults.ButtonWithIconContentPadding
-//        ) {
-//            Icon(
-//                Icons.Filled.Favorite,
-//                contentDescription = "Localized description",
-//                modifier = Modifier.size(ButtonDefaults.IconSize)
-//            )
-//            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-//            Text("1.1-Plant")
-//        }
-
 
 }
 

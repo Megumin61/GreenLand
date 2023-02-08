@@ -8,7 +8,6 @@ import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Scaffold
 import androidx.compose.material.TopAppBar
-import androidx.compose.material3.AlertDialogDefaults.shape
 import androidx.compose.material.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -23,17 +22,18 @@ import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.font.FontWeight.Companion.W400
 import androidx.compose.ui.text.font.FontWeight.Companion.W600
 import androidx.compose.ui.text.font.FontWeight.Companion.W900
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import com.example.jetpacktest02.IslandDeliver
+import com.example.jetpacktest02.IslandMemberList
+import com.example.jetpacktest02.IslandNearbyMemberList
 import com.example.jetpacktest02.R
 import com.example.jetpacktest02.ViewModel.UserViewModel
-import com.example.jetpacktest02.ViewModel.friendItem
-import com.example.scaffolddemo.ui.theme.Flesh1
+import com.example.jetpacktest02.ViewModel.FriendItem
 import com.example.scaffolddemo.ui.theme.Green1
 import com.example.scaffolddemo.ui.theme.Green2
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
@@ -43,7 +43,7 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 @Composable
 fun FriendList(
     nav02: () -> Unit = {},
-    userViewModel: UserViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
+    userViewModel: UserViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),navController: NavController
 ) {
     Row(
         modifier = Modifier.fillMaxWidth(),
@@ -70,7 +70,7 @@ fun FriendList(
                         .padding(5.dp, 15.dp, 15.dp, 15.dp)
                 ) {
                     userViewModel.uiState.value.friendListData.forEachIndexed { index, item ->
-                        FriendItem(nav02, userViewModel, item)
+                        FriendItem(nav02, userViewModel, item,navController)
                         if (index == userViewModel.uiState.value.friendListData.size - 1) {
                         } else {
                             Spacer(modifier = Modifier.height(20.dp))
@@ -241,7 +241,7 @@ fun SwitchArea(
 fun FriendItem(
     nav02: () -> Unit = {},
     userViewModel: UserViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
-    item: friendItem
+    item: FriendItem,navController: NavController
 ) {
     Row(modifier = Modifier.height(50.dp),verticalAlignment = Alignment.CenterVertically,) {
         Row(
@@ -292,7 +292,18 @@ fun FriendItem(
                 contentDescription = null,
                 modifier = Modifier
                     .size(65.dp)
-                    .clickable(onClick = nav02, interactionSource = MutableInteractionSource(), indication = null)
+                    .clickable(
+                        onClick = {
+                            userViewModel.uiState.value.visitItem.value.userName = item.userName
+                            userViewModel.uiState.value.visitItem.value.userAvatar = item.userAvatar
+
+                            navController.navigate(IslandDeliver.route) {
+                                launchSingleTop = true; popUpTo(IslandMemberList.route) {}
+                            }
+
+                        },
+                        indication = null,
+                        interactionSource = MutableInteractionSource())
             )
         }
     }
@@ -305,7 +316,7 @@ fun FriendItem(
 fun IslandMemberListScreen(
     nav01: () -> Unit = {},
     nav02: () -> Unit = {},
-    userViewModel: UserViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
+    userViewModel: UserViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),navController: NavController
 ) {
     //配置顶部状态栏颜色
     rememberSystemUiController().setStatusBarColor(
@@ -369,7 +380,7 @@ fun IslandMemberListScreen(
                 //页面组件
                 InviteCard()
                 Spacer(modifier = Modifier.height(20.dp))
-                FriendList(nav02, userViewModel = userViewModel)
+                FriendList(nav02, userViewModel = userViewModel,navController=navController)
                 Spacer(modifier = Modifier.height(20.dp))
                 SwitchArea(userViewModel)
                 Spacer(modifier = Modifier.height(20.dp))

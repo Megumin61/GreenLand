@@ -23,16 +23,32 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.app.ActivityCompat
 import com.example.jetpacktest02.R
+import com.example.jetpacktest02.ViewModel.UserViewModel
 import com.example.jetpacktest02.utils.GPSUtils
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.google.android.gms.location.*
 
-@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter", "StateFlowValueCalledInComposition")
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
-fun TestScreen(nav01: () -> Unit = {}) {
+fun TestScreen(
+    nav01: () -> Unit = {},
+    userViewModel: UserViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
+) {
+    var distance by remember {
+        mutableStateOf(0.0)
+    }
+
+    LaunchedEffect(key1 = userViewModel._uiState.value.mePos.value) {
+        distance = GPSUtils.getInstance().getDistance(
+            userViewModel._uiState.value.mePos.value.longitude,
+            userViewModel._uiState.value.mePos.value.latitude, 113.25937,
+            23.169966,
+        )
+    }
+
     //配置顶部状态栏颜色
     rememberSystemUiController().setStatusBarColor(
         Color.White, darkIcons = androidx.compose.material.MaterialTheme.colors.isLight
@@ -119,13 +135,14 @@ fun TestScreen(nav01: () -> Unit = {}) {
             }
 
             val pos = GPSUtils.getInstance().getProvince()
+            userViewModel._uiState.value.mePos.value = pos
             Column() {
                 Text("Thanks! I can access your exact location :D")
-                Text("latitude"+currentLocation.latitude.toString())
-                Text("longitude"+currentLocation.longitude.toString())
-                Text("latitude2:"+pos.latitude)
-                Text("longitude2:"+pos.longitude)
-
+                Text("latitude" + currentLocation.latitude.toString())
+                Text("longitude" + currentLocation.longitude.toString())
+                Text("latitude2:" + pos.latitude)
+                Text("longitude2:" + pos.longitude)
+                Text("实时距离:" + distance)
             }
         } else {
             Column {
@@ -163,9 +180,8 @@ fun TestScreen(nav01: () -> Unit = {}) {
         }
 
 
-
     }
 
 }
 
-data class LocationDetails(val latitude: Double, val longitude: Double)
+data class LocationDetails(var latitude: Double, var longitude: Double)

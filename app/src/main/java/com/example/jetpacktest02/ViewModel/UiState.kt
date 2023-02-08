@@ -15,17 +15,19 @@
  */
 package com.example.jetpacktest02.ViewModel
 
+import android.text.BoringLayout
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import com.example.jetpacktest02.R
+import com.example.jetpacktest02.screen.LocationDetails
 import com.google.accompanist.pager.rememberPagerState
 import java.time.Duration
 
 /**
  * Data class that represents the UI state
  */
-data class UiState(
+data class UiState constructor(
     var currentRoot: String = "",
     //MessageScreen
     val openDialog: MutableState<Boolean> = mutableStateOf(false),
@@ -81,13 +83,13 @@ data class UiState(
 
             ),
 
-
-//IslandMemberListScreen
-    val meVisible: MutableState<Boolean> = mutableStateOf(true),//用户是否被他人可见
-
-//IslandScreen
-    val meItem: MutableState<friendItem> = mutableStateOf(
-        friendItem(
+    //用户本人的经纬度位置，数据类型为Double
+    var mePos: MutableState<LocationDetails> = mutableStateOf(LocationDetails(0.0, 0.0)),
+    //IslandMemberListScreen
+    var meVisible: MutableState<Boolean> = mutableStateOf(true),//用户是否被他人可见
+    //IslandScreen
+    var meItem: MutableState<FriendItem> = mutableStateOf(
+        FriendItem(
             userName = "ajunGrit", //本人用户名
             userAvatar = R.drawable.g2_1_img_user04, //本人头像
             userPlant = R.drawable.g4_2_img_flower_shadowed, //本人植物
@@ -98,11 +100,14 @@ data class UiState(
             onlineTime = "10分钟前来过", msgTime = ""
         )
     ),
-    val showImgMsgDialog: MutableState<Boolean> = mutableStateOf(false),
-    val showTextMsg: MutableState<Boolean> = mutableStateOf(false),
-    val msgItem: MutableState<friendItem> = mutableStateOf(friendItem()),
-    val friendListData: MutableList<friendItem> = mutableStateListOf(
-        friendItem(
+    var showRequestFriendDialog: MutableState<Boolean> = mutableStateOf(false),
+    var showImgMsgDialog: MutableState<Boolean> = mutableStateOf(false),
+    var showTextMsg: MutableState<Boolean> = mutableStateOf(false),
+    var visitItem: MutableState<ExploreMemberItem> = mutableStateOf(ExploreMemberItem()),
+    var msgItem: MutableState<FriendItem> = mutableStateOf(FriendItem()),
+    //好友岛页面所有的好友数据
+    var friendListData: MutableList<FriendItem> = mutableStateListOf(
+        FriendItem(
             userName = "megumin",
             userAvatar = R.drawable.g2_1_img_user01,
             userPlant = R.drawable.g4_2_img_grass_shadowed,
@@ -111,7 +116,7 @@ data class UiState(
             textMsg = "",
             imgMsg = 0,
             onlineTime = "10分钟前来过", msgTime = ""
-        ), friendItem(
+        ), FriendItem(
             userName = "skcccccccc",
             userAvatar = R.drawable.g2_1_img_user03,
             userPlant = R.drawable.g4_2_img_cactus_shadowed,
@@ -120,7 +125,7 @@ data class UiState(
             textMsg = "",
             imgMsg = 0,
             onlineTime = "10分钟前来过", msgTime = ""
-        ), friendItem(
+        ), FriendItem(
             userName = "foxbread",
             userAvatar = R.drawable.g2_1_img_user05,
             userPlant = R.drawable.g4_2_img_flower_shadowed,
@@ -129,7 +134,7 @@ data class UiState(
             textMsg = "",
             imgMsg = R.drawable.g4_6_img_imgmsg,
             onlineTime = "10分钟前来过", msgTime = "20分钟前"
-        ), friendItem(
+        ), FriendItem(
             userName = "sandro",
             userAvatar = R.drawable.g2_1_img_user02,
             userPlant = R.drawable.g4_2_img_cactus_shadowed,
@@ -139,7 +144,7 @@ data class UiState(
             imgMsg = 0,
             onlineTime = "10分钟前来过", msgTime = "10分钟前"
         ),
-        friendItem(
+        FriendItem(
             userName = "sanchooo",
             userAvatar = R.drawable.g2_1_img_user02,
             userPlant = R.drawable.g4_2_img_grass_shadowed,
@@ -149,7 +154,64 @@ data class UiState(
             imgMsg = 0,
             onlineTime = "10分钟前来过", msgTime = "10分钟前"
         )
+    ),
 
+    //探索岛页面所有的好友数据
+    var exploreMemberListData: MutableList<ExploreMemberItem> = mutableStateListOf(
+        ExploreMemberItem(
+            userName = "megumin",
+            userAvatar = R.drawable.g2_1_img_user01,
+            userPlant = R.drawable.g4_2_img_grass_shadowed,
+            offsetX = 1f,
+            offsetY = 1f,
+            textMsg = "",
+            imgMsg = 0,
+            onlineTime = "10分钟前来过", msgTime = "", isFriend = true,
+            location = LocationDetails(latitude = 23.173542, longitude = 113.253338)
+        ), ExploreMemberItem(
+            userName = "skcs1234",
+            userAvatar = R.drawable.g2_1_img_user03,
+            userPlant = R.drawable.g4_2_img_cactus_shadowed,
+            offsetX = -1f,
+            offsetY = -0.7f,
+            textMsg = "",
+            imgMsg = 0,
+            onlineTime = "10分钟前来过", msgTime = "",
+            location = LocationDetails(latitude = 23.17309, longitude = 113.253686)
+        ), ExploreMemberItem(
+            userName = "fox1234",
+            userAvatar = R.drawable.g2_1_img_user05,
+            userPlant = R.drawable.g4_2_img_flower_shadowed,
+            offsetX = 0.7f,
+            offsetY = -1f,
+            textMsg = "",
+            imgMsg = R.drawable.g4_6_img_imgmsg,
+            onlineTime = "10分钟前来过", msgTime = "20分钟前",
+            location = LocationDetails(latitude = 23.172914, longitude = 113.254578)
+        ), ExploreMemberItem(
+            userName = "1234",
+            userAvatar = R.drawable.g2_1_img_user02,
+            userPlant = R.drawable.g4_2_img_cactus_shadowed,
+            offsetX = -1.2f,
+            offsetY = 1.3f,
+            textMsg = "大家新年快乐鸭！",
+            imgMsg = 0,
+            onlineTime = "10分钟前来过", msgTime = "10分钟前",
+            location = LocationDetails(latitude = 23.173095, longitude = 113.254137)
+        ),
+        ExploreMemberItem(
+            userName = "sanchooo",
+            userAvatar = R.drawable.g2_1_img_user02,
+            userPlant = R.drawable.g4_2_img_grass_shadowed,
+            offsetX = -0.2f,
+            offsetY = 1.65f,
+            textMsg = "大家好！我的名字叫桑乔。",
+            imgMsg = 0,
+            onlineTime = "10分钟前来过",
+            msgTime = "10分钟前",
+            location = LocationDetails(latitude = 23.170444, longitude = 113.25302),
+            isFriend = true
+        )
     )
 
 )
@@ -169,16 +231,33 @@ data class Plant(
 )
 
 //好友岛 好友列表子项
-data class friendItem(
-    val userName: String = "", //用户名
-    val userAvatar: Int = 0,//用户头像
-    val userPlant: Int = 0,//用户植物图片
-    val offsetX: Float = 0f,//植物位置偏移
-    val offsetY: Float = 0f,//植物位置偏移
-    val textMsg: String = "",//文字消息
-    val imgMsg: Int = 0,//图片消息
-    val onlineTime: String = "",
-    val msgTime: String = ""
+data class FriendItem(
+    var userName: String = "", //用户名
+    var userAvatar: Int = 0,//用户头像
+    var userPlant: Int = 0,//用户植物图片
+    var offsetX: Float = 0f,//植物位置偏移
+    var offsetY: Float = 0f,//植物位置偏移
+    var textMsg: String = "",//文字消息
+    var imgMsg: Int = 0,//图片消息
+    var onlineTime: String = "",
+    var msgTime: String = ""
+)
+
+//探索岛 岛友列表子项
+data class ExploreMemberItem(
+    var userName: String = "", //用户名
+    var userAvatar: Int = 0,//用户头像
+    var userPlant: Int = 0,//用户植物图片
+    var offsetX: Float = 0f,//植物位置偏移
+    var offsetY: Float = 0f,//植物位置偏移
+    var textMsg: String = "",//文字消息
+    var imgMsg: Int = 0,//图片消息
+    var onlineTime: String = "",
+    var msgTime: String = "",
+    var distance: Double = 0.0,
+    var isFriend: Boolean = false,
+    var location: LocationDetails = LocationDetails(latitude = 0.0, longitude = 0.0),
+    var animVisible: Boolean = false
 )
 
 //消息，拍一拍消息列表对象

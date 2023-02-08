@@ -7,6 +7,7 @@ import android.webkit.WebViewClient
 import androidx.compose.foundation.*
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -14,6 +15,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
@@ -25,6 +27,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.compose.ui.window.Dialog
+import com.airbnb.lottie.compose.*
 import com.example.jetpacktest02.R
 import com.example.scaffolddemo.ui.theme.*
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
@@ -38,7 +42,7 @@ fun IslandVisitOtherScreen(
     nav01: () -> Unit = {},
     nav02: () -> Unit = {},
     res: Int?,//用户头像
-    name:String?//用户名字
+    name: String?//用户名字
 ) {
     var webView: WebView
 
@@ -54,10 +58,18 @@ fun IslandVisitOtherScreen(
     rememberSystemUiController().setStatusBarColor(
         Green1, darkIcons = androidx.compose.material.MaterialTheme.colors.isLight
     )
+    val composition by rememberLottieComposition(LottieCompositionSpec.Asset("animations/plantloading.json"))
+    val progress by animateLottieCompositionAsState(
+        composition,
+        iterations = LottieConstants.IterateForever,
+        isPlaying = true,
+        speed = 1f,
+        restartOnPlay = true  // 暂停后重新播放是否从头开始
+    )
 
-    //引入webview
 
     Surface(modifier = Modifier.fillMaxSize()) {
+
         //页面布局组件
         Scaffold(
             //顶部菜单栏
@@ -170,7 +182,7 @@ fun IslandVisitOtherScreen(
 
 
                     //页面其余组件
-                    if(loadProgress.value/100>=1.0f){
+                    if (loadProgress.value / 100 >= 1.0f) {
                         Column(
                             modifier = Modifier
                                 .fillMaxSize()
@@ -379,36 +391,52 @@ fun IslandVisitOtherScreen(
                             }
 
                         }
-                    }else{}
-
-
-
-                    if(loadProgress.value/100>=1.0f){
-                    }else{
-                        Column(
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .background(
-                                    brush = Brush.verticalGradient(
-                                        colors = listOf(
-                                            Color.Black,
-                                            Color.Black
-                                        )
-                                    ),
-                                    alpha = 0.34f
-                                )
-                        ) {
-                            //加载进度条
-                            CircularProgressIndicator(progress = loadProgress.value / 100, modifier = Modifier.offset(y = 250.dp),color= LightGreen)
-
-                        }
+                    } else {
                     }
+
+
+
+//                    if (loadProgress.value / 100 >= 1.0f) {
+//                    } else {
+//                        Column(
+//                            horizontalAlignment = Alignment.CenterHorizontally,
+//                            modifier = Modifier
+//                                .fillMaxSize()
+//                                .background(
+//                                    brush = Brush.verticalGradient(
+//                                        colors = listOf(
+//                                            Color.Black,
+//                                            Color.Black
+//                                        )
+//                                    ),
+//                                    alpha = 0.34f
+//                                )
+//                        ) {
+//                            //加载进度条
+//                            CircularProgressIndicator(
+//                                progress = loadProgress.value / 100,
+//                                modifier = Modifier.offset(y = 250.dp),
+//                                color = LightGreen
+//                            )
+//
+//                        }
+//                    }
 
 
                 }
 
             }
+
+            if (loadProgress.value / 100 < 1.0f) {
+                Dialog(onDismissRequest = ({})) {
+                        LottieAnimation(
+                            composition = composition,
+                            progress = { progress },
+                            modifier = Modifier.size(200.dp).clip(RoundedCornerShape(15.dp)).background(Color.White)
+                        )
+                }
+            }
+
         }
     }
 }

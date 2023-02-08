@@ -564,7 +564,7 @@ fun ExplorePlantModelItem(
     //计算植物大小
     var plantSize = 0.dp
     if (item.distance > 200) {
-        plantSize = 20.dp
+        plantSize = 30.dp
     } else if (item.distance > 100) {
         plantSize = 40.dp
     } else if (item.distance > 50) {

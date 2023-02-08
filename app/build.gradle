@@ -61,6 +61,9 @@ dependencies {
     implementation "com.google.accompanist:accompanist-insets-ui:$accompanist_version"
     implementation "com.google.accompanist:accompanist-systemuicontroller:$accompanist_version"
 
+    //GPS依赖
+    implementation 'com.google.android.gms:play-services-location:19.0.1'
+
     //摄像机CameraX依赖
     def camerax_version = "1.0.1"
     implementation("androidx.camera:camera-core:${camerax_version}")

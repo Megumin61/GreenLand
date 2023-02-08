@@ -1,9 +1,9 @@
 package com.example.jetpacktest02.screen
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import android.widget.MultiAutoCompleteTextView
+import androidx.compose.foundation.*
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -32,17 +32,25 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import androidx.navigation.NavController
+import com.example.jetpacktest02.IslandDeliver
+import com.example.jetpacktest02.IslandNearbyMemberList
 import com.example.jetpacktest02.R
+import com.example.jetpacktest02.ViewModel.ExploreMemberItem
+import com.example.jetpacktest02.ViewModel.UserViewModel
 import com.example.scaffolddemo.ui.theme.*
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import kotlinx.coroutines.delay
 
 
 @OptIn(ExperimentalMaterial3Api::class)
-@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter", "StateFlowValueCalledInComposition")
 @Composable
 fun IslandNearbyMemberListScreen(
     nav01: () -> Unit = {},
-    nav02: () -> Unit = {}
+    nav02: () -> Unit = {},
+    userViewModel: UserViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
+    navController: NavController
 ) {
 
     var text by rememberSaveable(stateSaver = TextFieldValue.Saver) {
@@ -91,6 +99,7 @@ fun IslandNearbyMemberListScreen(
                     },
                     //右侧按钮
                     actions = {
+
                     }
 
                 )
@@ -101,6 +110,7 @@ fun IslandNearbyMemberListScreen(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier
                     .fillMaxSize()
+                    .verticalScroll(rememberScrollState())
                     .background(
                         brush = Brush.verticalGradient(
                             colors = listOf(
@@ -113,16 +123,22 @@ fun IslandNearbyMemberListScreen(
 
                 //页面组件
                 Spacer(modifier = Modifier.height(20.dp))
-                NearbyFriendList(nav02,{requestFriendDialog = true})
+                NearbyFriendList(
+                    nav02,
+                    { requestFriendDialog = true },
+                    userViewModel = userViewModel, navController = navController
+                )
                 Spacer(modifier = Modifier.height(20.dp))
-                SwitchArea()
+                SwitchArea(userViewModel = userViewModel)
 
             }
 
             //添加好友弹窗
-            if (requestFriendDialog) {
+            if (userViewModel.uiState.value.showRequestFriendDialog.value) {
                 Dialog(
-                    onDismissRequest = { requestFriendDialog = false },
+                    onDismissRequest = {
+                        userViewModel.uiState.value.showRequestFriendDialog.value = false
+                    },
                 ) {
                     Column() {
                         androidx.compose.material3.Card(
@@ -147,8 +163,9 @@ fun IslandNearbyMemberListScreen(
                                     modifier = Modifier.align(Alignment.CenterHorizontally)
                                 )
                                 Spacer(modifier = Modifier.height(20.dp))
+                                //用户头像
                                 Image(
-                                    painter = painterResource(id = R.drawable.g2_1_img_user04),
+                                    painter = painterResource(id = userViewModel.uiState.value.visitItem.value.userAvatar),
                                     contentDescription = "",
                                     modifier = Modifier
                                         .align(Alignment.CenterHorizontally)
@@ -156,7 +173,8 @@ fun IslandNearbyMemberListScreen(
                                 )
                                 Spacer(modifier = Modifier.height(5.dp))
                                 Text(
-                                    text = "施&SHI", modifier = Modifier.align(
+                                    text = userViewModel.uiState.value.visitItem.value.userName,
+                                    modifier = Modifier.align(
                                         Alignment.CenterHorizontally
                                     )
                                 )
@@ -190,7 +208,14 @@ fun IslandNearbyMemberListScreen(
                                     contentDescription = "",
                                     modifier = Modifier
                                         .align(Alignment.CenterHorizontally)
-                                        .clickable(onClick = { requestFriendDialog = false }),
+                                        .clickable(
+                                            onClick = {
+                                                userViewModel.uiState.value.showRequestFriendDialog.value =
+                                                    false
+                                            },
+                                            indication = null,
+                                            interactionSource = MutableInteractionSource()
+                                        ),
                                 )
                             }
                         }
@@ -199,7 +224,15 @@ fun IslandNearbyMemberListScreen(
                             painter = painterResource(id = R.drawable.g4_4_btn_close),
                             contentDescription = "",
                             modifier = Modifier
-                                .align(Alignment.CenterHorizontally).clickable(onClick = {requestFriendDialog=false})
+                                .align(Alignment.CenterHorizontally)
+                                .clickable(
+                                    onClick = {
+                                        userViewModel.uiState.value.showRequestFriendDialog.value =
+                                            false
+                                    },
+                                    indication = null,
+                                    interactionSource = MutableInteractionSource()
+                                )
                         )
                     }
                 }
@@ -209,8 +242,14 @@ fun IslandNearbyMemberListScreen(
 }
 
 
+@SuppressLint("StateFlowValueCalledInComposition")
 @Composable
-fun NearbyFriendList(nav02: () -> Unit = {},showRequestFriendDialog: () -> Unit) {
+fun NearbyFriendList(
+    nav02: () -> Unit = {},
+    showRequestFriendDialog: () -> Unit,
+    userViewModel: UserViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
+    navController: NavController
+) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.Center
@@ -223,7 +262,6 @@ fun NearbyFriendList(nav02: () -> Unit = {},showRequestFriendDialog: () -> Unit)
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(325.dp)
                     .padding(15.dp),
                 backgroundColor = Color.White,
                 shape = MaterialTheme.shapes.large,
@@ -233,15 +271,20 @@ fun NearbyFriendList(nav02: () -> Unit = {},showRequestFriendDialog: () -> Unit)
                 Column(
                     Modifier
                         .fillMaxSize()
-                        .padding(5.dp, 15.dp, 15.dp, 15.dp)
+                        .padding(15.dp, 15.dp, 15.dp, 15.dp)
                 ) {
-                    NearbyFriendItem(nav02,showRequestFriendDialog)
-                    Spacer(modifier = Modifier.height(20.dp))
-                    NearbyFriendItem(nav02,showRequestFriendDialog)
-                    Spacer(modifier = Modifier.height(20.dp))
-                    NearbyFriendItem(nav02,showRequestFriendDialog)
-                    Spacer(modifier = Modifier.height(20.dp))
-                    NearbyFriendItem(nav02,showRequestFriendDialog)
+                    userViewModel.uiState.value.exploreMemberListData.forEachIndexed { index, item ->
+                        NearbyFriendItem(
+                            nav02 = nav02,
+                            userViewModel = userViewModel,
+                            item = item,
+                            navController = navController
+                        )
+                        if (index == userViewModel.uiState.value.friendListData.size - 1) {
+                        } else {
+                            Spacer(modifier = Modifier.height(20.dp))
+                        }
+                    }
                 }
             }
         }
@@ -251,7 +294,13 @@ fun NearbyFriendList(nav02: () -> Unit = {},showRequestFriendDialog: () -> Unit)
 
 
 @Composable
-fun NearbyFriendItem(nav02: () -> Unit = {},showRequestFriendDialog:()->Unit={}) {
+fun NearbyFriendItem(
+    nav02: () -> Unit = {},
+    showRequestFriendDialog: () -> Unit = {},
+    userViewModel: UserViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
+    item: ExploreMemberItem,
+    navController: NavController,
+) {
     Row(modifier = Modifier.height(50.dp)) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -265,10 +314,10 @@ fun NearbyFriendItem(nav02: () -> Unit = {},showRequestFriendDialog:()->Unit={})
             ) {
                 //用户头像
                 Image(
-                    painter = painterResource(id = R.drawable.g4_3_avatar1),
+                    painter = painterResource(id = item.userAvatar),
                     contentDescription = null,
                     modifier = Modifier
-                        .size(60.dp),
+                        .size(45.dp),
                 )
                 //用户名字、定位距离
                 Column(
@@ -278,7 +327,7 @@ fun NearbyFriendItem(nav02: () -> Unit = {},showRequestFriendDialog:()->Unit={})
                 ) {
                     //用户名字
                     Text(
-                        text = "ajunGrit",
+                        text = item.userName,
                         style = TextStyle(
                             fontWeight = FontWeight.W700, //设置字体粗细
                             fontSize = 14.sp,
@@ -287,7 +336,7 @@ fun NearbyFriendItem(nav02: () -> Unit = {},showRequestFriendDialog:()->Unit={})
 
                     //定位距离
                     Text(
-                        text = "距你10m",
+                        text = "距你${item.distance.toInt()}米",
                         style = TextStyle(
                             fontWeight = FontWeight.W400, //设置字体粗细
                             fontSize = 14.sp,
@@ -303,12 +352,32 @@ fun NearbyFriendItem(nav02: () -> Unit = {},showRequestFriendDialog:()->Unit={})
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     //用户头像
-                    Image(
-                        painter = painterResource(id = R.drawable.g2_2_btn_friend),
-                        contentDescription = null,
-                        modifier = Modifier
-                            .width(40.dp).clickable(onClick = showRequestFriendDialog),
-                    )
+                    if (!item.isFriend) {
+                        //申请添加好友弹窗，传递用户数据item
+                        Image(
+                            painter = painterResource(id = R.drawable.g2_2_btn_friend),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .width(40.dp)
+                                .clickable(
+                                    onClick = {
+                                        userViewModel.uiState.value.showRequestFriendDialog.value =
+                                            true
+                                        userViewModel.uiState.value.visitItem.value = item
+                                    },
+                                    indication = null,
+                                    interactionSource = MutableInteractionSource()
+                                ),
+                        )
+                    } else {
+                        Image(
+                            painter = painterResource(id = R.drawable.g4_2_ic_friendtag),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .width(40.dp)
+                        )
+                    }
+
                 }
             }
             //私信按钮
@@ -320,7 +389,18 @@ fun NearbyFriendItem(nav02: () -> Unit = {},showRequestFriendDialog:()->Unit={})
                     contentDescription = null,
                     modifier = Modifier
                         .size(65.dp)
-                        .clickable(onClick = nav02)
+                        .clickable(
+                            onClick = {
+                                userViewModel.uiState.value.visitItem.value = item
+
+                                navController.navigate(IslandDeliver.route) {
+                                    launchSingleTop = true; popUpTo(IslandNearbyMemberList.route) {}
+                                }
+
+                            },
+                            indication = null,
+                            interactionSource = MutableInteractionSource()
+                        )
                 )
             }
         }

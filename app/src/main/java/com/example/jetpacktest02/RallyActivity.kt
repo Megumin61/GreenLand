@@ -24,6 +24,7 @@ import androidx.navigation.navArgument
 import com.example.jetpacktest02.Entity.User
 import com.example.jetpacktest02.ViewModel.UserViewModel
 import com.example.jetpacktest02.compose.MyBottomNavBar
+import com.example.jetpacktest02.config.UsersApplication
 import com.example.jetpacktest02.screen.*
 import com.example.jetpacktest02.ui.main.MessageMsgScreen
 import com.example.jetpacktest02.ui.main.*
@@ -52,19 +53,19 @@ class RallyActivity : ComponentActivity() {
 
         setContent {
 
-//            WordBookApp()
+//            WordBookApp2()
 //            CounterScreen()
             RallyApp()
         }
     }
 
-//    override fun onResume() {
-//        super.onResume()
+    override fun onResume() {
+        super.onResume()
 //        GlobalScope.launch {
 //            val user = User("jjuntan", "18148991553")
 //            UsersApplication.database.userDao().insertUser(user)
 //        }
-//    }
+    }
 
 
 }
@@ -90,7 +91,7 @@ fun WordBookApp(userViewModel: UserViewModel = androidx.lifecycle.viewmodel.comp
 //    userViewModel.UpdateUser(user_edit)
 
     //删：删除某个id为1的user对象
-//    userViewModel.DeleteUser(1)
+    userViewModel.DeleteUser(1)
 
 
     Column {
@@ -98,7 +99,7 @@ fun WordBookApp(userViewModel: UserViewModel = androidx.lifecycle.viewmodel.comp
 //        Text(text = "query_phone:"+user_query.phoneNumber)
 
 //        Text(user_edit.phoneNumber)
-        Text(users.size.toString())
+//        Text(users.size.toString())
     }
 }
 
@@ -106,7 +107,7 @@ fun WordBookApp(userViewModel: UserViewModel = androidx.lifecycle.viewmodel.comp
 @ExperimentalPermissionsApi
 @ExperimentalMaterialApi
 @Composable
-fun RallyApp( ) {
+fun RallyApp() {
 
 //    val users by viewModel.allUsers.observeAsState(listOf())
     var currentScreen: RallyDestination by remember { mutableStateOf(Overview) }
@@ -114,11 +115,11 @@ fun RallyApp( ) {
     val currentBackStack by navController.currentBackStackEntryAsState()
     val Textvalue: String = ""
 
-    val userViewModel:UserViewModel= viewModel()
+    val userViewModel: UserViewModel = viewModel()
     // Fetch your currentDestination:
     val currentDestination = currentBackStack?.destination
     if (currentDestination != null) {
-        userViewModel.uiState.value.currentRoot= currentDestination.route.toString()
+        userViewModel.uiState.value.currentRoot = currentDestination.route.toString()
     }
 
     ScaffoldDemoTheme {
@@ -160,10 +161,12 @@ fun RallyApp( ) {
             }
         ) { innerPadding ->
 
+//            val navController = rememberNavController()
+
             //管理路由：页面跳转
             NavHost(
                 navController = navController,
-                startDestination = Plant.route,
+                startDestination = ChooseSeed.route,
                 modifier = Modifier.padding(innerPadding)
 
             ) {
@@ -194,8 +197,16 @@ fun RallyApp( ) {
                             }
                         },
                         nav07 = {
-                            navController.navigate(VipUnsigned.route) { launchSingleTop = true; }
-                        }
+                            navController.navigate(Test.route) { launchSingleTop = true; }
+                        },
+                        userViewModel=userViewModel
+                    )
+                }
+                composable(route = Test.route) {
+                    TestScreen(
+                        nav01 = {
+                            navController.navigate(Plant.route) { launchSingleTop = true; }
+                        }, userViewModel = userViewModel
                     )
                 }
                 composable(route = PlantPlan.route) {
@@ -273,7 +284,9 @@ fun RallyApp( ) {
                 composable(route = PlanListAdded.route) {
                     PlanListAddedScreen(userViewModel = userViewModel,nav={})
                 }
-
+                composable(route = ChooseSeed.route) {
+                    ChooseSeed(userViewModel = userViewModel)
+                }
 
                 composable(route = Dailyhealthmessage.route) {
                     DailyhealthmessageScreen(
@@ -323,8 +336,9 @@ fun RallyApp( ) {
                                 launchSingleTop = true; popUpTo(Island.route) {}
                             }
                         },
-                        userViewModel
-                        )
+                        userViewModel,
+                        controller = navController
+                    )
                 }
                 composable(route = IslandExplore.route) {
                     IslandExploreScreen(
@@ -349,8 +363,9 @@ fun RallyApp( ) {
                                 launchSingleTop = true; popUpTo(IslandExplore.route) {}
                             }
                         },
-                        userViewModel
-                        )
+                        userViewModel,
+                        controller = navController
+                    )
                 }
                 composable(route = IslandMemberList.route) {
                     IslandMemberListScreen(
@@ -362,7 +377,7 @@ fun RallyApp( ) {
                                 launchSingleTop = true; popUpTo(IslandMemberList.route) {}
                             }
                         },
-                        userViewModel = userViewModel
+                        userViewModel = userViewModel,navController=navController
                     )
                 }
                 composable(route = IslandNearbyMemberList.route) {
@@ -374,14 +389,18 @@ fun RallyApp( ) {
                             navController.navigate(IslandDeliver.route) {
                                 launchSingleTop = true; popUpTo(IslandNearbyMemberList.route) {}
                             }
+
                         },
+
+                        userViewModel = userViewModel, navController = navController
                     )
                 }
                 composable(route = IslandDeliver.route) {
                     IslandDeliverScreen(
                         nav01 = {
                             navController.popBackStack()
-                        }
+                        },
+                        userViewModel = userViewModel
                     )
                 }
                 composable(
@@ -392,8 +411,8 @@ fun RallyApp( ) {
                     )
                 ) {
                     IslandVisitOtherScreen(
-                        res = it.arguments?.getInt("res"),
-                        name = it.arguments?.getString("name"),
+                        res = it.arguments?.getInt("res"), //传递用户头像
+                        name = it.arguments?.getString("name"), //传递用户名称
                         nav01 = {
                             navController.popBackStack()
                         }
@@ -424,11 +443,9 @@ fun RallyApp( ) {
                         userViewModel,
                         //导航函数
                         nav01 = {
-                            navController.navigate(MessageTap.route) { launchSingleTop = true; }
+                            navController.navigate(Message.route) { launchSingleTop = true; }
                         },
-                        nav02 = {
-                            navController.navigate(MessageTap.route)
-                        }
+                        controller = navController
                     )
                 }
                 composable(route = MessageTap.route) {
@@ -446,6 +463,18 @@ fun RallyApp( ) {
                             navController.navigate(Message.route) { launchSingleTop = true; }
                         },
                         //参数提供方，添加一个navController
+                        controller = navController
+                    )
+                }
+                composable(route = MessagePic.route) {
+                    MessagePicScreen(
+                        userViewModel = userViewModel,
+                        nav01 = {
+                            navController.navigate(Message.route) { launchSingleTop = true; }
+                        },
+                        nav02 = {
+                            navController.navigate(Message.route) { launchSingleTop = true; }
+                        },
                         controller = navController
                     )
                 }

@@ -33,10 +33,11 @@ import androidx.compose.ui.text.font.FontWeight.Companion.W800
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.*
 import androidx.compose.ui.window.Dialog
+import androidx.navigation.NavHostController
 import com.airbnb.lottie.compose.*
 import com.example.jetpacktest02.R
 import com.example.jetpacktest02.ViewModel.UserViewModel
-import com.example.jetpacktest02.ViewModel.friendItem
+import com.example.jetpacktest02.ViewModel.FriendItem
 import com.example.scaffolddemo.ui.theme.*
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import kotlinx.coroutines.delay
@@ -51,6 +52,7 @@ fun IslandScreen(
     nav03: () -> Unit = {},
     nav04: () -> Unit = {},
     userViewModel: UserViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
+    controller:NavHostController
 ) {
     LaunchedEffect(key1 = userViewModel._uiState.value.msgItem.value) {
         if (userViewModel._uiState.value.showTextMsg.value == true) {
@@ -282,7 +284,7 @@ fun IslandScreen(
                     }
 
                     // 地图扫描动画背景
-                    MapBgAnimation(nav03, nav04, userViewModel = userViewModel)
+                    MapBgAnimation(nav03, nav04, userViewModel = userViewModel,controller)
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -423,15 +425,17 @@ fun IslandScreen(
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 fun plantModelItem(
-    username: String,
-    plantType: Int,
+    name: String,
+    plantType: Int,//plantType
+    res:Int,//userAvatar
     offsetX: Float = 0f,
     offsetY: Float = 0f,
     textMsg: String,
     imgMsg: Int,
     nav2: () -> Unit = {},
     userViewModel: UserViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
-    item: friendItem
+    item: FriendItem,
+    controller:NavHostController
 ) {
     Column(
         modifier = Modifier.offset(offsetX * 100.dp, offsetY * 100.dp),
@@ -476,7 +480,7 @@ fun plantModelItem(
                                     userViewModel.uiState.value.friendListData[userViewModel.uiState.value.friendListData.indexOf(
                                         item
                                     )] =
-                                        friendItem(
+                                        FriendItem(
                                             item.userName,
                                             item.userAvatar,
                                             item.userPlant,
@@ -487,7 +491,7 @@ fun plantModelItem(
                                             item.onlineTime,
                                             item.msgTime
                                         )
-
+//                                    controller.navigate("4.5-island-visitOther/$res/$name")
                                 } else if (imgMsg != 0) {
                                     userViewModel.uiState.value.msgItem.value = item
                                     userViewModel.uiState.value.showTextMsg.value = false
@@ -496,7 +500,7 @@ fun plantModelItem(
                                     userViewModel.uiState.value.friendListData[userViewModel.uiState.value.friendListData.indexOf(
                                         item
                                     )] =
-                                        friendItem(
+                                        FriendItem(
                                             item.userName,
                                             item.userAvatar,
                                             item.userPlant,
@@ -507,20 +511,26 @@ fun plantModelItem(
                                             item.onlineTime,
                                             item.msgTime
                                         )
+//                                    controller.navigate("4.5-island-visitOther/$res/$name")//这里将id拼接到参数后面
                                 }
                             },
                             indication = null,
                             interactionSource = MutableInteractionSource()
                         )
                 )
-            } else {
+
+            }
+            //没有消息红点的植物
+            else {
                 Image(
                     painter = painterResource(id = plantType),
                     contentDescription = null,
                     modifier = Modifier
                         .size(90.dp)
                         .clickable(
-                            onClick = nav2,
+                            onClick = {
+                                controller.navigate("4.5-island-visitOther/$res/$name")
+                                      } ,
                             indication = null,
                             interactionSource = MutableInteractionSource()
                         )
@@ -530,7 +540,7 @@ fun plantModelItem(
         }
         //用户名
         Text(
-            text = username,
+            text = name,
             style = TextStyle(
                 fontWeight = FontWeight.W500, //设置字体粗细
                 fontSize = 12.sp,
@@ -546,7 +556,8 @@ fun plantModelItem(
 fun MapBgAnimation(
     nav: () -> Unit = {},
     nav2: () -> Unit = {},
-    userViewModel: UserViewModel = androidx.lifecycle.viewmodel.compose.viewModel()
+    userViewModel: UserViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
+    controller: NavHostController
 ) {
     //控制播放
     var isPlaying by remember {
@@ -586,30 +597,32 @@ fun MapBgAnimation(
         plantModelItem(
             userViewModel.uiState.value.meItem.value.userName,
             userViewModel.uiState.value.meItem.value.userPlant,
+            userViewModel.uiState.value.meItem.value.userAvatar,
             userViewModel.uiState.value.meItem.value.offsetX,
             userViewModel.uiState.value.meItem.value.offsetY,
             userViewModel.uiState.value.meItem.value.textMsg,
             userViewModel.uiState.value.meItem.value.imgMsg,
             nav2,
             userViewModel = userViewModel,
-            userViewModel.uiState.value.meItem.value
+            userViewModel.uiState.value.meItem.value,
+            controller
         )
 
         userViewModel.uiState.value.friendListData.forEachIndexed { index, item ->
             plantModelItem(
                 item.userName,
                 item.userPlant,
+                item.userAvatar,
                 item.offsetX,
                 item.offsetY,
                 item.textMsg,
                 item.imgMsg,
                 nav2,
                 userViewModel = userViewModel,
-                item
+                item,
+                controller
             )
         }
 
     }
-
-
 }

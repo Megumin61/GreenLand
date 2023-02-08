@@ -35,6 +35,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.example.jetpacktest02.R
 import com.example.jetpacktest02.ViewModel.UserViewModel
 import com.example.scaffolddemo.ui.theme.*
@@ -42,14 +43,13 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
-@Preview
 @Composable
 fun MessagePicScreen(
 //            bills : (String) -> Unit = {},
     userViewModel: UserViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
-    nav01: () -> Unit = {},
-    nav02: () -> Unit = {},
-
+    nav01: () -> Unit = {},//返回上一级
+    nav02: () -> Unit = {},//去到空间
+    controller: NavHostController
     ) {
     //配置顶部状态栏颜色
     rememberSystemUiController().setStatusBarColor(
@@ -98,7 +98,7 @@ fun MessagePicScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Spacer(Modifier.height(0.dp))
-            PicMessageList(nav01, nav02, userViewModel)
+            PicMessageList(nav01, nav02, userViewModel,controller=controller)
         }
     }
 
@@ -108,7 +108,7 @@ fun MessagePicScreen(
 //@Preview(showBackground = true, backgroundColor = 0xFFF0EAE2, heightDp = 180)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PicMessageList(nav01: () -> Unit = {}, nav02: () -> Unit, userViewModel: UserViewModel) {
+fun PicMessageList(nav01: () -> Unit = {}, nav02: () -> Unit, userViewModel: UserViewModel,controller:NavHostController) {
 
     val listDat1 by remember {
         mutableStateOf(
@@ -146,8 +146,8 @@ fun PicMessageList(nav01: () -> Unit = {}, nav02: () -> Unit, userViewModel: Use
                 res3 = listItemModel.res3,
                 time = listItemModel.time,
                 nav01,
-                nav02,
-                userViewModel
+                userViewModel,
+                controller = controller
             )
         }
     }
@@ -163,8 +163,8 @@ fun MsgPicItem(
     res3: Int,
     time: String,
     nav01: () -> Unit = {},
-    nav02: () -> Unit = {},
-    userViewModel: UserViewModel
+    userViewModel: UserViewModel,
+    controller:NavHostController
 ) {
     val enable = remember {
         mutableStateOf(true)
@@ -234,9 +234,11 @@ fun MsgPicItem(
                         modifier = Modifier
                             .width(50.dp)
                             .height(50.dp)
-                            .clickable(onClick = nav02)
+                            .clickable(onClick = {
+                                controller.navigate("4.5-island-visitOther/$res/$name")//这里将id拼接到参数后面
+                            }
 //                            .offset(0.dp, -25.dp)
-                    )
+                    ))
                 }
         )
 

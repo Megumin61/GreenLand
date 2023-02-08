@@ -21,7 +21,6 @@ class UserViewModel @Inject  constructor(val repository: UserRepository) : ViewM
 
     val uiState: StateFlow<UiState> = _uiState.asStateFlow()
 
-
     /**
      * Launching a new coroutine to insert the data in a non-blocking way
      */

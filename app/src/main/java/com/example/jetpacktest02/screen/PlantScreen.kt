@@ -175,8 +175,9 @@ fun MainPlantPage() {
             contentDescription = null,
             modifier = Modifier
                 .align(Alignment.End)
-                .offset(-20.dp,0.dp)
-                .width(100.dp).height(70.dp)
+                .offset(-20.dp, 0.dp)
+                .width(100.dp)
+                .height(70.dp)
         )
         Row(
             modifier = Modifier
@@ -211,13 +212,15 @@ fun MainPlantPage() {
                     painter = painterResource(id = R.drawable.g1_1_bg_plantstage),
                     contentDescription = null,
                     modifier = Modifier
-                        .size(60.dp)
-                        .offset(0.dp, -80.dp)
+                        .height(45.dp)
+                        .offset(0.dp, -70.dp)
                 )
             }
             Spacer(modifier = Modifier.width(20.dp))
             Column(
-                modifier = Modifier.width(120.dp).padding(10.dp),
+                modifier = Modifier
+                    .width(120.dp)
+                    .padding(10.dp),
                 horizontalAlignment = CenterHorizontally,
                 verticalArrangement = Arrangement.Bottom
             ) {
@@ -227,7 +230,8 @@ fun MainPlantPage() {
                     shape = RoundedCornerShape(100.dp),
                     modifier = Modifier
                         .height(180.dp)
-                        .width(80.dp).offset(10.dp,0.dp)
+                        .width(80.dp)
+                        .offset(10.dp, 0.dp)
 
                     ) {
                     Column(horizontalAlignment = CenterHorizontally, verticalArrangement = Arrangement.Center) {
@@ -256,8 +260,11 @@ fun MainPlantPage() {
         Row(horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier.offset(0.dp,-20.dp)) {
             Column(
                 horizontalAlignment = Alignment.Start,
-                modifier = Modifier.padding(20.dp)
+                modifier = Modifier
+                    .padding(20.dp)
+                    .fillMaxHeight()
             ) {
+                Spacer(modifier = Modifier.height(10.dp))
                 Image(
                     painter = painterResource(id = R.drawable.g1_1_ic_feeling),
                     contentDescription = null,
@@ -282,7 +289,9 @@ fun MainPlantPage() {
                         .width(140.dp)
                 )
             }
-            Column(horizontalAlignment = Alignment.End, modifier = Modifier.fillMaxWidth().padding(20.dp)) {
+            Column(horizontalAlignment = Alignment.End, modifier = Modifier
+                .fillMaxWidth()
+                .padding(20.dp)) {
                 Image(
                     painter = painterResource(id = R.drawable.g1_1_ic_message),
                     contentDescription = null,

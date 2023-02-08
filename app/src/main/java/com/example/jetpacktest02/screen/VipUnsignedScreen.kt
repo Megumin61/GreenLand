@@ -40,7 +40,7 @@ fun VipUnsignedScreen(
 
 ) {
     Image(
-        painter = painterResource(id = R.drawable.vip_unsigned),
+        painter = painterResource(id = R.drawable.g7_0_img_vipcard),
         contentDescription = null,
         modifier = Modifier.fillMaxHeight().fillMaxSize()
     )

@@ -74,15 +74,24 @@ object Island : RallyDestination {
     override val icon = Icons.Filled.MoneyOff
     override val route = "4.2-island"
 }
+object IslandExplore : RallyDestination {
+    override val icon = Icons.Filled.MoneyOff
+    override val route = "4.2-islandExplore"
+}
 
 object IslandMemberList : RallyDestination {
     override val icon = Icons.Filled.MoneyOff
     override val route = "4.3-island-memberList"
 }
+object IslandNearbyMemberList : RallyDestination {
+    override val icon = Icons.Filled.MoneyOff
+    override val route = "4.3-island-nearbyMemberList"
+}
 object IslandVisitOther : RallyDestination {
     override val icon = Icons.Filled.MoneyOff
     override val route = "4.5-island-visitOther/{res}/{name}"
 }
+
 object IslandDeliver : RallyDestination {
     override val icon = Icons.Filled.MoneyOff
     override val route = "4.6-island-deliver"
@@ -138,26 +147,33 @@ object PlantLookingForPlanFoot : RallyDestination {
 }
 
 
-
-object LoginLoading : RallyDestination{
+object PlanList : RallyDestination {
     override val icon = Icons.Filled.MoneyOff
-    override val route = "0.0-loadingpage"
+    override val route = "1.2.0-plant-finish a plan"
 }
-object LoginFront : RallyDestination{
+object SetPlanSports : RallyDestination {
     override val icon = Icons.Filled.MoneyOff
-    override val route = "0.1-loginfrontpage"
+    override val route = "plant-sports"
 }
-object PhoneLogin : RallyDestination{
+object SetPlanDrink : RallyDestination {
     override val icon = Icons.Filled.MoneyOff
-    override val route = "0.2-phoneloginpage"
+    override val route = "1.2.4-plant-drink"
 }
-object VipPage : RallyDestination{
+object SetPlanSleep : RallyDestination {
     override val icon = Icons.Filled.MoneyOff
-    override val route = "8.1-vippage"
+    override val route = "1.2.7-plant-sleeping"
 }
-object ChooseSeed : RallyDestination {
+object SetPlanEating : RallyDestination {
     override val icon = Icons.Filled.MoneyOff
-    override val route = "3.1-message-tap"
+    override val route = "1.2.6-plant-eating"
+}
+object SetPlanDiy : RallyDestination {
+    override val icon = Icons.Filled.MoneyOff
+    override val route = "1.2.5-plant-diyplan"
+}
+object Test : RallyDestination {
+    override val icon = Icons.Filled.MoneyOff
+    override val route = "test"
 }
 
 

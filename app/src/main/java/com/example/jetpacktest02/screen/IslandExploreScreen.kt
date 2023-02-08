@@ -1,6 +1,11 @@
 package com.example.jetpacktest02.screen
 
+import android.Manifest
 import android.annotation.SuppressLint
+import android.content.pm.PackageManager
+import android.os.Handler
+import android.os.Looper
+import android.telephony.CarrierConfigManager.Gps
 import androidx.compose.animation.*
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -8,50 +13,70 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.material.*
 import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
 import androidx.compose.material.Scaffold
-import androidx.compose.material.TopAppBar
-import androidx.compose.material.Card
+import androidx.compose.material3.*
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.*
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.font.FontWeight.Companion.W800
-import androidx.compose.ui.unit.*
+import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.compose.ui.unit.times
 import androidx.compose.ui.window.Dialog
+import androidx.core.app.ActivityCompat
 import androidx.navigation.NavHostController
-import com.airbnb.lottie.compose.*
+import com.airbnb.lottie.compose.LottieAnimation
+import com.airbnb.lottie.compose.LottieCompositionSpec
+import com.airbnb.lottie.compose.animateLottieCompositionAsState
+import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.jetpacktest02.R
-import com.example.jetpacktest02.ViewModel.UserViewModel
+import com.example.jetpacktest02.ViewModel.ExploreMemberItem
 import com.example.jetpacktest02.ViewModel.FriendItem
+import com.example.jetpacktest02.ViewModel.UserViewModel
+import com.example.jetpacktest02.utils.GPSUtils
 import com.example.scaffolddemo.ui.theme.*
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.rememberMultiplePermissionsState
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.google.android.gms.location.*
 import kotlinx.coroutines.delay
+import java.util.*
+import kotlin.concurrent.schedule
+import kotlin.math.absoluteValue
+import kotlin.random.Random
 
-//好友岛页面
+
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalPermissionsApi::class)
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter", "StateFlowValueCalledInComposition")
 @Composable
-fun IslandScreen(
+fun IslandExploreScreen(
     nav01: () -> Unit = {},
     nav02: () -> Unit = {},
     nav03: () -> Unit = {},
     nav04: () -> Unit = {},
     userViewModel: UserViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
-    controller:NavHostController
+    controller: NavHostController
 ) {
+
     LaunchedEffect(key1 = userViewModel._uiState.value.msgItem.value) {
         if (userViewModel._uiState.value.showTextMsg.value == true) {
             delay(3000)
@@ -59,11 +84,110 @@ fun IslandScreen(
         }
     }
 
-    //配置顶部状态栏颜色
-    rememberSystemUiController().setStatusBarColor(
-        Green1, darkIcons = androidx.compose.material.MaterialTheme.colors.isLight
+    var locationCallback: LocationCallback? = null
+    var fusedLocationClient: FusedLocationProviderClient? = null
+    val context = LocalContext.current
+    var currentLocation by remember {
+        mutableStateOf(LocationDetails(0.toDouble(), 0.toDouble()))
+    }
+    fusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
+
+    val locationPermissionsState = rememberMultiplePermissionsState(
+        listOf(
+            Manifest.permission.ACCESS_COARSE_LOCATION,
+            Manifest.permission.ACCESS_FINE_LOCATION,
+        )
     )
 
+    if (locationPermissionsState.allPermissionsGranted) {
+        locationCallback = object : LocationCallback() {
+            override fun onLocationResult(p0: LocationResult) {
+                for (lo in p0.locations) {
+                    // Update UI with location data
+                    currentLocation = LocationDetails(lo.latitude, lo.longitude)
+                }
+            }
+        }
+        locationCallback.let {
+            val locationRequest = LocationRequest.create().apply {
+                interval = 10000
+                fastestInterval = 5000
+                priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+            }
+            if (ActivityCompat.checkSelfPermission(
+                    context,
+                    Manifest.permission.ACCESS_FINE_LOCATION
+                ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                    context,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+            }
+            fusedLocationClient.requestLocationUpdates(
+                locationRequest,
+                it,
+                Looper.getMainLooper()
+            )
+        }
+
+        val pos = GPSUtils.getInstance().getProvince()
+        userViewModel._uiState.value.mePos.value = pos
+
+
+        //监测我的位置变化，并且计算探索岛成员与我之间的距离
+        LaunchedEffect(key1 = userViewModel._uiState.value.mePos.value) {
+            if (userViewModel._uiState.value.mePos.value.latitude != 0.0) {
+                userViewModel.uiState.value.exploreMemberListData.forEachIndexed { index, item ->
+                    item.distance = GPSUtils.getInstance().getDistance(
+                        userViewModel._uiState.value.mePos.value.longitude,
+                        userViewModel._uiState.value.mePos.value.latitude,
+                        item.location.longitude,
+                        item.location.latitude
+                    )
+                }
+            }
+
+            userViewModel.uiState.value.exploreMemberListData.forEachIndexed { index, item ->
+                if (item.animVisible){
+                    return@LaunchedEffect
+                }
+                var a = GPSUtils.getInstance().getA(
+                    item.location.latitude,
+                    item.location.longitude,
+                    userViewModel.uiState.value.mePos.value.latitude,
+                    userViewModel.uiState.value.mePos.value.longitude,
+                )
+                var b = GPSUtils.getInstance().getB(
+                    userViewModel.uiState.value.mePos.value.latitude,
+                    userViewModel.uiState.value.mePos.value.longitude,
+                    item.location.latitude,
+                    item.location.longitude
+                )
+                if (a >= 0) {
+                    item.offsetX = GPSUtils.getInstance().mockFloatBetween2(0.5f, 1.6f)
+                } else {
+                    item.offsetX = GPSUtils.getInstance().mockFloatBetween2(-0.5f, -1.5f)
+                }
+                if (b >= 0) {
+                    item.offsetY = GPSUtils.getInstance().mockFloatBetween2(0.3f, 2.1f)
+                } else {
+                    item.offsetY = GPSUtils.getInstance().mockFloatBetween2(-0.3f, -1.5f)
+                }
+            }
+
+            userViewModel.uiState.value.exploreMemberListData.forEachIndexed { index, item ->
+                item.animVisible = true
+                delay(400)//延时1秒
+            }
+
+        }
+
+    }
+
+    //配置顶部状态栏颜色
+    rememberSystemUiController().setStatusBarColor(
+        Flesh2, darkIcons = androidx.compose.material.MaterialTheme.colors.isLight
+    )
 
     Surface(modifier = Modifier.fillMaxSize()) {
         //顶部菜单栏
@@ -75,7 +199,7 @@ fun IslandScreen(
                         contentAlignment = Alignment.Center
                     ) {
                         Text(
-                            text = "好友岛",
+                            text = "探索岛",
                             style = TextStyle(
                                 fontWeight = FontWeight.W900, //设置字体粗细
                                 fontSize = 18.sp,
@@ -84,7 +208,7 @@ fun IslandScreen(
                         )
                     }
                 },
-                    backgroundColor = Green1,
+                    backgroundColor = Flesh2,
                     contentColor = Color.Black,
                     elevation = 0.dp, //设置阴影
                     //左侧按钮
@@ -111,8 +235,8 @@ fun IslandScreen(
                     .background(
                         brush = Brush.verticalGradient(
                             colors = listOf(
-                                Green1,
-                                Green2
+                                Flesh2,
+                                Flesh1
                             )
                         )
                     )
@@ -123,7 +247,7 @@ fun IslandScreen(
                     horizontalArrangement = Arrangement.End
                 ) {
                     Image(
-                        painter = painterResource(id = R.drawable.g4_2_ic_friendlist),
+                        painter = painterResource(id = R.drawable.g4_2_ic_nearbylist),
                         contentDescription = null,
                         modifier = Modifier
                             .size(55.dp)
@@ -200,7 +324,7 @@ fun IslandScreen(
                                                 },
                                                 textStyle = TextStyle(
                                                     color = textGray,
-                                                    fontWeight = W800
+                                                    fontWeight = FontWeight.W800
                                                 ),
                                                 modifier = Modifier
                                                     .background(Color(0xfff5f5f7), CircleShape)
@@ -282,13 +406,14 @@ fun IslandScreen(
                     }
 
                     // 地图扫描动画背景
-                    MapBgAnimation(nav03, nav04, userViewModel = userViewModel,controller)
+                    ExploreMapBgAnimation(nav03, nav04, userViewModel = userViewModel, controller)
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
                             .offset(y = 400.dp),
                         horizontalArrangement = Arrangement.Center
                     ) {
+                        //发布按钮
                         Image(
                             painter = painterResource(id = R.drawable.g4_2_btn_publish),
                             contentDescription = null,
@@ -347,13 +472,13 @@ fun IslandScreen(
                                     ),
                                 )
                                 Spacer(modifier = Modifier.width(5.dp))
-                                Image(
-                                    painter = painterResource(id = R.drawable.g4_2_ic_friendtag),
-                                    contentDescription = null,
-                                    modifier = Modifier
-                                        .width(40.dp)
-                                        .clickable { }
-                                )
+//                                Image(
+//                                    painter = painterResource(id = R.drawable.g4_2_ic_friendtag),
+//                                    contentDescription = null,
+//                                    modifier = Modifier
+//                                        .width(40.dp)
+//                                        .clickable { }
+//                                )
                             }
 
                             //发布时间
@@ -422,136 +547,175 @@ fun IslandScreen(
 
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
-fun plantModelItem(
+fun ExplorePlantModelItem(
     name: String,
     plantType: Int,//plantType
-    res:Int,//userAvatar
+    res: Int,//userAvatar
     offsetX: Float = 0f,
     offsetY: Float = 0f,
     textMsg: String,
     imgMsg: Int,
     nav2: () -> Unit = {},
     userViewModel: UserViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
-    item: FriendItem,
-    controller:NavHostController
+    item: ExploreMemberItem,
+    controller: NavHostController
 ) {
+
+    //计算植物大小
+    var plantSize = 0.dp
+    if (item.distance > 200) {
+        plantSize = 30.dp
+    } else if (item.distance > 100) {
+        plantSize = 40.dp
+    } else if (item.distance > 50) {
+        plantSize = 50.dp
+    } else {
+        plantSize = 60.dp
+    }
+
+
     Column(
         modifier = Modifier.offset(offsetX * 100.dp, offsetY * 100.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Box(modifier = Modifier, contentAlignment = Alignment.TopEnd) {
-
-            //右上角消息小红点
-            if (textMsg != "" || imgMsg != 0) {
-                Row(modifier = Modifier.padding(6.dp)) {
-                    Image(
-                        painter = painterResource(id = R.drawable.g4_2_ic_msgdot),
-                        contentDescription = null,
-                        modifier = Modifier
-                            .size(7.dp)
-                            .clickable(
-                                onClick = {
-                                },
-                                indication = null,
-                                interactionSource = MutableInteractionSource()
+        AnimatedVisibility(
+            visible = item.animVisible,
+            enter = slideInVertically(initialOffsetY = { 100 }) + fadeIn(initialAlpha = 0.3f),
+        ) {
+            Column(
+                modifier = Modifier.fillMaxSize(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                Box(modifier = Modifier, contentAlignment = Alignment.TopEnd) {
+                    //右上角消息小红点
+                    if (textMsg != "" || imgMsg != 0) {
+                        Row(modifier = Modifier.padding(6.dp)) {
+                            Image(
+                                painter = painterResource(id = R.drawable.g4_2_ic_msgdot),
+                                contentDescription = null,
+                                modifier = Modifier
+                                    .size(7.dp)
+                                    .clickable(
+                                        onClick = {
+                                        },
+                                        indication = null,
+                                        interactionSource = MutableInteractionSource()
+                                    )
                             )
-                    )
+                        }
+                    } else {
+                    }
+
+                    //植物图片
+                    if (textMsg != "" || imgMsg != 0) {
+                        Image(
+                            painter = painterResource(id = plantType),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .size(plantSize)
+                                .clickable(
+                                    onClick = {
+                                        if (textMsg != "") {
+                                            userViewModel.uiState.value.msgItem.value =
+                                                FriendItem(msgTime = "刚刚")
+                                            userViewModel.uiState.value.msgItem.value.userName =
+                                                item.userName
+                                            userViewModel.uiState.value.msgItem.value.msgTime =
+                                                item.msgTime
+                                            userViewModel.uiState.value.msgItem.value.userAvatar =
+                                                item.userAvatar
+                                            userViewModel.uiState.value.msgItem.value.textMsg =
+                                                item.textMsg
+                                            userViewModel.uiState.value.msgItem.value.imgMsg =
+                                                item.imgMsg
+
+                                            userViewModel.uiState.value.showImgMsgDialog.value =
+                                                false
+                                            userViewModel.uiState.value.showTextMsg.value = true
+                                            //清空好友的消息,用于消除红点
+                                            item.imgMsg = 0
+                                            item.textMsg = ""
+                                        } else if (imgMsg != 0) {
+                                            userViewModel.uiState.value.msgItem.value =
+                                                FriendItem(msgTime = "刚刚")
+                                            userViewModel.uiState.value.msgItem.value.userName =
+                                                item.userName
+                                            userViewModel.uiState.value.msgItem.value.msgTime =
+                                                item.msgTime
+                                            userViewModel.uiState.value.msgItem.value.userAvatar =
+                                                item.userAvatar
+                                            userViewModel.uiState.value.msgItem.value.textMsg =
+                                                item.textMsg
+                                            userViewModel.uiState.value.msgItem.value.imgMsg =
+                                                item.imgMsg
+                                            userViewModel.uiState.value.showTextMsg.value = false
+                                            userViewModel.uiState.value.showImgMsgDialog.value =
+                                                true
+                                            //清空好友的消息,用于消除红点
+                                            item.imgMsg = 0
+                                            item.textMsg = ""
+                                        }
+                                    },
+                                    indication = null,
+                                    interactionSource = MutableInteractionSource()
+                                )
+                        )
+
+                    }
+                    //没有消息红点的植物
+                    else {
+                        Image(
+                            painter = painterResource(id = plantType),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .size(plantSize)
+                                .clickable(
+                                    onClick = {
+                                        controller.navigate("4.5-island-visitOther/$res/$name")
+                                    },
+                                    indication = null,
+                                    interactionSource = MutableInteractionSource()
+                                )
+                        )
+                    }
+
                 }
-            } else {
-            }
+                //用户名 +距离
+                Text(
+                    buildAnnotatedString {
+                        withStyle(
+                            style = SpanStyle(
+                                fontWeight = FontWeight.W400,
+                                fontSize = 10.sp,
+                                color = Color.Black
+                            )
+                        ) {
+                            append(name)
+                        }
+                        withStyle(
+                            style = SpanStyle(
+                                fontWeight = FontWeight.W700,
+                                fontSize = 9.sp,
+                                color = Gray1
+                            )
+                        ) {
+                            append(" (${item.distance}米)")
+                        }
 
-            //植物图片
-            if (textMsg != "" || imgMsg != 0) {
-                Image(
-                    painter = painterResource(id = plantType),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .size(90.dp)
-                        .clickable(
-                            onClick = {
-                                if (textMsg != "") {
-                                    userViewModel.uiState.value.msgItem.value = item
-                                    userViewModel.uiState.value.showImgMsgDialog.value = false
-                                    userViewModel.uiState.value.showTextMsg.value = true
-                                    //清空好友的消息,用于消除红点
-                                    userViewModel.uiState.value.friendListData[userViewModel.uiState.value.friendListData.indexOf(
-                                        item
-                                    )] =
-                                        FriendItem(
-                                            item.userName,
-                                            item.userAvatar,
-                                            item.userPlant,
-                                            item.offsetX,
-                                            item.offsetY,
-                                            "",
-                                            0,
-                                            item.onlineTime,
-                                            item.msgTime
-                                        )
-//                                    controller.navigate("4.5-island-visitOther/$res/$name")
-                                } else if (imgMsg != 0) {
-                                    userViewModel.uiState.value.msgItem.value = item
-                                    userViewModel.uiState.value.showTextMsg.value = false
-                                    userViewModel.uiState.value.showImgMsgDialog.value = true
-                                    //清空好友的消息,用于消除红点
-                                    userViewModel.uiState.value.friendListData[userViewModel.uiState.value.friendListData.indexOf(
-                                        item
-                                    )] =
-                                        FriendItem(
-                                            item.userName,
-                                            item.userAvatar,
-                                            item.userPlant,
-                                            item.offsetX,
-                                            item.offsetY,
-                                            "",
-                                            0,
-                                            item.onlineTime,
-                                            item.msgTime
-                                        )
-//                                    controller.navigate("4.5-island-visitOther/$res/$name")//这里将id拼接到参数后面
-                                }
-                            },
-                            indication = null,
-                            interactionSource = MutableInteractionSource()
-                        )
-                )
-
-            }
-            //没有消息红点的植物
-            else {
-                Image(
-                    painter = painterResource(id = plantType),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .size(90.dp)
-                        .clickable(
-                            onClick = {
-                                controller.navigate("4.5-island-visitOther/$res/$name")
-                                      } ,
-                            indication = null,
-                            interactionSource = MutableInteractionSource()
-                        )
+                    }
                 )
             }
 
         }
-        //用户名
-        Text(
-            text = name,
-            style = TextStyle(
-                fontWeight = FontWeight.W500, //设置字体粗细
-                fontSize = 12.sp,
-            ),
-            modifier = Modifier
-        )
     }
 
 }
 
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
-fun MapBgAnimation(
+fun ExploreMapBgAnimation(
     nav: () -> Unit = {},
     nav2: () -> Unit = {},
     userViewModel: UserViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
@@ -606,8 +770,8 @@ fun MapBgAnimation(
             controller
         )
 
-        userViewModel.uiState.value.friendListData.forEachIndexed { index, item ->
-            plantModelItem(
+        userViewModel.uiState.value.exploreMemberListData.forEachIndexed { index, item ->
+            ExplorePlantModelItem(
                 item.userName,
                 item.userPlant,
                 item.userAvatar,
@@ -621,6 +785,5 @@ fun MapBgAnimation(
                 controller
             )
         }
-
     }
 }

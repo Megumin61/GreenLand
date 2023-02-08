@@ -5,6 +5,7 @@ plugins {
     id 'dagger.hilt.android.plugin'
 }
 
+
 android {
     namespace 'com.example.jetpacktest02'
     compileSdk 33
@@ -47,6 +48,9 @@ android {
 }
 
 dependencies {
+    //日历依赖
+    implementation("com.himanshoe:kalendar:1.2.0")
+
     //lottie 2D动画框架依赖
     def lottieVersion = "5.2.0"
     implementation "com.airbnb.android:lottie-compose:$lottieVersion"
@@ -56,6 +60,9 @@ dependencies {
     implementation "com.google.accompanist:accompanist-insets:$accompanist_version"
     implementation "com.google.accompanist:accompanist-insets-ui:$accompanist_version"
     implementation "com.google.accompanist:accompanist-systemuicontroller:$accompanist_version"
+
+    //GPS依赖
+    implementation 'com.google.android.gms:play-services-location:19.0.1'
 
     //摄像机CameraX依赖
     def camerax_version = "1.0.1"
@@ -133,6 +140,7 @@ dependencies {
 
     // Activity KTX for viewModels()
     implementation "androidx.activity:activity-ktx:1.3.1"
+    implementation "com.google.accompanist:accompanist-pager:0.24.2-alpha"
 
     //viewpager
     implementation "com.google.accompanist:accompanist-pager:0.24.2-alpha"

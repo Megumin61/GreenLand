@@ -3,25 +3,19 @@ package com.example.jetpacktest02.screen
 import android.annotation.SuppressLint
 import android.app.TimePickerDialog
 import android.icu.util.Calendar
-import androidx.annotation.DrawableRes
 import androidx.compose.animation.*
 import androidx.compose.foundation.*
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
-import androidx.compose.material.MaterialTheme.typography
 import androidx.compose.material.Scaffold
 import androidx.compose.material.TopAppBar
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
@@ -35,8 +29,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.jetpacktest02.R
-import com.example.jetpacktest02.ViewModel.DiyplanName
-import com.example.jetpacktest02.ui.main.PlanItem
+import com.example.jetpacktest02.ViewModel.UserViewModel
 import com.example.scaffolddemo.ui.theme.*
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import kotlin.math.roundToInt
@@ -93,11 +86,13 @@ public fun DiyPlanName(PlanName: String, onNumChange: (String) -> Unit) {
     }
 /*}*/
 
-@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
-@Preview
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter", "StateFlowValueCalledInComposition")
+
 @Composable
 fun SetPlanDiyScreen(
-    nav01: () -> Unit={}){
+    nav01: () -> Unit = {},
+    userViewModel: UserViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
+){
     rememberSystemUiController().setStatusBarColor(
         Green1, darkIcons = androidx.compose.material.MaterialTheme.colors.isLight
     )
@@ -221,7 +216,9 @@ fun SetPlanDiyScreen(
                             contentDescription = null, modifier = Modifier.fillMaxWidth()
                         )
                         var PlanName by rememberSaveable { mutableStateOf("")}
-                        DiyPlanName(PlanName=PlanName, onNumChange={ PlanName = it })
+
+                        DiyPlanName(PlanName=userViewModel.uiState.value.diyPlanName.value,onNumChange={userViewModel.uiState.value.diyPlanName.value=it})
+
                     }
 
 

@@ -17,20 +17,15 @@
 package com.example.jetpacktest02.ui.main
 
 import android.annotation.SuppressLint
-import androidx.annotation.DrawableRes
 import androidx.compose.animation.*
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
@@ -41,12 +36,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.example.jetpacktest02.R
+import com.example.jetpacktest02.ViewModel.UserViewModel
 import com.example.jetpacktest02.screen.DiyPlanName
 import com.example.scaffolddemo.ui.theme.Green1
 import com.example.scaffolddemo.ui.theme.Green2
 import com.example.scaffolddemo.ui.theme.Green5
-import kotlinx.coroutines.Delay
 import kotlinx.coroutines.delay
 
 /**
@@ -55,15 +51,12 @@ import kotlinx.coroutines.delay
 
 
 
-@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
-@Preview
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter", "StateFlowValueCalledInComposition")
+
 @Composable
 fun PlanListAddedScreen(
-    nav01: () -> Unit={},
-    nav02: () -> Unit={},
-    nav03: () -> Unit={},
-    nav04: () -> Unit={},
-    nav05: () -> Unit={}
+    nav:()->Unit={},
+    userViewModel: UserViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
 ){
     var state by remember {
         mutableStateOf(false)
@@ -168,30 +161,30 @@ fun PlanListAddedScreen(
                                 contentDescription = null, modifier = Modifier.fillMaxWidth()
                             )
                             var PlanName by rememberSaveable { mutableStateOf("") }
-                            DiyPlanName(PlanName = PlanName, onNumChange = { PlanName = it })
+                            DiyPlanName(PlanName = userViewModel.uiState.value.diyPlanName.value, onNumChange = { PlanName = it })
                         }
                     }
                         Image(
                             painter = painterResource(id = R.drawable.g1_2_icbg_sports),
-                            contentDescription = null, modifier = Modifier.clickable(onClick = nav01)
+                            contentDescription = null
                         )
                         Image(
                             painter = painterResource(id = R.drawable.g1_2_icbg_drinkwater),
-                            contentDescription = null,modifier = Modifier.clickable(onClick = nav02)
+                            contentDescription = null
                         )
                         Image(
                             painter = painterResource(id = R.drawable.g1_2_icbg_sleep),
-                            contentDescription = null,modifier = Modifier.clickable(onClick = nav03)
+                           contentDescription = null
                         )
                         Image(
                             painter = painterResource(id = R.drawable.g1_2_icbg_eating),
-                            contentDescription = null,modifier = Modifier.clickable(onClick = nav04)
+                           contentDescription = null
                         )
 
                         Spacer(Modifier.height(5.dp))
 
                         Spacer(Modifier.height(5.dp))
-                        Button(onClick =  nav05 , modifier = Modifier
+                        Button(onClick =  {} , modifier = Modifier
                             .width(136.dp)
                             .height(54.dp)
                             ,colors = ButtonDefaults.buttonColors(containerColor = Green5)

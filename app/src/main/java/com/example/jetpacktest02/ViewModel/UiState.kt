@@ -37,6 +37,9 @@ data class UiState @OptIn(ExperimentalPagerApi::class) constructor(
     //MessageFriendScreen
     val pageState: MutableState<Int> = mutableStateOf(0),
 
+    //Diy计划名称，SetPlanDiy输入，PlanListAdded输出(SetPlanDiyScreen)
+    var diyPlanName :MutableState<String> = mutableStateOf(  ""),
+
     //IslandMemberListScreen
     val meVisible: MutableState<Boolean> = mutableStateOf(true),//用户是否被他人可见
     //IslandScreen
@@ -135,7 +138,4 @@ data class friendItem(
     val msgTime: String = ""
 )
 
-//Diy计划名称，SetPlanDiy输入，PlanListAdded输出
-data class DiyplanName(
-    val diyplanName: String=""
-)
+

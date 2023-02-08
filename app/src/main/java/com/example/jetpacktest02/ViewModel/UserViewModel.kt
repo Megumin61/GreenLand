@@ -14,6 +14,7 @@ import javax.inject.Inject
 @HiltViewModel
 class UserViewModel @Inject  constructor(val repository: UserRepository) : ViewModel() {
 
+
     val allUsers: LiveData<List<User>> = repository.allUsers.asLiveData()
 
     val _uiState = MutableStateFlow(UiState())

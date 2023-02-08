@@ -67,6 +67,7 @@ import kotlinx.coroutines.launch
     "UnusedMaterialScaffoldPaddingParameter", "StateFlowValueCalledInComposition",
     "Range"
 )
+
 @Composable
 fun MessageFriendScreen(
     nav01: () -> Unit = {},

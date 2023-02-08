@@ -173,7 +173,8 @@ fun RallyApp() {
             //管理路由：页面跳转
             NavHost(
                 navController = navController,
-                startDestination = ChooseSeed.route,
+                startDestination = Plant.route,
+
                 modifier = Modifier.padding(innerPadding)
 
             ) {
@@ -507,6 +508,23 @@ fun RallyApp() {
                         nav01 = {
                             navController.navigate(Plant.route) { launchSingleTop = true; }
                         }
+                    )
+                }
+
+                composable(route = HealthConclusion.route) {
+                    HealthConclusionScreen(
+                        nav01 = {
+                            navController.navigate(HealthShare.route) { launchSingleTop = true; }
+                        }
+                    )
+                }
+                composable(route = My.route) {
+                    BtnArea(
+                        nav01 = {
+                            navController.navigate(MyCupBoard.route) { launchSingleTop = true; }
+                        }
+
+
                     )
                 }
 

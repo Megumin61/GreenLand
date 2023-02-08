@@ -689,6 +689,7 @@ fun ImgBtnGet(){
 
 @Composable
 fun HealthViewTabRow() {
+
     var state by remember { mutableStateOf(0) }
     val titles = listOf("本周", "过往")
     Column {

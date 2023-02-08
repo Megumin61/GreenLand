@@ -149,7 +149,7 @@ object PlantLookingForPlanFoot : RallyDestination {
 
 object PlanList : RallyDestination {
     override val icon = Icons.Filled.MoneyOff
-    override val route = "1.2.0-plant-finish a plan"
+    override val route = "plant-finish a plan"
 }
 object SetPlanSports : RallyDestination {
     override val icon = Icons.Filled.MoneyOff
@@ -175,6 +175,11 @@ object Test : RallyDestination {
     override val icon = Icons.Filled.MoneyOff
     override val route = "test"
 }
+object PlanListAdded : RallyDestination {
+    override val icon = Icons.Filled.MoneyOff
+    override val route = "1.2-plant-dailyplan"
+}
+
 
 
 // Screens to be displayed in the top RallyTabRow

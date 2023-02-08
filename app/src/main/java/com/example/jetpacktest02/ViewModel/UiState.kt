@@ -23,11 +23,11 @@ import com.example.jetpacktest02.R
 import com.example.jetpacktest02.screen.LocationDetails
 import com.google.accompanist.pager.rememberPagerState
 import java.time.Duration
-
+import com.google.accompanist.pager.ExperimentalPagerApi
 /**
  * Data class that represents the UI state
  */
-data class UiState constructor(
+data class UiState @OptIn(ExperimentalPagerApi::class) constructor(
     var currentRoot: String = "",
     //MessageScreen
     val openDialog: MutableState<Boolean> = mutableStateOf(false),
@@ -85,6 +85,9 @@ data class UiState constructor(
 
     //用户本人的经纬度位置，数据类型为Double
     var mePos: MutableState<LocationDetails> = mutableStateOf(LocationDetails(0.0, 0.0)),
+    //Diy计划名称，SetPlanDiy输入，PlanListAdded输出(SetPlanDiyScreen)
+    var diyPlanName :MutableState<String> = mutableStateOf(  ""),
+
     //IslandMemberListScreen
     var meVisible: MutableState<Boolean> = mutableStateOf(true),//用户是否被他人可见
     //IslandScreen
@@ -268,3 +271,5 @@ data class TapListItemModel(
     var res2: Int,
     var time: String
 )
+
+

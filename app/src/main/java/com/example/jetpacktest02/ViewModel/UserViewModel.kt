@@ -14,6 +14,7 @@ import javax.inject.Inject
 @HiltViewModel
 class UserViewModel @Inject  constructor(val repository: UserRepository) : ViewModel() {
 
+
     val allUsers: LiveData<List<User>> = repository.allUsers.asLiveData()
 
     val _uiState = MutableStateFlow(UiState())
@@ -44,7 +45,6 @@ class UserViewModel @Inject  constructor(val repository: UserRepository) : ViewM
     fun DeleteUser(id: Int){
         return repository.deleteUserById(id)
     }
-
 
 
 

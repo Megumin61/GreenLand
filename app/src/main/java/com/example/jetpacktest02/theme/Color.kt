@@ -35,3 +35,4 @@ val Flesh2 = Color(0xffEBF3F4)
 val BlueGray2=Color(0xFFE4E5EB)
 val Red=Color(0xffFA5151)
 val BlueGray3=Color(0xFFB8C2C0)
+

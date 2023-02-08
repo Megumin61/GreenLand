@@ -144,6 +144,7 @@ dependencies {
 
     //viewpager
     implementation "com.google.accompanist:accompanist-pager:0.24.2-alpha"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1"
 
 
 

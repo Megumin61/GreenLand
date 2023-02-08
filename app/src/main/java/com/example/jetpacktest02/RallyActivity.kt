@@ -24,7 +24,6 @@ import androidx.navigation.navArgument
 import com.example.jetpacktest02.Entity.User
 import com.example.jetpacktest02.ViewModel.UserViewModel
 import com.example.jetpacktest02.compose.MyBottomNavBar
-import com.example.jetpacktest02.config.UsersApplication
 import com.example.jetpacktest02.screen.*
 import com.example.jetpacktest02.ui.main.MessageMsgScreen
 import com.example.jetpacktest02.ui.main.*
@@ -224,6 +223,7 @@ fun RallyApp() {
                         }
                     )
                 }
+
                 composable(route = PlanList.route) {
                     PlanListScreen(
                         nav01 = {
@@ -266,8 +266,20 @@ fun RallyApp() {
                 composable(route = SetPlanEating.route) {
                     SetPlanEatingScreen()
                 }
+
                 composable(route = SetPlanDiy.route) {
-                    SetPlanDiyScreen()
+                    SetPlanDiyScreen(
+                        nav01 = {
+                            navController.navigate(PlanListAdded.route) {
+                                launchSingleTop = true;
+                            }
+                        },userViewModel
+
+
+                    )
+                }
+                composable(route = PlanListAdded.route) {
+                    PlanListAddedScreen(userViewModel = userViewModel,nav={})
                 }
 
 

@@ -7,6 +7,7 @@ import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.*
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -198,10 +199,13 @@ fun ChooseSeed(nav01: () -> Unit={},userViewModel:UserViewModel)
             horizontalAlignment= Alignment.CenterHorizontally
         ) {
             Button(onClick = {},
+                
+                interactionSource = MutableInteractionSource(),
                 shape = RoundedCornerShape(27.dp),border = BorderStroke(1.dp, GreenMain),
                 colors = ButtonDefaults.buttonColors(
                     containerColor = GreenMain,
                     contentColor = GreenMain
+
                 ),
 
                 modifier = Modifier

@@ -43,15 +43,17 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.jetpacktest02.ChooseSeed
+
 import com.example.jetpacktest02.R
 import com.example.jetpacktest02.ViewModel.UserViewModel
 import com.example.scaffolddemo.ui.theme.*
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.PagerState
+import com.google.accompanist.pager.rememberPagerState
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.launch
 
 
 /**
@@ -61,10 +63,33 @@ import kotlinx.coroutines.DelicateCoroutinesApi
 
 
 
-@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
+@OptIn(ExperimentalPagerApi::class)
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter", "StateFlowValueCalledInComposition")
 @Composable
-fun ChooseSeed(nav01: () -> Unit={},)
+fun ChooseSeed(nav01: () -> Unit={},userViewModel:UserViewModel)
 {
+
+    val titles = listOf("随机", "自定义")
+    //state为顶部的tab导航栏绑定参数
+    val state = userViewModel.uiState.value.chooseSeedPageState
+    //pagerState为底部viewpager参数
+    val pagerState: PagerState = remember { PagerState() }
+
+    //将底部pager的参数和顶部导航栏的参数state绑定，让pager响应顶部导航栏参数变化
+    LaunchedEffect(pagerState) {
+        snapshotFlow { state.value }.collect { page ->
+            pagerState.animateScrollToPage(page)
+        }
+    }
+    //将底部pager的参数和顶部导航栏的参数state绑定
+    LaunchedEffect(pagerState) {
+        snapshotFlow { pagerState.currentPage }.collect { page ->
+            if (page != 3) {
+                state.value = page
+            }
+        }
+    }
+
     //配置顶部状态栏颜色
     rememberSystemUiController().setStatusBarColor(
         Color.White, darkIcons = androidx.compose.material.MaterialTheme.colors.isLight
@@ -106,9 +131,72 @@ fun ChooseSeed(nav01: () -> Unit={},)
                 elevation = 0.dp, //设置阴影
             )
         }
-    ) {}
+    ) {
+        Column() {
+            Row(
+                modifier = Modifier
+                    .height(40.dp)
+                    .fillMaxWidth(), horizontalArrangement = Arrangement.Center
+            ) {
+                TabRow(
+                    modifier = Modifier.width(270.dp),
+                    backgroundColor = Color.White,
+                    selectedTabIndex = userViewModel.uiState.value.chooseSeedPageState.value,
+                    indicator = @Composable { tabPositions ->
+                        TabRowDefaults.Indicator(
+                            Modifier.customTabIndicatorOffset(tabPositions[userViewModel.uiState.value.chooseSeedPageState.value]),
+                            color = LightGreen
+                        )
+                    },
 
-    Page1()
+                    ) {
+                    //遍历
+                    //0 "随机"
+                    //1 "自定义"
+                    titles.forEachIndexed { index, title ->
+                        Tab(
+                            modifier = Modifier
+                                .background(Color.White)
+                                .padding(0.dp),
+                            selected = userViewModel.uiState.value.chooseSeedPageState.value == index,
+                            onClick = {
+                                // 点击事件
+                                userViewModel.uiState.value.chooseSeedPageState.value = index;
+                            },
+                            text = {
+                                Text(
+                                    text = title,
+                                    maxLines = 2,
+                                    overflow = TextOverflow.Ellipsis,
+                                    fontSize = 13.sp,
+                                    fontWeight = FontWeight.W800,
+                                )
+                            },
+                            selectedContentColor = Color.Black,
+                            unselectedContentColor = Gray1
+                        )
+                    }
+                }
+            }
+
+            HorizontalPager(count = 2, state = pagerState) { page ->
+//                Text(text = "Page: $page")
+                //下面为要滑动切换的界面，可以通过判断page调用不同页面
+//                Text(page.toString())
+                if (page == 0) {
+                Page1()
+//                    Text("12333")
+                }
+                if (page == 1) {
+                Page2()
+//                    Text("page2")
+                }
+            }
+        }
+
+
+    }
+
 
 
 }
@@ -643,7 +731,9 @@ fun Page2(){
     }
 
 
-        Row(modifier = Modifier.fillMaxWidth().offset(36.dp,-10.dp)) {
+        Row(modifier = Modifier
+            .fillMaxWidth()
+            .offset(36.dp, -10.dp)) {
 
 
 

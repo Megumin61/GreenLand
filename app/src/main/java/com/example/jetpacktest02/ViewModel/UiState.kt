@@ -32,6 +32,8 @@ data class UiState constructor(
     val openDialog: MutableState<Boolean> = mutableStateOf(false),
     //MessageFriendScreen
     val pageState: MutableState<Int> = mutableStateOf(0),
+    //ChooseSeedScreen
+    val chooseSeedPageState: MutableState<Int> = mutableStateOf(0),
     var searchText: String = "",
     //用户本人的经纬度位置，数据类型为Double
     var mePos: MutableState<LocationDetails> = mutableStateOf(LocationDetails(0.0, 0.0)),

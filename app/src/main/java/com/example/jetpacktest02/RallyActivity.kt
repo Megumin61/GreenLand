@@ -1,5 +1,6 @@
 package com.example.jetpacktest02
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -108,6 +109,7 @@ fun WordBookApp(userViewModel: UserViewModel = androidx.lifecycle.viewmodel.comp
     }
 }
 
+
 @SuppressLint("StateFlowValueCalledInComposition")
 @ExperimentalPermissionsApi
 @ExperimentalMaterialApi
@@ -171,7 +173,7 @@ fun RallyApp() {
             //管理路由：页面跳转
             NavHost(
                 navController = navController,
-                startDestination = Plant.route,
+                startDestination = ChooseSeed.route,
                 modifier = Modifier.padding(innerPadding)
 
             ) {
@@ -275,7 +277,9 @@ fun RallyApp() {
                 composable(route = SetPlanDiy.route) {
                     SetPlanDiyScreen()
                 }
-
+                composable(route = ChooseSeed.route) {
+                    ChooseSeed(userViewModel = userViewModel)
+                }
 
                 composable(route = Dailyhealthmessage.route) {
                     DailyhealthmessageScreen(

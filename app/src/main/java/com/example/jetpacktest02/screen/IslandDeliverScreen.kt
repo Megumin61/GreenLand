@@ -8,10 +8,7 @@ import androidx.camera.core.Camera
 import androidx.camera.core.CameraSelector
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.BasicTextField
@@ -24,6 +21,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
@@ -42,6 +40,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
 import com.example.jetpacktest02.R
+import com.example.jetpacktest02.ViewModel.UserViewModel
 import com.example.scaffolddemo.ui.theme.*
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.PermissionRequired
@@ -51,14 +50,16 @@ import kotlinx.coroutines.launch
 
 @ExperimentalPermissionsApi
 @ExperimentalMaterialApi
-@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter", "StateFlowValueCalledInComposition")
 @Composable
 fun IslandDeliverScreen(
     nav01: () -> Unit = {},
+    userViewModel: UserViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
 ) {
     //配置顶部状态栏颜色
     rememberSystemUiController().setStatusBarColor(
-        Flesh1, darkIcons = androidx.compose.material.MaterialTheme.colors.isLight)
+        Flesh1, darkIcons = androidx.compose.material.MaterialTheme.colors.isLight
+    )
 
     Surface(modifier = Modifier.fillMaxSize()) {
         //申请照相机权限
@@ -181,8 +182,8 @@ fun IslandDeliverScreen(
                             elevation = 1.5.dp
 
                         ) {
-                            when(pageMode){
-                                0->{
+                            when (pageMode) {
+                                0 -> {
                                     //上方区域
                                     Column(
                                         modifier = Modifier.padding(
@@ -273,11 +274,10 @@ fun IslandDeliverScreen(
                                         }
                                     }
                                 }
-                                1->{
+                                1 -> {
                                     CameraX()
                                 }
                             }
-
 
 
                         }
@@ -338,36 +338,17 @@ fun IslandDeliverScreen(
                     ) {
                         Surface(
                             shape = CircleShape,
-                            border = BorderStroke(1.dp, LightGreen)
+                            border = BorderStroke(2.dp, Green5)
                         ) {
-                            Image(
-                                painter = painterResource(id = R.drawable.g4_3_avatar2),
-                                contentDescription = null,
-                                modifier = Modifier
-                                    .size(30.dp),
-                            )
-                        }
-                        Surface(
-                            shape = CircleShape,
-                            border = BorderStroke(1.dp, LightGreen)
-                        ) {
-                            Image(
-                                painter = painterResource(id = R.drawable.g4_3_avatar1),
-                                contentDescription = null,
-                                modifier = Modifier
-                                    .size(30.dp),
-                            )
-                        }
-                        Surface(
-                            shape = CircleShape,
-                            border = BorderStroke(1.dp, LightGreen)
-                        ) {
-                            Image(
-                                painter = painterResource(id = R.drawable.g4_3_avatar3),
-                                contentDescription = null,
-                                modifier = Modifier
-                                    .size(30.dp),
-                            )
+                            if(userViewModel.uiState.value.visitItem.value.userName!=""){
+                                Image(
+                                    painter = painterResource(id = userViewModel.uiState.value.visitItem.value.userAvatar),
+                                    contentDescription = null,
+                                    modifier = Modifier
+                                        .size(40.dp),
+                                )
+                            }
+
                         }
                     }
 
@@ -426,32 +407,57 @@ fun IslandDeliverScreen(
 
                             }
                         )
-
-                        //第一行头像
-                        Row(
+                        Column(
                             modifier = Modifier
+                                .horizontalScroll(rememberScrollState())
                                 .fillMaxWidth()
                                 .padding(15.dp),
-                            horizontalArrangement = Arrangement.Center
+                            horizontalAlignment = Alignment.Start
                         ) {
-                            AvatarItem("全部好友", R.drawable.g4_6_1_ic_allcansee)
-                            AvatarItem("幻想世界", R.drawable.g4_3_avatar3)
-                            AvatarItem("幻想世界", R.drawable.g4_3_avatar3)
-                            AvatarItem("幻想世界", R.drawable.g4_3_avatar3)
-                        }
+                            //第一行头像
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(15.dp),
+                                horizontalArrangement = Arrangement.Start
+                            ) {
 
-                        //第二行头像
+                                AvatarItem(
+                                    "全部好友",
+                                    R.drawable.g4_6_1_ic_allcansee,
+                                    userViewModel = userViewModel
+                                )
 
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(15.dp),
-                            horizontalArrangement = Arrangement.Center
-                        ) {
-                            AvatarItem("幻想世界", R.drawable.g4_3_avatar3)
-                            AvatarItem("幻想世界", R.drawable.g4_3_avatar3)
-                            AvatarItem("幻想世界", R.drawable.g4_3_avatar3)
-                            AvatarItem("幻想世界", R.drawable.g4_3_avatar3)
+                                userViewModel.uiState.value.exploreMemberListData.forEachIndexed { index, item ->
+                                    if (index <= userViewModel.uiState.value.exploreMemberListData.size / 2) {
+                                        AvatarItem(
+                                            item.userName,
+                                            item.userAvatar,
+                                            userViewModel = userViewModel
+                                        )
+                                    }
+                                }
+                            }
+
+                            //第二行头像
+
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(15.dp),
+                                horizontalArrangement = Arrangement.Start
+                            ) {
+                                userViewModel.uiState.value.exploreMemberListData.forEachIndexed { index, item ->
+
+                                    if (index > userViewModel.uiState.value.exploreMemberListData.size / 2) {
+                                        AvatarItem(
+                                            item.userName,
+                                            item.userAvatar,
+                                            userViewModel = userViewModel
+                                        )
+                                    }
+                                }
+                            }
                         }
 
 
@@ -523,9 +529,11 @@ fun CameraX() {
             id = R.id.preview_view
         }
     }
-    AndroidView(factory = { previewView }, modifier = Modifier
-        .width(200.dp)
-        .height(200.dp)) {
+    AndroidView(
+        factory = { previewView }, modifier = Modifier
+            .width(200.dp)
+            .height(200.dp)
+    ) {
         cameraProvideFuture.addListener({
             val cameraProvider = cameraProvideFuture.get()
             val preview = androidx.camera.core.Preview.Builder().build().also {
@@ -542,8 +550,13 @@ fun CameraX() {
     }
 }
 
+@SuppressLint("StateFlowValueCalledInComposition")
 @Composable
-fun AvatarItem(text: String, avatar: Int) {
+fun AvatarItem(
+    text: String, avatar: Int,
+    userViewModel: UserViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
+
+    ) {
     //头像+用户名项目
     Column(
         modifier = Modifier.width(76.dp),
@@ -561,13 +574,29 @@ fun AvatarItem(text: String, avatar: Int) {
                 )
             }
             else -> {
-                Image(
-                    painter = painterResource(id = avatar),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .size(50.dp)
-                        .clickable(onClick = {}),
-                )
+                if ( text == userViewModel.uiState.value.visitItem.value.userName) {
+                    Surface(
+                        shape = CircleShape,
+                        border = BorderStroke(2.dp, Green5)
+                    ) {
+                        Image(
+                            painter = painterResource(id = avatar),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .size(50.dp).alpha(0.3f)
+                                .clickable(onClick = {}),
+                        )
+                    }
+                } else {
+                    Image(
+                        painter = painterResource(id = avatar),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .size(50.dp)
+                            .clickable(onClick = {}),
+                    )
+                }
+
                 Spacer(modifier = Modifier.height(5.dp))
             }
 

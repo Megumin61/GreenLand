@@ -36,7 +36,7 @@ import androidx.navigation.NavHostController
 import com.airbnb.lottie.compose.*
 import com.example.jetpacktest02.R
 import com.example.jetpacktest02.ViewModel.UserViewModel
-import com.example.jetpacktest02.ViewModel.friendItem
+import com.example.jetpacktest02.ViewModel.FriendItem
 import com.example.scaffolddemo.ui.theme.*
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import kotlinx.coroutines.delay
@@ -424,14 +424,15 @@ fun IslandScreen(
 @Composable
 fun plantModelItem(
     name: String,
-    res: Int,//plantType
+    plantType: Int,//plantType
+    res:Int,//userAvatar
     offsetX: Float = 0f,
     offsetY: Float = 0f,
     textMsg: String,
     imgMsg: Int,
     nav2: () -> Unit = {},
     userViewModel: UserViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
-    item: friendItem,
+    item: FriendItem,
     controller:NavHostController
 ) {
     Column(
@@ -463,7 +464,7 @@ fun plantModelItem(
             //植物图片
             if (textMsg != "" || imgMsg != 0) {
                 Image(
-                    painter = painterResource(id = res),
+                    painter = painterResource(id = plantType),
                     contentDescription = null,
                     modifier = Modifier
                         .size(90.dp)
@@ -477,7 +478,7 @@ fun plantModelItem(
                                     userViewModel.uiState.value.friendListData[userViewModel.uiState.value.friendListData.indexOf(
                                         item
                                     )] =
-                                        friendItem(
+                                        FriendItem(
                                             item.userName,
                                             item.userAvatar,
                                             item.userPlant,
@@ -497,7 +498,7 @@ fun plantModelItem(
                                     userViewModel.uiState.value.friendListData[userViewModel.uiState.value.friendListData.indexOf(
                                         item
                                     )] =
-                                        friendItem(
+                                        FriendItem(
                                             item.userName,
                                             item.userAvatar,
                                             item.userPlant,
@@ -508,16 +509,19 @@ fun plantModelItem(
                                             item.onlineTime,
                                             item.msgTime
                                         )
-                                    controller.navigate("4.5-island-visitOther/$res/$name")//这里将id拼接到参数后面
+//                                    controller.navigate("4.5-island-visitOther/$res/$name")//这里将id拼接到参数后面
                                 }
                             },
                             indication = null,
                             interactionSource = MutableInteractionSource()
                         )
                 )
-            } else {
+
+            }
+            //没有消息红点的植物
+            else {
                 Image(
-                    painter = painterResource(id = res),
+                    painter = painterResource(id = plantType),
                     contentDescription = null,
                     modifier = Modifier
                         .size(90.dp)
@@ -591,6 +595,7 @@ fun MapBgAnimation(
         plantModelItem(
             userViewModel.uiState.value.meItem.value.userName,
             userViewModel.uiState.value.meItem.value.userPlant,
+            userViewModel.uiState.value.meItem.value.userAvatar,
             userViewModel.uiState.value.meItem.value.offsetX,
             userViewModel.uiState.value.meItem.value.offsetY,
             userViewModel.uiState.value.meItem.value.textMsg,
@@ -605,6 +610,7 @@ fun MapBgAnimation(
             plantModelItem(
                 item.userName,
                 item.userPlant,
+                item.userAvatar,
                 item.offsetX,
                 item.offsetY,
                 item.textMsg,
@@ -617,6 +623,4 @@ fun MapBgAnimation(
         }
 
     }
-
-
 }

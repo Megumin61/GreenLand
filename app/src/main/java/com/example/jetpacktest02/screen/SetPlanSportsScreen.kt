@@ -126,6 +126,7 @@ fun SetPlanSportsScreen() {
         mutableStateListOf(
             remindItemModel("9:00", 5f),
 
+            remindItemModel("9:00", 5f),
             remindItemModel("12:00", 5f),// 数组的最后一个元素 不会显示
             /*remindItemModel("12:30", 5f),
             remindItemModel("18:20", 5f),*/

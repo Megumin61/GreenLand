@@ -25,6 +25,12 @@ import com.example.jetpacktest02.Entity.User
 import com.example.jetpacktest02.ViewModel.UserViewModel
 import com.example.jetpacktest02.compose.MyBottomNavBar
 import com.example.jetpacktest02.config.UsersApplication
+import com.example.jetpacktest02.compose.MyTopAppBar
+import com.example.jetpacktest02.screen.*
+import com.example.jetpacktest02.screen.IslandDeliverScreen
+import com.example.jetpacktest02.screen.IslandMemberListScreen
+import com.example.jetpacktest02.screen.IslandScreen
+import com.example.jetpacktest02.screen.MessageFriendScreen
 import com.example.jetpacktest02.screen.*
 import com.example.jetpacktest02.ui.main.MessageMsgScreen
 import com.example.jetpacktest02.ui.main.*
@@ -53,7 +59,7 @@ class RallyActivity : ComponentActivity() {
 
         setContent {
 
-//            WordBookApp()
+//            WordBookApp2()
 //            CounterScreen()
             RallyApp()
         }
@@ -102,6 +108,7 @@ fun WordBookApp(userViewModel: UserViewModel = androidx.lifecycle.viewmodel.comp
 //        Text(users.size.toString())
     }
 }
+
 
 @SuppressLint("StateFlowValueCalledInComposition")
 @ExperimentalPermissionsApi
@@ -161,10 +168,12 @@ fun RallyApp() {
             }
         ) { innerPadding ->
 
+//            val navController = rememberNavController()
+
             //管理路由：页面跳转
             NavHost(
                 navController = navController,
-                startDestination = Plant.route,
+                startDestination = ChooseSeed.route,
                 modifier = Modifier.padding(innerPadding)
 
             ) {
@@ -269,7 +278,9 @@ fun RallyApp() {
                 composable(route = SetPlanDiy.route) {
                     SetPlanDiyScreen()
                 }
-
+                composable(route = ChooseSeed.route) {
+                    ChooseSeed(userViewModel = userViewModel)
+                }
 
                 composable(route = Dailyhealthmessage.route) {
                     DailyhealthmessageScreen(
@@ -421,6 +432,7 @@ fun RallyApp() {
                     )
                 }
                 composable(route = MessageMsg.route) {
+
                     MessageMsgScreen(
                         userViewModel,
                         //导航函数

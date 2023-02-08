@@ -33,6 +33,8 @@ data class UiState constructor(
     val openDialog: MutableState<Boolean> = mutableStateOf(false),
     //MessageFriendScreen
     val pageState: MutableState<Int> = mutableStateOf(0),
+    //ChooseSeedScreen
+    val chooseSeedPageState: MutableState<Int> = mutableStateOf(0),
     var searchText: String = "",
     val waterValue:Int=0,
     val tabMessageList: MutableList<TapListItemModel> =

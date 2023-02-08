@@ -26,7 +26,7 @@ import com.example.scaffolddemo.ui.theme.Green2
 
 data class NavItem(val index: Int, val name: String, val icon: Int, val active_icon: Int)
 
-
+//skc 初始化
 @Composable
 fun MyBottomNavBar(
     navControl: NavController,

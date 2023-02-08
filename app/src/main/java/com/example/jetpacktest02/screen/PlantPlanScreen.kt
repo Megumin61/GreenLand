@@ -21,6 +21,8 @@ import android.media.Image
 import android.widget.Space
 import androidx.activity.compose.BackHandler
 import androidx.annotation.DrawableRes
+import androidx.compose.animation.*
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -70,6 +72,7 @@ import com.himanshoe.kalendar.Kalendar
 import com.himanshoe.kalendar.color.KalendarThemeColor
 import com.himanshoe.kalendar.model.KalendarEvent
 import com.himanshoe.kalendar.model.KalendarType
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDate
 import kotlin.math.roundToInt
@@ -138,6 +141,8 @@ fun PlanItem(@DrawableRes iconRes: Int) {
 /*部分布局样式,CardPage放在里面*/
 @Composable
 fun NewScreen() {
+
+
     var openCalendar by remember {
         mutableStateOf(false)
     }
@@ -151,7 +156,7 @@ fun NewScreen() {
 
     val state = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
     val scope = rememberCoroutineScope()
-    Box() {
+    Box(modifier = Modifier.fillMaxWidth()) {
         Image(
             painter = painterResource(id = R.drawable.g1_4_1_bg),
             contentDescription = null,
@@ -198,13 +203,52 @@ fun NewScreen() {
 
             }
         }
-        Image(
-            painter = painterResource(id = R.drawable.g1_1_img_flower), contentDescription = null,
-            modifier = Modifier
-                .size(290.dp)
-                .offset(50.dp, 100.dp)
+        var change by remember{ mutableStateOf(false) }
+        val flowerSize by animateDpAsState(
+            targetValue = if(change) 350.dp else 310.dp
         )
+
+        /*LaunchedEffect(key1 = change) {
+            delay(1000)
+            change = true}*/
+
+        if(flowerSize == 350.dp) {
+            change = false
+        }
+        Column(
+            Modifier
+                .fillMaxSize()
+                .padding(vertical = 140.dp), verticalArrangement = Arrangement.Top) {
+            Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
+                Image(
+                    painter = painterResource(id = R.drawable.g1_1_img_flower), contentDescription = null,
+                    modifier = Modifier
+                        .size(flowerSize)
+                        .fillMaxWidth()
+                        .offset(0.dp, -60.dp)
+                        .clickable(onClick = {change=true } )
+
+                )
+            }}
+        //添加动画
+
+
         Column(Modifier.fillMaxSize(), verticalArrangement = Arrangement.Bottom) {
+            var state by remember {
+                mutableStateOf(false)
+            }
+            LaunchedEffect(key1 = state) {
+                delay(100)
+                state = true
+            }
+            AnimatedVisibility(
+                visible = state,
+                enter =slideInVertically(initialOffsetY = { -40 }
+                ) + expandVertically(
+                    expandFrom = Alignment.Top
+                ) + fadeIn(initialAlpha = 0.3f),
+                exit= fadeOut(targetAlpha = 0f) + shrinkVertically(shrinkTowards = Alignment.Top)
+            ){
             Box(modifier = Modifier.fillMaxWidth(), Alignment.BottomCenter) {
                 HorizontalPager(count = 4, state = pagerState) { page ->
                     when (page) {
@@ -255,7 +299,7 @@ fun NewScreen() {
                 /* ViewPager*/
 
 
-            }
+            }}
         }
     }
     //日历弹窗组件

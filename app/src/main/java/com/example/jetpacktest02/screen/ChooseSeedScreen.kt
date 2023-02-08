@@ -69,7 +69,7 @@ import kotlinx.coroutines.launch
 fun ChooseSeed(nav01: () -> Unit={},userViewModel:UserViewModel)
 {
 
-    val titles = listOf("随机", "自定义")
+    val titles = listOf("自定义", "随机")
     //state为顶部的tab导航栏绑定参数
     val state = userViewModel.uiState.value.chooseSeedPageState
     //pagerState为底部viewpager参数
@@ -135,7 +135,7 @@ fun ChooseSeed(nav01: () -> Unit={},userViewModel:UserViewModel)
         Column() {
             Row(
                 modifier = Modifier
-                    .height(40.dp)
+                    .height(40.dp).offset(0.dp,20.dp)
                     .fillMaxWidth(), horizontalArrangement = Arrangement.Center
             ) {
                 TabRow(
@@ -184,15 +184,36 @@ fun ChooseSeed(nav01: () -> Unit={},userViewModel:UserViewModel)
                 //下面为要滑动切换的界面，可以通过判断page调用不同页面
 //                Text(page.toString())
                 if (page == 0) {
-                Page1()
+                    Page1()
 //                    Text("12333")
                 }
                 if (page == 1) {
-                Page2()
+                    Page2()
 //                    Text("page2")
                 }
             }
         }
+        Column(modifier=Modifier
+            .padding(top = 600.dp,start=30.dp),
+            horizontalAlignment= Alignment.CenterHorizontally
+        ) {
+            Button(onClick = {},
+                shape = RoundedCornerShape(27.dp),border = BorderStroke(1.dp, GreenMain),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = GreenMain,
+                    contentColor = GreenMain
+                ),
+
+                modifier = Modifier
+                    .size(width = 136.dp, height = 48.dp)
+                    .offset(100.dp, 60.dp)
+
+            ) {
+                Text(text = "种下", color = Color.White, fontSize = 16.sp)
+            }
+
+        }
+
 
 
     }
@@ -211,7 +232,7 @@ fun Page1(){
 
     Column(
         modifier=Modifier
-            .padding(top = 160.dp,start=30.dp),
+            .padding(top = 60.dp,start=30.dp),
 //        horizontalAlignment= Alignment.CenterHorizontally
 //             verticalArrangement = Arrangement.Center
     ) {
@@ -617,8 +638,8 @@ fun Page1(){
                 contentDescription = null,
                 alignment = Alignment.Center,
                 modifier = Modifier
-                    .size(width = 112.dp, height = 75.dp)
-                    .offset(110.dp, -10.dp)
+                    .size(width = 112.dp, height = 171.dp)
+                    .offset(110.dp, -50.dp)
             )
 
 
@@ -631,8 +652,8 @@ fun Page1(){
                 contentDescription = null,
                 alignment = Alignment.Center,
                 modifier = Modifier
-                    .size(width = 110.dp, height = 129.dp)
-                    .offset(110.dp, -55.dp)
+                    .size(width = 110.dp, height = 171.dp)
+                    .offset(110.dp, -68.dp)
             )
 
         }
@@ -644,8 +665,8 @@ fun Page1(){
                 contentDescription = null,
                 alignment = Alignment.Center,
                 modifier = Modifier
-                    .size(width = 108.dp, height = 124.dp)
-                    .offset(110.dp, -45.dp)
+                    .size(width = 108.dp, height = 171.dp)
+                    .offset(110.dp, -64.dp)
             )
 
         }
@@ -676,26 +697,26 @@ fun Page1(){
 
 
     }
-    Column(modifier=Modifier
-        .padding(top = 600.dp,start=30.dp),
-        horizontalAlignment= Alignment.CenterHorizontally
-    ) {
-        Button(onClick = {},
-            shape = RoundedCornerShape(27.dp),border = BorderStroke(1.dp, GreenMain),
-            colors = ButtonDefaults.buttonColors(
-                containerColor = GreenMain,
-                contentColor = GreenMain
-            ),
-
-            modifier = Modifier
-                .size(width = 136.dp, height = 48.dp)
-                .offset(100.dp, 60.dp)
-
-        ) {
-            Text(text = "种下", color = Color.White, fontSize = 16.sp)
-        }
-
-    }
+//    Column(modifier=Modifier
+//        .padding(top = 600.dp,start=30.dp),
+//        horizontalAlignment= Alignment.CenterHorizontally
+//    ) {
+//        Button(onClick = {},
+//            shape = RoundedCornerShape(27.dp),border = BorderStroke(1.dp, GreenMain),
+//            colors = ButtonDefaults.buttonColors(
+//                containerColor = GreenMain,
+//                contentColor = GreenMain
+//            ),
+//
+//            modifier = Modifier
+//                .size(width = 136.dp, height = 48.dp)
+//                .offset(100.dp, 60.dp)
+//
+//        ) {
+//            Text(text = "种下", color = Color.White, fontSize = 16.sp)
+//        }
+//
+//    }
 
 
 
@@ -710,7 +731,7 @@ fun Page2(){
 
     Column(
         modifier=Modifier
-            .padding(top = 160.dp,start=30.dp),
+            .padding(top = 120.dp,start=30.dp),
 //        horizontalAlignment= Alignment.CenterHorizontally
 //             verticalArrangement = Arrangement.Center
     ) {
@@ -722,13 +743,13 @@ fun Page2(){
 
 
 
-        Text(text = "选取神秘植物", color = Color.Black , fontSize = 16.sp,fontWeight = FontWeight.W600, modifier = Modifier
-            .offset(-10.dp, 120.dp)
-            .fillMaxWidth(),
-            textAlign = TextAlign.Center
-        )
+            Text(text = "选取神秘植物", color = Color.Black , fontSize = 16.sp,fontWeight = FontWeight.W600, modifier = Modifier
+                .offset(-10.dp, 120.dp)
+                .fillMaxWidth(),
+                textAlign = TextAlign.Center
+            )
 
-    }
+        }
 
 
         Row(modifier = Modifier
@@ -817,29 +838,37 @@ fun Page2(){
             alignment = Alignment.Center,
             modifier = Modifier
                 .size(width = 178.dp, height = 158.dp)
-                .offset(80.dp, 190.dp)
+                .offset(80.dp, 130.dp)
         )
-        }
-    Column(modifier=Modifier
-        .padding(top = 600.dp,start=30.dp),
-        horizontalAlignment= Alignment.CenterHorizontally
-    ) {
-        Button(onClick = {},
-            shape = RoundedCornerShape(27.dp),border = BorderStroke(1.dp, GreenMain),
-            colors = ButtonDefaults.buttonColors(
-                containerColor = GreenMain,
-                contentColor = GreenMain
-            ),
-
+        Image(
+            painter = painterResource(id = com.example.jetpacktest02.R.drawable.g3_2_1_img_plant),
+            contentDescription = null,
+            alignment = Alignment.Center,
             modifier = Modifier
-                .size(width = 136.dp, height = 48.dp)
-                .offset(100.dp, 60.dp)
-
-        ) {
-            Text(text = "种下", color = Color.White, fontSize = 16.sp)
-        }
-
+                .size(width = 178.dp, height = 158.dp)
+                .offset(80.dp, 250.dp)
+        )
     }
+//    Column(modifier=Modifier
+//        .padding(top = 600.dp,start=30.dp),
+//        horizontalAlignment= Alignment.CenterHorizontally
+//    ) {
+//        Button(onClick = {},
+//            shape = RoundedCornerShape(27.dp),border = BorderStroke(1.dp, GreenMain),
+//            colors = ButtonDefaults.buttonColors(
+//                containerColor = GreenMain,
+//                contentColor = GreenMain
+//            ),
+//
+//            modifier = Modifier
+//                .size(width = 136.dp, height = 48.dp)
+//                .offset(100.dp, 60.dp)
+//
+//        ) {
+//            Text(text = "种下", color = Color.White, fontSize = 16.sp)
+//        }
+//
+//    }
 
 
 

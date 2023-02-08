@@ -87,8 +87,14 @@ fun HealthConclusionScreen(
         var currentIndex = 0
         val pagerState = rememberPagerState(initialPage = currentIndex)
         HorizontalPager(count = 2) { page ->
-            Text(text = "Page: $page")
+            if(page==0){
+                HealthTopAppBar()
+            }
+            if(page==1){
+                HealthViewTabRow()
+            }
         }
+        HorizontalPagerIndicator(pagerState = pagerState)
 
 
 

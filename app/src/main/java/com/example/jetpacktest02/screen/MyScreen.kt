@@ -87,7 +87,49 @@ fun MyScreen(
                 modifier = Modifier.padding(horizontal = 13.dp)
             )
             Spacer(modifier = Modifier.height(10.dp))
-            BtnArea()
+            Box(contentAlignment = Alignment.Center){
+                Image(
+                    painter = painterResource(id = R.drawable.g7_0_btnbg),
+                    contentDescription = null,
+                )
+                Column(verticalArrangement = Arrangement.spacedBy(27.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+                    Button(onClick = { /*TODO*/ },
+                        colors = ButtonDefaults.outlinedButtonColors(),
+                        contentPadding = PaddingValues(0.dp),
+                        shape = RectangleShape
+                    ) {
+                        Image(
+                            painter = painterResource(id = R.drawable.g7_0_ic_health),
+                            contentDescription = null,
+                            modifier = Modifier.size(width=300.dp,height=54.dp)
+                        )
+
+                    }
+                    Button(onClick = nav01,
+                        colors = ButtonDefaults.outlinedButtonColors(),
+                        contentPadding = PaddingValues(0.dp),
+                        shape = RectangleShape) {
+                        Image(
+                            painter = painterResource(id = R.drawable.g7_0_ic_cupboard),
+                            contentDescription = null,
+                            modifier = Modifier.size(width=300.dp,height=54.dp)
+                        )
+
+                    }
+                    Button(onClick = { /*TODO*/ },
+                        colors = ButtonDefaults.outlinedButtonColors(),
+                        contentPadding = PaddingValues(0.dp),
+                        shape = RectangleShape) {
+                        Image(
+                            painter = painterResource(id = R.drawable.g7_0_ic_settings),
+                            contentDescription = null,
+                            modifier = Modifier.size(width=300.dp,height=54.dp)
+                        )
+
+                    }
+
+                }
+            }
 
         }
     }
@@ -115,50 +157,8 @@ fun MyScreen(
 
 
 @Composable
-fun BtnArea(){
-    Box(contentAlignment = Alignment.Center){
-        Image(
-            painter = painterResource(id = R.drawable.g7_0_btnbg),
-            contentDescription = null,
-        )
-        Column(verticalArrangement = Arrangement.spacedBy(27.dp), horizontalAlignment = Alignment.CenterHorizontally) {
-            Button(onClick = { /*TODO*/ },
-                colors = ButtonDefaults.outlinedButtonColors(),
-                contentPadding = PaddingValues(0.dp),
-                shape = RectangleShape
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.g7_0_ic_health),
-                    contentDescription = null,
-                    modifier = Modifier.size(width=300.dp,height=54.dp)
-                )
-                
-            }
-            Button(onClick = { /*TODO*/ },
-                colors = ButtonDefaults.outlinedButtonColors(),
-                contentPadding = PaddingValues(0.dp),
-                shape = RectangleShape) {
-                Image(
-                    painter = painterResource(id = R.drawable.g7_0_ic_cupboard),
-                    contentDescription = null,
-                    modifier = Modifier.size(width=300.dp,height=54.dp)
-                )
+fun BtnArea(nav01: () -> Unit={}){
 
-            }
-            Button(onClick = { /*TODO*/ },
-                colors = ButtonDefaults.outlinedButtonColors(),
-                contentPadding = PaddingValues(0.dp),
-                shape = RectangleShape) {
-                Image(
-                    painter = painterResource(id = R.drawable.g7_0_ic_settings),
-                    contentDescription = null,
-                    modifier = Modifier.size(width=300.dp,height=54.dp)
-                )
-
-            }
-            
-        }
-    }
 }
 @Composable
 fun UserInfo(){

@@ -387,7 +387,14 @@ fun RallyApp() {
                 composable(route = HealthConclusion.route) {
                     HealthConclusionScreen(
                         nav01 = {
-                            navController.navigate(Plant.route) { launchSingleTop = true; }
+                            navController.navigate(HealthShare.route) { launchSingleTop = true; }
+                        }
+                    )
+                }
+                composable(route = My.route) {
+                    BtnArea(
+                        nav01 = {
+                            navController.navigate(MyCupBoard.route) { launchSingleTop = true; }
                         }
 
 

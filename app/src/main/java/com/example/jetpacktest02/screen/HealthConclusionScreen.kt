@@ -63,10 +63,7 @@ import com.example.jetpacktest02.R
 import com.example.jetpacktest02.compose.MyTopAppBar
 import com.example.scaffolddemo.ui.theme.Gray1
 import com.example.scaffolddemo.ui.theme.Green1
-import com.google.accompanist.pager.ExperimentalPagerApi
-import com.google.accompanist.pager.HorizontalPager
-import com.google.accompanist.pager.HorizontalPagerIndicator
-import com.google.accompanist.pager.rememberPagerState
+import com.google.accompanist.pager.*
 import org.intellij.lang.annotations.JdkConstants.HorizontalAlignment
 
 /**
@@ -83,18 +80,6 @@ fun HealthConclusionScreen(
 ) {
     Column {
 
-// 水平指示器
-        var currentIndex = 0
-        val pagerState = rememberPagerState(initialPage = currentIndex)
-        HorizontalPager(count = 2) { page ->
-            if(page==0){
-                HealthTopAppBar()
-            }
-            if(page==1){
-                HealthViewTabRow()
-            }
-        }
-        HorizontalPagerIndicator(pagerState = pagerState)
 
 
 

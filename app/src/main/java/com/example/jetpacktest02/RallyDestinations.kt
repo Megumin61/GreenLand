@@ -157,6 +157,12 @@ object HealthTabTest : RallyDestination {
     override val route = "6test"
 }
 
+object MyCupBoard : RallyDestination {
+    override val icon = Icons.Filled.MoneyOff
+    override val route = "7.2-cupboard"
+}
+
+
 
 // Screens to be displayed in the top RallyTabRow
 val rallyTabRowScreens = listOf(Overview, Accounts,Plant,PlantPlan,Dailyhealthmessage)

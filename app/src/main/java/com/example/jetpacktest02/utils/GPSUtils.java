@@ -12,7 +12,10 @@ import android.os.Build;
 import android.util.Log;
 
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 
 import android.Manifest;
@@ -120,4 +123,52 @@ public class GPSUtils {
         s = Math.round(s * 10000) / 10000;
         return s;
     }
+    public double getAngle1(double lat_a, double lng_a, double lat_b, double lng_b) {
+
+        double y = Math.sin(lng_b-lng_a) * Math.cos(lat_b);
+        double x = Math.cos(lat_a)*Math.sin(lat_b) - Math.sin(lat_a)*Math.cos(lat_b)*Math.cos(lng_b-lng_a);
+        double brng = Math.atan2(y, x);
+        brng = Math.toDegrees(brng);
+        if(brng < 0)
+            brng = brng +360;
+        return brng;
+    }
+    //x距离
+    public double getA(double lat_a, double lng_a, double lat_b, double lng_b){
+        double distance = getDistance(lng_a,lat_a,lng_b,lat_b);
+        double angle =  getAngle1(lat_a,lng_a,lat_b,lng_b);
+        double a = distance *  Math.cos(angle);
+        return a;
+    }
+    //y距离
+    public double getB(double lat_a, double lng_a, double lat_b, double lng_b){
+        double distance = getDistance(lng_a,lat_a,lng_b,lat_b);
+        double angle =  getAngle1(lat_a,lng_a,lat_b,lng_b);
+        double b = distance *  Math.sin(angle);
+        return b;
+    }
+
+    public  Float mockFloatBetween2(Float begin, Float end) {
+        BigDecimal bigDecimal = new BigDecimal(end - begin);
+        BigDecimal point = new BigDecimal(Math.random());
+        BigDecimal pointBetween = point.multiply(bigDecimal);
+        BigDecimal result = pointBetween.add(new BigDecimal(begin)).setScale(2, BigDecimal.ROUND_FLOOR);
+        return result.floatValue();
+    }
+
+
+//    public double getOffset(double lon1,double lat1,double lon2, double lat2){
+//        if (lon1<=lon2){
+//
+//        }else{
+//
+//        }
+//        if (lat1<=lat2){
+//
+//        }else{
+//
+//        }
+//        double distance = getDistance(lon1,lat1,lon2,lat2);
+//        return
+//    }
 }

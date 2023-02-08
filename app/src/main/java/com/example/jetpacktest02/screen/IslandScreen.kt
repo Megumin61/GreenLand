@@ -623,6 +623,4 @@ fun MapBgAnimation(
         }
 
     }
-
-
 }

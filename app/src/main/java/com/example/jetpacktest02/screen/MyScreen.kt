@@ -57,10 +57,6 @@ import com.example.jetpacktest02.R
 fun MyScreen(
 //            bills : (String) -> Unit = {},
     nav01: () -> Unit={},
-    nav02: () -> Unit={},
-    nav03: () -> Unit={},
-    nav04: () -> Unit={},
-    nav05: () -> Unit={},
 
 ) {
     Box(
@@ -90,7 +86,7 @@ fun MyScreen(
                 contentDescription = null,
                 modifier = Modifier.padding(horizontal = 13.dp)
             )
-            /*Spacer(modifier = Modifier.height(0.dp))*/
+            Spacer(modifier = Modifier.height(10.dp))
             Box(contentAlignment = Alignment.Center){
                 Image(
                     painter = painterResource(id = R.drawable.g7_0_btnbg),
@@ -139,7 +135,7 @@ fun MyScreen(
     }
 
 
-    Column{
+   /* Column{
         Text("7.0-My")
         Button(
             onClick = nav01,
@@ -154,7 +150,7 @@ fun MyScreen(
             Spacer(Modifier.size(ButtonDefaults.IconSpacing))
             Text("1.1-Plant")
         }
-    }
+    }*/
 
 
 }

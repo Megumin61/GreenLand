@@ -24,6 +24,7 @@ import androidx.navigation.navArgument
 import com.example.jetpacktest02.Entity.User
 import com.example.jetpacktest02.ViewModel.UserViewModel
 import com.example.jetpacktest02.compose.MyBottomNavBar
+import com.example.jetpacktest02.config.UsersApplication
 import com.example.jetpacktest02.screen.*
 import com.example.jetpacktest02.ui.main.MessageMsgScreen
 import com.example.jetpacktest02.ui.main.*
@@ -52,7 +53,7 @@ class RallyActivity : ComponentActivity() {
 
         setContent {
 
-//            WordBookApp()
+//            WordBookApp2()
 //            CounterScreen()
             RallyApp()
         }
@@ -159,6 +160,8 @@ fun RallyApp() {
                 )
             }
         ) { innerPadding ->
+
+//            val navController = rememberNavController()
 
             //管理路由：页面跳转
             NavHost(
@@ -281,7 +284,9 @@ fun RallyApp() {
                 composable(route = PlanListAdded.route) {
                     PlanListAddedScreen(userViewModel = userViewModel,nav={})
                 }
-
+                composable(route = ChooseSeed.route) {
+                    ChooseSeed(userViewModel = userViewModel)
+                }
 
                 composable(route = Dailyhealthmessage.route) {
                     DailyhealthmessageScreen(
@@ -433,6 +438,7 @@ fun RallyApp() {
                     )
                 }
                 composable(route = MessageMsg.route) {
+
                     MessageMsgScreen(
                         userViewModel,
                         //导航函数
@@ -507,6 +513,23 @@ fun RallyApp() {
                         nav01 = {
                             navController.navigate(Plant.route) { launchSingleTop = true; }
                         }
+                    )
+                }
+
+                composable(route = HealthConclusion.route) {
+                    HealthConclusionScreen(
+                        nav01 = {
+                            navController.navigate(HealthShare.route) { launchSingleTop = true; }
+                        }
+                    )
+                }
+                composable(route = My.route) {
+                    BtnArea(
+                        nav01 = {
+                            navController.navigate(MyCupBoard.route) { launchSingleTop = true; }
+                        }
+
+
                     )
                 }
 

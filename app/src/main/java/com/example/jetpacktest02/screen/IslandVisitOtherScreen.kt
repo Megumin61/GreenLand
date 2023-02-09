@@ -395,7 +395,6 @@ fun IslandVisitOtherScreen(
                     }
 
 
-
 //                    if (loadProgress.value / 100 >= 1.0f) {
 //                    } else {
 //                        Column(
@@ -421,22 +420,35 @@ fun IslandVisitOtherScreen(
 //
 //                        }
 //                    }
-
-
                 }
-
             }
 
             if (loadProgress.value / 100 < 1.0f) {
                 Dialog(onDismissRequest = ({})) {
-                        LottieAnimation(
-                            composition = composition,
-                            progress = { progress },
-                            modifier = Modifier.size(200.dp).clip(RoundedCornerShape(15.dp)).background(Color.White)
-                        )
-                }
-            }
+                    Box(
+                        modifier = Modifier
+                            .size(200.dp)
+                            .clip(RoundedCornerShape(15.dp))
+                            .background(Color.White), contentAlignment = Alignment.Center
+                    ) {
+                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                            LottieAnimation(
+                                composition = composition,
+                                progress = { progress },
+                                modifier = Modifier.size(150.dp)
+                            )
+                            Text(
+                                text = "正在飞速加载中~",
+                                style = TextStyle(fontSize = 12.sp),
+                                fontWeight = FontWeight.W600
+                            )
+                        }
 
+
+                    }
+                }
+
+            }
         }
     }
 }

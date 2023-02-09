@@ -143,7 +143,7 @@ fun RallyApp() {
                         }
                     },
                     nav02 = {
-                        navController.navigate(VipUnsigned.route) {
+                        navController.navigate(VipPage.route) {
                             launchSingleTop = true;popUpTo(
                             Plant.route
                         )
@@ -278,8 +278,21 @@ fun RallyApp() {
                     SetPlanDiyScreen()
                 }
                 composable(route = ChooseSeed.route) {
-                    ChooseSeed(userViewModel = userViewModel)
+                    ChooseSeed(userViewModel = userViewModel,
+                        nav01 = {
+                        navController.navigate(Island.route) {
+                            launchSingleTop = true;popUpTo(Plant.route) {}
+                        }
+                    },
+                        nav02 = {
+                            navController.navigate(Plant.route) { launchSingleTop = true; }
+                        }
+                    )
                 }
+                composable(route = VipPage.route) {
+                    VipScreen(userViewModel = userViewModel)
+                }
+
 
                 composable(route = Dailyhealthmessage.route) {
                     DailyhealthmessageScreen(

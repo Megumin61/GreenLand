@@ -67,7 +67,9 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalPagerApi::class)
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter", "StateFlowValueCalledInComposition")
 @Composable
-fun ChooseSeed(nav01: () -> Unit={},userViewModel:UserViewModel)
+fun ChooseSeed(nav01: () -> Unit={},
+               nav02: () -> Unit={},
+               userViewModel:UserViewModel)
 {
 
     val titles = listOf("自定义", "随机")
@@ -75,6 +77,8 @@ fun ChooseSeed(nav01: () -> Unit={},userViewModel:UserViewModel)
     val state = userViewModel.uiState.value.chooseSeedPageState
     //pagerState为底部viewpager参数
     val pagerState: PagerState = remember { PagerState() }
+
+    val flowerpic = userViewModel.uiState.value.flowerid
 
     //将底部pager的参数和顶部导航栏的参数state绑定，让pager响应顶部导航栏参数变化
     LaunchedEffect(pagerState) {
@@ -117,7 +121,7 @@ fun ChooseSeed(nav01: () -> Unit={},userViewModel:UserViewModel)
                 },
                 //左侧按钮
                 navigationIcon = {
-                    IconButton(onClick = nav01, modifier = Modifier.offset(0.dp,10.dp)) {
+                    IconButton(onClick = nav02, modifier = Modifier.offset(0.dp,10.dp)) {
                         Icon(
                             painter = painterResource(id = R.drawable.g1_2_0_ic_arrow_left),
                             contentDescription = ""
@@ -185,11 +189,11 @@ fun ChooseSeed(nav01: () -> Unit={},userViewModel:UserViewModel)
                 //下面为要滑动切换的界面，可以通过判断page调用不同页面
 //                Text(page.toString())
                 if (page == 0) {
-                    Page1()
+                    Page1(userViewModel)
 //                    Text("12333")
                 }
                 if (page == 1) {
-                    Page2()
+                    Page2(userViewModel)
 //                    Text("page2")
                 }
             }
@@ -198,7 +202,7 @@ fun ChooseSeed(nav01: () -> Unit={},userViewModel:UserViewModel)
             .padding(top = 600.dp,start=30.dp),
             horizontalAlignment= Alignment.CenterHorizontally
         ) {
-            Button(onClick = {},
+            Button(onClick = {nav02},
                 
                 interactionSource = MutableInteractionSource(),
                 shape = RoundedCornerShape(27.dp),border = BorderStroke(1.dp, GreenMain),
@@ -225,14 +229,66 @@ fun ChooseSeed(nav01: () -> Unit={},userViewModel:UserViewModel)
 
 
 }
+@SuppressLint("StateFlowValueCalledInComposition")
 @Composable
-fun Page1(){
+fun Page1(userViewModel:UserViewModel){
     var ifcolor by remember{
         mutableStateOf(1)}
     var ifshape by remember{
         mutableStateOf(1)}
     var ifmeaning by remember{
         mutableStateOf(1)}
+    val flower_id = userViewModel.uiState.value.flowerid.value
+
+
+    if (ifshape==1&&ifmeaning==1)
+    {
+        userViewModel.uiState.value.flowerid.value=1
+    }
+    if (ifshape==1&&ifmeaning==2)
+    {
+        userViewModel.uiState.value.flowerid.value=2
+    }
+    if (ifshape==1&&ifmeaning==3)
+    {
+        userViewModel.uiState.value.flowerid.value=3
+    }
+    if (ifshape==1&&ifmeaning==4)
+    {
+        userViewModel.uiState.value.flowerid.value=4
+    }
+    if (ifshape==2&&ifmeaning==1)
+    {
+        userViewModel.uiState.value.flowerid.value=2
+    }
+    if (ifshape==2&&ifmeaning==2)
+    {
+        userViewModel.uiState.value.flowerid.value=3
+    }
+    if (ifshape==2&&ifmeaning==3)
+    {
+        userViewModel.uiState.value.flowerid.value=4
+    }
+    if (ifshape==2&&ifmeaning==4)
+    {
+        userViewModel.uiState.value.flowerid.value=1
+    }
+    if (ifshape==3&&ifmeaning==1)
+    {
+        userViewModel.uiState.value.flowerid.value=3
+    }
+    if (ifshape==3&&ifmeaning==2)
+    {
+        userViewModel.uiState.value.flowerid.value=4
+    }
+    if (ifshape==3&&ifmeaning==3)
+    {
+        userViewModel.uiState.value.flowerid.value=1
+    }
+    if (ifshape==3&&ifmeaning==4)
+    {
+        userViewModel.uiState.value.flowerid.value=2
+    }
 
     Column(
         modifier=Modifier
@@ -621,7 +677,7 @@ fun Page1(){
 
 
 
-        if (ifmeaning==1){
+        if (userViewModel.uiState.value.flowerid.value==1){
             Image(
 
                 painter = painterResource(id = com.example.jetpacktest02.R.drawable.g3_flower),
@@ -634,7 +690,7 @@ fun Page1(){
 
 
         }
-        if (ifmeaning==2){
+        if (userViewModel.uiState.value.flowerid.value==2){
 
             Image(
 
@@ -648,7 +704,7 @@ fun Page1(){
 
 
         }
-        if (ifmeaning==3){
+        if (userViewModel.uiState.value.flowerid.value==3){
 
             Image(
 
@@ -661,7 +717,7 @@ fun Page1(){
             )
 
         }
-        if (ifmeaning==4){
+        if (userViewModel.uiState.value.flowerid.value==4){
 
             Image(
 
@@ -728,11 +784,12 @@ fun Page1(){
 
 }
 
+@SuppressLint("StateFlowValueCalledInComposition")
 @Composable
-fun Page2(){
+fun Page2(userViewModel:UserViewModel){
     var ifseed by remember{
         mutableStateOf(1)}
-
+    val flower_id1 = userViewModel.uiState.value.flowerid.value
     Column(
         modifier=Modifier
             .padding(top = 120.dp,start=30.dp),
@@ -782,7 +839,7 @@ fun Page2(){
                     modifier = Modifier
                         .size(width = 78.dp, height = 78.dp)
                         .offset(0.dp, -0.dp)
-                        .clickable() { ifseed = 1 }
+                        .clickable() { ifseed = 1;userViewModel.uiState.value.flowerid.value=1 }
                 )
             }
 
@@ -806,7 +863,7 @@ fun Page2(){
                     modifier = Modifier
                         .size(width = 78.dp, height = 78.dp)
                         .offset(20.dp, -0.dp)
-                        .clickable() { ifseed = 2 }
+                        .clickable() { ifseed = 2;userViewModel.uiState.value.flowerid.value=2 }
                 )
             }
 
@@ -830,7 +887,7 @@ fun Page2(){
                     modifier = Modifier
                         .size(width = 78.dp, height = 78.dp)
                         .offset(40.dp, -0.dp)
-                        .clickable() { ifseed = 3 }
+                        .clickable() { ifseed = 3 ;userViewModel.uiState.value.flowerid.value=3}
                 )
 
             }

@@ -32,9 +32,13 @@ data class UiState constructor(
     val openDialog: MutableState<Boolean> = mutableStateOf(false),
     //MessageFriendScreen
     val pageState: MutableState<Int> = mutableStateOf(0),
+    var searchText: String = "",
     //ChooseSeedScreen
     val chooseSeedPageState: MutableState<Int> = mutableStateOf(0),
-    var searchText: String = "",
+    //用户选择的植物类型
+    val flowerid:MutableState<Int> = mutableStateOf(0),
+    //用户选择的植物类型
+    val isVip:MutableState<Boolean> = mutableStateOf(false),
     //用户本人的经纬度位置，数据类型为Double
     var mePos: MutableState<LocationDetails> = mutableStateOf(LocationDetails(0.0, 0.0)),
     //IslandMemberListScreen

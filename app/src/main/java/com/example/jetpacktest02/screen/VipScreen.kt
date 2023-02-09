@@ -55,16 +55,19 @@ import com.example.jetpacktest02.R
  */
 
 
+@SuppressLint("StateFlowValueCalledInComposition")
 @Composable
-fun VipScreen() {
+fun VipScreen(userViewModel:UserViewModel) {
 
-    var ifVip by remember{
-        mutableStateOf(false)}
+//    var ifVip by remember{
+//        mutableStateOf(false)}
     val openDialog=remember{
         mutableStateOf(false)
     }
     var ifdialog by remember{
         mutableStateOf(false)}
+
+    val ifVip = userViewModel.uiState.value.isVip.value
 
 
     //配置顶部状态栏颜色
@@ -78,7 +81,7 @@ fun VipScreen() {
             painter = painterResource(id = com.example.jetpacktest02.R.drawable.g8_vip_page),
             contentDescription = null,
             modifier = Modifier
-                .fillMaxHeight()
+                .fillMaxHeight().offset(0.dp,10.dp)
                 .fillMaxSize(), contentScale = ContentScale.FillWidth
         )
 
@@ -97,7 +100,7 @@ fun VipScreen() {
             Image(
                 painter = painterResource(id = com.example.jetpacktest02.R.drawable.g7_0_img_vipcard),
                 contentDescription = null,
-                modifier = Modifier.size(width = 333.dp, height = 162.dp).offset(-5.dp,-10.dp)
+                modifier = Modifier.size(width = 333.dp, height = 162.dp).offset(-5.dp,-35.dp)
             )
         }
         if(!ifVip) {
@@ -105,7 +108,7 @@ fun VipScreen() {
             Image(
                 painter = painterResource(id = com.example.jetpacktest02.R.drawable.g7_0_vipinactived),
                 contentDescription = null,
-                modifier = Modifier.size(width = 323.dp, height = 155.dp).offset(0.dp,-10.dp)
+                modifier = Modifier.size(width = 323.dp, height = 155.dp).offset(0.dp,-35.dp)
             )
         }
 
@@ -119,14 +122,14 @@ fun VipScreen() {
         ),
         modifier = Modifier
             .size(width = 204.dp, height = 50.dp)
-            .offset(160.dp, 690.dp)
+            .offset(160.dp, 670.dp)
 
         ,
 
 
         ) {
 
-        Spacer(Modifier.size(ButtonDefaults.IconSpacing))
+//        Spacer(Modifier.size(ButtonDefaults.IconSpacing))
         Text(text = "确认协议并开通", color = Color.White , fontSize = 18.sp)
     }
     if (ifdialog) {
@@ -161,7 +164,7 @@ fun VipScreen() {
 
 
 
-            Button(onClick = { ifdialog=false;ifVip=true },
+            Button(onClick = { ifdialog=false;userViewModel.uiState.value.isVip.value=true },
                 shape = RoundedCornerShape(30.dp),
                 colors = ButtonDefaults.buttonColors(
                     containerColor = GreenMain,

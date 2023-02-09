@@ -145,6 +145,11 @@ object VipUnsigned : RallyDestination {
     override val route = "8.1-Vip（unsigned）"
 }
 
+object VipPage : RallyDestination {
+    override val icon = Icons.Filled.MoneyOff
+    override val route = "8.1-Vip"
+}
+
 object PlantLookingForPlanFoot : RallyDestination {
     override val icon = Icons.Filled.MoneyOff
     override val route = "1.4.1-plant-lookingforplan-foot"

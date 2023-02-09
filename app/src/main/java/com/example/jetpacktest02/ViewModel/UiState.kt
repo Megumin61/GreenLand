@@ -28,6 +28,9 @@ import java.time.Duration
  * Data class that represents the UI state
  */
 data class UiState constructor(
+    //运动步数 变量
+    var stepDetector : MutableState<Int> = mutableStateOf(0), // 自应用运行以来STEP_DETECTOR检测到的步数
+    var stepCounter : MutableState<Int> = mutableStateOf(0), // 自系统开机以来STEP_COUNTER检测到的步数
 
     var diyPlanName :MutableState<String> = mutableStateOf(  ""),
     var currentRoot: String = "",

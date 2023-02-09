@@ -36,6 +36,7 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.font.FontWeight.Companion.W500
 import androidx.compose.ui.text.font.FontWeight.Companion.W900
@@ -46,6 +47,7 @@ import androidx.compose.ui.unit.sp
 import com.example.jetpacktest02.R
 import com.example.jetpacktest02.ViewModel.TapListItemModel
 import com.example.jetpacktest02.ViewModel.UserViewModel
+import com.example.jetpacktest02.compose.StepCounter
 import com.example.scaffolddemo.ui.theme.*
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
@@ -82,6 +84,16 @@ fun PlantScreen(
     )
     Column {
         Text("1.1-Plant")
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            Text(
+                text = "应用运行以来的步数：${userViewModel.uiState.value.stepDetector.value}",
+                style = TextStyle(fontSize = 20.sp)
+            )
+            Text(
+                text = "开机以来的步数：${userViewModel.uiState.value.stepCounter.value}",
+                style = TextStyle(fontSize = 20.sp)
+            )
+        }
         Button(
             onClick = nav01,
             contentPadding = ButtonDefaults.ButtonWithIconContentPadding
@@ -319,7 +331,7 @@ fun MainPlantPage(
                             .width(140.dp)
                     )
                     Text(
-                        text = userViewModel.uiState.value.waterValue.toString()+ "g",
+                        text = userViewModel.uiState.value.waterValue.toString() + "g",
                         fontWeight = W900,
                         color = BlueGray3,
                         modifier = Modifier.offset(80.dp, 30.dp)
@@ -357,12 +369,16 @@ fun MainPlantPage(
                         painter = painterResource(id = R.drawable.g1_1icbg_message),
                         contentDescription = null,
                     )
-                    LazyColumn(modifier = Modifier.height(160.dp).padding(8.dp)) {
+                    LazyColumn(
+                        modifier = Modifier
+                            .height(160.dp)
+                            .padding(8.dp)
+                    ) {
 //                        userViewModel.uiState.value.tabMessageList.forEach {listItemModel->
 //                            PlantMsgItem(listItemModel)
 //
 //                        }
-                        items(userViewModel.uiState.value.tabMessageList){item->
+                        items(userViewModel.uiState.value.tabMessageList) { item ->
                             PlantMsgItem(item)
                             Spacer(modifier = Modifier.height(2.dp))
                         }
@@ -373,7 +389,9 @@ fun MainPlantPage(
         Image(
             painter = painterResource(id = R.drawable.g1_1_ic_arrow_down),
             contentDescription = null,
-            modifier = Modifier.align(CenterHorizontally).offset(0.dp, (-50).dp)
+            modifier = Modifier
+                .align(CenterHorizontally)
+                .offset(0.dp, (-50).dp)
         )
 
     }
@@ -381,8 +399,8 @@ fun MainPlantPage(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PlantMsgItem(listItemModel: TapListItemModel){
-    Row(Modifier.padding(8.dp)){
+fun PlantMsgItem(listItemModel: TapListItemModel) {
+    Row(Modifier.padding(8.dp)) {
         Image(
             painter = painterResource(id = listItemModel.res),
             contentDescription = null,

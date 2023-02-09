@@ -25,12 +25,6 @@ import com.example.jetpacktest02.Entity.User
 import com.example.jetpacktest02.ViewModel.UserViewModel
 import com.example.jetpacktest02.compose.MyBottomNavBar
 import com.example.jetpacktest02.config.UsersApplication
-import com.example.jetpacktest02.compose.MyTopAppBar
-import com.example.jetpacktest02.screen.*
-import com.example.jetpacktest02.screen.IslandDeliverScreen
-import com.example.jetpacktest02.screen.IslandMemberListScreen
-import com.example.jetpacktest02.screen.IslandScreen
-import com.example.jetpacktest02.screen.MessageFriendScreen
 import com.example.jetpacktest02.screen.*
 import com.example.jetpacktest02.ui.main.MessageMsgScreen
 import com.example.jetpacktest02.ui.main.*
@@ -109,7 +103,6 @@ fun WordBookApp(userViewModel: UserViewModel = androidx.lifecycle.viewmodel.comp
     }
 }
 
-
 @SuppressLint("StateFlowValueCalledInComposition")
 @ExperimentalPermissionsApi
 @ExperimentalMaterialApi
@@ -174,7 +167,6 @@ fun RallyApp() {
             NavHost(
                 navController = navController,
                 startDestination = Plant.route,
-
                 modifier = Modifier.padding(innerPadding)
 
             ) {
@@ -234,6 +226,7 @@ fun RallyApp() {
                         }
                     )
                 }
+
                 composable(route = PlanList.route) {
                     PlanListScreen(
                         nav01 = {
@@ -276,8 +269,20 @@ fun RallyApp() {
                 composable(route = SetPlanEating.route) {
                     SetPlanEatingScreen()
                 }
+
                 composable(route = SetPlanDiy.route) {
-                    SetPlanDiyScreen()
+                    SetPlanDiyScreen(
+                        nav01 = {
+                            navController.navigate(PlanListAdded.route) {
+                                launchSingleTop = true;
+                            }
+                        },userViewModel
+
+
+                    )
+                }
+                composable(route = PlanListAdded.route) {
+                    PlanListAddedScreen(userViewModel = userViewModel,nav={})
                 }
                 composable(route = ChooseSeed.route) {
                     ChooseSeed(userViewModel = userViewModel)

@@ -157,7 +157,7 @@ object HealthConclusion : RallyDestination {
 
 object PlanList : RallyDestination {
     override val icon = Icons.Filled.MoneyOff
-    override val route = "1.2.0-plant-finish a plan"
+    override val route = "plant-finish a plan"
 }
 object SetPlanSports : RallyDestination {
     override val icon = Icons.Filled.MoneyOff
@@ -179,6 +179,11 @@ object SetPlanDiy : RallyDestination {
     override val icon = Icons.Filled.MoneyOff
     override val route = "1.2.5-plant-diyplan"
 }
+object PlanListAdded : RallyDestination {
+    override val icon = Icons.Filled.MoneyOff
+    override val route = "1.2-plant-dailyplan"
+}
+
 object Test : RallyDestination {
     override val icon = Icons.Filled.MoneyOff
     override val route = "test"

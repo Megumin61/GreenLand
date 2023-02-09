@@ -28,6 +28,8 @@ import java.time.Duration
  * Data class that represents the UI state
  */
 data class UiState constructor(
+
+    var diyPlanName :MutableState<String> = mutableStateOf(  ""),
     var currentRoot: String = "",
     //MessageScreen
     val openDialog: MutableState<Boolean> = mutableStateOf(false),

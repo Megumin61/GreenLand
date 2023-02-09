@@ -17,19 +17,15 @@
 package com.example.jetpacktest02.ui.main
 
 import android.annotation.SuppressLint
-import androidx.annotation.DrawableRes
 import androidx.compose.animation.*
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
@@ -40,12 +36,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.example.jetpacktest02.R
+import com.example.jetpacktest02.ViewModel.UserViewModel
+import com.example.jetpacktest02.screen.DiyPlanName
 import com.example.scaffolddemo.ui.theme.Green1
 import com.example.scaffolddemo.ui.theme.Green2
 import com.example.scaffolddemo.ui.theme.Green5
-import com.example.scaffolddemo.ui.theme.Yellow1
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import kotlinx.coroutines.delay
 
 /**
@@ -54,19 +51,21 @@ import kotlinx.coroutines.delay
 
 
 
-@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
-@Preview
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter", "StateFlowValueCalledInComposition")
+
 @Composable
-fun PlanListScreen(
-    nav01: () -> Unit={},
-    nav02: () -> Unit={},
-    nav03: () -> Unit={},
-    nav04: () -> Unit={},
-    nav05: () -> Unit={}
+fun PlanListAddedScreen(
+    nav:()->Unit={},
+    userViewModel: UserViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
 ){
-    rememberSystemUiController().setStatusBarColor(
-        Green1, darkIcons = androidx.compose.material.MaterialTheme.colors.isLight
-    )
+    var state by remember {
+        mutableStateOf(false)
+    }
+    LaunchedEffect(key1 = state) {
+        delay(300)
+        state = true
+    }
+
 
     Surface(modifier = Modifier.fillMaxSize()){
         Column(
@@ -125,10 +124,7 @@ fun PlanListScreen(
                 }
             ) {
 
-
                 var scrollState = rememberScrollState()
-
-
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
 
@@ -150,67 +146,59 @@ fun PlanListScreen(
                         style = MaterialTheme.typography.bodyLarge,
                         color = Color(0xff445B60)
                     )
-                    var state by remember {
-                        mutableStateOf(false)
-                    }
-                    LaunchedEffect(key1 = state) {
-                        delay(100)
-                        state = true
-                    }
                     AnimatedVisibility(
                         visible = state,
-                        enter = slideInVertically(initialOffsetY = { -40 }
-                        ) +/* expandVertically(
-                            expandFrom = Alignment.Top
-                        ) +*/ fadeIn(initialAlpha = 0.3f),
-                        exit= fadeOut(targetAlpha = 0f) + shrinkVertically(shrinkTowards = Alignment.Top)
-                    ){
-                        Column(Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
-                            Image(
-                                painter = painterResource(id = R.drawable.g1_2_icbg_sports),
-                                contentDescription = null, modifier = Modifier.clickable(onClick = nav01)
-                            )
-                            Image(
-                                painter = painterResource(id = R.drawable.g1_2_icbg_drinkwater),
-                                contentDescription = null,modifier = Modifier.clickable(onClick = nav02)
-                            )
-                            Image(
-                                painter = painterResource(id = R.drawable.g1_2_icbg_sleep),
-                                contentDescription = null,modifier = Modifier.clickable(onClick = nav03)
-                            )
-                            Image(
-                                painter = painterResource(id = R.drawable.g1_2_icbg_eating),
-                                contentDescription = null,modifier = Modifier.clickable(onClick = nav04)
-                            )
+                        enter =slideInVertically(initialOffsetY = { -40 }
+                                    ) + expandVertically(
+                        expandFrom = Alignment.Top
+                    ) + fadeIn(initialAlpha = 0.3f),
+                    exit= fadeOut(targetAlpha = 0f) + shrinkVertically(shrinkTowards = Alignment.Top)
+                    ) {
+                        Box(Modifier.fillMaxWidth()) {
 
-                            Spacer(Modifier.height(5.dp))
-
-                            /*Text(
-                                text = "今天已完成",
-                                style = MaterialTheme.typography.bodyLarge,
-                                color = Color(0xff445B60)
-                            )*/
-                            Spacer(Modifier.height(5.dp))
-                            Button(onClick =  nav05 , modifier = Modifier
-                                .width(136.dp)
-                                .height(54.dp)
-                                ,colors = ButtonDefaults.buttonColors(containerColor = Green5)
-                            ) {
-                                Text(text = "添加计划", fontSize = 20.sp, fontWeight = FontWeight.W900)
-                            }
-
+                            Image(
+                                painter = painterResource(id = R.drawable.g1_2_icbg_newdiy),
+                                contentDescription = null, modifier = Modifier.fillMaxWidth()
+                            )
+                            var PlanName by rememberSaveable { mutableStateOf("") }
+                            DiyPlanName(PlanName = userViewModel.uiState.value.diyPlanName.value, onNumChange = { PlanName = it })
                         }
                     }
+                        Image(
+                            painter = painterResource(id = R.drawable.g1_2_icbg_sports),
+                            contentDescription = null
+                        )
+                        Image(
+                            painter = painterResource(id = R.drawable.g1_2_icbg_drinkwater),
+                            contentDescription = null
+                        )
+                        Image(
+                            painter = painterResource(id = R.drawable.g1_2_icbg_sleep),
+                           contentDescription = null
+                        )
+                        Image(
+                            painter = painterResource(id = R.drawable.g1_2_icbg_eating),
+                           contentDescription = null
+                        )
 
+                        Spacer(Modifier.height(5.dp))
+
+                        Spacer(Modifier.height(5.dp))
+                        Button(onClick =  {} , modifier = Modifier
+                            .width(136.dp)
+                            .height(54.dp)
+                            ,colors = ButtonDefaults.buttonColors(containerColor = Green5)
+                        ) {
+                            Text(text = "添加计划", fontSize = 20.sp, fontWeight = FontWeight.W900)
+                        }
+                    }
                 }
             }
+
 
         }
     }
 
-
-
-}
 
 
 

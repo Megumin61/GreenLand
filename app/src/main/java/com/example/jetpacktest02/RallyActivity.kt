@@ -1,5 +1,6 @@
 package com.example.jetpacktest02
 
+import MyCupBoardScreen
 import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -166,7 +167,7 @@ fun RallyApp() {
             //管理路由：页面跳转
             NavHost(
                 navController = navController,
-                startDestination = Plant.route,
+                startDestination = HealthPast.route,
                 modifier = Modifier.padding(innerPadding)
 
             ) {
@@ -523,12 +524,19 @@ fun RallyApp() {
                         }
                     )
                 }
-                composable(route = My.route) {
-                    BtnArea(
-                        nav01 = {
-                            navController.navigate(MyCupBoard.route) { launchSingleTop = true; }
-                        }
+                composable(route = MyCupBoard.route) {
+                    MyCupBoardScreen(
+//                        nav01 = {
+//                            navController.navigate(MyCupBoard.route) { launchSingleTop = true; }
+//                        }
 
+                    )
+                }
+                composable(route = HealthPast.route) {
+                    HealthPastScreen(
+//                        nav01 = {
+//                            navController.navigate(MyCupBoard.route) { launchSingleTop = true; }
+//                        }
 
                     )
                 }

@@ -16,6 +16,7 @@
 
 package com.example.jetpacktest02.ui.main
 
+import android.annotation.SuppressLint
 import android.bluetooth.BluetoothGatt
 import android.graphics.Point
 import android.util.Log
@@ -68,6 +69,7 @@ import org.intellij.lang.annotations.JdkConstants.HorizontalAlignment
 /**
  * The Bills screen.
  */
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Preview(showBackground=true,widthDp=393,heightDp=851)
 @Composable
 fun HealthShareScreen(
@@ -75,9 +77,55 @@ fun HealthShareScreen(
     nav01: () -> Unit={},
 
 ) {
-    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+    androidx.compose.material.Scaffold(
+        topBar = {
+            androidx.compose.material.TopAppBar(
+                title = {
+                    Box(
+                        modifier = Modifier.fillMaxWidth(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            text = "健康总结",
+                            style = TextStyle(
+                                fontWeight = FontWeight.W900, //设置字体粗细
+                                fontSize = 18.sp,
+                            ),
+                            modifier = Modifier.offset(-25.dp, 0.dp)//向左偏移一段距离
+                        )
+                    }
+                },
+                //左侧按钮
+                navigationIcon = {
+                    IconButton(onClick = nav01) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.g1_2_0_ic_arrow_left),
+                            contentDescription = ""
+                        )
+
+                    }
+                },
+                //右侧按钮
+                actions = {
+//                    Image(
+//                        painter = painterResource(id = R.drawable.g2_5_btn_friend),
+//                        contentDescription = null,
+//                        modifier = Modifier
+//                            .width(100.dp)
+//                            .height(100.dp)
+//                            .offset(-10.dp, 0.dp)
+////                            .clickable(onClick = {userViewModel.uiState.value.pageState.value=3})
+//                    )
+                },
+
+                backgroundColor = Color.White,
+                contentColor = Color.Black,
+                elevation = 0.dp, //设置阴影
+            )
+        }
+    ){Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Box (modifier = Modifier.padding(top=108.dp)
-        , contentAlignment = Alignment.BottomCenter
+            , contentAlignment = Alignment.BottomCenter
         ){
             ImgBg()
             Text("9.29-10.5", modifier = Modifier.padding(bottom = 540.dp),color=Color(73,73,89))
@@ -85,7 +133,7 @@ fun HealthShareScreen(
                 UpperArea()
                 Spacer(modifier = Modifier.height(380.dp))
             }
-            
+
             Column (
                 modifier = Modifier.padding(start =65.dp, end = 70.dp),
                 horizontalAlignment=Alignment.Start,
@@ -103,6 +151,8 @@ fun HealthShareScreen(
         RowOfBtns()
 
     }
+    }
+
 
 
 

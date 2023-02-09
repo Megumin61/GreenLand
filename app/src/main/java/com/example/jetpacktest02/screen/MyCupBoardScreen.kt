@@ -1,3 +1,4 @@
+import android.annotation.SuppressLint
 import android.icu.text.CurrencyPluralInfo
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -29,12 +30,61 @@ import com.google.accompanist.pager.PagerState
 // 水平指示器
 
 //pagerState为底部viewpager参数
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @OptIn(ExperimentalPagerApi::class)
 @Preview(showBackground=true,widthDp=393,heightDp=851)
 @Composable
-fun MyCupBoardScreen() {
+fun MyCupBoardScreen(
+    nav01: () -> Unit={},
+) {
 
-    Box(
+    androidx.compose.material.Scaffold(
+        topBar = {
+            androidx.compose.material.TopAppBar(
+                title = {
+                    Box(
+                        modifier = Modifier.fillMaxWidth(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            text = "Miguminnn的展柜",
+                            style = TextStyle(
+                                fontWeight = FontWeight.W900, //设置字体粗细
+                                fontSize = 18.sp,
+                            ),
+                            modifier = Modifier.offset(-25.dp, 0.dp)//向左偏移一段距离
+                        )
+                    }
+                },
+                //左侧按钮
+                navigationIcon = {
+                    IconButton(onClick = nav01) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.g1_2_0_ic_arrow_left),
+                            contentDescription = ""
+                        )
+
+                    }
+                },
+                //右侧按钮
+                actions = {
+//                    Image(
+//                        painter = painterResource(id = R.drawable.g2_5_btn_friend),
+//                        contentDescription = null,
+//                        modifier = Modifier
+//                            .width(100.dp)
+//                            .height(100.dp)
+//                            .offset(-10.dp, 0.dp)
+////                            .clickable(onClick = {userViewModel.uiState.value.pageState.value=3})
+//                    )
+                },
+
+                backgroundColor = Color.White,
+                contentColor = Color.Black,
+                elevation = 0.dp, //设置阴影
+            )
+        }
+    ){Box(
         modifier = Modifier
             .fillMaxSize()
 
@@ -53,7 +103,7 @@ fun MyCupBoardScreen() {
         Box(){
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 val pagerState: PagerState = remember { PagerState() }
-                CupTopAppBar()
+
                 HorizontalPager(count = 3, state = pagerState) { page ->
                     if (page == 0) {
                         CupBoard1()
@@ -73,7 +123,8 @@ fun MyCupBoardScreen() {
             }
         }
 
-    }
+    }}
+
 
 
 }
@@ -239,83 +290,3 @@ fun PlantAdd(){//------------第一个植物及其名称—---------------
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun CupTopAppBar() {
-    androidx.compose.material.TopAppBar(title = {
-        Box(
-            modifier = Modifier.fillMaxWidth(),
-            contentAlignment = Alignment.Center
-        ) {
-            Text(
-                text = "Miguminnn的展柜",
-                style = TextStyle(
-                    fontWeight = FontWeight.W900, //设置字体粗细
-                    fontSize = 18.sp,
-                ),
-                modifier = Modifier.offset(-35.dp, 0.dp)//向左偏移一段距离
-            )
-        }
-    },
-        backgroundColor = Color.Transparent,
-        contentColor = Color.Black,
-        elevation = 0.dp, //设置阴影
-        //左侧按钮
-        navigationIcon = {
-
-            IconButton(onClick = {}) {
-                Icon(
-                    Icons.Default.ArrowBack,
-                    contentDescription = "",
-                )
-            }
-        },
-        //右侧按钮
-        actions = {
-//                            IconButton(onClick = {}) {
-//                                Icon(
-//                                    Icons.Default.Settings,
-//                                    contentDescription = "",
-//                                )
-//                            }
-        }
-    )
-}
-
-
-//    val showMenu = remember {
-//        mutableStateOf(false)
-//    }
-
-//    TopAppBar(
-//        title = {
-//            Text(text =, color = Color.White)
-//        },
-//        backgroundColor = MaterialTheme.colors.primary,
-//        navigationIcon = {
-//            IconButton(onClick = {}) {
-//                Icon(Icons.Default.Menu, contentDescription = "", tint = Color.White)
-//            }
-//        },
-//        actions = {
-//            IconButton(onClick = {}) {
-//                Icon(Icons.Default.Settings, contentDescription = "", tint = Color.White)
-//            }
-//            IconButton(onClick = { showMenu.value = !showMenu.value }) {
-//                Icon(Icons.Default.MoreVert, contentDescription = "", tint = Color.White)
-//            }
-//
-//            DropdownMenu(expanded = showMenu.value, onDismissRequest = { showMenu.value = false }) {
-//                DropdownMenuItem(onClick = {}) {
-//                    TextButton(onClick = { showMenu.value = false }) {
-//                        Text(text = "Settings", color = MaterialTheme.colors.primary)
-//                    }
-//                }
-//                DropdownMenuItem(onClick = {}) {
-//                    TextButton(onClick = { showMenu.value = false }) {
-//                        Text(text = "Search", color = MaterialTheme.colors.primary)
-//                    }
-//                }
-//            }
-//        }
-//    )

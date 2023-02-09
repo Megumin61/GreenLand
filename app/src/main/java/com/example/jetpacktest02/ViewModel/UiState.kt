@@ -28,6 +28,8 @@ import java.time.Duration
  * Data class that represents the UI state
  */
 data class UiState constructor(
+
+    var diyPlanName :MutableState<String> = mutableStateOf(  ""),
     var currentRoot: String = "",
     //MessageScreen
     val openDialog: MutableState<Boolean> = mutableStateOf(false),
@@ -43,42 +45,42 @@ data class UiState constructor(
             TapListItemModel(
                 "幻想世界",
                 "拍了拍我",
-                R.drawable.g2_1_img_user01,
+                R.drawable.userprofile_1,
                 R.drawable.g2_1_btn_friend,
                 "1min前"
             ),
             TapListItemModel(
                 "sandr",
                 "拍了拍我",
-                R.drawable.g2_1_img_user02,
+                R.drawable.userprofile_2,
                 R.drawable.g2_1_btn_friend_disabled,
                 "5min前"
             ),
             TapListItemModel(
                 "施&SHI",
                 "拍了拍我",
-                R.drawable.g2_1_img_user03,
+                R.drawable.userprofile_3,
                 R.drawable.g2_1_btn_friend,
                 "5min前"
             ),
             TapListItemModel(
                 "ajunGrit",
                 "拍了拍我",
-                R.drawable.g2_1_img_user04,
+                R.drawable.userprofile_4,
                 R.drawable.g2_1_btn_friend_disabled,
                 "12-01"
             ),
             TapListItemModel(
                 "ajunGrit",
                 "拍了拍我",
-                R.drawable.g2_1_img_user04,
+                R.drawable.userprofile_5,
                 R.drawable.g2_1_btn_friend_disabled,
                 "12-01"
             ),
             TapListItemModel(
                 "ajunGrit",
                 "拍了拍我",
-                R.drawable.g2_1_img_user04,
+                R.drawable.userprofile_6,
                 R.drawable.g2_1_btn_friend_disabled,
                 "12-01"
             ),

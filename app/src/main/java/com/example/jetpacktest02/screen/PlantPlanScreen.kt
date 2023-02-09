@@ -17,9 +17,12 @@
 package com.example.jetpacktest02.ui.main
 
 import android.annotation.SuppressLint
+import android.media.Image
 import android.widget.Space
 import androidx.activity.compose.BackHandler
 import androidx.annotation.DrawableRes
+import androidx.compose.animation.*
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -49,6 +52,7 @@ import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.font.FontWeight.Companion.W900
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -63,10 +67,12 @@ import com.example.scaffolddemo.ui.theme.*
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.himanshoe.kalendar.Kalendar
 import com.himanshoe.kalendar.color.KalendarThemeColor
 import com.himanshoe.kalendar.model.KalendarEvent
 import com.himanshoe.kalendar.model.KalendarType
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDate
 import kotlin.math.roundToInt
@@ -74,7 +80,8 @@ import kotlin.math.roundToInt
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun PlanBottomSheet(nav01: () -> Unit = {}) {
+fun PlanBottomSheet(nav05: () -> Unit = {}) {
+
     Column() {
         androidx.compose.material.ListItem(
             text = {
@@ -98,7 +105,7 @@ fun PlanBottomSheet(nav01: () -> Unit = {}) {
                             fontWeight = FontWeight.W900, //设置字体粗细
                             fontSize = 16.sp,
                         ),
-                        modifier = Modifier.clickable(onClick = nav01)
+                        modifier = Modifier.clickable(onClick = nav05)
                     )
                     Spacer(modifier = Modifier.padding(vertical = 15.dp))
                     Text(
@@ -134,6 +141,8 @@ fun PlanItem(@DrawableRes iconRes: Int) {
 /*部分布局样式,CardPage放在里面*/
 @Composable
 fun NewScreen() {
+
+
     var openCalendar by remember {
         mutableStateOf(false)
     }
@@ -147,7 +156,7 @@ fun NewScreen() {
 
     val state = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
     val scope = rememberCoroutineScope()
-    Box() {
+    Box(modifier = Modifier.fillMaxWidth()) {
         Image(
             painter = painterResource(id = R.drawable.g1_4_1_bg),
             contentDescription = null,
@@ -194,15 +203,54 @@ fun NewScreen() {
 
             }
         }
-        Image(
-            painter = painterResource(id = R.drawable.g1_1_img_flower), contentDescription = null,
-            modifier = Modifier
-                .size(290.dp)
-                .offset(50.dp, 100.dp)
+        var change by remember{ mutableStateOf(false) }
+        val flowerSize by animateDpAsState(
+            targetValue = if(change) 350.dp else 310.dp
         )
+
+        /*LaunchedEffect(key1 = change) {
+            delay(1000)
+            change = true}*/
+
+        if(flowerSize == 350.dp) {
+            change = false
+        }
+        Column(
+            Modifier
+                .fillMaxSize()
+                .padding(vertical = 140.dp), verticalArrangement = Arrangement.Top) {
+            Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
+                Image(
+                    painter = painterResource(id = R.drawable.g1_1_img_flower), contentDescription = null,
+                    modifier = Modifier
+                        .size(flowerSize)
+                        .fillMaxWidth()
+                        .offset(0.dp, -60.dp)
+                        .clickable(onClick = {change=true } )
+
+                )
+            }}
+        //添加动画
+
+
         Column(Modifier.fillMaxSize(), verticalArrangement = Arrangement.Bottom) {
+            var state by remember {
+                mutableStateOf(false)
+            }
+            LaunchedEffect(key1 = state) {
+                delay(100)
+                state = true
+            }
+            AnimatedVisibility(
+                visible = state,
+                enter =slideInVertically(initialOffsetY = { -40 }
+                ) + expandVertically(
+                    expandFrom = Alignment.Top
+                ) + fadeIn(initialAlpha = 0.3f),
+                exit= fadeOut(targetAlpha = 0f) + shrinkVertically(shrinkTowards = Alignment.Top)
+            ){
             Box(modifier = Modifier.fillMaxWidth(), Alignment.BottomCenter) {
-                HorizontalPager(count = 3, state = pagerState) { page ->
+                HorizontalPager(count = 4, state = pagerState) { page ->
                     when (page) {
                         0 -> {
                             CardPage(
@@ -234,12 +282,24 @@ fun NewScreen() {
                                 { openCalendar = true }
                             )
                         }
+                        3 -> {
+                            EatCardPage(
+                                planname = "吃饭",
+                                breakfastPic=R.drawable.g1_1_ic_eatcard_green,
+                                breakfastState="8:00",
+                                lunchPic=R.drawable.g1_1_ic_eatcard_red,
+                                lunchState="缺餐",
+                                dinnerPic=R.drawable.g1_1_ic_eatcard_gray,
+                                dinnerState="",
+                                openCalendar = { openCalendar = true }
+                            )
+                        }
                     }
                 }
                 /* ViewPager*/
 
 
-            }
+            }}
         }
     }
     //日历弹窗组件
@@ -322,13 +382,16 @@ fun NewScreen() {
                 ),
                 modifier = Modifier.clip(RoundedCornerShape(15.dp))
             )
-            Row(modifier = Modifier.offset(y = 0.dp).fillMaxWidth().padding(10.dp), horizontalArrangement = Arrangement.End) {
+            Row(modifier = Modifier
+                .offset(y = 0.dp)
+                .fillMaxWidth()
+                .padding(10.dp), horizontalArrangement = Arrangement.End) {
                 Image(
                     painter = painterResource(id = R.drawable.g4_6_1_ic_cancel),
                     contentDescription = null,
                     modifier = Modifier
                         .size(20.dp)
-                        .clickable(onClick = {openCalendar=false})                )
+                        .clickable(onClick = { openCalendar = false })                )
             }
 
         }
@@ -529,6 +592,208 @@ fun CardPage(
 
 }
 
+@Composable
+fun EatCardPage(
+    breakfastPic:Int,breakfastState:String,
+    lunchPic:Int,lunchState:String,
+    dinnerPic:Int,dinnerState:String,
+    planname: String,
+    openCalendar: () -> Unit = {}
+) {
+    var planProgress by remember {
+        mutableStateOf(0.6f)
+    }
+    val composition by rememberLottieComposition(LottieCompositionSpec.Asset("animations/water2.json"))
+    val progress by animateLottieCompositionAsState(
+        composition = composition,
+        iterations = 1,
+        isPlaying = true,
+        speed = 1f,
+        restartOnPlay = true,
+        clipSpec = LottieClipSpec.Progress(0f, planProgress)
+    )
+    Card(
+        modifier = Modifier.size(width = 331.dp, height = 410.dp),
+        shape = RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp),
+        colors = CardDefaults.cardColors(containerColor = Color.White)
+    ) {
+        Spacer(modifier = Modifier.padding(10.dp))
+        Column(
+            modifier = Modifier
+                .fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Row(modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 30.dp)) {
+                Text(
+                    text = "吃饭时间", fontSize = 14.sp,
+                    fontWeight = FontWeight.W900,
+                    color = Green4,
+                    textAlign = TextAlign.Justify
+                )
+                Box() {
+                    androidx.compose.material.Divider(
+                        color = GreenGray1,
+                        thickness=2.dp,
+                        modifier = Modifier
+                            .padding(horizontal = 10.dp)
+                            .offset(0.dp, 8.dp)
+                    )
+                    Image(painterResource(id = breakfastPic), contentDescription = null, modifier = Modifier.offset(20.dp,6.dp))
+                    Image(painterResource(id = lunchPic), contentDescription = null, modifier = Modifier.offset(100.dp,6.dp))
+                    Image(painterResource(id = dinnerPic), contentDescription = null, modifier = Modifier.offset(180.dp,6.dp))
+                }
+            }
+            Row(modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 95.dp)) {
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    Text(
+                        text = "早餐", fontSize = 10.sp,
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = Green4,
+                        textAlign = TextAlign.Justify
+                    )
+                    Text(
+                        text = breakfastState, fontSize = 10.sp,
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = Green4,
+                        textAlign = TextAlign.Justify
+                    )
+
+                }
+                Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.padding(start = 60.dp)) {
+                    Text(
+                        text = "午餐", fontSize = 10.sp,
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = Green4,
+                        textAlign = TextAlign.Justify
+                    )
+                    Text(
+                        text = lunchState, fontSize = 10.sp,
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = Green4,
+                        textAlign = TextAlign.Justify
+                    )
+
+                }
+                Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.offset(60.dp,0.dp)) {
+                    Text(
+                        text = "晚餐", fontSize = 10.sp,
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = Green4,
+                        textAlign = TextAlign.Justify
+                    )
+                    Text(
+                        text = dinnerState, fontSize = 10.sp,
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = Green4,
+                        textAlign = TextAlign.Justify
+                    )
+
+                }
+
+            }
+            Spacer(modifier = Modifier.padding(10.dp))
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 30.dp), horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(
+                    text = planname, fontSize = 26.sp,
+                    fontWeight = FontWeight.W900,
+                    style = MaterialTheme.typography.labelLarge,
+                    color = Green4,
+                    textAlign = TextAlign.Justify
+                )
+
+                Text(
+                    text = "每日打卡", fontSize = 12.sp,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = Gray1,
+                    textAlign = TextAlign.Justify
+                )
+            }
+            Spacer(modifier = Modifier.padding(10.dp))
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 30.dp)
+            ) {
+                Text(
+                    text = "创建时间：" + "当日日期", fontSize = 12.sp,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = Gray1,
+                    textAlign = TextAlign.Justify
+                )
+                Spacer(modifier = Modifier.padding(5.dp))
+                Text(
+                    text = "已完成打卡" + "1/5", fontSize = 12.sp,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = Gray1,
+                    textAlign = TextAlign.Justify
+                )
+
+            }
+            Spacer(modifier = Modifier.padding(10.dp))
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 30.dp), horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                DayCardItem(23, GreenGray1)
+                DayCardItem(24, Green8)
+                DayCardItem(25, GreenGray1)
+                DayCardItem(26, GreenGray1)
+                DayCardItem(27, GreenGray1)
+                Text(
+                    text = "查看全部日历",
+                    fontSize = 10.sp,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = Gray1,
+                    textAlign = TextAlign.Justify,
+                    modifier = Modifier
+                        .padding(top = 11.dp)
+                        .clickable(onClick = openCalendar)
+                )
+            }
+            Spacer(modifier = Modifier.padding(10.dp))
+            androidx.compose.material.Divider(
+                color = GreenGray1,
+                modifier = Modifier.padding(horizontal = 30.dp)
+            )
+            Spacer(modifier = Modifier.padding(7.dp))
+            Spacer(modifier = Modifier.height(20.dp))
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(), horizontalArrangement = Arrangement.Center
+            ) {
+                Box(modifier = Modifier, contentAlignment = Alignment.Center) {
+                    LottieAnimation(
+                        composition = composition,
+                        progress = { progress },
+                        modifier = Modifier
+                            .height(75.dp)
+                            .width(200.dp)
+                            .clip(CircleShape), contentScale = ContentScale.FillBounds
+                    )
+                    Text(
+                        text = "${(planProgress * 100f).roundToInt()}%", fontSize = 15.sp,
+                        color = Color(0xff445B60),
+                        fontWeight = FontWeight.W700,
+                    )
+                }
+            }
+        }
+    }
+
+
+
+}
+
 @Preview
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -539,6 +804,9 @@ fun PlantPlanScreen(
     nav05: () -> Unit = {},
 
     ) {
+    rememberSystemUiController().setStatusBarColor(
+        Yellow1, darkIcons = androidx.compose.material.MaterialTheme.colors.isLight
+    )
 
     Box() {
 

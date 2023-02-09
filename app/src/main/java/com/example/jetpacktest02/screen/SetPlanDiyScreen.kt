@@ -1,38 +1,38 @@
 package com.example.jetpacktest02.screen
 
 import android.annotation.SuppressLint
-import androidx.annotation.DrawableRes
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.horizontalScroll
+import android.app.TimePickerDialog
+import android.icu.util.Calendar
+import androidx.compose.animation.*
+import androidx.compose.foundation.*
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
 import androidx.compose.material.Scaffold
 import androidx.compose.material.TopAppBar
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.jetpacktest02.R
-import com.example.jetpacktest02.ui.main.PlanItem
-import com.example.scaffolddemo.ui.theme.Green1
-import com.example.scaffolddemo.ui.theme.Green2
-import com.example.scaffolddemo.ui.theme.Green5
+import com.example.jetpacktest02.ViewModel.UserViewModel
+import com.example.scaffolddemo.ui.theme.*
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import kotlin.math.roundToInt
 
 
 /*@Composable
@@ -46,10 +46,98 @@ fun DrawReactDemo() {
     })
 }*/
 
-@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
-@Preview
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SetPlanDiyScreen(){
+public fun DiyPlanName(PlanName: String, onNumChange: (String) -> Unit) {
+
+    /*Box(Modifier.fillMaxWidth()) {*/
+
+        Column(modifier = Modifier.padding(4.dp)) {
+            OutlinedTextField(
+                singleLine = false,
+                shape = RoundedCornerShape(10.dp),
+                value = PlanName,
+                onValueChange = onNumChange,
+                textStyle = TextStyle(
+                    fontSize = 30.sp,
+                    color = Green4,
+                    fontWeight = FontWeight.W900
+                ),
+                placeholder = {
+                    androidx.compose.material3.Text(
+                        "自定义",
+                        fontSize = 30.sp,
+                        color = textGray,
+                        fontWeight = FontWeight.W900
+                    )
+                },
+                modifier = Modifier
+                    .size(160.dp,80.dp)
+                    .padding(start = 30.dp, top = 10.dp)
+                    .align(Alignment.CenterHorizontally),
+                colors = TextFieldDefaults.textFieldColors(
+                    textColor = Green4,
+                    containerColor = Color.White,
+                    focusedIndicatorColor = Color.Transparent,
+                    unfocusedIndicatorColor = Color.Transparent
+                )
+            )
+        }
+    }
+/*}*/
+
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter", "StateFlowValueCalledInComposition")
+
+@Composable
+fun SetPlanDiyScreen(
+    nav01: () -> Unit = {},
+    userViewModel: UserViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
+){
+    rememberSystemUiController().setStatusBarColor(
+        Green1, darkIcons = androidx.compose.material.MaterialTheme.colors.isLight
+    )
+    val mContext = LocalContext.current
+
+    // Declaring and initializing a calendar
+    val mCalendar = Calendar.getInstance()
+    val mHour = mCalendar[Calendar.HOUR_OF_DAY]
+    val mMinute = mCalendar[Calendar.MINUTE]
+
+    // Value for storing time as a string
+    val mTime = remember { mutableStateOf("") }
+
+    val remindListData = remember {
+        mutableStateListOf(
+            remindItemModel("12:00", 5f),
+
+            //remindItemModel("12:00", 5f),// 数组的最后一个元素 不会显示
+            /*remindItemModel("12:30", 5f),
+            remindItemModel("18:20", 5f),*/
+        )
+    }
+
+    val showstate = remember {
+        mutableStateOf(false)
+    }
+
+    var changedIndex by remember {
+        mutableStateOf(0)
+    }
+    var changedRemindTime by remember {
+        mutableStateOf("")
+    }
+    // Creating a TimePicker dialog
+    val mTimePickerDialog = TimePickerDialog(
+        mContext,
+        { _, mHour: Int, mMinute: Int ->
+            mTime.value = "$mHour:$mMinute"
+            changedRemindTime = mTime.value
+            remindListData[changedIndex] = remindItemModel(changedRemindTime, 5f)
+        },
+        mHour, mMinute, false,
+    )
+
+    var aimnum by rememberSaveable { mutableStateOf("") }
     Surface(modifier = Modifier.fillMaxSize()){
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -110,6 +198,7 @@ fun SetPlanDiyScreen(){
                     horizontalAlignment = Alignment.CenterHorizontally,
                     modifier = Modifier
                         .fillMaxSize()
+                        .verticalScroll(rememberScrollState())
                         .background(
                             brush = Brush.verticalGradient(
                                 colors = listOf(
@@ -121,31 +210,256 @@ fun SetPlanDiyScreen(){
                 ) {
 
                     Spacer(Modifier.height(10.dp))
-                    PlanItem(iconRes = R.drawable.g1_2_icbg_diy)
-                    Box(){
-                        Image(painter = painterResource(id = R.drawable.g1_2_5_bg_dailyaim), contentDescription =null, modifier = Modifier
-                            .padding(horizontal = 32.dp))
-                        Row(Modifier.padding(start = 60.dp, top = 108.dp)) {
-                            DayItem()
-                        }
-                        Image(painter = painterResource(id = R.drawable.g1_2_3_btn_blankremind), contentDescription =null,
+                    Box(Modifier.fillMaxWidth()) {
+                        Image(
+                            painter = painterResource(id = R.drawable.g1_2_icbg_newdiy),
+                            contentDescription = null, modifier = Modifier.fillMaxWidth()
+                        )
+                        var PlanName by rememberSaveable { mutableStateOf("")}
+
+                        DiyPlanName(PlanName=userViewModel.uiState.value.diyPlanName.value,onNumChange={userViewModel.uiState.value.diyPlanName.value=it})
+
+                    }
+
+
+                    Card(
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 24.dp),
+                        shape = RoundedCornerShape(30.dp),
+                        colors = CardDefaults.cardColors(containerColor = Color.White)
+                    ) {
+                        Column(
                             modifier = Modifier
-                                .padding(horizontal = 48.dp)
-                                .padding(top = 182.dp))
-
-                        Button(onClick = { /*TODO*/ }, modifier = Modifier
-                            .padding(top = 415.dp, start = 122.dp)
-                            .width(136.dp)
-                            .height(54.dp)
-                            ,colors = ButtonDefaults.buttonColors(containerColor = Green5)
-
-
+                                .padding(20.dp)
                         ) {
-                            Text(text = "确认", fontSize = 20.sp, fontWeight = FontWeight.W900)
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(horizontal = 10.dp),
+                                horizontalArrangement = Arrangement.SpaceBetween
+                            ) {
+                                Text(
+                                    text = "每日目标", fontSize = 18.sp,
+                                    fontWeight = FontWeight.W900,
+                                    color = Color.Black,
+                                    textAlign = TextAlign.Justify
+                                )
+                            }
+
+                            Spacer(modifier = Modifier.padding(5.dp))
+                            androidx.compose.material.Divider(
+                                color = Gray4,
+                                modifier = Modifier.padding(horizontal = 10.dp),
+                                thickness = 2.dp
+                            )
+                            Spacer(modifier = Modifier.padding(5.dp))
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(horizontal = 10.dp),
+                                horizontalArrangement = Arrangement.SpaceBetween
+                            ) {
+                                Text(
+                                    text = "提醒时间", fontSize = 14.sp,
+                                    fontWeight = FontWeight.W900,
+                                    color = Gray5,
+                                    textAlign = TextAlign.Justify
+                                )
+                            }
+                            Spacer(modifier = Modifier.padding(8.dp))
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(horizontal = 10.dp),
+                                horizontalArrangement = Arrangement.SpaceEvenly
+                            ) {
+                                DayItem()
+                            }
+                            Spacer(modifier = Modifier.padding(8.dp))
+
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(horizontal = 10.dp),
+                                horizontalArrangement = Arrangement.SpaceBetween
+                            ) {
+                                Text(
+                                    text = "轻提醒", fontSize = 14.sp,
+                                    fontWeight = FontWeight.W900,
+                                    color = Gray5,
+                                    textAlign = TextAlign.Justify
+                                )
+                            }
+                            Spacer(modifier = Modifier.padding(8.dp))
+                            Column(
+                                Modifier.padding(horizontal = 4.dp),
+                                horizontalAlignment = Alignment.CenterHorizontally
+                            ) {
 
 
+                                //轻提醒项目卡片 遍历数组remindListData
+                                remindListData.forEachIndexed { index, remindItemModel ->
+                                    AnimatedVisibility(
+                                        visible = if (index == remindListData.size - 1) false else true,
+
+                                        enter =/*slideInVertically(initialOffsetY = { -40 }
+                                    ) +*/ expandVertically(
+                                            expandFrom = Alignment.Top
+                                        ) + fadeIn(initialAlpha = 0.3f),
+                                        exit= fadeOut(targetAlpha = 0f) + shrinkVertically(shrinkTowards = Alignment.Top)
+                                    ) {
+                                        Card(
+                                            shape = RoundedCornerShape(10.dp),
+                                            colors = CardDefaults.cardColors(containerColor = Gray3),
+                                            modifier = Modifier
+                                                .fillMaxWidth()
+                                        ) {
+                                            Row(
+                                                Modifier
+                                                    .padding(
+                                                        start = 13.dp,
+                                                        end = 20.dp,
+                                                        top = 10.dp
+                                                    )
+                                                    .fillMaxWidth(),
+                                                horizontalArrangement = Arrangement.SpaceBetween,
+                                                verticalAlignment = Alignment.CenterVertically
+                                            ) {
+                                                Row(
+                                                    verticalAlignment = Alignment.CenterVertically,
+                                                    modifier = Modifier.clickable(
+                                                        onClick = {
+                                                            mTimePickerDialog.show()
+                                                            changedIndex = index
+                                                        },
+                                                        indication = null,
+                                                        interactionSource = MutableInteractionSource()
+                                                    )
+                                                ) {
+                                                    Spacer(modifier = Modifier.width(6.dp))
+                                                    Text(
+                                                        text = remindItemModel.remindTime,
+                                                        fontSize = 24.sp,
+                                                        fontWeight = FontWeight.W700,
+                                                        color = Color.Black,
+                                                    )
+                                                }
+                                                Image(
+                                                    painter = painterResource(id = R.drawable.g1_2_4_ic_deleteclock),
+                                                    contentDescription = null,
+                                                    modifier = Modifier
+                                                        .size(15.dp)
+                                                        .clickable(
+                                                            onClick = {
+
+                                                                remindListData.removeAt(index)
+                                                            },
+                                                            indication = null,
+                                                            interactionSource = MutableInteractionSource()
+                                                        )
+                                                )
+                                            }
+                                            Row(
+                                                Modifier
+                                                    .padding(start = 20.dp, top = 0.dp)
+                                                    .fillMaxWidth(),
+                                                horizontalArrangement = Arrangement.SpaceBetween,
+                                                verticalAlignment = Alignment.CenterVertically
+                                            ) {
+                                                Row(
+                                                    verticalAlignment = Alignment.CenterVertically
+                                                ) {
+                                                    Text(
+                                                        text = "再提醒间隔 ${remindItemModel.remindInterval.roundToInt()}分钟",
+                                                        fontSize = 12.sp,
+                                                        color = Color.Black,
+                                                    )
+                                                    Slider(
+                                                        value = remindItemModel.remindInterval,
+                                                        onValueChange = {
+                                                            remindListData[index] = remindItemModel(
+
+                                                                remindItemModel.remindTime,
+                                                                it
+                                                            )
+                                                        },
+                                                        colors = SliderDefaults.colors(
+                                                            thumbColor = Green5,
+                                                            activeTrackColor = Green5,
+                                                            inactiveTrackColor = Green7
+                                                        ),
+                                                        valueRange = 1f..15f,
+                                                        steps = 13,
+                                                        modifier = Modifier.width(150.dp)
+                                                    )
+                                                }
+                                            }
+                                        }
+                                    }
+
+                                    if (index == remindListData.size - 1) {
+                                    } else {
+                                        Spacer(modifier = Modifier.height(20.dp))
+                                    }
+                                }
+
+                                //增加提醒按钮
+
+
+                                Card(
+                                    shape = RoundedCornerShape(10.dp),
+                                    colors = CardDefaults.cardColors(containerColor = Gray3),
+                                    modifier = Modifier
+                                        .height(35.dp)
+                                        .fillMaxWidth()
+                                        .clickable(
+                                            onClick = {
+//                                                    showstate.value = !showstate.value
+                                                remindListData.add(
+                                                    remindItemModel(
+                                                        "12:00",
+                                                        5f
+                                                    )
+                                                )
+                                            },
+                                            indication = null,
+                                            interactionSource = MutableInteractionSource()
+                                        )
+
+                                ) {
+                                    Row(
+                                        Modifier
+                                            .padding(horizontal = 20.dp)
+                                            .fillMaxHeight(),
+                                        verticalAlignment = Alignment.CenterVertically
+                                    ) {
+                                        Image(
+                                            painter = painterResource(id = R.drawable.g1_2_4_ic_addclock),
+                                            contentDescription = null
+
+                                        )
+                                    }
+                                }
+                                Spacer(modifier = Modifier.padding(16.dp))
+                                Button(
+                                    onClick =  nav01 ,
+                                    modifier = Modifier
+                                        .width(136.dp)
+                                        .height(54.dp),
+                                    colors = ButtonDefaults.buttonColors(containerColor = Green5)
+                                ) {
+                                    Text(
+                                        text = "确认",
+                                        fontSize = 20.sp,
+                                        fontWeight = FontWeight.W900
+                                    )
+                                }
+                                Spacer(modifier = Modifier.padding(10.dp))
+                            }
                         }
                     }
+                    Spacer(Modifier.height(20.dp))
 
 
                 }
@@ -154,6 +468,14 @@ fun SetPlanDiyScreen(){
         }
     }
 }
+
+/*
+@Composable
+fun InputDiyPlanName(){
+
+    DiyplanName
+}
+*/
 
 
 

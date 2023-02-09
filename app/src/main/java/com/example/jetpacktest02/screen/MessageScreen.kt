@@ -195,7 +195,7 @@ fun MessageList(
                 ListItemModel(
                     "幻想世界",
                     "拍了拍你的向日葵",
-                    R.drawable.g2_1_img_user01,
+                    R.drawable.userprofile_7,
                     R.drawable.g2_1_btn_friend,
                     "5min前",
                     nav01
@@ -203,7 +203,7 @@ fun MessageList(
                 ListItemModel(
                     "sandr",
                     "向你投放了图片",
-                    R.drawable.g2_1_img_user02,
+                    R.drawable.userprofile_10,
                     R.drawable.g2_1_btn_friend_disabled,
                     "8min前",
                     nav04
@@ -211,7 +211,7 @@ fun MessageList(
                 ListItemModel(
                     "施&SHI",
                     "给你留言",
-                    R.drawable.g2_1_img_user03,
+                    R.drawable.userprofile_9,
                     R.drawable.g2_1_btn_friend,
                     "14min前",
                     nav03
@@ -219,7 +219,7 @@ fun MessageList(
                 ListItemModel(
                     "ajunGrit",
                     "拍了拍你的向日葵",
-                    R.drawable.g2_1_img_user04,
+                    R.drawable.userprofile_11,
                     R.drawable.g2_1_btn_friend_disabled,
                     "17min前",
                     nav01
@@ -227,7 +227,7 @@ fun MessageList(
                 ListItemModel(
                     "foxbread",
                     "拍了拍你的向日葵",
-                    R.drawable.g2_1_img_user05,
+                    R.drawable.userprofile_12,
                     R.drawable.g2_1_btn_friend,
                     "45min前",
                     nav01
@@ -235,7 +235,7 @@ fun MessageList(
                 ListItemModel(
                     "幻想世界",
                     "拍了拍你的向日葵",
-                    R.drawable.g2_1_img_user01,
+                    R.drawable.userprofile_13,
                     R.drawable.g2_1_btn_friend_disabled,
                     "1h前",
                     nav01
@@ -243,7 +243,7 @@ fun MessageList(
                 ListItemModel(
                     "sandr",
                     "向你投放了图片",
-                    R.drawable.g2_1_img_user02,
+                    R.drawable.userprofile_14,
                     R.drawable.g2_1_btn_friend,
                     "1h前",
                     nav04
@@ -251,7 +251,7 @@ fun MessageList(
                 ListItemModel(
                     "施&SHI",
                     "给你留言",
-                    R.drawable.g2_1_img_user03,
+                    R.drawable.userprofile_15,
                     R.drawable.g2_1_btn_friend_disabled,
                     "11-31",
                     nav03
@@ -259,7 +259,7 @@ fun MessageList(
                 ListItemModel(
                     "ajunGrit",
                     "拍了拍你的向日葵",
-                    R.drawable.g2_1_img_user04,
+                    R.drawable.userprofile_16,
                     R.drawable.g2_1_btn_friend,
                     "11-31",
                     nav01
@@ -267,7 +267,7 @@ fun MessageList(
                 ListItemModel(
                     "foxbread",
                     "拍了拍你的向日葵",
-                    R.drawable.g2_1_img_user05,
+                    R.drawable.userprofile_17,
                     R.drawable.g2_1_btn_friend_disabled,
                     "11-31",
                     nav01

@@ -116,14 +116,14 @@ fun PicMessageList(nav01: () -> Unit = {}, nav02: () -> Unit, userViewModel: Use
                 //如果需要改变下面对象里面的属性，需要单独复制一份生成一个新的对象才可以
                 PicListItemModel(
                     "Sandor",
-                    R.drawable.g2_1_img_user02,
+                    R.drawable.userprofile_21,
                     R.drawable.g2_1_btn_friend_disabled,
                     R.drawable.g2_4_img_pic,
                     "5min前"
                 ),
                 PicListItemModel(
                     "留猪侨",
-                    R.drawable.g2_4_img_user01,
+                    R.drawable.userprofile_23,
                     R.drawable.g2_1_btn_friend_disabled,
                     R.drawable.g2_4_img_pic,
                     "5min前"

@@ -166,7 +166,7 @@ fun RallyApp() {
             //管理路由：页面跳转
             NavHost(
                 navController = navController,
-                startDestination = Plant.route,
+                startDestination = SharePost.route,
                 modifier = Modifier.padding(innerPadding)
 
             ) {
@@ -523,6 +523,12 @@ fun RallyApp() {
                         }
                     )
                 }
+                composable(route = ReportCard.route) {
+                    HealthSumCard(
+
+
+                    )
+                }
                 composable(route = My.route) {
                     BtnArea(
                         nav01 = {
@@ -531,6 +537,9 @@ fun RallyApp() {
 
 
                     )
+                }
+                composable(route = SharePost.route) {
+                    SharePostScreen()
                 }
 
             }

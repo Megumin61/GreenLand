@@ -55,19 +55,19 @@ fun HealthSumCard(){
                     )
                 )
         ){
-            androidx.compose.material3.Button(
-                onClick = { /*TODO*/ },
-                modifier = Modifier
-                    .width(136.dp)
-                    .height(54.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = Green5)
-            ) {
-                Text(
-                    text = "本周报告",
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.W900
-                )
-            }
+//            androidx.compose.material3.Button(
+//                onClick = { /*TODO*/ },
+//                modifier = Modifier
+//                    .width(136.dp)
+//                    .height(54.dp),
+//                colors = ButtonDefaults.buttonColors(containerColor = Green5)
+//            ) {
+//                Text(
+//                    text = "本周报告",
+//                    fontSize = 20.sp,
+//                    fontWeight = FontWeight.W900
+//                )
+//            }
             Column( horizontalAlignment = Alignment.CenterHorizontally) {
                 androidx.compose.material3.Card(
 //                    onClick = { /* Do something */ },
@@ -109,7 +109,7 @@ fun HealthSumCard(){
                                 fontSize = 15.sp,
                                 color = Gray7
                             )
-                            
+
                         }
                         Text(
                             text = "植物已经成熟，查看本周健康总结",

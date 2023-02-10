@@ -21,8 +21,12 @@ import android.graphics.Point
 import android.util.Log
 import android.widget.ProgressBar
 import android.widget.Space
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.FloatTweenSpec
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -63,47 +67,68 @@ import androidx.compose.ui.unit.sp
 import com.example.jetpacktest02.R
 import com.example.jetpacktest02.compose.MyTopAppBar
 import com.example.scaffolddemo.ui.theme.Green1
+import kotlinx.coroutines.delay
 import org.intellij.lang.annotations.JdkConstants.HorizontalAlignment
 
 /**
  * The Bills screen.
  */
-@Preview(showBackground=true,widthDp=393,heightDp=851)
+@Preview(showBackground = true, widthDp = 393, heightDp = 851)
 @Composable
 fun HealthShareScreen(
 //            bills : (String) -> Unit = {},
-    nav01: () -> Unit={},
+    nav01: () -> Unit = {},
 
-) {
-    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-        Box (modifier = Modifier.padding(top=108.dp)
-        , contentAlignment = Alignment.BottomCenter
-        ){
-            ImgBg()
-            Text("9.29-10.5", modifier = Modifier.padding(bottom = 540.dp),color=Color(73,73,89))
-            Column() {
-                UpperArea()
-                Spacer(modifier = Modifier.height(380.dp))
+    ) {
+    var animVisible by remember {
+        mutableStateOf(false)
+    }
+    LaunchedEffect(key1 = 1) {
+        delay(200)
+        animVisible = true
+    }
+    AnimatedVisibility(
+        visible = animVisible,
+        enter = fadeIn(initialAlpha = 0.3f) + slideInVertically(
+            initialOffsetY = { 800 },
+            animationSpec = tween(durationMillis = 1200)
+        )
+    ) {
+
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            Box(
+                modifier = Modifier.padding(top = 60.dp), contentAlignment = Alignment.BottomCenter
+            ) {
+                ImgBg()
+                Text(
+                    "9.29-10.5",
+                    modifier = Modifier.padding(bottom = 540.dp),
+                    color = Color(73, 73, 89)
+                )
+                Column() {
+                    UpperArea()
+                    Spacer(modifier = Modifier.height(380.dp))
+                }
+
+                Column(
+                    modifier = Modifier.padding(start = 65.dp, end = 70.dp),
+                    horizontalAlignment = Alignment.Start,
+                    verticalArrangement = Arrangement.spacedBy(20.dp)
+                ) {
+                    ProgressStep()
+                    ProgressSit()
+                    ProgressWater()
+                    ProgressEat()
+                    Spacer(modifier = Modifier.height(170.dp))
+                }
+
             }
-            
-            Column (
-                modifier = Modifier.padding(start =65.dp, end = 70.dp),
-                horizontalAlignment=Alignment.Start,
-                verticalArrangement = Arrangement.spacedBy(20.dp)
-            ){
-                ProgressStep()
-                ProgressSit()
-                ProgressWater()
-                ProgressEat()
-                Spacer(modifier = Modifier.height(170.dp))
-            }
+            Spacer(modifier = Modifier.height(10.dp))
+            RowOfBtns()
 
         }
-        Spacer(modifier = Modifier.height(10.dp))
-        RowOfBtns()
 
     }
-
 
 
 }
@@ -138,6 +163,7 @@ fun ProgressBar(
         content = {}
     )
 }
+
 /**
  * Draw into a [Canvas] behind the modified content.
  */
@@ -176,18 +202,18 @@ private class DrawBackgroundModifier(
 }
 
 
-
 //图片------------------------------------
 @Composable
-fun ImgBg(){
+fun ImgBg() {
     Image(
         painter = painterResource(id = R.drawable.g6_3_bg),
         contentDescription = null,
     )
 
 }
+
 @Composable
-fun ImgPlant(){
+fun ImgPlant() {
     Image(
         painter = painterResource(id = R.drawable.g6_3_img_flower),
         contentDescription = null,
@@ -198,8 +224,9 @@ fun ImgPlant(){
 
 //按钮----------------------------------------------------------------------------------------------
 @Composable
-fun BtnWechat(){
-    Button(onClick = { /*TODO*/ },
+fun BtnWechat() {
+    Button(
+        onClick = { /*TODO*/ },
         colors = ButtonDefaults.outlinedButtonColors(),
         contentPadding = PaddingValues(0.dp)
     ) {
@@ -211,11 +238,14 @@ fun BtnWechat(){
 
 
 }
+
 @Composable
-fun BtnMoment(){
-    Button(onClick = { /*TODO*/ },
+fun BtnMoment() {
+    Button(
+        onClick = { /*TODO*/ },
         colors = ButtonDefaults.outlinedButtonColors(),
-        contentPadding = PaddingValues(0.dp)) {
+        contentPadding = PaddingValues(0.dp)
+    ) {
         Image(
             painter = painterResource(id = R.drawable.g6_3_ic_moment),
             contentDescription = null,
@@ -223,11 +253,14 @@ fun BtnMoment(){
     }
 
 }
+
 @Composable
-fun BtnQQ(){
-    Button(onClick = { /*TODO*/ },
+fun BtnQQ() {
+    Button(
+        onClick = { /*TODO*/ },
         colors = ButtonDefaults.outlinedButtonColors(),
-        contentPadding = PaddingValues(0.dp)) {
+        contentPadding = PaddingValues(0.dp)
+    ) {
         Image(
             painter = painterResource(id = R.drawable.g6_3_ic_qq),
             contentDescription = null,
@@ -235,19 +268,23 @@ fun BtnQQ(){
     }
 
 }
+
 @Composable
-fun BtnPhoto(){
-    Button(onClick = { /*TODO*/ },
+fun BtnPhoto() {
+    Button(
+        onClick = { /*TODO*/ },
         colors = ButtonDefaults.outlinedButtonColors(),
-        contentPadding = PaddingValues(0.dp)) {
+        contentPadding = PaddingValues(0.dp)
+    ) {
         Image(
             painter = painterResource(id = R.drawable.g6_3_ic_photo),
             contentDescription = null,
         )
     }
 }
+
 @Composable//按钮列
-fun RowOfBtns(){
+fun RowOfBtns() {
     Row(horizontalArrangement = Arrangement.spacedBy(28.dp)) {
         BtnWechat()
         BtnMoment()
@@ -257,161 +294,197 @@ fun RowOfBtns(){
 }
 
 @Composable
-fun ProgressStep(){
-    Row (
-    verticalAlignment = Alignment.CenterVertically){
-        Row(horizontalArrangement = Arrangement.spacedBy(5.dp)
-        , verticalAlignment = Alignment.CenterVertically){
-            Text(text = "平均步数 ",
+fun ProgressStep() {
+    Row(
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(5.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = "平均步数 ",
                 fontSize = 11.sp,
                 fontWeight = FontWeight.W500,
-                color= Color.DarkGray)
+                color = Color.DarkGray
+            )
             ProgressBar(
                 modifier = Modifier
                     .width(130.dp) // 指定进度条宽度
                     .height(12.dp), // 指定进度条高度
                 progress = 0.6f,
-                color = Color(207,235,223),
+                color = Color(207, 235, 223),
                 cornerRadius = 12.dp,
                 backgroundColor = Color.Transparent
             )
         }
 
-        Text(text = "8342 ",
+        Text(
+            text = "8342 ",
             fontSize = 12.sp,
             fontWeight = FontWeight.W900,
-            color= Color.DarkGray)
+            color = Color.DarkGray
+        )
         iconIncrease()
 
     }
 }
+
 @Composable
-fun ProgressSit(){
-    Row (
-        verticalAlignment = Alignment.CenterVertically){
-        Row(horizontalArrangement = Arrangement.spacedBy(5.dp)
-            , verticalAlignment = Alignment.CenterVertically){
-            Text(text = "久坐时间 ",
+fun ProgressSit() {
+    Row(
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(5.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = "久坐时间 ",
                 fontSize = 11.sp,
                 fontWeight = FontWeight.W500,
-                color= Color.DarkGray)
+                color = Color.DarkGray
+            )
             ProgressBar(
                 modifier = Modifier
                     .width(130.dp) // 指定进度条宽度
                     .height(12.dp), // 指定进度条高度
                 progress = 0.8f,
-                color = Color(255,226,194),
+                color = Color(255, 226, 194),
                 cornerRadius = 12.dp,
                 backgroundColor = Color.Transparent
             )
         }
 
-        Text(text = "6:20:12 ",
+        Text(
+            text = "6:20:12 ",
             fontSize = 12.sp,
             fontWeight = FontWeight.W900,
-            color= Color.DarkGray)
+            color = Color.DarkGray
+        )
         iconDecrease()
 
     }
 }
+
 @Composable
-fun ProgressWater(){
-    Row (
-        verticalAlignment = Alignment.CenterVertically){
-        Row(horizontalArrangement = Arrangement.spacedBy(5.dp)
-            , verticalAlignment = Alignment.CenterVertically){
-            Text(text = "喝水次数 ",
+fun ProgressWater() {
+    Row(
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(5.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = "喝水次数 ",
                 fontSize = 11.sp,
                 fontWeight = FontWeight.W500,
-                color= Color.DarkGray)
+                color = Color.DarkGray
+            )
             ProgressBar(
                 modifier = Modifier
                     .width(130.dp) // 指定进度条宽度
                     .height(12.dp), // 指定进度条高度
                 progress = 0.7f,
-                color = Color(207,235,223),
+                color = Color(207, 235, 223),
                 cornerRadius = 12.dp,
                 backgroundColor = Color.Transparent
             )
         }
 
-        Text(text = "7次 ",
+        Text(
+            text = "7次 ",
             fontSize = 12.sp,
             fontWeight = FontWeight.W900,
-            color= Color.DarkGray)
+            color = Color.DarkGray
+        )
         iconIncrease()
 
     }
 }
+
 @Composable
-fun ProgressEat(){
-    Row (
-        verticalAlignment = Alignment.CenterVertically){
-        Row(horizontalArrangement = Arrangement.spacedBy(5.dp)
-            , verticalAlignment = Alignment.CenterVertically){
-            Text(text = "按时吃饭 ",
+fun ProgressEat() {
+    Row(
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(5.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = "按时吃饭 ",
                 fontSize = 11.sp,
                 fontWeight = FontWeight.W500,
-                color= Color.DarkGray)
+                color = Color.DarkGray
+            )
             ProgressBar(
                 modifier = Modifier
                     .width(130.dp) // 指定进度条宽度
                     .height(12.dp), // 指定进度条高度
                 progress = 0.5f,
-                color = Color(207,235,223),
+                color = Color(207, 235, 223),
                 cornerRadius = 12.dp,
                 backgroundColor = Color.Transparent
             )
         }
 
-        Text(text = "2.5次 ",
+        Text(
+            text = "2.5次 ",
             fontSize = 12.sp,
             fontWeight = FontWeight.W900,
-            color= Color.DarkGray)
+            color = Color.DarkGray
+        )
         iconIncrease()
 
     }
 }
+
 @Composable
-fun ThreeParameterColumn(){
-    Column(modifier=Modifier.padding(end = 20.dp,top=37.dp),
-        verticalArrangement = Arrangement.spacedBy(33.dp)) {
-        Text(text = "78", fontSize = 10.sp, color = Color(184,192,194))
-        Text(text = "372g", fontSize = 10.sp, color = Color(184,192,194))
-        Text(text = "70", fontSize = 10.sp, color = Color(184,192,194))
+fun ThreeParameterColumn() {
+    Column(
+        modifier = Modifier.padding(end = 20.dp, top = 37.dp),
+        verticalArrangement = Arrangement.spacedBy(33.dp)
+    ) {
+        Text(text = "78", fontSize = 10.sp, color = Color(184, 192, 194))
+        Text(text = "372g", fontSize = 10.sp, color = Color(184, 192, 194))
+        Text(text = "70", fontSize = 10.sp, color = Color(184, 192, 194))
     }
 }
 
 
-
-
-
 @Composable
-fun ProgressPlant(){
-    Row (
-        verticalAlignment = Alignment.CenterVertically){
-        Row(horizontalArrangement = Arrangement.spacedBy(5.dp)
-            , verticalAlignment = Alignment.CenterVertically){
+fun ProgressPlant() {
+    Row(
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(5.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
 
             ProgressBar(
                 modifier = Modifier
                     .width(90.dp) // 指定进度条宽度
                     .height(6.dp), // 指定进度条高度
                 progress = 0.8f,
-                color = Color(26,207,163),
+                color = Color(26, 207, 163),
                 cornerRadius = 12.dp,
                 backgroundColor = Color.White
             )
         }
 
 
-
     }
 }
+
 @Composable
-fun PlantFrame(){
-    Column(horizontalAlignment = Alignment.CenterHorizontally,
-    verticalArrangement = Arrangement.spacedBy(10.dp)) {
+fun PlantFrame() {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(10.dp)
+    ) {
         ImgPlant()
         ProgressPlant()
 
@@ -419,7 +492,7 @@ fun PlantFrame(){
 }
 
 @Composable
-fun UpperArea(){
+fun UpperArea() {
     Row {
         PlantFrame()
         Spacer(modifier = Modifier.width(70.dp))

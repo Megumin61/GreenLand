@@ -19,9 +19,14 @@ import android.text.BoringLayout
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.lifecycle.ViewModel
 import com.example.jetpacktest02.R
 import com.example.jetpacktest02.screen.LocationDetails
 import com.google.accompanist.pager.rememberPagerState
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 import java.time.Duration
 
 /**
@@ -29,10 +34,10 @@ import java.time.Duration
  */
 data class UiState constructor(
     //运动步数 变量
-    var stepDetector : MutableState<Int> = mutableStateOf(0), // 自应用运行以来STEP_DETECTOR检测到的步数
-    var stepCounter : MutableState<Int> = mutableStateOf(0), // 自系统开机以来STEP_COUNTER检测到的步数
+    var stepDetector: MutableState<Int> = mutableStateOf(0), // 自应用运行以来STEP_DETECTOR检测到的步数
+    var stepCounter: MutableState<Int> = mutableStateOf(0), // 自系统开机以来STEP_COUNTER检测到的步数
 
-    var diyPlanName :MutableState<String> = mutableStateOf(  ""),
+    var diyPlanName: MutableState<String> = mutableStateOf(""),
     var currentRoot: String = "",
     //MessageScreen
     val openDialog: MutableState<Boolean> = mutableStateOf(false),
@@ -41,7 +46,7 @@ data class UiState constructor(
     //ChooseSeedScreen
     val chooseSeedPageState: MutableState<Int> = mutableStateOf(0),
     var searchText: String = "",
-    val waterValue:Int=0,
+    val waterValue: Int = 0,
     val tabMessageList: MutableList<TapListItemModel> =
         mutableStateListOf(
             //如果需要改变下面对象里面的属性，需要单独复制一份生成一个新的对象才可以

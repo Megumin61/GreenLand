@@ -1,6 +1,10 @@
 package com.example.jetpacktest02.screen
 
 import android.annotation.SuppressLint
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -9,7 +13,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Scaffold
 import androidx.compose.material.TopAppBar
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
@@ -33,7 +37,7 @@ import com.example.scaffolddemo.ui.theme.Green2
 import com.example.scaffolddemo.ui.theme.Green4
 import com.example.scaffolddemo.ui.theme.LightGreen
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-
+import kotlinx.coroutines.delay
 
 
 @Composable
@@ -183,6 +187,14 @@ fun ThreeParameterColumn(){
 @Preview
 @Composable
 fun SharePostScreen(){
+
+    var animVisible by remember {
+        mutableStateOf(false)
+    }
+    LaunchedEffect(key1 = 1) {
+        delay(200)
+        animVisible = true
+    }
     rememberSystemUiController().setStatusBarColor(
         Green1, darkIcons = androidx.compose.material.MaterialTheme.colors.isLight
     )
@@ -249,7 +261,6 @@ fun SharePostScreen(){
 
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
-
                     modifier = Modifier
                         .fillMaxSize()
                         .background(
@@ -262,43 +273,70 @@ fun SharePostScreen(){
                         )
 
                 ) {
-                    Box(Modifier.fillMaxSize()) {
-                        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
-                            Image(painter = painterResource(id = R.drawable.g6_ic_skcc_pic), contentDescription = null)
-                            Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.offset(0.dp,5.dp)) {
-                                Text(
-                                    text = "@skcc", fontSize = 26.sp,
-                                    fontWeight = FontWeight.W900,
-                                    style = MaterialTheme.typography.labelLarge,
-                                    color = Green4,
-                                    textAlign = TextAlign.Justify
+
+                    androidx.compose.animation.AnimatedVisibility(
+                        visible = animVisible,
+                        enter = fadeIn(initialAlpha = 0.3f) + slideInVertically(
+                            initialOffsetY = { 800 },
+                            animationSpec = tween(durationMillis = 1200)
+                        )
+                    ) {
+
+                        Box(Modifier.fillMaxSize()) {
+                            Row(
+                                Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.Center
+                            ) {
+                                Image(
+                                    painter = painterResource(id = R.drawable.g6_ic_skcc_pic),
+                                    contentDescription = null
                                 )
-                                Text(
-                                    text = "2022 9/29-10/5", fontSize = 12.sp,
-                                    color = Green4,
-                                    textAlign = TextAlign.Justify
+                                Column(
+                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                    modifier = Modifier.offset(0.dp, 5.dp)
+                                ) {
+                                    Text(
+                                        text = "@skcc", fontSize = 26.sp,
+                                        fontWeight = FontWeight.W900,
+                                        style = MaterialTheme.typography.labelLarge,
+                                        color = Green4,
+                                        textAlign = TextAlign.Justify
+                                    )
+                                    Text(
+                                        text = "2022 9/29-10/5", fontSize = 12.sp,
+                                        color = Green4,
+                                        textAlign = TextAlign.Justify
+                                    )
+                                }
+                            }
+                            Column(
+                                Modifier.fillMaxSize().offset(0.dp, 80.dp),
+                                horizontalAlignment = Alignment.CenterHorizontally
+                            ) {
+                                Image(
+                                    painter = painterResource(id = R.drawable.g6_ic_skcc_sharepost),
+                                    contentDescription = null,
+                                    modifier = Modifier.scale(1.05f)
                                 )
+
+                            }
+                            ProgressPlant()
+                            ThreeParameterColumn()
+                            Column(
+                                modifier = Modifier.padding(start = 65.dp, end = 70.dp)
+                                    .offset(60.dp, 350.dp),
+                                horizontalAlignment = Alignment.Start,
+                                verticalArrangement = Arrangement.spacedBy(20.dp)
+                            ) {
+                                ProgressStep()
+                                ProgressSit()
+                                ProgressWater()
+                                ProgressEat()
+                                Spacer(modifier = Modifier.height(170.dp))
                             }
                         }
-                        Column(Modifier.fillMaxSize().offset(0.dp,80.dp), horizontalAlignment = Alignment.CenterHorizontally) {
-                            Image(painter = painterResource(id = R.drawable.g6_ic_skcc_sharepost), contentDescription =null
-                                , modifier = Modifier.scale(1.05f))
-
-                        }
-                        ProgressPlant()
-                        ThreeParameterColumn()
-                        Column (
-                            modifier = Modifier.padding(start =65.dp, end = 70.dp).offset(60.dp,350.dp),
-                            horizontalAlignment=Alignment.Start,
-                            verticalArrangement = Arrangement.spacedBy(20.dp)
-                        ){
-                            ProgressStep()
-                            ProgressSit()
-                            ProgressWater()
-                            ProgressEat()
-                            Spacer(modifier = Modifier.height(170.dp))
-                        }
                     }
-                }}}}
+                    }
+                }}}
 
 }

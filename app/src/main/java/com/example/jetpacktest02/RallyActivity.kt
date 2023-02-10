@@ -59,7 +59,7 @@ class RallyActivity : ComponentActivity() {
 //            WordBookApp2()
 //            CounterScreen()
             RallyApp()
-            StepCounter() //全局计步器
+//            StepCounter() //全局计步器
         }
     }
 
@@ -170,7 +170,7 @@ fun RallyApp() {
             //管理路由：页面跳转
             NavHost(
                 navController = navController,
-                startDestination = ReportCard.route,
+                startDestination = Plant.route,
                 modifier = Modifier.padding(innerPadding)
 
             ) {
@@ -203,7 +203,11 @@ fun RallyApp() {
                         nav07 = {
                             navController.navigate(Test.route) { launchSingleTop = true; }
                         },
-                        userViewModel = userViewModel
+                        nav08 = {
+                            navController.navigate(HealthShare.route) { launchSingleTop = true; }
+                        },
+                        userViewModel = userViewModel,
+                        navController = navController
                     )
                 }
                 composable(route = Test.route) {
@@ -535,6 +539,11 @@ fun RallyApp() {
                     HealthSumCard(
                     )
                 }
+                composable(route = HealthShare.route) {
+                    HealthShareScreen(
+                    )
+                }
+
                 composable(route = My.route) {
                     BtnArea(
                         nav01 = {

@@ -112,28 +112,28 @@ fun TapMessageList(nav01: () -> Unit = {}, nav02: () -> Unit,    userViewModel: 
                 TapListItemModel(
                     "幻想世界",
                     "拍了拍你的向日葵",
-                    R.drawable.g2_1_img_user01,
+                    R.drawable.userprofile_12,
                     R.drawable.g2_1_btn_friend,
                     "1min前"
                 ),
                 TapListItemModel(
                     "sandr",
                     "拍了拍你的向日葵",
-                    R.drawable.g2_1_img_user02,
+                    R.drawable.userprofile_13,
                     R.drawable.g2_1_btn_friend_disabled,
                     "5min前"
                 ),
                 TapListItemModel(
                     "施&SHI",
                     "拍了拍你的向日葵",
-                    R.drawable.g2_1_img_user03,
+                    R.drawable.userprofile_14,
                     R.drawable.g2_1_btn_friend,
                     "5min前"
                 ),
                 TapListItemModel(
                     "ajunGrit",
                     "拍了拍你的向日葵",
-                    R.drawable.g2_1_img_user04,
+                    R.drawable.userprofile_15,
                     R.drawable.g2_1_btn_friend_disabled,
                     "12-01"
                 ),

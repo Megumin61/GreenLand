@@ -119,7 +119,7 @@ fun MsgMessageList(nav01: () -> Unit = {},  userViewModel: UserViewModel,control
                 MsgListItemModel(
                     "Sandor",
                     "Please vivo 50",
-                    R.drawable.g2_1_img_user02,
+                    R.drawable.userprofile_15,
                     R.drawable.g2_1_btn_friend_disabled,
                     "5min前"
                 ),
@@ -133,21 +133,21 @@ fun MsgMessageList(nav01: () -> Unit = {},  userViewModel: UserViewModel,control
                 MsgListItemModel(
                     "施&SHI",
                     "等下我们去二饭，你要不要一起来？",
-                    R.drawable.g2_1_img_user03,
+                    R.drawable.userprofile_16,
                     R.drawable.g2_1_btn_friend,
                     "11-29"
                 ),
                 MsgListItemModel(
                     "ajunGrit",
                     "同学你好，能不能麻烦你帮我捡一下橡皮，就在你脚下，谢谢。",
-                    R.drawable.g2_1_img_user04,
+                    R.drawable.userprofile_17,
                     R.drawable.g2_1_btn_friend,
                     "11-26"
                 ),
                 MsgListItemModel(
                     "foxBread",
                     "要不要吃麦当劳？有个优惠券我想我们可以一起拼的样子。买二送一菠萝派还有麦香鱼。",
-                    R.drawable.g2_1_img_user05,
+                    R.drawable.userprofile_18,
                     R.drawable.g2_1_btn_friend_disabled,
                     "11-26"
                 ),

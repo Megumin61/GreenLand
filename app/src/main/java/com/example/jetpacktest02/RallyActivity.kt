@@ -1,5 +1,6 @@
 package com.example.jetpacktest02
 
+import MyCupBoardScreen
 import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -50,7 +51,7 @@ class RallyActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window, true)
-        
+
 
 
         setContent {
@@ -202,7 +203,7 @@ fun RallyApp() {
                         nav07 = {
                             navController.navigate(Test.route) { launchSingleTop = true; }
                         },
-                        userViewModel=userViewModel
+                        userViewModel = userViewModel
                     )
                 }
                 composable(route = Test.route) {
@@ -279,13 +280,13 @@ fun RallyApp() {
                             navController.navigate(PlanListAdded.route) {
                                 launchSingleTop = true;
                             }
-                        },userViewModel
+                        }, userViewModel
 
 
                     )
                 }
                 composable(route = PlanListAdded.route) {
-                    PlanListAddedScreen(userViewModel = userViewModel,nav={})
+                    PlanListAddedScreen(userViewModel = userViewModel, nav = {})
                 }
                 composable(route = ChooseSeed.route) {
                     ChooseSeed(userViewModel = userViewModel)
@@ -380,7 +381,7 @@ fun RallyApp() {
                                 launchSingleTop = true; popUpTo(IslandMemberList.route) {}
                             }
                         },
-                        userViewModel = userViewModel,navController=navController
+                        userViewModel = userViewModel, navController = navController
                     )
                 }
                 composable(route = IslandNearbyMemberList.route) {
@@ -518,7 +519,11 @@ fun RallyApp() {
                         }
                     )
                 }
+                composable(route = MyCupBoard.route) {
+                    MyCupBoardScreen(
 
+                    )
+                }
                 composable(route = HealthConclusion.route) {
                     HealthConclusionScreen(
                         nav01 = {
@@ -534,8 +539,14 @@ fun RallyApp() {
                     BtnArea(
                         nav01 = {
                             navController.navigate(MyCupBoard.route) { launchSingleTop = true; }
-                        }
+                        })
+                }
 
+                composable(route = HealthPast.route) {
+                    HealthPastScreen(
+//                        nav01 = {
+//                            navController.navigate(MyCupBoard.route) { launchSingleTop = true; }
+//                        }
 
                     )
                 }

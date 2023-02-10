@@ -194,7 +194,7 @@ fun MainPlantPage(
 
     val energyValue: Int = 0
     val allEnergyValue: Int = 0
-
+    val exp:Int=0
     Column() {
         Image(
             painter = painterResource(id = R.drawable.g1_1_ic_ar),
@@ -220,13 +220,38 @@ fun MainPlantPage(
             ) {
                 Text(
                     "Joyce的向日葵",
-                    fontSize = 25.sp,
-                    fontWeight = W500,
+                    color=Gray5,
+                    fontSize = 24.sp,
+                    fontWeight = W900,
+                    modifier = Modifier.offset(0.dp, (-10).dp)
                 )
-                Image(
-                    painter = painterResource(id = R.drawable.g1_1_img_plant_experience),
-                    contentDescription = null,
-                )
+                Box(){
+                    ProgressBar(
+                        modifier = Modifier.height(8.dp).width(130.dp),
+                        progress = 0.5f,
+                        color = LightGreen,
+                        cornerRadius = 10.dp,
+                        backgroundColor = Color.White
+                    )
+                    Text(
+                        text=exp.toString(),
+                        color= LightGreen,
+                        fontSize = 14.sp,
+                        fontWeight = W900,
+                        modifier = Modifier.offset(100.dp,10.dp)
+                    )
+                    Text(
+                        "/100",
+                        color=Gray5,
+                        fontSize = 14.sp,
+                        fontWeight = W900,
+                        modifier = Modifier.offset(110.dp,10.dp)
+                    )
+                }
+//                Image(
+//                    painter = painterResource(id = R.drawable.g1_1_img_plant_experience),
+//                    contentDescription = null,
+//                )
                 Image(
                     painter = painterResource(id = R.drawable.g1_1_img_flower),
                     contentDescription = null,

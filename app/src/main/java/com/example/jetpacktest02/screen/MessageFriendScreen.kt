@@ -200,56 +200,56 @@ fun FriendTabRow(
                     1,
                     "ajunGrit",
                     "1天前在线",
-                    res = R.drawable.g2_5_img_user05,
+                    res = R.drawable.userprofile_15,
                     count = "有 3 个共同朋友"
                 ),
                 FriendTest(
                     2,
                     "kevin",
                     "4天前在线",
-                    res = R.drawable.g2_5_img_user03,
+                    res = R.drawable.userprofile_16,
                     count = "有 1 个共同朋友"
                 ),
                 FriendTest(
                     3,
                     "aJuan",
                     "1天前在线",
-                    res = R.drawable.g2_5_img_user04,
+                    res = R.drawable.userprofile_17,
                     count = "有 0 个共同朋友"
                 ),
                 FriendTest(
                     4,
                     "sandr",
                     "在线",
-                    res = R.drawable.g2_5_img_user02,
+                    res = R.drawable.userprofile_18,
                     count = "有 1 个共同朋友"
                 ),
                 FriendTest(
                     5,
                     "liu猪侨",
                     "在线",
-                    res = R.drawable.g2_5_img_user01,
+                    res = R.drawable.userprofile_19,
                     count = "有 1 个共同朋友"
                 ),
                 FriendTest(
                     6,
                     "joyce",
                     "1天前在线",
-                    res = R.drawable.g2_1_img_user01,
+                    res = R.drawable.userprofile_20,
                     count = "有 2 个共同朋友"
                 ),
                 FriendTest(
                     7,
                     "foxbread",
                     "在线",
-                    res = R.drawable.g2_1_img_user05,
+                    res = R.drawable.userprofile_21,
                     count = "有 4 个共同朋友"
                 ),
                 FriendTest(
                     8,
                     "kcChang",
                     "1天前在线",
-                    res = R.drawable.g2_1_img_user03,
+                    res = R.drawable.userprofile_22,
                     count = "有 6 个共同朋友"
                 ),
 

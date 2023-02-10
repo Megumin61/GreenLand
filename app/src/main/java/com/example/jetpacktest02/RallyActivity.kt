@@ -7,6 +7,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.Button
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
@@ -60,6 +61,7 @@ class RallyActivity : ComponentActivity() {
 //            CounterScreen()
             RallyApp()
 //            StepCounter() //全局计步器
+//            WordBookApp()
         }
     }
 
@@ -85,25 +87,35 @@ fun WordBookApp(userViewModel: UserViewModel = androidx.lifecycle.viewmodel.comp
 
 
     //增：往数据库中插入某个user对象，可以不传id，id为主键自增
-    val user_insert = User("Hello", "13333")
+    val user_insert = User("Hello", "13333","dada")
 
     //查：根据id查询某个user，
 //    val user_query : User= userViewModel.getUser(1)
 
     //改：修改某个user对象信息,需要传入主键id构造user对象
-//    val user_edit = User(1,"Hello","13333")
-//    userViewModel.UpdateUser(user_edit)
+    val user_edit = User(2,"Hello","183232","pposor2",132)
 
     //删：删除某个id为1的user对象
-    userViewModel.DeleteUser(1)
+//    userViewModel.DeleteUser(1)
 
 
     Column {
 //        Text(text = "query_name:"+user_query.name)
 //        Text(text = "query_phone:"+user_query.phoneNumber)
-
-//        Text(user_edit.phoneNumber)
-//        Text(users.size.toString())
+        Button(onClick = {     userViewModel.insert(user_insert) }) {
+            Text(text = "insert")
+        }
+        Button(onClick = {     userViewModel.UpdatePositionById(id=2, position = user_edit.position) }) {
+            Text(text = "updatePosition")
+        }
+        Button(onClick = {     userViewModel.UpdateStepById(id=2, step = user_edit.step) }) {
+            Text(text = "updateStep")
+        }
+//        Text(user_edit.position)
+        Text(users.size.toString())
+        users.forEach{user ->
+            Text(user.position.toString())
+        }
     }
 }
 

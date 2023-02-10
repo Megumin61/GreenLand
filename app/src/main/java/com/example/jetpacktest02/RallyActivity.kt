@@ -169,7 +169,7 @@ fun RallyApp() {
             //管理路由：页面跳转
             NavHost(
                 navController = navController,
-                startDestination = SharePost.route,
+                startDestination = ReportCard.route,
                 modifier = Modifier.padding(innerPadding)
 
             ) {
@@ -528,8 +528,6 @@ fun RallyApp() {
                 }
                 composable(route = ReportCard.route) {
                     HealthSumCard(
-
-
                     )
                 }
                 composable(route = My.route) {

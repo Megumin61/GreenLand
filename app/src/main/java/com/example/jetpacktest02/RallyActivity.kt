@@ -5,10 +5,7 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Scaffold
@@ -18,6 +15,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
@@ -527,8 +525,11 @@ fun RallyApp() {
                 composable(route = My.route) {
                     MyScreen(
                         nav01 = {
-                            navController.navigate(Plant.route) { launchSingleTop = true; }
-                        }
+                            navController.navigate(MyCupBoard.route) { launchSingleTop = true; }
+                        },
+                        nav02 = {
+                            navController.navigate(HealthPast.route) { launchSingleTop = true; }
+                        },
                     )
                 }
                 composable(route = PlantBagPossessed.route) {

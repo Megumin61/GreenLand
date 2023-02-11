@@ -56,7 +56,8 @@ import com.example.jetpacktest02.R
 @Composable
 fun MyScreen(
 //            bills : (String) -> Unit = {},
-    nav01: () -> Unit={},
+    nav01: () -> Unit={},//展柜
+    nav02: () -> Unit={},//健康总结
 
 ) {
     Box(
@@ -93,7 +94,7 @@ fun MyScreen(
                     contentDescription = null,
                 )
                 Column(verticalArrangement = Arrangement.spacedBy(27.dp), horizontalAlignment = Alignment.CenterHorizontally) {
-                    Button(onClick = { /*TODO*/ },
+                    Button(onClick = nav02,
                         colors = ButtonDefaults.outlinedButtonColors(),
                         contentPadding = PaddingValues(0.dp),
                         shape = RectangleShape

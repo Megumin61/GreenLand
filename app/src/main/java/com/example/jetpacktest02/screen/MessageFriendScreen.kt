@@ -12,6 +12,7 @@ import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.*
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
@@ -339,13 +340,16 @@ fun FriendTabRow(
                     .width(100.dp)
                     .height(100.dp)
                     .offset(-10.dp, 0.dp)
-                    .clickable(onClick = {
-                        coroutineScope.launch {
-                            // Animate scroll to the first item
-                            pagerState.animateScrollToPage(3)
-                        }
+                    .clickable(
+                        onClick = {
+                            coroutineScope.launch {
+                                // Animate scroll to the first item
+                                pagerState.animateScrollToPage(3)
+                            }
 
-                    })
+                        }, indication = null,
+                        interactionSource = MutableInteractionSource()
+                    )
             )
         }
 
@@ -518,9 +522,12 @@ fun FriendMessageItem(
             .background(
                 color = Color.White
             )
-            .clickable(onClick = {
-                controller.navigate("4.5-island-visitOther/$res/$name")//这里将参数拼接到参数后面
-            }),
+            .clickable(
+                onClick = {
+                    controller.navigate("4.5-island-visitOther/$res/$name")//这里将参数拼接到参数后面
+                }, indication = null,
+                interactionSource = MutableInteractionSource()
+            ),
         colors = ListItemDefaults.colors(containerColor = Color.White),
         headlineText = {
             Row(
@@ -541,9 +548,12 @@ fun FriendMessageItem(
                         modifier = Modifier
                             .width(40.dp)
                             .height(40.dp)
-                            .clickable(onClick = {
-                                userViewModel._uiState.value.openDialog.value = true
-                            })
+                            .clickable(
+                                onClick = {
+                                    userViewModel._uiState.value.openDialog.value = true
+                                }, indication = null,
+                                interactionSource = MutableInteractionSource()
+                            )
                     )
                 }
             }
@@ -607,11 +617,14 @@ fun IconButtonFriendList(
                 modifier = Modifier
                     .width(100.dp)
                     .height(100.dp)
-                    .clickable(onClick = {
+                    .clickable(
+                        onClick = {
 //                    permissionState.launchPermissionRequest()
-                        isContact.value = !isContact.value;
-                        locationPermissionsState.launchMultiplePermissionRequest()
-                    })
+                            isContact.value = !isContact.value;
+                            locationPermissionsState.launchMultiplePermissionRequest()
+                        }, indication = null,
+                        interactionSource = MutableInteractionSource()
+                    )
 
             )
             Image(
@@ -649,7 +662,7 @@ fun IconButtonFriendList(
                 userViewModel
             )
         } else {
-            Sample(locationPermissionsState, userViewModel,controller)
+            Sample(locationPermissionsState, userViewModel, controller)
         }
     }
 }
@@ -723,9 +736,8 @@ private fun Sample(
         }
         //通讯录用户，初始化，填充获取通讯录名称至对象
         val friendlist = mutableListOf<FriendTest>()
-        for(i:String in contactsList)
-        {
-            friendlist.add(FriendTest(0,i,"有 1 个共同朋友","有 1 个共同朋友",R.drawable.g2_5_img_user01))
+        for (i: String in contactsList) {
+            friendlist.add(FriendTest(0, i, "有 1 个共同朋友", "有 1 个共同朋友", R.drawable.g2_5_img_user01))
         }
 
         val grouped: Map<Char, List<FriendTest>>

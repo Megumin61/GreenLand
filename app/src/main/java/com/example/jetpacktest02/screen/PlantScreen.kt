@@ -17,10 +17,13 @@
 package com.example.jetpacktest02.ui.main
 
 import android.annotation.SuppressLint
+import androidx.compose.animation.*
+import androidx.compose.animation.core.animateDp
+import androidx.compose.animation.core.updateTransition
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -28,13 +31,13 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.font.FontWeight.Companion.W500
@@ -46,14 +49,23 @@ import androidx.compose.ui.unit.sp
 import com.example.jetpacktest02.R
 import com.example.jetpacktest02.ViewModel.TapListItemModel
 import com.example.jetpacktest02.ViewModel.UserViewModel
+import com.example.jetpacktest02.screen.FriendList
+import com.example.jetpacktest02.screen.IconButtonFriendList
 import com.example.scaffolddemo.ui.theme.*
+import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.accompanist.pager.HorizontalPager
+import com.google.accompanist.pager.PagerState
+import com.google.accompanist.pager.VerticalPager
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.runBlocking
 
 /**
  * The Bills screen.
  */
 
 //viewModel: UserViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
+@OptIn(ExperimentalPagerApi::class)
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 fun PlantScreen(
@@ -71,14 +83,6 @@ fun PlantScreen(
     //配置顶部状态栏颜色
     rememberSystemUiController().setStatusBarColor(
         Color.White, darkIcons = androidx.compose.material.MaterialTheme.colors.isLight
-    )
-    Image(
-        painter = painterResource(id = R.drawable.g1_1_bg_plant),
-        contentDescription = null,
-        modifier = Modifier
-            .scale(1.1f, 1.0f)
-            .fillMaxHeight()
-            .fillMaxSize()
     )
     Column {
         Text("1.1-Plant")
@@ -167,31 +171,87 @@ fun PlantScreen(
             Text("test")
         }
     }
-    MainPlantPage(userViewModel, nav01)
-
+    //pagerState为底部viewpager参数
+    val pagerState: PagerState = remember { PagerState() }
+    VerticalPager(count = 2, state = pagerState) { page ->
+        userViewModel.uiState.value.PlantPage.value=page
+        if (page == 0) {
+            MainPlantPage(userViewModel, nav01)
+        } else {
+            SecondPlantPage(userViewModel.uiState.value.PlantPage.value)
+        }
+    }
 }
 
-//@Preview
+@OptIn(ExperimentalAnimationApi::class)
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 fun MainPlantPage(
     userViewModel: UserViewModel,
     nav01: () -> Unit = {},//计划
 ) {
+    //重要参数
     val feelingValue: Int = 0
-
     val energyValue: Int = 0
     val allEnergyValue: Int = 0
-    val exp:Int=0
+    val exp: Int = 0
+    //动画状态
+    var state by remember {
+        mutableStateOf(false)
+    }
+    var state1 by remember {
+        mutableStateOf(false)
+    }
+    var state2 by remember {
+        mutableStateOf(false)
+    }
+    var state3 by remember {
+        mutableStateOf(false)
+
+    }
+
+    LaunchedEffect(key1 = state){
+        state = true
+    }
+    LaunchedEffect(key1 = state1){
+        delay(250)
+        state1 = true
+    }
+    LaunchedEffect(key1 = state2){
+        delay(500)
+        state2 = true
+    }
+    LaunchedEffect(key1 = state3){
+        delay(750)
+        state3 = true
+    }
+
+
+    Image(
+        painter = painterResource(id = R.drawable.g1_1_bg_plant),
+        contentDescription = null,
+        modifier = Modifier
+            .scale(1.1f, 1.0f)
+            .fillMaxHeight()
+            .fillMaxSize(),
+    )
     Column() {
+        Image(
+            painter = painterResource(id = R.drawable.g1_1_ic_arrow_down),
+            contentDescription = null,
+            modifier = Modifier
+                .align(Alignment.CenterHorizontally)
+                .size(20.dp)
+                .offset(0.dp, 680.dp)
+        )
         Image(
             painter = painterResource(id = R.drawable.g1_1_ic_ar),
             contentDescription = null,
             modifier = Modifier
                 .align(Alignment.End)
                 .offset(-20.dp, 0.dp)
-                .width(100.dp)
-                .height(70.dp)
+                .width(90.dp)
+                .height(50.dp)
         )
         Row(
             modifier = Modifier
@@ -208,45 +268,56 @@ fun MainPlantPage(
             ) {
                 Text(
                     "Joyce的向日葵",
-                    color=Gray5,
+                    color = Gray5,
                     fontSize = 24.sp,
                     fontWeight = W900,
                     modifier = Modifier.offset(0.dp, (-10).dp)
                 )
-                Box(){
+                Box() {
                     ProgressBar(
-                        modifier = Modifier.height(8.dp).width(130.dp),
+                        modifier = Modifier
+                            .height(8.dp)
+                            .width(130.dp),
                         progress = 0.5f,
                         color = LightGreen,
                         cornerRadius = 10.dp,
                         backgroundColor = Color.White
                     )
                     Text(
-                        text=exp.toString(),
-                        color= LightGreen,
+                        text = exp.toString(),
+                        color = LightGreen,
                         fontSize = 14.sp,
                         fontWeight = W900,
-                        modifier = Modifier.offset(100.dp,10.dp)
+                        modifier = Modifier.offset(100.dp, 10.dp)
                     )
                     Text(
                         "/100",
-                        color=Gray5,
+                        color = Gray5,
                         fontSize = 14.sp,
                         fontWeight = W900,
-                        modifier = Modifier.offset(110.dp,10.dp)
+                        modifier = Modifier.offset(110.dp, 10.dp)
                     )
                 }
 //                Image(
 //                    painter = painterResource(id = R.drawable.g1_1_img_plant_experience),
 //                    contentDescription = null,
 //                )
-                Image(
-                    painter = painterResource(id = R.drawable.g1_1_img_flower),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .width(180.dp)
-                        .height(300.dp)
-                )
+
+                AnimatedVisibility(
+                    visible = state,
+                    enter = scaleIn(transformOrigin = TransformOrigin(0f, 0f)) +
+                            fadeIn(initialAlpha = 0.3f) + expandIn(expandFrom = Alignment.TopStart),
+                    exit = scaleOut(transformOrigin = TransformOrigin(0f, 0f)) +
+                            fadeOut() + shrinkOut(shrinkTowards = Alignment.TopStart)
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.g1_1_img_flower),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .width(180.dp)
+                            .height(300.dp)
+                    )
+                }
                 Image(
                     painter = painterResource(id = R.drawable.g1_1_bg_plantstage),
                     contentDescription = null,
@@ -282,7 +353,11 @@ fun MainPlantPage(
                             contentDescription = null,
                             modifier = Modifier
                                 .size(60.dp)
-                                .clickable(onClick = nav01)
+                                .clickable(
+                                    onClick = nav01,
+                                    indication = null,
+                                    interactionSource = MutableInteractionSource()
+                                )
                         )
                         Spacer(modifier = Modifier.height(20.dp))
                         Image(
@@ -308,7 +383,9 @@ fun MainPlantPage(
                 }
             }
         }
+
         //心情、水分、能量
+
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
             modifier = Modifier.offset(0.dp, -20.dp)
@@ -320,76 +397,106 @@ fun MainPlantPage(
                     .fillMaxHeight()
             ) {
                 Spacer(modifier = Modifier.height(10.dp))
-                Box(modifier = Modifier.align(Alignment.Start)) {
-                    Image(
-                        painter = painterResource(id = R.drawable.g1_1_ic_feeling),
-                        contentDescription = null,
-                        modifier = Modifier
-                            .width(140.dp)
-                    )
-                    Text(
-                        text = feelingValue.toString() + "g",
-                        fontWeight = W900,
-                        color = BlueGray3,
-                        modifier = Modifier.offset(80.dp, 30.dp)
-                    )
+                AnimatedVisibility(
+                    visible = state1,
+                    enter = scaleIn(transformOrigin = TransformOrigin(0f, 0f)) +
+                            fadeIn(initialAlpha = 0.3f) + expandIn(expandFrom = Alignment.TopStart),
+                    exit = scaleOut(transformOrigin = TransformOrigin(0f, 0f)) +
+                            fadeOut() + shrinkOut(shrinkTowards = Alignment.TopStart)
+                ) {
+                    Box(modifier = Modifier.align(Alignment.Start)) {
+                        Image(
+                            painter = painterResource(id = R.drawable.g1_1_ic_feeling),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .width(140.dp)
+                        )
+                        Text(
+                            text = feelingValue.toString() + "g",
+                            fontWeight = W900,
+                            color = BlueGray3,
+                            modifier = Modifier.offset(80.dp, 30.dp)
+                        )
+                    }
                 }
 
                 Spacer(modifier = Modifier.height(10.dp))
-                Box(modifier = Modifier.align(Alignment.Start)) {
-                    Image(
-                        painter = painterResource(id = R.drawable.g1_1_ic_water),
-                        contentDescription = null,
-                        modifier = Modifier
-                            .width(140.dp)
-                    )
-                    Text(
-                        text = userViewModel.uiState.value.waterValue.toString()+ "g",
-                        fontWeight = W900,
-                        color = BlueGray3,
-                        modifier = Modifier.offset(80.dp, 30.dp)
-                    )
+                AnimatedVisibility(
+                    visible = state2,
+                    enter = scaleIn(transformOrigin = TransformOrigin(0f, 0f)) +
+                            fadeIn(initialAlpha = 0.3f) + expandIn(expandFrom = Alignment.TopStart),
+                    exit = scaleOut(transformOrigin = TransformOrigin(0f, 0f)) +
+                            fadeOut() + shrinkOut(shrinkTowards = Alignment.TopStart)
+                ) {
+                    Box(modifier = Modifier.align(Alignment.Start)) {
+                        Image(
+                            painter = painterResource(id = R.drawable.g1_1_ic_water),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .width(140.dp)
+                        )
+                        Text(
+                            text = userViewModel.uiState.value.waterValue.toString() + "g",
+                            fontWeight = W900,
+                            color = BlueGray3,
+                            modifier = Modifier.offset(80.dp, 30.dp)
+                        )
+                    }
                 }
                 Spacer(modifier = Modifier.height(10.dp))
-                Box(modifier = Modifier.align(Alignment.Start)) {
-                    Image(
-                        painter = painterResource(id = R.drawable.g1_1_ic_huoli),
-                        contentDescription = null,
-                        modifier = Modifier
-                            .width(140.dp)
-                    )
-                    Text(
-                        text = energyValue.toString() + "g",
-                        fontWeight = W900,
-                        color = BlueGray3,
-                        modifier = Modifier.offset(80.dp, 30.dp)
-                    )
+                AnimatedVisibility(
+                    visible = state3,
+                    enter = scaleIn(transformOrigin = TransformOrigin(0f, 0f)) +
+                            fadeIn(initialAlpha = 0.3f) + expandIn(expandFrom = Alignment.TopStart),
+                    exit = scaleOut(transformOrigin = TransformOrigin(0f, 0f)) +
+                            fadeOut() + shrinkOut(shrinkTowards = Alignment.TopStart)
+                ) {
+                    Box(modifier = Modifier.align(Alignment.Start)) {
+                        Image(
+                            painter = painterResource(id = R.drawable.g1_1_ic_huoli),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .width(140.dp)
+                        )
+                        Text(
+                            text = energyValue.toString() + "g",
+                            fontWeight = W900,
+                            color = BlueGray3,
+                            modifier = Modifier.offset(80.dp, 30.dp)
+                        )
+                    }
                 }
             }
             //消息
             Column(
-                horizontalAlignment = Alignment.End, modifier = Modifier
+                horizontalAlignment = Alignment.End,
+                modifier = Modifier
                     .fillMaxWidth()
-                    .padding(20.dp)
+                    .padding(20.dp, 0.dp)
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.g1_1_ic_message),
                     contentDescription = null,
+                    modifier = Modifier.height(50.dp)
 
-                    )
+                )
+                Spacer(modifier = Modifier.height(10.dp))
                 Box() {
                     Image(
                         painter = painterResource(id = R.drawable.g1_1icbg_message),
                         contentDescription = null,
+                        modifier = Modifier.height(170.dp)
                     )
-                    LazyColumn(modifier = Modifier
-                        .height(160.dp)
-                        .padding(8.dp)) {
+                    LazyColumn(
+                        modifier = Modifier
+                            .height(160.dp)
+                            .padding(8.dp)
+                    ) {
 //                        userViewModel.uiState.value.tabMessageList.forEach {listItemModel->
 //                            PlantMsgItem(listItemModel)
 //
 //                        }
-                        items(userViewModel.uiState.value.tabMessageList){item->
+                        items(userViewModel.uiState.value.tabMessageList) { item ->
                             PlantMsgItem(item)
                             Spacer(modifier = Modifier.height(2.dp))
                         }
@@ -397,21 +504,130 @@ fun MainPlantPage(
                 }
             }
         }
-        Image(
-            painter = painterResource(id = R.drawable.g1_1_ic_arrow_down),
-            contentDescription = null,
-            modifier = Modifier
-                .align(CenterHorizontally)
-                .offset(0.dp, (-50).dp)
-        )
+    }
+}
+
+//@Preview
+@OptIn(ExperimentalAnimationApi::class)
+@Composable
+fun SecondPlantPage(page :Int) {
+    val waterTime: Int = 0
+    val step: Int = 0
+    val sitTime: String = "6:31:20"
+    Image(
+        painter = painterResource(id = R.drawable.g1_3_bg),
+        contentDescription = null,
+        modifier = Modifier
+            .scale(1.1f, 1.0f)
+            .fillMaxHeight()
+            .fillMaxSize()
+    )
+
+    Column(Modifier.padding(30.dp)) {
+        var state2 by remember {
+            mutableStateOf(false)
+        }
+        if(page==1){
+            LaunchedEffect(key1 = state2) {
+                delay(1500)
+                state2 = true
+            }
+        }
+
+        Spacer(modifier = Modifier.height(30.dp))
+        Row(modifier = Modifier.fillMaxWidth(), Arrangement.SpaceBetween) {
+            AnimatedVisibility(
+                visible = state2,
+                enter = scaleIn(transformOrigin = TransformOrigin(0f, 0f)) +
+                        fadeIn(initialAlpha = 0.5f) + expandIn(expandFrom = Alignment.TopStart),
+                exit = scaleOut(transformOrigin = TransformOrigin(0f, 0f)) +
+                        fadeOut() + shrinkOut(shrinkTowards = Alignment.TopStart)
+            ) {
+                Box() {
+                    Image(
+                        painter = painterResource(id = R.drawable.g1_3_ic_watercount),
+                        contentDescription = null,
+                        modifier = Modifier.height(180.dp)
+                    )
+                    Text(
+                        text = waterTime.toString() + "次",
+                        color = Blue1,
+                        fontSize = 16.sp,
+                        fontWeight = W900,
+                        modifier = Modifier.offset(90.dp, 13.dp)
+                    )
+                }
+            }
+            AnimatedVisibility(
+                visible = state2,
+                enter = scaleIn(transformOrigin = TransformOrigin(0f, 0f)) +
+                        fadeIn(initialAlpha = 0.5f) + expandIn(expandFrom = Alignment.TopStart),
+                exit = scaleOut(transformOrigin = TransformOrigin(0f, 0f)) +
+                        fadeOut() + shrinkOut(shrinkTowards = Alignment.TopStart)
+            ) {
+                Box() {
+                    Image(
+                        painter = painterResource(id = R.drawable.g1_3_ic_dailywalk),
+                        contentDescription = null,
+                        modifier = Modifier.height(180.dp)
+                    )
+                    Text(
+                        text = step.toString() + "步",
+                        color = Red2,
+                        fontSize = 16.sp,
+                        fontWeight = W900,
+                        modifier = Modifier.offset(88.dp, 12.dp)
+                    )
+                }
+            }
+        }
+        Spacer(modifier = Modifier.height(30.dp))
+        Column() {
+            AnimatedVisibility(
+                visible = state2,
+                enter = scaleIn(transformOrigin = TransformOrigin(0f, 0f)) +
+                        fadeIn(initialAlpha = 0.5f) + expandIn(expandFrom = Alignment.TopStart),
+                exit = scaleOut(transformOrigin = TransformOrigin(0f, 0f)) +
+                        fadeOut() + shrinkOut(shrinkTowards = Alignment.TopStart)
+            ) {
+                Box() {
+                    Image(
+                        painter = painterResource(id = R.drawable.g1_3_bg_longsittime),
+                        contentDescription = null,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                    Text(
+                        text = sitTime,
+                        color = BlueGray4,
+                        fontSize = 20.sp,
+                        fontWeight = W500,
+                        modifier = Modifier.offset(22.dp, 48.dp)
+                    )
+                }
+            }
+            Spacer(modifier = Modifier.height(30.dp))
+            AnimatedVisibility(
+                visible = state2,
+                enter = scaleIn(transformOrigin = TransformOrigin(0f, 0f)) +
+                        fadeIn(initialAlpha = 0.5f) + expandIn(expandFrom = Alignment.TopStart),
+                exit = scaleOut(transformOrigin = TransformOrigin(0f, 0f)) +
+                        fadeOut() + shrinkOut(shrinkTowards = Alignment.TopStart)
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.g1_3_bg_eattime),
+                    contentDescription = null,
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
+        }
 
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PlantMsgItem(listItemModel: TapListItemModel){
-    Row(Modifier.padding(8.dp)){
+fun PlantMsgItem(listItemModel: TapListItemModel) {
+    Row(Modifier.padding(8.dp)) {
         Image(
             painter = painterResource(id = listItemModel.res),
             contentDescription = null,

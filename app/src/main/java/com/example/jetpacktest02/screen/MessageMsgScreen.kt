@@ -18,6 +18,7 @@ package com.example.jetpacktest02.ui.main
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.*
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Scaffold
 import androidx.compose.material.TopAppBar
@@ -237,7 +238,9 @@ fun MsgMessageItem(
                             .height(40.dp)
                             .clickable(onClick = {
                                 userViewModel.uiState.value.openDialog.value = true
-                            })
+                            },                                    indication = null,
+                                interactionSource = MutableInteractionSource()
+                            )
                     )
                 }
                 Text(
@@ -289,7 +292,8 @@ fun MsgMessageItem(
                     .height(50.dp)
                     .clickable(onClick = {
                         controller.navigate("4.5-island-visitOther/$res/$name")//这里将id拼接到参数后面
-                    })
+                    },                                    indication = null,
+                        interactionSource = MutableInteractionSource())
                     .offset(0.dp,-25.dp)
             )
         }

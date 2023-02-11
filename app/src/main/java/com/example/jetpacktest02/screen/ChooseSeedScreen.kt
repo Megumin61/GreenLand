@@ -202,8 +202,8 @@ fun ChooseSeed(nav01: () -> Unit={},
             .padding(top = 600.dp,start=30.dp),
             horizontalAlignment= Alignment.CenterHorizontally
         ) {
-            Button(onClick = {nav02},
-                
+            Button(onClick = nav02,
+
                 interactionSource = MutableInteractionSource(),
                 shape = RoundedCornerShape(27.dp),border = BorderStroke(1.dp, GreenMain),
                 colors = ButtonDefaults.buttonColors(

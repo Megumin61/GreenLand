@@ -24,6 +24,7 @@ fun StepCounter(){
     val stepSensor1: Sensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR) // 自应用运行以来STEP_DETECTOR检测到的步数
     val stepSensor2: Sensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER) // 自系统开机以来STEP_COUNTER检测到的步数
 
+
     // for sensor event listener and initializing it.
     val stepSensorEventListener = object : SensorEventListener {
         override fun onAccuracyChanged(sensor: Sensor, accuracy: Int) {

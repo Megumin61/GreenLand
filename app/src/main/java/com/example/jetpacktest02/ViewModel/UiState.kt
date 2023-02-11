@@ -15,6 +15,8 @@
  */
 package com.example.jetpacktest02.ViewModel
 
+import android.hardware.Sensor
+import android.hardware.SensorManager
 import android.text.BoringLayout
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateListOf
@@ -36,6 +38,15 @@ data class UiState constructor(
     //运动步数 变量
     var stepDetector: MutableState<Int> = mutableStateOf(0), // 自应用运行以来STEP_DETECTOR检测到的步数
     var stepCounter: MutableState<Int> = mutableStateOf(0), // 自系统开机以来STEP_COUNTER检测到的步数
+    var currentDate: MutableState<String> = mutableStateOf(""),
+    var currentStep: MutableState<Int> = mutableStateOf(0),
+    var sensorManager: SensorManager? = null,
+    val hasRecord: MutableState<Boolean> = mutableStateOf(false),
+    //未记录之前的步数
+    var hasStepCount: MutableState<Int> = mutableStateOf(0),
+    //下次记录之前的步数
+    var previousStepCount: MutableState<Int> = mutableStateOf(0),
+
 
     var diyPlanName: MutableState<String> = mutableStateOf(""),
     var currentRoot: String = "",

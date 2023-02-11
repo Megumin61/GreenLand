@@ -61,6 +61,7 @@ import com.example.jetpacktest02.R
 import com.example.jetpacktest02.SharePost
 import com.example.jetpacktest02.ViewModel.TapListItemModel
 import com.example.jetpacktest02.ViewModel.UserViewModel
+import com.example.jetpacktest02.compose.GIFimage
 import com.example.jetpacktest02.compose.StepCounter
 import com.example.jetpacktest02.screen.HealthSumCard
 import com.example.scaffolddemo.ui.theme.*
@@ -525,13 +526,14 @@ fun MainPlantPage(
 //                    painter = painterResource(id = R.drawable.g1_1_img_plant_experience),
 //                    contentDescription = null,
 //                )
-                Image(
-                    painter = painterResource(id = R.drawable.g1_1_img_flower),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .width(180.dp)
-                        .height(300.dp)
-                )
+//                Image(
+//                    painter = painterResource(id = R.drawable.g1_1_img_flower),
+//                    contentDescription = null,
+//                    modifier = Modifier
+//                        .width(180.dp)
+//                        .height(300.dp)
+//                )
+                GIFimage(modifier = Modifier.width(180.dp).height(300.dp), gif = R.drawable.flower_idle2)
                 Image(
                     painter = painterResource(id = R.drawable.g1_1_bg_plantstage),
                     contentDescription = null,

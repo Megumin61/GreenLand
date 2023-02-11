@@ -63,6 +63,7 @@ import java.util.*
 import kotlin.concurrent.schedule
 import kotlin.math.absoluteValue
 import kotlin.random.Random
+import androidx.compose.material3.Button as Button1
 
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalPermissionsApi::class)
@@ -76,6 +77,7 @@ fun IslandExploreScreen(
     userViewModel: UserViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
     controller: NavHostController
 ) {
+    
 
     LaunchedEffect(key1 = userViewModel._uiState.value.msgItem.value) {
         if (userViewModel._uiState.value.showTextMsg.value == true) {
@@ -181,8 +183,42 @@ fun IslandExploreScreen(
             }
 
         }
-
     }
+//    else {
+//
+//        Column {
+//            val allPermissionsRevoked =
+//                locationPermissionsState.permissions.size ==
+//                        locationPermissionsState.revokedPermissions.size
+//
+//            val textToShow = if (!allPermissionsRevoked) {
+//                // If not all the permissions are revoked, it's because the user accepted the COARSE
+//                // location permission, but not the FINE one.
+//                "Yay! Thanks for letting me access your approximate location. " +
+//                        "But you know what would be great? If you allow me to know where you " +
+//                        "exactly are. Thank you!"
+//            } else if (locationPermissionsState.shouldShowRationale) {
+//                // Both location permissions have been denied
+//                "Getting your exact location is important for this app. " +
+//                        "Please grant us fine location. Thank you :D"
+//            } else {
+//                // First time the user sees this feature or the user doesn't want to be asked again
+//                "This feature requires location permission"
+//            }
+//
+//            val buttonText = if (!allPermissionsRevoked) {
+//                "Allow precise location"
+//            } else {
+//                "Request permissions"
+//            }
+//
+//            androidx.compose.material.Text(text = textToShow)
+//            Spacer(modifier = Modifier.height(8.dp))
+//            Button1(onClick = { locationPermissionsState.launchMultiplePermissionRequest() }) {
+//                androidx.compose.material.Text(buttonText)
+//            }
+//        }
+//    }
 
     //配置顶部状态栏颜色
     rememberSystemUiController().setStatusBarColor(
@@ -414,17 +450,33 @@ fun IslandExploreScreen(
                         horizontalArrangement = Arrangement.Center
                     ) {
                         //发布按钮
-                        Image(
-                            painter = painterResource(id = R.drawable.g4_2_btn_publish),
-                            contentDescription = null,
-                            modifier = Modifier
-                                .height(60.dp)
-                                .clickable(
-                                    onClick = nav03,
-                                    indication = null,
-                                    interactionSource = MutableInteractionSource()
-                                )
-                        )
+                        if(locationPermissionsState.allPermissionsGranted){
+
+                            Image(
+                                painter = painterResource(id = R.drawable.g4_2_btn_publish),
+                                contentDescription = null,
+                                modifier = Modifier
+                                    .height(60.dp)
+                                    .clickable(
+                                        onClick = nav03,
+                                        indication = null,
+                                        interactionSource = MutableInteractionSource()
+                                    )
+                            )
+                        }
+                        else{
+                            Image(
+                                painter = painterResource(id = R.drawable.g4_2_btn_requestgps),
+                                contentDescription = null,
+                                modifier = Modifier
+                                    .height(60.dp)
+                                    .clickable(
+                                        onClick = { { locationPermissionsState.launchMultiplePermissionRequest() } },
+                                        indication = null,
+                                        interactionSource = MutableInteractionSource()
+                                    )
+                            )
+                        }
                     }
 
                 }

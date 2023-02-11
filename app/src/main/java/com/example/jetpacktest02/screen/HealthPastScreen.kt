@@ -16,6 +16,7 @@
 
 package com.example.jetpacktest02.ui.main
 
+import android.annotation.SuppressLint
 import android.graphics.Point
 import android.util.Log
 import android.widget.ProgressBar
@@ -77,6 +78,7 @@ import org.intellij.lang.annotations.JdkConstants.HorizontalAlignment
 /**
  * The Bills screen.
  */
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Preview(showBackground = true, widthDp = 393, heightDp = 851)
 @Composable
 fun HealthPastScreen(
@@ -88,12 +90,59 @@ fun HealthPastScreen(
     rememberSystemUiController().setStatusBarColor(
         Color.White, darkIcons = androidx.compose.material.MaterialTheme.colors.isLight
     )
+    androidx.compose.material.Scaffold(
+        topBar = {
+            androidx.compose.material.TopAppBar(
+                title = {
+                    Box(
+                        modifier = Modifier.fillMaxWidth(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            text = "健康总结",
+                            style = TextStyle(
+                                fontWeight = FontWeight.W900, //设置字体粗细
+                                fontSize = 18.sp,
+                            ),
+                            modifier = Modifier.offset(-25.dp, 0.dp)//向左偏移一段距离
+                        )
+                    }
+                },
+                //左侧按钮
+                navigationIcon = {
+                    IconButton(onClick = nav01) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.g1_2_0_ic_arrow_left),
+                            contentDescription = ""
+                        )
 
-    Column {
-        HealthTopAppBar()
+                    }
+                },
+                //右侧按钮
+                actions = {
+//                    Image(
+//                        painter = painterResource(id = R.drawable.g2_5_btn_friend),
+//                        contentDescription = null,
+//                        modifier = Modifier
+//                            .width(100.dp)
+//                            .height(100.dp)
+//                            .offset(-10.dp, 0.dp)
+////                            .clickable(onClick = {userViewModel.uiState.value.pageState.value=3})
+//                    )
+                },
+
+                backgroundColor = Color.White,
+                contentColor = Color.Black,
+                elevation = 0.dp, //设置阴影
+            )
+        }
+    ){Column {
+
         PastHealthViewTabRow()
 
-    }
+    }}
+
+
 
 
     /*Column{
@@ -213,7 +262,7 @@ fun LazyRowPlant01() {
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun PastHealthViewTabRow() {
+fun PastHealthViewTabRow(nav01: () -> Unit={},) {
     //state为顶部的tab导航栏绑定参数
     var state by remember { mutableStateOf(0) }
     //pagerState为底部viewpager参数
@@ -234,6 +283,7 @@ fun PastHealthViewTabRow() {
     val titles = listOf("本周", "过往")
     Column {
         androidx.compose.material.TabRow(
+            backgroundColor = Color.Green,
             selectedTabIndex = state,
             indicator = @Composable { tabPositions ->
                 TabRowDefaults.Indicator(
@@ -281,59 +331,105 @@ fun PastHealthViewTabRow() {
                 )
         )
         {
-            /*Column(modifier = Modifier
-                .padding(top = 20.dp, start = 26.dp, end = 26.dp)
-                , verticalArrangement = Arrangement.spacedBy(20.dp)
-            ) {
-                StepFrame()
-                SitFrame()
-                WaterFrame()
-            }*/
-
-            Column(modifier = Modifier.padding(top = 10.dp)) {
-                LazyRowPlant01()
+            if (page == 0) {
                 LazyColumn(
+
                     Modifier
                         .fillMaxWidth() // 宽度填满父空间
-                        .height(2000.dp)
-                        .padding(top = 0.dp, start = 26.dp, end = 26.dp),
+                        .height(851.dp)
+                        .padding(top = 20.dp, start = 26.dp, end = 26.dp),
 
 
                     verticalArrangement = Arrangement.spacedBy(22.dp),
                     horizontalAlignment = Alignment.CenterHorizontally,
 
                     content = {
-
-                        item {
-                            Row(
-                                verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.spacedBy(24.dp)
-                            ) {
+                        item{
+                            Row (verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.spacedBy(24.dp)){
                                 ImgPlant()
                                 InformationRow()
                             }
 
 
                         }
-                        item {
+                        item{
                             StepFrame()
                         }
-                        item {
+                        item{
                             SitFrame()
                         }
-                        item {
+                        item{
                             WaterFrame()
                         }
-                        item {
+                        item{
+                            EatFrame()
+                        }
+
+                        item{
                             ImgAdviceFrame()
                         }
-                        item {
-                            BtnGetConclusion()
+                        item{
+                            Button(onClick = nav01,
+                                colors = ButtonDefaults.outlinedButtonColors(),
+                                contentPadding = PaddingValues(0.dp),
+                                modifier = Modifier.padding(bottom = 10.dp)
+                            ) {
+                                ImgBtnGet()
+                            }
                         }
 
 
                     })
             }
+            if (page == 1) {
+                Column(modifier = Modifier.padding(top = 10.dp)) {
+                    LazyRowPlant01()
+                    LazyColumn(
+                        Modifier
+                            .fillMaxWidth() // 宽度填满父空间
+                            .height(2000.dp)
+                            .padding(top = 0.dp, start = 26.dp, end = 26.dp),
+
+
+                        verticalArrangement = Arrangement.spacedBy(22.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+
+                        content = {
+
+                            item {
+                                Row(
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement.spacedBy(24.dp)
+                                ) {
+                                    ImgPlant()
+                                    InformationRow()
+                                }
+
+
+                            }
+                            item {
+                                StepFrame()
+                            }
+                            item {
+                                SitFrame()
+                            }
+                            item {
+                                WaterFrame()
+                            }
+                            item {
+                                ImgAdviceFrame()
+                            }
+                            item {
+                                BtnGetConclusion()
+                            }
+
+
+                        })
+                }
+            }
+
+
 
         }
     }

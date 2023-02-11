@@ -16,6 +16,7 @@
 
 package com.example.jetpacktest02.ui.main
 
+import android.annotation.SuppressLint
 import android.text.style.BackgroundColorSpan
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateDpAsState
@@ -39,13 +40,23 @@ import androidx.compose.ui.Modifier
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.jetpacktest02.R
+import com.example.scaffolddemo.ui.theme.Gray1
+import com.example.scaffolddemo.ui.theme.Green1
+import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.accompanist.pager.HorizontalPager
+import com.google.accompanist.pager.PagerState
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 /**
  * 植物背包132123
@@ -53,6 +64,7 @@ import com.example.jetpacktest02.R
  * 负责人：方凯荣
  * 对接人：
  */
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Preview(showBackground=true,widthDp=393,heightDp=851)
 @Composable
 fun PlantBagPossessedScreen(
@@ -60,38 +72,107 @@ fun PlantBagPossessedScreen(
     nav01: () -> Unit={},
 
 ) {
-    Image(
-        painter = painterResource(id = R.drawable.g5_1_1_bg),
-        contentDescription = null,
-        modifier = Modifier
-            .fillMaxWidth()
-
+    rememberSystemUiController().setStatusBarColor(
+        Color(242,234,220), darkIcons = androidx.compose.material.MaterialTheme.colors.isLight
     )
-    Column(modifier = Modifier.
-    fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally)
-    {
-        PlantImage()
-        Spacer(modifier = Modifier.height(0.dp))
-      // TabRowDemo()
-        BtnRow()
-        Spacer(modifier = Modifier.height(15.dp))
-        TabBAR()
-        Spacer(modifier = Modifier.height(30.dp))
-        BagList()
+
+
+
+        androidx.compose.material.Scaffold(
+        topBar = {
+            androidx.compose.material.TopAppBar(
+                title = {
+                    Box(
+                        modifier = Modifier.fillMaxWidth(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            text = "",
+                            style = TextStyle(
+                                fontWeight = FontWeight.W900, //设置字体粗细
+                                fontSize = 18.sp,
+                            ),
+                            modifier = Modifier.offset(-25.dp, 0.dp)//向左偏移一段距离
+                        )
+                    }
+                },
+                //左侧按钮
+                navigationIcon = {
+                    IconButton(onClick = nav01) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.g1_2_0_ic_arrow_left),
+                            contentDescription = ""
+                        )
+
+                    }
+                },
+                //右侧按钮
+                actions = {
+//                    Image(
+//                        painter = painterResource(id = R.drawable.g2_5_btn_friend),
+//                        contentDescription = null,
+//                        modifier = Modifier
+//                            .width(100.dp)
+//                            .height(100.dp)
+//                            .offset(-10.dp, 0.dp)
+////                            .clickable(onClick = {userViewModel.uiState.value.pageState.value=3})
+//                    )
+                },
+
+                backgroundColor = Color(242,234,220),
+                contentColor = Color.Black,
+                elevation = 0.dp, //设置阴影
+            )
+        }
+    ){
+        Box(contentAlignment = Alignment.TopCenter){
+            Image(
+                painter = painterResource(id = R.drawable.g5_1_1_bg),
+                contentDescription = null,
+                modifier = Modifier
+                    .fillMaxSize(1f),
+                        contentScale = ContentScale.FillWidth
+
+
+
+
+            )
+            Column(modifier = Modifier.
+            fillMaxSize(),
+                horizontalAlignment = Alignment.CenterHorizontally)
+            {
+                PlantImage()
+
+                Spacer(modifier = Modifier.height(8.dp))
+                PlantBagViewTabRow()
+            }
+
+
+        }
+
     }
+
+
+
+
  
 
 }
 //图片
 @Composable
 fun PlantImage(){
-    Image(painter = painterResource(
+
+    Box(contentAlignment = Alignment.BottomCenter){
+        Image(painter = painterResource(
         id = R.drawable.g5_1_1_img_flower),
         contentDescription = null,
         modifier = Modifier
             .width(119.dp)
-            .padding(top = 70.dp))
+            .padding(bottom = 20.dp)
+        )
+        BtnRow()
+    }
+
 
 }
 
@@ -213,79 +294,15 @@ fun BtnEnergyValue(){
    Box(contentAlignment = Alignment.Center, modifier = Modifier.offset(y=7.dp)){
        BtnEnergyImg()
          Row(modifier = Modifier.padding(start=25.dp)) {
-         Text(text = "活力 ", fontSize = 16.sp, fontWeight = FontWeight.W700,color=Color(red = 44,green=110,blue=73))
+         Text(text = "能量 ", fontSize = 16.sp, fontWeight = FontWeight.W700,color=Color(red = 44,green=110,blue=73))
          Text(text = "30", fontSize = 16.sp,fontWeight = FontWeight.W600,color=Color(red = 44,green=110,blue=73))
      }
 
    }
 }
-//栏---------------------------
-@Composable
-fun TabRowDemo() {
-    var state = remember { mutableStateOf(0) }
-    val titles = listOf("已拥有", "商城")
-
-    Column {
-        TabRow(selectedTabIndex = state.value,
-
-            modifier = Modifier.padding(start=30.dp,end=30.dp),
-            containerColor=Color.Transparent,
 
 
 
-        ) {
-
-            titles.forEachIndexed { index, title ->
-                Tab(
-                    modifier= Modifier
-                        .height(20.dp)
-                        .width(20.dp)
-                        .padding(0.dp),
-                    unselectedContentColor = Color.Gray,
-                    selectedContentColor = Color.Black,
-
-                    text = { Text(title,) },
-                    selected = state.value == index,
-                    onClick = { state.value = index }
-                )
-            }
-        }
-
-
-
-    }
-}
-
-
-@Composable
-fun TabBar() {
-    val names = listOf("已拥有", "商城")
-    var selected by remember { mutableStateOf(0) }
-    LazyRow(Modifier.padding(0.dp, 8.dp), contentPadding = PaddingValues(12.dp, 0.dp)) {
-        itemsIndexed(names) { index, name ->
-            Column(
-                Modifier
-                    .padding(12.dp, 4.dp)
-                    .width(IntrinsicSize.Max)) {
-
-                Text(name, fontSize = 15.sp,
-                    color = if (index == selected) Color(0xfffa9e51) else Color(0xffb4b4b4)
-                )
-                Box(
-                    Modifier
-                        .fillMaxWidth()
-                        .padding(top = 4.dp)
-                        .height(2.dp)
-                        .clip(RoundedCornerShape(1.dp))
-                        .background(
-                            if (index == selected) Color(0xfffa9e51) else Color.Transparent
-                        )
-                )
-            }
-
-        }
-    }
-}
 
 @Composable
 fun ClothGrid1(){
@@ -395,7 +412,9 @@ fun BagRow3(){
 @Composable
 fun BtnRow(){
     Row (
-        modifier=Modifier.fillMaxWidth().padding(start=30.dp, end = 30.dp),
+        modifier= Modifier
+            .fillMaxWidth()
+            .padding(start = 30.dp, end = 30.dp),
 
         horizontalArrangement = Arrangement.SpaceBetween,
 
@@ -411,7 +430,7 @@ fun BagList(){
     LazyColumn(
         Modifier
             .fillMaxWidth()
-            .height(340.dp),
+            .height(380.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(20.dp),
 
@@ -430,57 +449,198 @@ fun BagList(){
 
 }
 @Composable
-fun TabBAR(){
-    var state = remember { mutableStateOf(0) }
-    val titles = listOf("已拥有", "商城")
-    TabRow(
-        selectedTabIndex = state.value,
-
-        modifier = Modifier.padding(start=45.dp,end=45.dp),
-        containerColor=Color.Transparent,indicator = @Composable { tabPositions ->
-
-    val currentTabPosition = tabPositions[0]
-    //修改指示器长度
-    val currentTabWidth by animateDpAsState(
-        targetValue = currentTabPosition.width /8,
-        animationSpec = tween(durationMillis = 250, easing = FastOutSlowInEasing)
-    )
-    //修改指示器偏移量为居中
-    val indicatorOffset by animateDpAsState(
-        targetValue = currentTabPosition.left + (currentTabPosition.width / 2 - currentTabWidth / 2),
-        animationSpec = tween(durationMillis = 250, easing = FastOutSlowInEasing)
-    )
-    //自带的Indicator指示器，只需改Modifier就可以了
-    TabRowDefaults.Indicator(
-        modifier = Modifier
+fun ShopList(){
+    LazyColumn(
+        Modifier
             .fillMaxWidth()
-            .wrapContentSize(Alignment.BottomStart)
-            .offset(x = indicatorOffset)
-            .width(currentTabWidth)
-            .height(2.dp)//修改指示器高度为1dp，默认2dp
-           // .padding(top=2.dp)
-         , color = Color(14,181,171)
-    )
+            .height(380.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(20.dp),
 
-}) {
-        titles.forEachIndexed { index, title ->
-            Tab(
-                modifier= Modifier
-                    .height(30.dp)
-                    .width(20.dp)
-                    .padding(0.dp),
-                unselectedContentColor = Color.Gray,
-                selectedContentColor = Color.Black,
+        content ={
+            item{
+                Row (
+                    horizontalArrangement = Arrangement.spacedBy(20.dp)
+                ){
+                    Box(//---------------装扮1
+                        contentAlignment = Alignment.BottomCenter
+                    ) {
+                        Image(painter = painterResource(
+                            id = R.drawable.g5_1_1_cloth01),
+                            contentDescription = null,
+                        )
+                        Column() {
+                            Button(onClick = { /*TODO*/ },
+                                colors = ButtonDefaults.outlinedButtonColors(),
+                                contentPadding = PaddingValues(0.dp),
+                                modifier = Modifier.offset(y=12.dp)
+                            ) {
+                                Image(painter = painterResource(
+                                    id = R.drawable.g_5_1_1_btn_buy),
+                                    contentDescription = null,
+                                )
+                            }
+                            Spacer(modifier = Modifier.height(12.dp))
+                        }
+                    }
+                    Box(//---------------装扮1
+                        contentAlignment = Alignment.BottomCenter
+                    ) {
+                        Image(painter = painterResource(
+                            id = R.drawable.g5_1_1_cloth02),
+                            contentDescription = null,
+                        )
+                        Column() {
+                            Button(onClick = { /*TODO*/ },
+                                colors = ButtonDefaults.outlinedButtonColors(),
+                                contentPadding = PaddingValues(0.dp),
+                                modifier = Modifier.offset(y=12.dp)
+                            ) {
+                                Image(painter = painterResource(
+                                    id = R.drawable.g_5_1_1_btn_buy),
+                                    contentDescription = null,
+                                )
+                            }
+                            Spacer(modifier = Modifier.height(12.dp))
+                        }
+                    }
+                }
+            }
+            item{
+                Row (
+                    horizontalArrangement = Arrangement.spacedBy(20.dp)
+                ){
+                    Box(//---------------装扮1
+                        contentAlignment = Alignment.BottomCenter
+                    ) {
+                        Image(painter = painterResource(
+                            id = R.drawable.g5_1_1_cloth03),
+                            contentDescription = null,
+                        )
+                        Column() {
+                            Button(onClick = { /*TODO*/ },
+                                colors = ButtonDefaults.outlinedButtonColors(),
+                                contentPadding = PaddingValues(0.dp),
+                                modifier = Modifier.offset(y=12.dp)
+                            ) {
+                                Image(painter = painterResource(
+                                    id = R.drawable.g_5_1_1_btn_buy),
+                                    contentDescription = null,
+                                )
+                            }
+                            Spacer(modifier = Modifier.height(12.dp))
+                        }
+                    }
+                    Box(//---------------装扮1
+                        contentAlignment = Alignment.BottomCenter
+                    ) {
+                        Image(painter = painterResource(
+                            id = R.drawable.g5_1_1_cloth04),
+                            contentDescription = null,
+                        )
+                        Column() {
+                            Button(onClick = { /*TODO*/ },
+                                colors = ButtonDefaults.outlinedButtonColors(),
+                                contentPadding = PaddingValues(0.dp),
+                                modifier = Modifier.offset(y=12.dp)
+                            ) {
+                                Image(painter = painterResource(
+                                    id = R.drawable.g_5_1_1_btn_buy),
+                                    contentDescription = null,
+                                )
+                            }
+                            Spacer(modifier = Modifier.height(12.dp))
+                        }
+                    }
+                }
+            }
 
-                text = { Text(title,) },
-                selected = state.value == index,
-                onClick = { state.value = index }
-            )
+        })
+
+
+}
+
+
+
+@OptIn(ExperimentalPagerApi::class)
+@Composable
+fun PlantBagViewTabRow(nav01: () -> Unit={},) {
+    //state为顶部的tab导航栏绑定参数
+    var state by remember { mutableStateOf(0) }
+    //pagerState为底部viewpager参数
+    val pagerState: PagerState = remember { PagerState() }
+
+    //将底部pager的参数和顶部导航栏的参数state绑定，让pager响应顶部导航栏参数变化
+    LaunchedEffect(pagerState) {
+        snapshotFlow { state }.collect { page ->
+            pagerState.animateScrollToPage(page)
         }
+    }
+    //将底部pager的参数和顶部导航栏的参数state绑定
+    LaunchedEffect(pagerState) {
+        snapshotFlow { pagerState.currentPage }.collect { page ->
+            state = page
+        }
+    }
+    val titles = listOf("已拥有", "商城")
+    Box(contentAlignment = Alignment.TopCenter,
+        modifier = Modifier.fillMaxSize()){
+
+        Column() {
+            Column {
+                androidx.compose.material.TabRow(
+                    modifier= Modifier
+                        .padding(horizontal = 27.dp)
+                        .height(40.dp),
+                    backgroundColor = Color.Transparent,
+                    selectedTabIndex = state,
+                    indicator = @Composable { tabPositions ->
+                        androidx.compose.material.TabRowDefaults.Indicator(
+                            Modifier.customTabIndicatorOffset(tabPositions[state]),
+                            color = Color(26, 207, 163)
+                        )
+                    }
+                ) {
+                    titles.forEachIndexed { index, title ->
+                        androidx.compose.material.Tab(
+                            modifier = Modifier
+                                .background(Color.Transparent)
+                                .width(10.dp),
+                            selected = state == index,
+                            onClick = { state = index },
+                            text = {
+                                androidx.compose.material.Text(
+                                    text = title,
+                                    maxLines = 2,
+                                    overflow = TextOverflow.Ellipsis,
+                                    fontSize = 16.sp,
+                                    fontWeight = FontWeight.W800,
+                                )
+                            },
+                            selectedContentColor = Color.Black,
+                            unselectedContentColor = Gray1
+                        )
+                    }
+                }
+            }
+            Spacer(modifier = Modifier.height(20.dp))
+            HorizontalPager(count = 2, state = pagerState) { page ->
+
+                //下面为要滑动切换的界面，可以通过判断page调用不同页面
+                if (page == 0) {
+                    BagList()
+                }
+                if (page == 1) {
+                    ShopList()
+                }
+
+
+            }
+        }
+    }
+
 
 }
-}
-
 
 
 

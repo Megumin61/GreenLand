@@ -47,6 +47,8 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.jetpacktest02.R
+import com.example.scaffolddemo.ui.theme.Green1
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 
 /**
@@ -59,6 +61,9 @@ fun MyScreen(
     nav01: () -> Unit={},
 
 ) {
+    rememberSystemUiController().setStatusBarColor(
+        Green1, darkIcons = androidx.compose.material.MaterialTheme.colors.isLight
+    )
     Box(
         modifier = Modifier
             .fillMaxSize()

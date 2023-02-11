@@ -167,7 +167,7 @@ fun RallyApp() {
             //管理路由：页面跳转
             NavHost(
                 navController = navController,
-                startDestination = HealthPast.route,
+                startDestination = My.route,
                 modifier = Modifier.padding(innerPadding)
 
             ) {
@@ -482,7 +482,7 @@ fun RallyApp() {
                 composable(route = My.route) {
                     MyScreen(
                         nav01 = {
-                            navController.navigate(Plant.route) { launchSingleTop = true; }
+                            navController.navigate(MyCupBoard.route) { launchSingleTop = true; }
                         }
                     )
                 }

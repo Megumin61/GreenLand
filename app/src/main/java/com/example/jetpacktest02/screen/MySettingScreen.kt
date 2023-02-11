@@ -1,3 +1,4 @@
+import android.annotation.SuppressLint
 import android.icu.text.CurrencyPluralInfo
 import android.widget.Toast
 import androidx.compose.foundation.Image
@@ -37,12 +38,58 @@ import com.google.accompanist.pager.PagerState
 // 水平指示器
 
 //pagerState为底部viewpager参数
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @OptIn(ExperimentalPagerApi::class)
 @Preview(showBackground=true,widthDp=393,heightDp=851)
 @Composable
-fun MySettingScreen() {
+fun MySettingScreen(nav01: () -> Unit = {}) {
+    androidx.compose.material.Scaffold(
+        topBar = {
+            androidx.compose.material.TopAppBar(
+                title = {
+                    Box(
+                        modifier = Modifier.fillMaxWidth(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            text = "设置",
+                            style = TextStyle(
+                                fontWeight = FontWeight.W900, //设置字体粗细
+                                fontSize = 18.sp,
+                            ),
+                            modifier = Modifier.offset(-25.dp, 0.dp)//向左偏移一段距离
+                        )
+                    }
+                },
+                //左侧按钮
+                navigationIcon = {
+                    IconButton(onClick = nav01) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.g1_2_0_ic_arrow_left),
+                            contentDescription = ""
+                        )
 
-    Box(
+                    }
+                },
+                //右侧按钮
+                actions = {
+//                    Image(
+//                        painter = painterResource(id = R.drawable.g2_5_btn_friend),
+//                        contentDescription = null,
+//                        modifier = Modifier
+//                            .width(100.dp)
+//                            .height(100.dp)
+//                            .offset(-10.dp, 0.dp)
+////                            .clickable(onClick = {userViewModel.uiState.value.pageState.value=3})
+//                    )
+                },
+
+                backgroundColor =  Color(243, 243, 243),
+                contentColor = Color.Black,
+                elevation = 0.dp, //设置阴影
+            )
+        }
+    ){Box(
         modifier = Modifier
             .fillMaxSize()
 
@@ -55,13 +102,13 @@ fun MySettingScreen() {
     ){
 
         Column() {
-            SettingTopAppBar()
+
             Column(modifier = Modifier.background(color = Color.White), horizontalAlignment = Alignment.CenterHorizontally) {
                 Row(horizontalArrangement = Arrangement.SpaceBetween,
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(top = 10.dp, bottom = 10.dp, start = 20.dp, end = 20.dp)
-                , verticalAlignment =Alignment.CenterVertically) {
+                    , verticalAlignment =Alignment.CenterVertically) {
                     Text(text = "头像", fontSize = 16.sp, fontWeight = W400, color = Color(73,74,89))
                     Image(
                         painter = painterResource(id = R.drawable.g7_0_userprofile),
@@ -162,7 +209,8 @@ fun MySettingScreen() {
                 )
             }
         }
-    }
+    }}
+
 
 
 }

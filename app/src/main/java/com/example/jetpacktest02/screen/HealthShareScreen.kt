@@ -16,6 +16,7 @@
 
 package com.example.jetpacktest02.ui.main
 
+import android.annotation.SuppressLint
 import android.bluetooth.BluetoothGatt
 import android.graphics.Point
 import android.util.Log
@@ -63,11 +64,14 @@ import androidx.compose.ui.unit.sp
 import com.example.jetpacktest02.R
 import com.example.jetpacktest02.compose.MyTopAppBar
 import com.example.scaffolddemo.ui.theme.Green1
+import com.example.scaffolddemo.ui.theme.Green2
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import org.intellij.lang.annotations.JdkConstants.HorizontalAlignment
 
 /**
  * The Bills screen.
  */
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Preview(showBackground=true,widthDp=393,heightDp=851)
 @Composable
 fun HealthShareScreen(
@@ -75,34 +79,169 @@ fun HealthShareScreen(
     nav01: () -> Unit={},
 
 ) {
-    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-        Box (modifier = Modifier.padding(top=108.dp)
-        , contentAlignment = Alignment.BottomCenter
+    rememberSystemUiController().setStatusBarColor(
+        Color.White, darkIcons = androidx.compose.material.MaterialTheme.colors.isLight
+    )
+
+    Surface() {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier
+                .fillMaxSize()
+                .background(
+                    brush = Brush.verticalGradient(
+                        colors = listOf(
+                            Green1,
+                            Green2
+                        )
+                    )
+                )
+        ){ androidx.compose.material.Scaffold(
+            topBar = {
+                androidx.compose.material.TopAppBar(
+                    title = {
+                        Box(
+                            modifier = Modifier.fillMaxWidth(),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(
+                                text = "健康总结",
+                                style = TextStyle(
+                                    fontWeight = FontWeight.W900, //设置字体粗细
+                                    fontSize = 18.sp,
+                                ),
+                                modifier = Modifier.offset(-25.dp, 0.dp)//向左偏移一段距离
+                            )
+                        }
+                    },
+                    //左侧按钮
+                    navigationIcon = {
+                        IconButton(onClick = nav01) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.g1_2_0_ic_arrow_left),
+                                contentDescription = ""
+                            )
+
+                        }
+                    },
+                    //右侧按钮
+                    actions = {
+//                    Image(
+//                        painter = painterResource(id = R.drawable.g2_5_btn_friend),
+//                        contentDescription = null,
+//                        modifier = Modifier
+//                            .width(100.dp)
+//                            .height(100.dp)
+//                            .offset(-10.dp, 0.dp)
+////                            .clickable(onClick = {userViewModel.uiState.value.pageState.value=3})
+//                    )
+                    },
+
+                    backgroundColor = Color.Transparent,
+                    contentColor = Color.Black,
+                    elevation = 0.dp, //设置阴影
+                )
+            }
         ){
-            ImgBg()
-            Text("9.29-10.5", modifier = Modifier.padding(bottom = 540.dp),color=Color(73,73,89))
-            Column() {
-                UpperArea()
-                Spacer(modifier = Modifier.height(380.dp))
-            }
-            
-            Column (
-                modifier = Modifier.padding(start =65.dp, end = 70.dp),
-                horizontalAlignment=Alignment.Start,
-                verticalArrangement = Arrangement.spacedBy(20.dp)
-            ){
-                ProgressStep()
-                ProgressSit()
-                ProgressWater()
-                ProgressEat()
-                Spacer(modifier = Modifier.height(170.dp))
-            }
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                Box(
+                    modifier = Modifier
+                        .size(393.dp, 851.dp)
+                        .background(
+                            brush = Brush.verticalGradient(
+                                listOf(
+                                    Color(221, 247, 244),
+                                    Color(241, 246, 241)
+                                )
+                            )
+                        )
+                , contentAlignment = Alignment.TopCenter
+                ){
+                    Image(
+                        painter = painterResource(id = R.drawable.g6_3_card03),
+                        contentDescription = null,
+                    )
+                    Image(
+                        painter = painterResource(id = R.drawable.g6_3_card02),
+                        contentDescription = null,
+                    )
+                    Box(contentAlignment = Alignment.Center) {
+                        Image(
+                            painter = painterResource(id = R.drawable.g6_3_card01),
+                            contentDescription = null,
+                        )
 
-        }
-        Spacer(modifier = Modifier.height(10.dp))
-        RowOfBtns()
+                        /*Text("9.29-10.5", modifier = Modifier.padding(bottom = 540.dp),color=Color(73,73,89))*/
+                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
 
+                            UpperArea()
+                            Spacer(modifier = Modifier.height(70.dp))
+                            Column(
+                                modifier = Modifier.padding(start = 70.dp, end = 70.dp),
+                                horizontalAlignment = Alignment.Start,
+                                verticalArrangement = Arrangement.spacedBy(20.dp)
+                            ) {
+                                ProgressStep()
+                                ProgressSit()
+                                ProgressWater()
+                                ProgressEat()
+
+                            }
+
+
+                        }
+                    }
+                    Box(modifier = Modifier.height(851.dp), contentAlignment = Alignment.Center){
+                        Column(verticalArrangement = Arrangement.SpaceBetween,
+                        modifier = Modifier.fillMaxHeight(),
+                        horizontalAlignment = Alignment.CenterHorizontally) {
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+
+                                modifier = Modifier.padding(top = 14.dp)
+                            ) {
+                                Image(
+                                    painter = painterResource(id = R.drawable.userprofile_1),
+                                    contentDescription = null,
+                                    modifier = Modifier.size(52.dp)
+                                )
+                                Column() {
+                                    Text(
+                                        text = "@skcc", fontSize = 26.sp, color = Color(68, 91, 96),
+                                        fontWeight = FontWeight.W800
+                                    )
+                                    Text(
+                                        text = "2022 9/29-10/5",
+                                        fontSize = 14.sp,
+                                        color = Color(73, 74, 89),
+                                    )
+                                }
+                            }
+                            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+
+                                Image(
+                                    painter = painterResource(id = R.drawable.g6_3_tips),
+                                    contentDescription = null,
+                                )
+                                Spacer(modifier = Modifier.height(10.dp))
+                                RowOfBtns()
+                            }
+
+                        }
+
+
+                    }
+
+
+
+                }
+
+
+            }
+        }}
     }
+
+
 
 
 
@@ -248,7 +387,7 @@ fun BtnPhoto(){
 }
 @Composable//按钮列
 fun RowOfBtns(){
-    Row(horizontalArrangement = Arrangement.spacedBy(28.dp)) {
+    Row(horizontalArrangement = Arrangement.spacedBy(28.dp), modifier = Modifier.padding(bottom = 20.dp)) {
         BtnWechat()
         BtnMoment()
         BtnQQ()
@@ -374,11 +513,34 @@ fun ProgressEat(){
 }
 @Composable
 fun ThreeParameterColumn(){
-    Column(modifier=Modifier.padding(end = 20.dp,top=37.dp),
-        verticalArrangement = Arrangement.spacedBy(33.dp)) {
-        Text(text = "78", fontSize = 10.sp, color = Color(184,192,194))
-        Text(text = "372g", fontSize = 10.sp, color = Color(184,192,194))
-        Text(text = "70", fontSize = 10.sp, color = Color(184,192,194))
+    Column(
+        verticalArrangement = Arrangement.spacedBy(8.dp)) {
+        Box(contentAlignment = Alignment.BottomStart) {
+            Image(
+                painter = painterResource(id = R.drawable.g6_3_mood),
+                contentDescription = null,
+            )
+            Text(text = "79",
+                fontSize = 10.sp,
+                color = Color(184, 192, 194),
+            modifier = Modifier.padding(bottom = 5.dp,start =50.dp))
+        }
+        Box(contentAlignment = Alignment.BottomStart) {
+            Image(
+                painter = painterResource(id = R.drawable.g6_3_water),
+                contentDescription = null,
+            )
+            Text(text = "372g", fontSize = 10.sp, color = Color(184, 192, 194),
+                modifier = Modifier.padding(bottom = 5.dp, start =50.dp))
+        }
+        Box(contentAlignment = Alignment.BottomStart) {
+            Image(
+                painter = painterResource(id = R.drawable.g6_3_energy),
+                contentDescription = null,
+            )
+            Text(text = "70", fontSize = 10.sp, color = Color(184, 192, 194),
+                modifier = Modifier.padding(bottom = 5.dp,start =50.dp))
+        }
     }
 }
 
@@ -412,7 +574,14 @@ fun ProgressPlant(){
 fun PlantFrame(){
     Column(horizontalAlignment = Alignment.CenterHorizontally,
     verticalArrangement = Arrangement.spacedBy(10.dp)) {
-        ImgPlant()
+        Box(contentAlignment = Alignment.Center){
+            Image(
+                painter = painterResource(id = R.drawable.g6_3_round),
+                contentDescription = null,
+            )
+            ImgPlant()
+        }
+
         ProgressPlant()
 
     }
@@ -422,7 +591,7 @@ fun PlantFrame(){
 fun UpperArea(){
     Row {
         PlantFrame()
-        Spacer(modifier = Modifier.width(70.dp))
+        Spacer(modifier = Modifier.width(28.dp))
         ThreeParameterColumn()
     }
 }

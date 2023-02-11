@@ -39,13 +39,14 @@ import com.example.jetpacktest02.R
 import com.example.jetpacktest02.ui.main.PlanItem
 import com.example.scaffolddemo.ui.theme.*
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import kotlinx.coroutines.delay
 import kotlin.math.roundToInt
 
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Preview
 @Composable
-fun SetPlanDrinkScreen(){
+fun SetPlanDrinkScreen(nav01: () -> Unit={}){
     rememberSystemUiController().setStatusBarColor(
         Green1, darkIcons = androidx.compose.material.MaterialTheme.colors.isLight
     )
@@ -130,11 +131,10 @@ fun SetPlanDrinkScreen(){
                         //左侧按钮
                         navigationIcon = {
 
-                            IconButton(onClick = {}) {
-                                Icon(
-                                    bitmap = ImageBitmap.imageResource(id = R.drawable.g1_2_0_ic_arrow_left),
-                                    contentDescription = null
-                                ) }
+                            Icon(
+                                bitmap = ImageBitmap.imageResource(id = R.drawable.g1_2_0_ic_arrow_left),
+                                contentDescription = null, modifier = Modifier.offset(19.dp).clickable(onClick =nav01, indication = null, interactionSource = MutableInteractionSource() )
+                            )
                         },
                         //右侧按钮
                         actions = {
@@ -170,6 +170,19 @@ fun SetPlanDrinkScreen(){
                         painter = painterResource(id = R.drawable.g1_2_icbg_drinkwater),
                         contentDescription = null, modifier = Modifier.fillMaxWidth()
                     )
+                    var state by remember {
+                        mutableStateOf(false)
+                    }
+                    LaunchedEffect(key1 = state) {
+                        delay(100)
+                        state = true
+                    }
+                    AnimatedVisibility(
+                        visible = state,
+                        enter =slideInVertically(initialOffsetY = { -40 }
+                        ) + fadeIn(initialAlpha = 0.3f),
+                        exit= fadeOut(targetAlpha = 0f) + shrinkVertically(shrinkTowards = Alignment.Top)
+                    ) {
 
                     Card(
                         Modifier
@@ -416,7 +429,7 @@ fun SetPlanDrinkScreen(){
 
                                 Spacer(modifier = Modifier.padding(16.dp))
                                 Button(
-                                    onClick = { /*TODO*/ },
+                                    onClick = nav01,interactionSource = MutableInteractionSource(),
                                     modifier = Modifier
                                         .width(136.dp)
                                         .height(54.dp),
@@ -431,7 +444,7 @@ fun SetPlanDrinkScreen(){
                                 Spacer(modifier = Modifier.padding(10.dp))
                             }
                         }
-                    }
+                    }}
                     Spacer(Modifier.height(20.dp))
 
                 }

@@ -27,6 +27,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -170,35 +171,26 @@ fun NewScreen() {
                 contentAlignment = Alignment.Center
             ) {
                 Row() {
-                    IconButton(onClick = { /*TODO*/ }) {
-                        Icon(
+                    Icon(
                             bitmap = ImageBitmap.imageResource(id = R.drawable.g1_2_0_ic_arrow_left),
                             contentDescription = null,
                             modifier = Modifier.offset(-110.dp, 5.dp)
-                        )
-                    }
-
-
+                            )
                     Text(
                         text = "计划日程",
                         style = TextStyle(
                             fontWeight = FontWeight.W900, //设置字体粗细
                             fontSize = 18.sp
-                        ), modifier = Modifier.offset(-117.dp, 17.dp)
+                        ), modifier = Modifier.offset(-100.dp, 1.dp)
                     )
-                    IconButton(onClick = { /*TODO*/ }) {
-
-                        Icon(
+                    Icon(
                             bitmap = ImageBitmap.imageResource(id = R.drawable.g1_4_1_ic_more),
                             contentDescription = null,
                             modifier = Modifier
-                                .offset(90.dp, 5.dp)
+                                .offset(110.dp, 1.dp)
                                 .size(32.dp)
-                                .clickable(onClick = { scope.launch { state.show() } })
+                                .clickable(onClick = { scope.launch { state.show() } }, indication = null, interactionSource = MutableInteractionSource())
                         )
-
-                    }
-
                 }
 
             }
@@ -798,17 +790,19 @@ fun EatCardPage(
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun PlantPlanScreen(
-//            bills : (String) -> Unit = {},
+
     nav01: () -> Unit = {},
     nav02: () -> Unit = {},
+    nav03: () -> Unit = {},
     nav05: () -> Unit = {},
 
     ) {
-    rememberSystemUiController().setStatusBarColor(
-        Yellow1, darkIcons = androidx.compose.material.MaterialTheme.colors.isLight
-    )
+
 
     Box() {
+        rememberSystemUiController().setStatusBarColor(
+            Yellow1, darkIcons = androidx.compose.material.MaterialTheme.colors.isLight
+        )
 
         val state = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
         val scope = rememberCoroutineScope()
@@ -819,13 +813,12 @@ fun PlantPlanScreen(
                     contentAlignment = Alignment.Center
                 ) {
                     Row() {
-                        IconButton(onClick = { /*TODO*/ }) {
+
                             Icon(
                                 bitmap = ImageBitmap.imageResource(id = R.drawable.g1_2_0_ic_arrow_left),
                                 contentDescription = null,
-                                modifier = Modifier.offset(-110.dp, 5.dp)
-                            )
-                        }
+                                modifier = Modifier.offset(-110.dp, 5.dp).clickable(onClick =nav03, indication = null, interactionSource = MutableInteractionSource()
+                            ))
 
 
                         Text(
@@ -833,21 +826,16 @@ fun PlantPlanScreen(
                             style = TextStyle(
                                 fontWeight = FontWeight.W900, //设置字体粗细
                                 fontSize = 18.sp
-                            ), modifier = Modifier.offset(-117.dp, 17.dp)
+                            ), modifier = Modifier.offset(-117.dp, 5.dp)
                         )
-                        IconButton(onClick = { /*TODO*/ }) {
-
                             Icon(
                                 bitmap = ImageBitmap.imageResource(id = R.drawable.g1_4_1_ic_more),
                                 contentDescription = null,
                                 modifier = Modifier
                                     .offset(90.dp, 5.dp)
                                     .size(32.dp)
-                                    .clickable(onClick = { scope.launch { state.show() } })
+                                    .clickable(onClick = { scope.launch { state.show() } }, indication = null, interactionSource = MutableInteractionSource())
                             )
-
-                        }
-
                     }
 
                 }
@@ -887,7 +875,7 @@ fun PlantPlanScreen(
                                         fontWeight = FontWeight.W900, //设置字体粗细
                                         fontSize = 16.sp,
                                     ),
-                                    modifier = Modifier.clickable(onClick = nav05)
+                                    modifier = Modifier.clickable(onClick = nav05, indication = null, interactionSource = MutableInteractionSource())
                                 )
                                 Spacer(modifier = Modifier.padding(vertical = 15.dp))
                                 Text(

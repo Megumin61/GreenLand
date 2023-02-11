@@ -19,6 +19,7 @@ package com.example.jetpacktest02.ui.main
 import android.annotation.SuppressLint
 import androidx.compose.animation.*
 import androidx.compose.foundation.*
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -56,6 +57,13 @@ import kotlinx.coroutines.delay
 @Composable
 fun PlanListAddedScreen(
     nav:()->Unit={},
+    nav01: () -> Unit={},
+    nav02: () -> Unit={},
+    nav03: () -> Unit={},
+    nav04: () -> Unit={},
+    nav05: () -> Unit={},
+    nav06: () -> Unit={},
+    nav07: () -> Unit={},
     userViewModel: UserViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
 ){
     var state by remember {
@@ -103,12 +111,10 @@ fun PlanListAddedScreen(
                         elevation = 0.dp, //设置阴影
                         //左侧按钮
                         navigationIcon = {
-
-                            IconButton(onClick = {}) {
-                                Icon(
-                                    bitmap = ImageBitmap.imageResource(id = R.drawable.g1_2_0_ic_arrow_left),
-                                    contentDescription = null
-                                ) }
+                            Icon(
+                                bitmap = ImageBitmap.imageResource(id = R.drawable.g1_2_0_ic_arrow_left),
+                                contentDescription = null, modifier = Modifier.offset(19.dp).clickable(onClick =nav06, indication = null, interactionSource = MutableInteractionSource() )
+                            )
                         },
                         //右侧按钮
                         actions = {
@@ -166,25 +172,30 @@ fun PlanListAddedScreen(
                     }
                         Image(
                             painter = painterResource(id = R.drawable.g1_2_icbg_sports),
-                            contentDescription = null
+                            contentDescription = null, modifier = Modifier.clickable(onClick = nav01
+                                , indication = null, interactionSource = MutableInteractionSource()
+                            )
                         )
                         Image(
                             painter = painterResource(id = R.drawable.g1_2_icbg_drinkwater),
-                            contentDescription = null
+                            contentDescription = null,modifier = Modifier.clickable(onClick = nav02
+                                , indication = null, interactionSource = MutableInteractionSource())
                         )
                         Image(
                             painter = painterResource(id = R.drawable.g1_2_icbg_sleep),
-                           contentDescription = null
+                            contentDescription = null,modifier = Modifier.clickable(onClick = nav03
+                                , indication = null, interactionSource = MutableInteractionSource())
                         )
                         Image(
                             painter = painterResource(id = R.drawable.g1_2_icbg_eating),
-                           contentDescription = null
+                            contentDescription = null,modifier = Modifier.clickable(onClick = nav04
+                                , indication = null, interactionSource = MutableInteractionSource())
                         )
 
                         Spacer(Modifier.height(5.dp))
 
                         Spacer(Modifier.height(5.dp))
-                        Button(onClick =  {} , modifier = Modifier
+                        Button(onClick =nav07 ,interactionSource = MutableInteractionSource(), modifier = Modifier
                             .width(136.dp)
                             .height(54.dp)
                             ,colors = ButtonDefaults.buttonColors(containerColor = Green5)

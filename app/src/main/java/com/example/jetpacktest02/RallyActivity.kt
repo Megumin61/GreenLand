@@ -182,7 +182,7 @@ fun RallyApp() {
             //管理路由：页面跳转
             NavHost(
                 navController = navController,
-                startDestination = Plant.route,
+                startDestination = PlantPlan.route,
                 modifier = Modifier.padding(innerPadding)
 
             ) {
@@ -239,6 +239,11 @@ fun RallyApp() {
                                 launchSingleTop = true;
                             }
                         },
+                        nav03 = {
+                            navController.navigate(Plant.route) {
+                                launchSingleTop = true;
+                            }
+                        },
                         nav05 = {
                             navController.navigate(PlanList.route) {
                                 launchSingleTop = true;
@@ -272,38 +277,77 @@ fun RallyApp() {
                                 launchSingleTop = true;
                             }
                         },
+                        nav06={navController.popBackStack()}
 
                         )
                 }
 
                 composable(route = SetPlanSports.route) {
                     SetPlanSportsScreen(
+                        nav01 = {navController.popBackStack()}
                     )
                 }
                 composable(route = SetPlanDrink.route) {
-                    SetPlanDrinkScreen()
+                    SetPlanDrinkScreen(
+                        nav01 = {navController.popBackStack()}
+                    )
                 }
                 composable(route = SetPlanSleep.route) {
-                    SetPlanSleepScreen()
+                    SetPlanSleepScreen(nav01 = {navController.popBackStack()})
                 }
                 composable(route = SetPlanEating.route) {
-                    SetPlanEatingScreen()
+                    SetPlanEatingScreen(nav01 = {navController.popBackStack()})
                 }
 
                 composable(route = SetPlanDiy.route) {
                     SetPlanDiyScreen(
+                        nav02 = {navController.popBackStack()},
                         nav01 = {
                             navController.navigate(PlanListAdded.route) {
                                 launchSingleTop = true;
                             }
-                        }, userViewModel
+                        }, userViewModel = userViewModel
 
 
                     )
                 }
                 composable(route = PlanListAdded.route) {
-                    PlanListAddedScreen(userViewModel = userViewModel, nav = {})
+                    PlanListAddedScreen(
+                        nav01 = {
+                        navController.navigate(SetPlanSports.route) { launchSingleTop = true; }
+                    },
+                        nav02 = {
+                            navController.navigate(SetPlanDrink.route) {
+                                launchSingleTop = true;
+                            }
+                        },
+                        nav03 = {
+                            navController.navigate(SetPlanSleep.route) {
+                                launchSingleTop = true;
+                            }
+                        },
+                        nav04 = {
+                            navController.navigate(SetPlanEating.route) {
+                                launchSingleTop = true;
+                            }
+                        },
+                        nav05 = {
+                            navController.navigate(SetPlanDiy.route) {
+                                launchSingleTop = true;
+                            }
+                        },
+                        nav06 = {
+                        navController.navigate(PlantPlan.route) {
+                            launchSingleTop = true;popUpTo(PlantPlan.route)
+                        }
+                    },nav07 = {
+                        navController.navigate(SetPlanDiy.route) {
+                            launchSingleTop = true;popUpTo(PlantPlan.route)
+                        }
+                    }
+                        ,userViewModel = userViewModel, nav = {},)
                 }
+
                 composable(route = ChooseSeed.route) {
                     ChooseSeed(userViewModel = userViewModel)
                 }

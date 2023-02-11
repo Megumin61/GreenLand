@@ -84,93 +84,93 @@ fun PlantScreen(
     rememberSystemUiController().setStatusBarColor(
         Color.White, darkIcons = androidx.compose.material.MaterialTheme.colors.isLight
     )
-    Column {
-        Text("1.1-Plant")
-        Button(
-            onClick = nav01,
-            contentPadding = ButtonDefaults.ButtonWithIconContentPadding
-        ) {
-            Icon(
-                Icons.Filled.Favorite,
-                contentDescription = "Localized description",
-                modifier = Modifier.size(ButtonDefaults.IconSize)
-            )
-            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-            Text("1.2-plant-plan")
-        }
-        Button(
-            onClick = nav02,
-            contentPadding = ButtonDefaults.ButtonWithIconContentPadding
-        ) {
-            Icon(
-                Icons.Filled.Favorite,
-                contentDescription = "Localized description",
-                modifier = Modifier.size(ButtonDefaults.IconSize)
-            )
-            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-            Text("1.3-Dailyhealthmessage")
-        }
-        Button(
-            onClick = nav03,
-            contentPadding = ButtonDefaults.ButtonWithIconContentPadding
-        ) {
-            Icon(
-                Icons.Filled.Favorite,
-                contentDescription = "Localized description",
-                modifier = Modifier.size(ButtonDefaults.IconSize)
-            )
-            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-            Text("4.1-island-chooseIsland")
-        }
-        Button(
-            onClick = nav04,
-            contentPadding = ButtonDefaults.ButtonWithIconContentPadding
-        ) {
-            Icon(
-                Icons.Filled.Favorite,
-                contentDescription = "Localized description",
-                modifier = Modifier.size(ButtonDefaults.IconSize)
-            )
-            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-            Text("2.1-message")
-        }
-        Button(
-            onClick = nav05,
-            contentPadding = ButtonDefaults.ButtonWithIconContentPadding
-        ) {
-            Icon(
-                Icons.Filled.Favorite,
-                contentDescription = "Localized description",
-                modifier = Modifier.size(ButtonDefaults.IconSize)
-            )
-            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-            Text("7.0-My")
-        }
-        Button(
-            onClick = nav06,
-            contentPadding = ButtonDefaults.ButtonWithIconContentPadding
-        ) {
-            Icon(
-                Icons.Filled.Favorite,
-                contentDescription = "Localized description",
-                modifier = Modifier.size(ButtonDefaults.IconSize)
-            )
-            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-            Text("5.1.1-PlantBag-possessed")
-        }
-        Button(
-            onClick = nav07,
-            contentPadding = ButtonDefaults.ButtonWithIconContentPadding
-        ) {
-            Icon(
-                Icons.Filled.Favorite,
-                contentDescription = "Localized description",
-                modifier = Modifier.size(ButtonDefaults.IconSize)
-            )
-            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-            Text("test")
-        }
-    }
+//    Column {
+//        Text("1.1-Plant")
+//        Button(
+//            onClick = nav01,
+//            contentPadding = ButtonDefaults.ButtonWithIconContentPadding
+//        ) {
+//            Icon(
+//                Icons.Filled.Favorite,
+//                contentDescription = "Localized description",
+//                modifier = Modifier.size(ButtonDefaults.IconSize)
+//            )
+//            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
+//            Text("1.2-plant-plan")
+//        }
+//        Button(
+//            onClick = nav02,
+//            contentPadding = ButtonDefaults.ButtonWithIconContentPadding
+//        ) {
+//            Icon(
+//                Icons.Filled.Favorite,
+//                contentDescription = "Localized description",
+//                modifier = Modifier.size(ButtonDefaults.IconSize)
+//            )
+//            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
+//            Text("1.3-Dailyhealthmessage")
+//        }
+//        Button(
+//            onClick = nav03,
+//            contentPadding = ButtonDefaults.ButtonWithIconContentPadding
+//        ) {
+//            Icon(
+//                Icons.Filled.Favorite,
+//                contentDescription = "Localized description",
+//                modifier = Modifier.size(ButtonDefaults.IconSize)
+//            )
+//            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
+//            Text("4.1-island-chooseIsland")
+//        }
+//        Button(
+//            onClick = nav04,
+//            contentPadding = ButtonDefaults.ButtonWithIconContentPadding
+//        ) {
+//            Icon(
+//                Icons.Filled.Favorite,
+//                contentDescription = "Localized description",
+//                modifier = Modifier.size(ButtonDefaults.IconSize)
+//            )
+//            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
+//            Text("2.1-message")
+//        }
+//        Button(
+//            onClick = nav05,
+//            contentPadding = ButtonDefaults.ButtonWithIconContentPadding
+//        ) {
+//            Icon(
+//                Icons.Filled.Favorite,
+//                contentDescription = "Localized description",
+//                modifier = Modifier.size(ButtonDefaults.IconSize)
+//            )
+//            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
+//            Text("7.0-My")
+//        }
+//        Button(
+//            onClick = nav06,
+//            contentPadding = ButtonDefaults.ButtonWithIconContentPadding
+//        ) {
+//            Icon(
+//                Icons.Filled.Favorite,
+//                contentDescription = "Localized description",
+//                modifier = Modifier.size(ButtonDefaults.IconSize)
+//            )
+//            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
+//            Text("5.1.1-PlantBag-possessed")
+//        }
+//        Button(
+//            onClick = nav07,
+//            contentPadding = ButtonDefaults.ButtonWithIconContentPadding
+//        ) {
+//            Icon(
+//                Icons.Filled.Favorite,
+//                contentDescription = "Localized description",
+//                modifier = Modifier.size(ButtonDefaults.IconSize)
+//            )
+//            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
+//            Text("test")
+//        }
+//    }
     //pagerState为底部viewpager参数
     val pagerState: PagerState = remember { PagerState() }
     VerticalPager(count = 2, state = pagerState) { page ->
@@ -207,7 +207,6 @@ fun MainPlantPage(
     }
     var state3 by remember {
         mutableStateOf(false)
-
     }
 
     LaunchedEffect(key1 = state){

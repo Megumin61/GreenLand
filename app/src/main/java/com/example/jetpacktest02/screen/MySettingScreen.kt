@@ -34,6 +34,7 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.HorizontalPagerIndicator
 import com.google.accompanist.pager.PagerState
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 // 水平指示器
 
@@ -43,6 +44,9 @@ import com.google.accompanist.pager.PagerState
 @Preview(showBackground=true,widthDp=393,heightDp=851)
 @Composable
 fun MySettingScreen(nav01: () -> Unit = {}) {
+    rememberSystemUiController().setStatusBarColor(
+        Color.White, darkIcons = androidx.compose.material.MaterialTheme.colors.isLight
+    )
     androidx.compose.material.Scaffold(
         topBar = {
             androidx.compose.material.TopAppBar(

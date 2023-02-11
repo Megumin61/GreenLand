@@ -208,6 +208,10 @@ object MyCupBoard : RallyDestination {
     override val route = "7.2-cupboard"
 }
 
+object MySetting : RallyDestination {
+    override val icon = Icons.Filled.MoneyOff
+    override val route = "7.3-Setting"
+}
 
 
 // Screens to be displayed in the top RallyTabRow

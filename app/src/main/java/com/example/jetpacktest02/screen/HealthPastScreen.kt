@@ -420,9 +420,7 @@ fun PastHealthViewTabRow(nav01: () -> Unit={},) {
                             item {
                                 ImgAdviceFrame()
                             }
-                            item {
-                                BtnGetConclusion()
-                            }
+
 
 
                         })

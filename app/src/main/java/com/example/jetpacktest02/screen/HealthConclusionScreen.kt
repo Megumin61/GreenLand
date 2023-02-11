@@ -243,8 +243,10 @@ private fun identifyClickItem(points: List<Point>, x: Float, y: Float): Int {
 //----------------------------------------------------------------------------------
 @Composable
 fun BarChart() {
-    val point = listOf(
-        Point(10, 200), Point(115, 100), Point(218, 30),
+
+    var p1:Int=200
+    var point = listOf(//x轴数据无需修改，
+        Point(10, p1), Point(115, 100), Point(218, 30),
         Point(323, 200), Point(426, 120), Point(532, 10),
         Point(635, 100)
     )

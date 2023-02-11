@@ -19,6 +19,7 @@ import android.text.BoringLayout
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.text.input.DeleteSurroundingTextInCodePointsCommand
 import com.example.jetpacktest02.R
 import com.example.jetpacktest02.screen.LocationDetails
 import com.google.accompanist.pager.rememberPagerState
@@ -271,4 +272,45 @@ data class TapListItemModel(
     var res: Int,
     var res2: Int,
     var time: String
+)
+
+//健康总结 各项健康指标的日数据
+data class HealthConclusionItem(
+    public var stepMonday:Int=200,//周一步数
+    var stepTuesday:Int,//周二步数
+    var stepWednesday:Int,//周三步数
+    var stepThursday:Int,//周四步数
+    var stepFriday:Int,//周五步数
+    var stepSaturday:Int,//周六步数
+    var stepSunday:Int,//周天步数
+    var avgStep:Float=(stepMonday+stepTuesday+stepWednesday+stepThursday+stepFriday+stepFriday+stepSaturday+stepSunday)/7f,//一周平均步数
+
+    var sitMonday:Int,//周一久坐时间
+    var sitTuesday:Int,//周二久坐时间
+    var sitWednesday:Int,//周三久坐时间
+    var sitThursday:Int,//周四久坐时间
+    var sitFriday:Int,//周五久坐时间
+    var sitSaturday:Int,//周六久坐时间
+    var sitSunday:Int,//周天久坐时间
+    var avgSit:Float=(sitMonday+sitTuesday+sitWednesday+sitThursday+sitFriday+sitFriday+sitSaturday+sitSunday)/7f,//一周平均久坐时间
+
+
+    var waterMonday:Int,//周一喝水次数
+    var waterTuesday:Int,//周二喝水次数
+    var waterWednesday:Int,//周三喝水次数
+    var waterThursday:Int,//周四喝水次数
+    var waterFriday:Int,//周五喝水次数
+    var waterSaturday:Int,//周六喝水次数
+    var waterSunday:Int,//周天喝水次数
+    var avgWater:Float=(waterMonday+waterTuesday+waterWednesday+waterThursday+waterFriday+waterFriday+waterSaturday+waterSunday)/7f,//一周平均喝水次数
+
+    var eatMonday:Int,//周一按时吃饭次数
+    var eatTuesday:Int,//周二按时吃饭次数
+    var eatWednesday:Int,//周三按时吃饭次数
+    var eatThursday:Int,//周四按时吃饭次数
+    var eatFriday:Int,//周五按时吃饭次数
+    var eatSaturday:Int,//周六按时吃饭次数
+    var eatSunday:Int,//周天按时吃饭次数
+    var avgEat:Float=(eatMonday+eatTuesday+eatWednesday+eatThursday+eatFriday+eatFriday+eatSaturday+eatSunday)/7f,//一周平均按时吃饭次数
+
 )

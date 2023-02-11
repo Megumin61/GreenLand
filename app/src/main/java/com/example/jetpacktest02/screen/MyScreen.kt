@@ -59,7 +59,8 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 fun MyScreen(
 //            bills : (String) -> Unit = {},
     nav01: () -> Unit={},
-
+    nav02: () -> Unit={},
+    nav03: () -> Unit={},
 ) {
     rememberSystemUiController().setStatusBarColor(
         Green1, darkIcons = androidx.compose.material.MaterialTheme.colors.isLight
@@ -98,7 +99,7 @@ fun MyScreen(
                     contentDescription = null,
                 )
                 Column(verticalArrangement = Arrangement.spacedBy(27.dp), horizontalAlignment = Alignment.CenterHorizontally) {
-                    Button(onClick = { /*TODO*/ },
+                    Button(onClick =nav02,
                         colors = ButtonDefaults.outlinedButtonColors(),
                         contentPadding = PaddingValues(0.dp),
                         shape = RectangleShape
@@ -121,7 +122,7 @@ fun MyScreen(
                         )
 
                     }
-                    Button(onClick = { /*TODO*/ },
+                    Button(onClick = nav03,
                         colors = ButtonDefaults.outlinedButtonColors(),
                         contentPadding = PaddingValues(0.dp),
                         shape = RectangleShape) {

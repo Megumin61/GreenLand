@@ -1,6 +1,7 @@
 package com.example.jetpacktest02
 
 import MyCupBoardScreen
+import MySettingScreen
 import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -483,7 +484,15 @@ fun RallyApp() {
                     MyScreen(
                         nav01 = {
                             navController.navigate(MyCupBoard.route) { launchSingleTop = true; }
-                        }
+                        } ,
+                        nav02 = {
+                            navController.navigate(HealthPast.route) { launchSingleTop = true; }
+                        } ,
+                        nav03 = {
+                            navController.navigate(MySetting.route) { launchSingleTop = true; }
+                        } ,
+
+
                     )
                 }
                 composable(route = PlantBagPossessed.route) {
@@ -534,9 +543,33 @@ fun RallyApp() {
                 }
                 composable(route = HealthPast.route) {
                     HealthPastScreen(
+                            nav01 = {
+                               navController.navigate(HealthShare.route) { launchSingleTop = true; }
+                            }
+
+                    )
+                }
+
+                composable(route = MySetting.route) {
+                    MySettingScreen(
 //                        nav01 = {
 //                            navController.navigate(MyCupBoard.route) { launchSingleTop = true; }
 //                        }
+
+                    )
+                }
+
+                composable(route = HealthShare.route) {
+                    HealthShareScreen(
+//                        nav01 = {
+//                            navController.navigate(HealthShare.route) { launchSingleTop = true; }
+//                        }
+
+                    )
+                }
+                composable(route = HealthPast.route) {
+                    HealthPastScreen(
+
 
                     )
                 }

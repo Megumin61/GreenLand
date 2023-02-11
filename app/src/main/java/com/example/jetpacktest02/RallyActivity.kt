@@ -5,7 +5,9 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Button
 import androidx.compose.material.ExperimentalMaterialApi
@@ -13,7 +15,9 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
@@ -24,6 +28,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.jetpacktest02.Entity.User
+import com.example.jetpacktest02.ViewModel.MarsViewModel
 import com.example.jetpacktest02.ViewModel.UserViewModel
 import com.example.jetpacktest02.compose.MyBottomNavBar
 import com.example.jetpacktest02.config.UsersApplication
@@ -55,8 +60,8 @@ class RallyActivity : ComponentActivity() {
 
         setContent {
 
-            WordBookApp()
-//            RallyApp()
+//            WordBookApp()
+            RallyApp()
         }
     }
 
@@ -71,15 +76,37 @@ class RallyActivity : ComponentActivity() {
 
 }
 
+@Composable
+fun ErrorScreen(error:String) {
+    Box(
+        contentAlignment = Alignment.Center,
+        modifier = Modifier.fillMaxSize()
+    ) {
+        Text(error)
+    }
+}
+
+@Composable
+fun ResultScreen(result: String) {
+    Box(
+        contentAlignment = Alignment.Center,
+        modifier = Modifier.fillMaxSize()
+    ) {
+        Text(text = "dddddddddddddddddddd")
+        Text(result)
+    }
+}
+
 //在这里演示如何在组件中实现对User表的增删改查
 @Composable
-fun WordBookApp(userViewModel: UserViewModel = androidx.lifecycle.viewmodel.compose.viewModel()) {
+fun WordBookApp(userViewModel: UserViewModel = viewModel()) {
 //    val count by mainViewModel.counterLiveData.observeAsState(0)
     //    val users by viewModel.allUsers.observeAsState(listOf())
 
     //这里是viewmodel提供的所有user列表的数据
+    val marsViewModel: MarsViewModel = viewModel()
     val users: List<User> by userViewModel.allUsers.observeAsState(mutableListOf())
-
+    val userList = marsViewModel.getUserList()
 
     //增：往数据库中插入某个user对象，可以不传id，id为主键自增
     val user_insert = User("Hello", "13333","dada")
@@ -100,6 +127,9 @@ fun WordBookApp(userViewModel: UserViewModel = androidx.lifecycle.viewmodel.comp
         Button(onClick = {     userViewModel.insert(user_insert) }) {
             Text(text = "insert")
         }
+        Button(onClick = {     marsViewModel.addUser(user_insert.name,user_insert.phoneNumber) }) {
+            Text(text = "remoteInsert")
+        }
         Button(onClick = {     userViewModel.UpdatePositionById(id=2, position = user_edit.position) }) {
             Text(text = "updatePosition")
         }
@@ -110,6 +140,11 @@ fun WordBookApp(userViewModel: UserViewModel = androidx.lifecycle.viewmodel.comp
         Text(users.size.toString())
         users.forEach{user ->
             Text(user.position.toString())
+        }
+        Text(text = userList.getOrNull(0)?.position.toString())
+        Text(text = userList.size.toString())
+        userList.forEach{user ->
+            Text(user.username.toString())
         }
     }
 }

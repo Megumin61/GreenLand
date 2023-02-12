@@ -125,6 +125,11 @@ object MessageFriend : RallyDestination {
     override val route = "2.5-message-friend"
 }
 
+object MessageID : RallyDestination {
+    override val icon = Icons.Filled.MoneyOff
+    override val route = "2.6-message-friendID"
+}
+
 object My : RallyDestination {
     override val icon = Icons.Filled.MoneyOff
     override val route = "7.0-My"

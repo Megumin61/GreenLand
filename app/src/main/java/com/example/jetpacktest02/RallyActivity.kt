@@ -210,7 +210,7 @@ fun RallyApp() {
             //管理路由：页面跳转
             NavHost(
                 navController = navController,
-                startDestination = Plant.route,
+                startDestination = MessageID.route,
                 modifier = Modifier.padding(innerPadding)
 
             ) {
@@ -507,6 +507,11 @@ fun RallyApp() {
                             navController.navigate(Message.route) { launchSingleTop = true; }
                         },
                         //参数提供方，添加一个navController
+                        controller = navController
+                    )
+                }
+                composable(route = MessageID.route) {
+                    MessageIDScreen(
                         controller = navController
                     )
                 }

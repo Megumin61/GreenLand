@@ -51,6 +51,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import com.example.jetpacktest02.Message
+import com.example.jetpacktest02.MessageID
 import com.example.jetpacktest02.R
 import com.example.jetpacktest02.ViewModel.UserViewModel
 import com.example.jetpacktest02.ui.main.DialogCard
@@ -133,38 +135,6 @@ fun MessageFriendScreen(
         }
         Column(Modifier.padding(5.dp)) {
             FriendTabRow(userViewModel, controller)
-//            Column(
-//                modifier = Modifier.fillMaxSize(),
-//                horizontalAlignment = Alignment.CenterHorizontally,
-//                verticalArrangement = Arrangement.Center
-//            ) {
-//                AnimatedVisibility(
-//                    visible = state.value,
-//                    enter = slideInVertically(initialOffsetY = { -40 }) + expandVertically(
-//                        expandFrom = Alignment.Top
-//                    ) + fadeIn(initialAlpha = 0.3f), exit = shrinkHorizontally() + fadeOut()
-//                ) {
-//                    Text(
-//                        text = "ssss",
-//                        fontWeight = FontWeight.W900,
-//                        style = MaterialTheme.typography.headlineMedium
-//                    )
-//                    Image(
-//                        painter = painterResource(id = R.drawable.g2_5_btn_friend),
-//                        contentDescription = null,
-//                        modifier = Modifier
-//                            .width(100.dp)
-//                            .height(100.dp)
-//                            .offset(-10.dp, 0.dp)
-//                            .clickable(onClick = {
-//                                state.value = !state.value
-//                            })
-//                    )
-//                }
-//                Button(onClick = { state.value = !state.value }) {
-//                    Text(if (state.value) "隐藏" else "显示")
-//                }
-//            }
             Text(text = userViewModel.uiState.value.currentRoot)
         }
     }
@@ -606,17 +576,17 @@ fun IconButtonFriendList(
     Column() {
         Row(
             Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceAround,//子元素的水平方向排列效果
+            horizontalArrangement = Arrangement.SpaceEvenly,//子元素的水平方向排列效果
 
         ) {
-            Spacer(Modifier.height(30.dp))
+            Spacer(Modifier.height(20.dp))
             //通讯录
             Image(
                 painter = painterResource(id = R.drawable.g2_5_1_ic_directory),
                 contentDescription = null,
                 modifier = Modifier
-                    .width(100.dp)
-                    .height(100.dp)
+                    .width(90.dp)
+                    .height(90.dp)
                     .clickable(
                         onClick = {
 //                    permissionState.launchPermissionRequest()
@@ -631,25 +601,39 @@ fun IconButtonFriendList(
                 painter = painterResource(id = R.drawable.g2_5_1_ic_code),
                 contentDescription = null,
                 modifier = Modifier
-                    .width(100.dp)
-                    .height(100.dp)
-//                .clickable(onClick = nav02)
+                    .width(90.dp)
+                    .height(90.dp)
+                    .clickable(
+                        onClick = {
+                            controller.navigate(MessageID.route) {
+                                launchSingleTop = true;
+                            }
+                        }, indication = null,
+                        interactionSource = MutableInteractionSource()
+                    )
 
             )
             Image(
                 painter = painterResource(id = R.drawable.g2_5_1_ic_scan),
                 contentDescription = null,
                 modifier = Modifier
-                    .width(100.dp)
-                    .height(100.dp)
+                    .width(90.dp)
+                    .height(90.dp)
             )
             Image(
                 painter = painterResource(id = R.drawable.g2_5_1_ic_scan1),
                 contentDescription = null,
                 modifier = Modifier
-                    .width(100.dp)
-                    .height(100.dp)
-//                .clickable(onClick = nav02)
+                    .width(90.dp)
+                    .height(90.dp)
+                    .clickable(
+                        onClick = {
+                            controller.navigate(MessageID.route) {
+                                launchSingleTop = true;
+                            }
+                        }, indication = null,
+                        interactionSource = MutableInteractionSource()
+                    )
             )
 
         }

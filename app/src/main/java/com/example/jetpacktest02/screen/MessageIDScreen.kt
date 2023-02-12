@@ -45,13 +45,21 @@ fun MessageIDScreen(controller: NavHostController) {
     Scaffold(
         snackbarHost = {
             SnackbarHost(snackbarHostState) { data ->
-                Snackbar(
-                    modifier = Modifier.width(280.dp),
-                    snackbarData = data,
-                    containerColor = Green5,
-                    contentColor = Color.White,
-                    shape = RoundedCornerShape(30.dp)
-                )
+                Box(
+                    modifier = Modifier.offset(0.dp,-50.dp)
+                        .wrapContentHeight()
+                        .fillMaxWidth(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Snackbar(
+                        modifier = Modifier.width(280.dp).wrapContentHeight(),
+                        containerColor = Green5,
+                        contentColor = Color.White,
+                        shape = RoundedCornerShape(30.dp)
+                    ){
+                        Text(data.visuals.message)
+                    }
+                }
             }
         },
 //        floatingActionButton = {

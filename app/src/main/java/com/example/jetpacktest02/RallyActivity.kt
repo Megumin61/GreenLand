@@ -182,7 +182,7 @@ fun RallyApp() {
             //管理路由：页面跳转
             NavHost(
                 navController = navController,
-                startDestination = PlantPlan.route,
+                startDestination = Plant.route,
                 modifier = Modifier.padding(innerPadding)
 
             ) {
@@ -303,8 +303,9 @@ fun RallyApp() {
                     SetPlanDiyScreen(
                         nav02 = {navController.popBackStack()},
                         nav01 = {
+                            //终点，返回的
                             navController.navigate(PlanListAdded.route) {
-                                launchSingleTop = true;
+                                launchSingleTop = true; popUpTo(PlantPlan.route)
                             }
                         }, userViewModel = userViewModel
 

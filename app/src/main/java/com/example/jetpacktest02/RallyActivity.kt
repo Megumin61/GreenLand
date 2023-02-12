@@ -465,7 +465,8 @@ fun RallyApp() {
                         nav01 = {
                             navController.popBackStack()
                         },
-                        userViewModel = userViewModel
+                        userViewModel = userViewModel,
+                        navController = navController
                     )
                 }
                 composable(

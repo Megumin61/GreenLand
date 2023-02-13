@@ -23,6 +23,7 @@ import com.example.jetpacktest02.config.UsersApplication
 import com.example.jetpacktest02.net.UserApi
 import kotlinx.coroutines.launch
 import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody
 import retrofit2.HttpException
 import java.io.IOException
@@ -68,7 +69,7 @@ class MarsViewModel : ViewModel() {
                 "    \"phone\":\"${phone}\"\n" +
                 "}"
         val body = RequestBody.create(
-            MediaType.parse("application/json"), json
+            "application/json".toMediaTypeOrNull(), json
         )
 
         viewModelScope.launch {
@@ -88,7 +89,7 @@ class MarsViewModel : ViewModel() {
                 "    \"step\":\"${step}\"\n" +
                 "}"
         val body = RequestBody.create(
-            MediaType.parse("application/json"), json
+            "application/json".toMediaTypeOrNull(), json
         )
 
         viewModelScope.launch {
@@ -108,7 +109,7 @@ class MarsViewModel : ViewModel() {
                 "    \"step\":\"${pos}\"\n" +
                 "}"
         val body = RequestBody.create(
-            MediaType.parse("application/json"), json
+            "application/json".toMediaTypeOrNull(), json
         )
 
         viewModelScope.launch {

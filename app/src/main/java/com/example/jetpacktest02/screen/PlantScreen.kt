@@ -704,7 +704,7 @@ fun MainPlantPage(
 //                        .width(180.dp)
 //                        .height(300.dp)
 //                )
-                GIFimage(modifier = Modifier.width(180.dp).height(300.dp), gif = R.drawable.flower_idle2)
+//                GIFimage(modifier = Modifier.width(180.dp).height(300.dp), gif = R.drawable.flower_idle2)
                 Image(
                     painter = painterResource(id = R.drawable.g1_1_bg_plantstage),
                     contentDescription = null,

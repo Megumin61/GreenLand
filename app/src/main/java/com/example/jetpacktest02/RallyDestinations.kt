@@ -212,6 +212,14 @@ object MyCupBoard : RallyDestination {
     override val icon = Icons.Filled.MoneyOff
     override val route = "7.2-cupboard"
 }
+object ReportCard : RallyDestination {
+    override val icon = Icons.Filled.MoneyOff
+    override val route = "reportcard"
+}
+object SharePost : RallyDestination {
+    override val icon = Icons.Filled.MoneyOff
+    override val route = "post"
+}
 
 
 

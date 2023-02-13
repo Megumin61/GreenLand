@@ -32,6 +32,7 @@ import com.airbnb.lottie.compose.*
 import com.example.jetpacktest02.R
 import com.example.scaffolddemo.ui.theme.*
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -45,12 +46,17 @@ fun IslandVisitOtherScreen(
     name: String?//用户名字
 ) {
     var webView: WebView
-
+    var showLoadingProgress by remember {
+        mutableStateOf(true)
+    }
     //植物状态显示变量
     var showPlantState by remember {
         mutableStateOf(false)
     }
-
+    LaunchedEffect(key1 = showLoadingProgress){
+        delay(10000)
+        showLoadingProgress = false
+    }
     val loadProgress = remember {
         mutableStateOf(0f)
     }
@@ -154,7 +160,7 @@ fun IslandVisitOtherScreen(
 
                         AndroidView(factory = { context ->
                             webView = WebView(context)
-                            webView.clearCache(true)
+//                            webView.clearCache(true)
                             webView.setVerticalScrollBarEnabled(false);
                             webView.setHorizontalScrollBarEnabled(false);
 
@@ -162,7 +168,9 @@ fun IslandVisitOtherScreen(
                                 settings.domStorageEnabled = false
                                 settings.javaScriptEnabled = true
                                 webViewClient = object : WebViewClient() {}
-                                loadUrl("https://my.spline.design/-b295baacf9372fa88aca6d2633179e3c/")
+//                                loadUrl("https://my.spline.design/-07468d271e6d991e66a8f68035dea85b/") //仙人球链接
+                                loadUrl("https://my.spline.design/-5cc97696ab5d97403db1ba1f59eaf94d/") //向白魁链接
+
                             }
 
                         }, modifier = Modifier
@@ -182,7 +190,7 @@ fun IslandVisitOtherScreen(
 
 
                     //页面其余组件
-                    if (loadProgress.value / 100 >= 1.0f) {
+                    if (!showLoadingProgress) {
                         Column(
                             modifier = Modifier
                                 .fillMaxSize()
@@ -395,7 +403,6 @@ fun IslandVisitOtherScreen(
                     }
 
 
-
 //                    if (loadProgress.value / 100 >= 1.0f) {
 //                    } else {
 //                        Column(
@@ -421,22 +428,35 @@ fun IslandVisitOtherScreen(
 //
 //                        }
 //                    }
-
-
                 }
-
             }
 
-            if (loadProgress.value / 100 < 1.0f) {
+            if (showLoadingProgress) {
                 Dialog(onDismissRequest = ({})) {
-                        LottieAnimation(
-                            composition = composition,
-                            progress = { progress },
-                            modifier = Modifier.size(200.dp).clip(RoundedCornerShape(15.dp)).background(Color.White)
-                        )
-                }
-            }
+                    Box(
+                        modifier = Modifier
+                            .size(200.dp)
+                            .clip(RoundedCornerShape(15.dp))
+                            .background(Color.White), contentAlignment = Alignment.Center
+                    ) {
+                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                            LottieAnimation(
+                                composition = composition,
+                                progress = { progress },
+                                modifier = Modifier.size(150.dp)
+                            )
+                            Text(
+                                text = "正在飞速加载中~",
+                                style = TextStyle(fontSize = 12.sp),
+                                fontWeight = FontWeight.W600
+                            )
+                        }
 
+
+                    }
+                }
+
+            }
         }
     }
 }

@@ -20,6 +20,12 @@ import android.annotation.SuppressLint
 import androidx.compose.animation.*
 import androidx.compose.animation.core.animateDp
 import androidx.compose.animation.core.updateTransition
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -34,11 +40,13 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.font.FontWeight.Companion.W500
 import androidx.compose.ui.text.font.FontWeight.Companion.W900
@@ -46,11 +54,20 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
+import androidx.navigation.NavController
+import com.airbnb.lottie.compose.*
+import com.example.jetpacktest02.HealthShare
 import com.example.jetpacktest02.R
+import com.example.jetpacktest02.SharePost
 import com.example.jetpacktest02.ViewModel.TapListItemModel
 import com.example.jetpacktest02.ViewModel.UserViewModel
 import com.example.jetpacktest02.screen.FriendList
 import com.example.jetpacktest02.screen.IconButtonFriendList
+import com.example.jetpacktest02.compose.GIFimage
+import com.example.jetpacktest02.compose.StepCounter
+import com.example.jetpacktest02.screen.HealthSumCard
 import com.example.scaffolddemo.ui.theme.*
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
@@ -60,12 +77,10 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 
-/**
- * The Bills screen.
- */
 
 //viewModel: UserViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
-@OptIn(ExperimentalPagerApi::class)
+//@OptIn(ExperimentalComposeUiApi::class,ExperimentalPagerApi::class)
+@OptIn(ExperimentalPagerApi::class, ExperimentalComposeUiApi::class)
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 fun PlantScreen(
@@ -77,9 +92,33 @@ fun PlantScreen(
     nav05: () -> Unit = {},
     nav06: () -> Unit = {},
     nav07: () -> Unit = {},
-    userViewModel: UserViewModel
+    nav08: () -> Unit = {},
+    userViewModel: UserViewModel,
+    navController: NavController
 
 ) {
+
+    val composition by rememberLottieComposition(LottieCompositionSpec.Asset("animations/trophy.json"))
+
+    var showHealthSumCard by remember {
+        mutableStateOf(false)
+    }
+    var HealthSumCardAnim by remember {
+        mutableStateOf(false)
+    }
+    LaunchedEffect(key1 = 1) {
+        delay(300)
+        showHealthSumCard = true
+        delay(200)
+        HealthSumCardAnim = true
+    }
+    val progress by animateLottieCompositionAsState(
+        composition,
+        iterations = 1,
+        isPlaying = HealthSumCardAnim,
+        speed = 0.8f,
+        restartOnPlay = true  // 暂停后重新播放是否从头开始
+    )
     //配置顶部状态栏颜色
     rememberSystemUiController().setStatusBarColor(
         Color.White, darkIcons = androidx.compose.material.MaterialTheme.colors.isLight
@@ -178,7 +217,348 @@ fun PlantScreen(
         if (page == 0) {
             MainPlantPage(userViewModel, nav01)
         } else {
+//            SecondPlantPage(userViewModel.uiState.value.PlantPage.value)
             SecondPlantPage(userViewModel.uiState.value.PlantPage.value)
+        }
+    }
+    Image(
+        painter = painterResource(id = R.drawable.g1_1_bg_plant),
+        contentDescription = null,
+        modifier = Modifier
+            .scale(1.1f, 1.0f)
+            .fillMaxHeight()
+            .fillMaxSize()
+    )
+    Column {
+        Text("1.1-Plant")
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            Text(
+                text = "应用运行以来的步数：${userViewModel.uiState.value.stepDetector.value}",
+                style = TextStyle(fontSize = 20.sp)
+            )
+            Text(
+                text = "开机以来的步数：${userViewModel.uiState.value.stepCounter.value}",
+                style = TextStyle(fontSize = 20.sp)
+            )
+        }
+        Button(
+            onClick = nav01,
+            contentPadding = ButtonDefaults.ButtonWithIconContentPadding
+        ) {
+            Icon(
+                Icons.Filled.Favorite,
+                contentDescription = "Localized description",
+                modifier = Modifier.size(ButtonDefaults.IconSize)
+            )
+            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
+            Text("1.2-plant-plan")
+        }
+        Button(
+            onClick = nav02,
+            contentPadding = ButtonDefaults.ButtonWithIconContentPadding
+        ) {
+            Icon(
+                Icons.Filled.Favorite,
+                contentDescription = "Localized description",
+                modifier = Modifier.size(ButtonDefaults.IconSize)
+            )
+            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
+            Text("1.3-Dailyhealthmessage")
+        }
+        Button(
+            onClick = nav03,
+            contentPadding = ButtonDefaults.ButtonWithIconContentPadding
+        ) {
+            Icon(
+                Icons.Filled.Favorite,
+                contentDescription = "Localized description",
+                modifier = Modifier.size(ButtonDefaults.IconSize)
+            )
+            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
+            Text("4.1-island-chooseIsland")
+        }
+        Button(
+            onClick = nav04,
+            contentPadding = ButtonDefaults.ButtonWithIconContentPadding
+        ) {
+            Icon(
+                Icons.Filled.Favorite,
+                contentDescription = "Localized description",
+                modifier = Modifier.size(ButtonDefaults.IconSize)
+            )
+            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
+            Text("2.1-message")
+        }
+        Button(
+            onClick = nav05,
+            contentPadding = ButtonDefaults.ButtonWithIconContentPadding
+        ) {
+            Icon(
+                Icons.Filled.Favorite,
+                contentDescription = "Localized description",
+                modifier = Modifier.size(ButtonDefaults.IconSize)
+            )
+            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
+            Text("7.0-My")
+        }
+        Button(
+            onClick = nav06,
+            contentPadding = ButtonDefaults.ButtonWithIconContentPadding
+        ) {
+            Icon(
+                Icons.Filled.Favorite,
+                contentDescription = "Localized description",
+                modifier = Modifier.size(ButtonDefaults.IconSize)
+            )
+            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
+            Text("5.1.1-PlantBag-possessed")
+        }
+        Button(
+            onClick = nav07,
+            contentPadding = ButtonDefaults.ButtonWithIconContentPadding
+        ) {
+            Icon(
+                Icons.Filled.Favorite,
+                contentDescription = "Localized description",
+                modifier = Modifier.size(ButtonDefaults.IconSize)
+            )
+            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
+            Text("test")
+        }
+    }
+    MainPlantPage(userViewModel, nav01)
+
+    if (showHealthSumCard) {
+        Dialog(
+            onDismissRequest = { showHealthSumCard = false },
+            properties = DialogProperties(usePlatformDefaultWidth = true)
+        ) {
+//            HealthSumCard()
+
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                androidx.compose.material3.Card(
+//                    onClick = { /* Do something */ },
+                    modifier = Modifier.size(width = 380.dp, height = 450.dp),
+                    shape = RoundedCornerShape(20.dp),
+                    colors = CardDefaults.cardColors(containerColor = Color.White)
+                ) {
+                    Column(
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 30.dp, vertical = 0.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                    ) {
+                        AnimatedVisibility(
+                            visible = HealthSumCardAnim,
+                            enter = fadeIn(initialAlpha = 0.3f) + slideInVertically(
+                                initialOffsetY = { 400 },
+                                animationSpec = tween(durationMillis = 500)
+                            )
+                        ) {
+//                            Image(
+//                                painter = painterResource(id = R.drawable.g0_1_ic_report_cup),
+//                                contentDescription = null,
+//                                modifier = Modifier
+//                                    .size(300.dp)
+//                                    .offset(0.dp, -15.dp)
+//                            )
+                            LottieAnimation(
+                                composition = composition,
+                                progress = { progress },
+                                modifier = Modifier
+                                    .size(250.dp)
+                                    .offset(0.dp, -35.dp)
+                            )
+                        }
+                        Column(
+                            modifier = Modifier
+                                .offset(y = -50.dp)
+                                .fillMaxHeight(),
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.Bottom
+                        ) {
+                            AnimatedVisibility(
+                                visible = HealthSumCardAnim,
+                                enter = fadeIn(initialAlpha = 0f, animationSpec =tween(durationMillis = 800) ) + slideInVertically(
+                                    initialOffsetY = { 20 },
+                                    animationSpec = tween(durationMillis = 1200)
+                                )
+                            ) {
+                                Column(
+                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                ) {
+
+                                    Row(
+                                        Modifier
+                                            .fillMaxWidth()
+//                                    .padding()
+//                                    .offset(0.dp, -50.dp)
+                                        ,
+                                        horizontalArrangement = Arrangement.Center
+                                    ) {
+                                        Text(
+                                            text = "你完成了",
+                                            fontSize = 15.sp,
+                                            color = Gray7
+                                        )
+                                        Text(
+                                            text = "97%",
+                                            fontSize = 24.sp,
+                                            fontWeight = FontWeight.W900,
+                                            color = Gray7, modifier = Modifier
+                                                .offset(0.dp, -8.dp)
+                                                .padding(horizontal = 3.dp)
+
+                                        )
+                                        Text(
+                                            text = "的本周计划！",
+                                            fontSize = 15.sp,
+                                            color = Gray7
+                                        )
+
+                                    }
+
+                                    Text(
+                                        text = "植物已经成熟，查看本周健康总结",
+                                        fontSize = 15.sp,
+                                        fontWeight = FontWeight.W900,
+                                        color = Gray7, modifier = Modifier
+//                                    .offset(0.dp, -45.dp)
+                                            .padding(start = 3.dp, bottom = 45.dp, end = 3.dp)
+
+                                    )
+                                }
+                            }
+
+
+
+                            Row(
+                                Modifier
+                                    .fillMaxWidth()
+                                    .offset(0.dp, -30.dp),
+                                horizontalArrangement = Arrangement.SpaceBetween
+                            ) {
+                                Image(
+                                    painter = painterResource(id = R.drawable.g0_1_ic_report_flower),
+                                    contentDescription = null
+                                )
+                                var progress by remember { mutableStateOf(0.1f) }
+                                val animatedProgress by animateFloatAsState(
+                                    targetValue = progress,
+                                    animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec
+                                )
+
+
+                                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                                    ProgressBar(
+                                        modifier = Modifier
+                                            .width(120.dp) // 指定进度条宽度
+                                            .height(10.dp)
+                                            .offset(5.dp, 7.dp), // 指定进度条高度
+                                        progress = 0.8f,
+                                        color = Color(26, 207, 163),
+                                        cornerRadius = 12.dp,
+                                        backgroundColor = ProgressGray
+                                    )
+
+
+                                    Row(modifier = Modifier.offset(0.dp, 12.dp)) {
+                                        Text(
+                                            text = "94",
+                                            fontSize = 12.sp,
+                                            color = LightGreen
+
+                                        )
+                                        Text(
+                                            text = "/100",
+                                            fontSize = 12.sp,
+                                            color = Color.Black
+                                        )
+
+
+                                    }
+                                }
+
+
+                                Text(
+                                    text = "能量+",
+                                    fontSize = 13.sp,
+                                    color = LightGreen,
+                                    fontWeight = FontWeight.W900,
+                                    modifier = Modifier.offset(5.dp, 1.dp)
+
+                                )
+                                Text(
+                                    text = "17",
+                                    fontSize = 14.sp,
+                                    color = LightGreen,
+                                    fontWeight = FontWeight.W900,
+                                    modifier = Modifier.offset(-4.dp, 0.5.dp)
+                                )
+                                Image(
+                                    painter = painterResource(id = R.drawable.g0_1_ic_report_lighting),
+                                    contentDescription = null,
+                                    modifier = Modifier
+                                        .offset(-8.dp, 5.dp)
+                                        .size(15.dp)
+                                )
+
+                            }
+
+
+                            AnimatedVisibility(
+                                visible = HealthSumCardAnim,
+                                enter = fadeIn(initialAlpha = 0.3f, animationSpec = tween(400)),
+                                modifier = Modifier.height(60.dp)
+                            ) {
+
+                                androidx.compose.material3.Button(
+                                    onClick = {
+                                        showHealthSumCard = false
+                                        navController.navigate(SharePost.route) {
+                                            launchSingleTop = true;
+                                        }
+                                    },
+                                    modifier = Modifier
+                                        .width(136.dp)
+                                        .height(54.dp),
+                                    colors = ButtonDefaults.buttonColors(containerColor = LightGreen)
+                                ) {
+                                    Text(
+                                        text = "查看报告",
+                                        fontSize = 20.sp,
+                                        fontWeight = FontWeight.W900
+                                    )
+                                }
+                            }
+                        }
+
+
+                    }
+                }
+                Spacer(modifier = Modifier.height(0.dp))
+
+                //关闭按钮
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(50.dp).padding(top = 25.dp), horizontalArrangement = Arrangement.Center
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.g4_6_1_ic_cancel),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .width(23.dp)
+                            .clickable(
+                                onClick = {
+                                  showHealthSumCard=false
+                                },
+                                indication = null,
+                                interactionSource = MutableInteractionSource()
+                            )
+                    )
+                }
+            }
         }
     }
 }
@@ -317,6 +697,14 @@ fun MainPlantPage(
                             .height(300.dp)
                     )
                 }
+//                Image(
+//                    painter = painterResource(id = R.drawable.g1_1_img_flower),
+//                    contentDescription = null,
+//                    modifier = Modifier
+//                        .width(180.dp)
+//                        .height(300.dp)
+//                )
+                GIFimage(modifier = Modifier.width(180.dp).height(300.dp), gif = R.drawable.flower_idle2)
                 Image(
                     painter = painterResource(id = R.drawable.g1_1_bg_plantstage),
                     contentDescription = null,
@@ -441,6 +829,19 @@ fun MainPlantPage(
                             modifier = Modifier.offset(80.dp, 30.dp)
                         )
                     }
+                Box(modifier = Modifier.align(Alignment.Start)) {
+                    Image(
+                        painter = painterResource(id = R.drawable.g1_1_ic_water),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .width(140.dp)
+                    )
+                    Text(
+                        text = userViewModel.uiState.value.waterValue.toString() + "g",
+                        fontWeight = W900,
+                        color = BlueGray3,
+                        modifier = Modifier.offset(80.dp, 30.dp)
+                    )
                 }
                 Spacer(modifier = Modifier.height(10.dp))
                 AnimatedVisibility(
@@ -504,9 +905,8 @@ fun MainPlantPage(
             }
         }
     }
-}
+}}
 
-//@Preview
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun SecondPlantPage(page :Int) {
@@ -526,7 +926,7 @@ fun SecondPlantPage(page :Int) {
         var state2 by remember {
             mutableStateOf(false)
         }
-        if(page==1){
+        if (page == 1) {
             LaunchedEffect(key1 = state2) {
                 delay(1500)
                 state2 = true
@@ -623,7 +1023,6 @@ fun SecondPlantPage(page :Int) {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PlantMsgItem(listItemModel: TapListItemModel) {
     Row(Modifier.padding(8.dp)) {
@@ -656,3 +1055,4 @@ fun PlantMsgItem(listItemModel: TapListItemModel) {
 
 
 }
+

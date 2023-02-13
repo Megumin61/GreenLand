@@ -9,6 +9,7 @@ import androidx.camera.core.CameraSelector
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.compose.foundation.*
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.BasicTextField
@@ -39,6 +40,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
+import androidx.navigation.NavController
 import com.example.jetpacktest02.R
 import com.example.jetpacktest02.ViewModel.UserViewModel
 import com.example.scaffolddemo.ui.theme.*
@@ -47,6 +49,7 @@ import com.google.accompanist.permissions.PermissionRequired
 import com.google.accompanist.permissions.rememberPermissionState
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import kotlinx.coroutines.launch
+import okio.utf8Size
 
 @ExperimentalPermissionsApi
 @ExperimentalMaterialApi
@@ -55,6 +58,7 @@ import kotlinx.coroutines.launch
 fun IslandDeliverScreen(
     nav01: () -> Unit = {},
     userViewModel: UserViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
+    navController: NavController
 ) {
     //配置顶部状态栏颜色
     rememberSystemUiController().setStatusBarColor(
@@ -79,6 +83,9 @@ fun IslandDeliverScreen(
         } else {
             deliverBtnOffset = 0.dp
         }
+
+        //输入框文字
+        var text by remember { mutableStateOf("") }
 
         //底部抽屉 状态变量
         val state = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
@@ -196,7 +203,6 @@ fun IslandDeliverScreen(
                                         //文字输入区
                                         Row(modifier = Modifier) {
 
-                                            var text by remember { mutableStateOf("大家新年快乐鸭！！！开工大吉！！大家新年快乐鸭！！！开工大吉！！大家新年快乐鸭！！！开工大吉！！") }
 
                                             Box(
                                                 modifier = Modifier
@@ -264,7 +270,7 @@ fun IslandDeliverScreen(
                                                             color = Color(0xFF4552B8)
                                                         )
                                                     ) {
-                                                        append("20")
+                                                        append(text.length.toString())
                                                     }
                                                     append("/100")
                                                 },
@@ -300,7 +306,9 @@ fun IslandDeliverScreen(
                                 modifier = Modifier
                                     .size(80.dp)
                                     .clickable(
-                                        onClick = {}
+                                        onClick = {},
+                                        indication = null,
+                                        interactionSource = MutableInteractionSource()
                                     ),
                             )
                         }
@@ -312,7 +320,9 @@ fun IslandDeliverScreen(
                                 modifier = Modifier
                                     .size(80.dp)
                                     .clickable(
-                                        onClick = {}
+                                        onClick = {},
+                                        indication = null,
+                                        interactionSource = MutableInteractionSource()
                                     ),
                             )
                             Image(
@@ -321,7 +331,9 @@ fun IslandDeliverScreen(
                                 modifier = Modifier
                                     .size(60.dp)
                                     .clickable(
-                                        onClick = {}
+                                        onClick = {},
+                                        indication = null,
+                                        interactionSource = MutableInteractionSource()
                                     ),
                             )
                         }
@@ -340,7 +352,7 @@ fun IslandDeliverScreen(
                             shape = CircleShape,
                             border = BorderStroke(2.dp, Green5)
                         ) {
-                            if(userViewModel.uiState.value.visitItem.value.userName!=""){
+                            if (userViewModel.uiState.value.visitItem.value.userName != "") {
                                 Image(
                                     painter = painterResource(id = userViewModel.uiState.value.visitItem.value.userAvatar),
                                     contentDescription = null,
@@ -387,7 +399,7 @@ fun IslandDeliverScreen(
                                     contentAlignment = Alignment.Center
                                 ) {
                                     Text(
-                                        text = "选择可见好友",
+                                        text = "选择可见成员",
                                         style = TextStyle(
                                             fontWeight = FontWeight.W900, //设置字体粗细
                                             fontSize = 16.sp,
@@ -574,7 +586,7 @@ fun AvatarItem(
                 )
             }
             else -> {
-                if ( text == userViewModel.uiState.value.visitItem.value.userName) {
+                if (text == userViewModel.uiState.value.visitItem.value.userName) {
                     Surface(
                         shape = CircleShape,
                         border = BorderStroke(2.dp, Green5)
@@ -583,7 +595,8 @@ fun AvatarItem(
                             painter = painterResource(id = avatar),
                             contentDescription = null,
                             modifier = Modifier
-                                .size(50.dp).alpha(0.3f)
+                                .size(50.dp)
+                                .alpha(0.3f)
                                 .clickable(onClick = {}),
                         )
                     }

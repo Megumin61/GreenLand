@@ -20,6 +20,7 @@ import android.annotation.SuppressLint
 import androidx.annotation.DrawableRes
 import androidx.compose.animation.*
 import androidx.compose.foundation.*
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -62,7 +63,8 @@ fun PlanListScreen(
     nav02: () -> Unit={},
     nav03: () -> Unit={},
     nav04: () -> Unit={},
-    nav05: () -> Unit={}
+    nav05: () -> Unit={},
+    nav06: () -> Unit={}
 ){
     rememberSystemUiController().setStatusBarColor(
         Green1, darkIcons = androidx.compose.material.MaterialTheme.colors.isLight
@@ -105,11 +107,11 @@ fun PlanListScreen(
                         //左侧按钮
                         navigationIcon = {
 
-                            IconButton(onClick = {}) {
+                           /* IconButton(onClick = nav06,interactionSource = MutableInteractionSource()) {*/
                                 Icon(
                                     bitmap = ImageBitmap.imageResource(id = R.drawable.g1_2_0_ic_arrow_left),
-                                    contentDescription = null
-                                ) }
+                                    contentDescription = null, modifier = Modifier.offset(19.dp).clickable(onClick =nav06, indication = null, interactionSource = MutableInteractionSource() )
+                                )
                         },
                         //右侧按钮
                         actions = {
@@ -168,19 +170,25 @@ fun PlanListScreen(
                         Column(Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
                             Image(
                                 painter = painterResource(id = R.drawable.g1_2_icbg_sports),
-                                contentDescription = null, modifier = Modifier.clickable(onClick = nav01)
+                                contentDescription = null, modifier = Modifier.clickable(onClick = nav01
+                                    , indication = null, interactionSource = MutableInteractionSource()
+                                )
+
                             )
                             Image(
                                 painter = painterResource(id = R.drawable.g1_2_icbg_drinkwater),
-                                contentDescription = null,modifier = Modifier.clickable(onClick = nav02)
+                                contentDescription = null,modifier = Modifier.clickable(onClick = nav02
+                                    , indication = null, interactionSource = MutableInteractionSource())
                             )
                             Image(
                                 painter = painterResource(id = R.drawable.g1_2_icbg_sleep),
-                                contentDescription = null,modifier = Modifier.clickable(onClick = nav03)
+                                contentDescription = null,modifier = Modifier.clickable(onClick = nav03
+                                    , indication = null, interactionSource = MutableInteractionSource())
                             )
                             Image(
                                 painter = painterResource(id = R.drawable.g1_2_icbg_eating),
-                                contentDescription = null,modifier = Modifier.clickable(onClick = nav04)
+                                contentDescription = null,modifier = Modifier.clickable(onClick = nav04
+                                    , indication = null, interactionSource = MutableInteractionSource())
                             )
 
                             Spacer(Modifier.height(5.dp))
@@ -191,7 +199,7 @@ fun PlanListScreen(
                                 color = Color(0xff445B60)
                             )*/
                             Spacer(Modifier.height(5.dp))
-                            Button(onClick =  nav05 , modifier = Modifier
+                            Button(onClick =  nav05 ,interactionSource = MutableInteractionSource(), modifier = Modifier
                                 .width(136.dp)
                                 .height(54.dp)
                                 ,colors = ButtonDefaults.buttonColors(containerColor = Green5)

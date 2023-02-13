@@ -217,7 +217,8 @@ data class UiState constructor(
             location = LocationDetails(latitude = 23.170444, longitude = 113.25302),
             isFriend = true
         )
-    )
+    ),
+
 
 )
 

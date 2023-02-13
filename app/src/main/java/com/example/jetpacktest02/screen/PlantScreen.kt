@@ -28,10 +28,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.slideInVertically
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -79,6 +76,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import java.time.format.TextStyle
 
+
 /**
  * The Bills screen.
  */
@@ -110,9 +108,13 @@ fun PlantScreen(
     var HealthSumCardAnim by remember {
         mutableStateOf(false)
     }
-    LaunchedEffect(key1 = 1) {
-        delay(300)
+
+    val showSumCard: () -> Unit = {
         showHealthSumCard = true
+    }
+    LaunchedEffect(key1 = showHealthSumCard) {
+//        delay(300)
+//        showHealthSumCard = true
         delay(200)
         HealthSumCardAnim = true
     }
@@ -219,118 +221,110 @@ fun PlantScreen(
     VerticalPager(count = 2, state = pagerState) { page ->
         userViewModel.uiState.value.PlantPage.value = page
         if (page == 0) {
-            MainPlantPage(userViewModel, nav01)
-        } else {
+            MainPlantPage(userViewModel, nav01, showSumCard)
+        } else if (page == 1) {
 //            SecondPlantPage(userViewModel.uiState.value.PlantPage.value)
             SecondPlantPage(userViewModel.uiState.value.PlantPage.value)
         }
     }
-    Image(
-        painter = painterResource(id = R.drawable.g1_1_bg_plant),
-        contentDescription = null,
-        modifier = Modifier
-            .scale(1.1f, 1.0f)
-            .fillMaxHeight()
-            .fillMaxSize()
-    )
-    Column {
-        Text("1.1-Plant")
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            Text(
-                text = "应用运行以来的步数：${userViewModel.uiState.value.stepDetector.value}",
-                style = androidx.compose.ui.text.TextStyle(fontSize = 20.sp)
-            )
-            Text(
-                text = "开机以来的步数：${userViewModel.uiState.value.stepCounter.value}",
-                style = androidx.compose.ui.text.TextStyle(fontSize = 20.sp)
-            )
-        }
-        Button(
-            onClick = nav01,
-            contentPadding = ButtonDefaults.ButtonWithIconContentPadding
-        ) {
-            Icon(
-                Icons.Filled.Favorite,
-                contentDescription = "Localized description",
-                modifier = Modifier.size(ButtonDefaults.IconSize)
-            )
-            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-            Text("1.2-plant-plan")
-        }
-        Button(
-            onClick = nav02,
-            contentPadding = ButtonDefaults.ButtonWithIconContentPadding
-        ) {
-            Icon(
-                Icons.Filled.Favorite,
-                contentDescription = "Localized description",
-                modifier = Modifier.size(ButtonDefaults.IconSize)
-            )
-            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-            Text("1.3-Dailyhealthmessage")
-        }
-        Button(
-            onClick = nav03,
-            contentPadding = ButtonDefaults.ButtonWithIconContentPadding
-        ) {
-            Icon(
-                Icons.Filled.Favorite,
-                contentDescription = "Localized description",
-                modifier = Modifier.size(ButtonDefaults.IconSize)
-            )
-            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-            Text("4.1-island-chooseIsland")
-        }
-        Button(
-            onClick = nav04,
-            contentPadding = ButtonDefaults.ButtonWithIconContentPadding
-        ) {
-            Icon(
-                Icons.Filled.Favorite,
-                contentDescription = "Localized description",
-                modifier = Modifier.size(ButtonDefaults.IconSize)
-            )
-            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-            Text("2.1-message")
-        }
-        Button(
-            onClick = nav05,
-            contentPadding = ButtonDefaults.ButtonWithIconContentPadding
-        ) {
-            Icon(
-                Icons.Filled.Favorite,
-                contentDescription = "Localized description",
-                modifier = Modifier.size(ButtonDefaults.IconSize)
-            )
-            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-            Text("7.0-My")
-        }
-        Button(
-            onClick = nav06,
-            contentPadding = ButtonDefaults.ButtonWithIconContentPadding
-        ) {
-            Icon(
-                Icons.Filled.Favorite,
-                contentDescription = "Localized description",
-                modifier = Modifier.size(ButtonDefaults.IconSize)
-            )
-            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-            Text("5.1.1-PlantBag-possessed")
-        }
-        Button(
-            onClick = nav07,
-            contentPadding = ButtonDefaults.ButtonWithIconContentPadding
-        ) {
-            Icon(
-                Icons.Filled.Favorite,
-                contentDescription = "Localized description",
-                modifier = Modifier.size(ButtonDefaults.IconSize)
-            )
-            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-            Text("test")
-        }
-    }
-    MainPlantPage(userViewModel, nav01)
+//    Column {
+//        Text("1.1-Plant")
+//        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+//            Text(
+//                text = "应用运行以来的步数：${userViewModel.uiState.value.stepDetector.value}",
+//                style = androidx.compose.ui.text.TextStyle(fontSize = 20.sp)
+//            )
+//            Text(
+//                text = "开机以来的步数：${userViewModel.uiState.value.stepCounter.value}",
+//                style = androidx.compose.ui.text.TextStyle(fontSize = 20.sp)
+//            )
+//        }
+//        Button(
+//            onClick = nav01,
+//            contentPadding = ButtonDefaults.ButtonWithIconContentPadding
+//        ) {
+//            Icon(
+//                Icons.Filled.Favorite,
+//                contentDescription = "Localized description",
+//                modifier = Modifier.size(ButtonDefaults.IconSize)
+//            )
+//            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
+//            Text("1.2-plant-plan")
+//        }
+//        Button(
+//            onClick = nav02,
+//            contentPadding = ButtonDefaults.ButtonWithIconContentPadding
+//        ) {
+//            Icon(
+//                Icons.Filled.Favorite,
+//                contentDescription = "Localized description",
+//                modifier = Modifier.size(ButtonDefaults.IconSize)
+//            )
+//            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
+//            Text("1.3-Dailyhealthmessage")
+//        }
+//        Button(
+//            onClick = nav03,
+//            contentPadding = ButtonDefaults.ButtonWithIconContentPadding
+//        ) {
+//            Icon(
+//                Icons.Filled.Favorite,
+//                contentDescription = "Localized description",
+//                modifier = Modifier.size(ButtonDefaults.IconSize)
+//            )
+//            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
+//            Text("4.1-island-chooseIsland")
+//        }
+//        Button(
+//            onClick = nav04,
+//            contentPadding = ButtonDefaults.ButtonWithIconContentPadding
+//        ) {
+//            Icon(
+//                Icons.Filled.Favorite,
+//                contentDescription = "Localized description",
+//                modifier = Modifier.size(ButtonDefaults.IconSize)
+//            )
+//            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
+//            Text("2.1-message")
+//        }
+//        Button(
+//            onClick = nav05,
+//            contentPadding = ButtonDefaults.ButtonWithIconContentPadding
+//        ) {
+//            Icon(
+//                Icons.Filled.Favorite,
+//                contentDescription = "Localized description",
+//                modifier = Modifier.size(ButtonDefaults.IconSize)
+//            )
+//            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
+//            Text("7.0-My")
+//        }
+//        Button(
+//            onClick = nav06,
+//            contentPadding = ButtonDefaults.ButtonWithIconContentPadding
+//        ) {
+//            Icon(
+//                Icons.Filled.Favorite,
+//                contentDescription = "Localized description",
+//                modifier = Modifier.size(ButtonDefaults.IconSize)
+//            )
+//            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
+//            Text("5.1.1-PlantBag-possessed")
+//        }
+//        Button(
+//            onClick = nav07,
+//            contentPadding = ButtonDefaults.ButtonWithIconContentPadding
+//        ) {
+//            Icon(
+//                Icons.Filled.Favorite,
+//                contentDescription = "Localized description",
+//                modifier = Modifier.size(ButtonDefaults.IconSize)
+//            )
+//            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
+//            Text("test")
+//        }
+//    }
+//    MainPlantPage(userViewModel, nav01)
 
     if (showHealthSumCard) {
         Dialog(
@@ -578,6 +572,7 @@ fun PlantScreen(
 fun MainPlantPage(
     userViewModel: UserViewModel,
     nav01: () -> Unit = {},//计划
+    showSumCard: () -> Unit = {},//显示结算弹窗
 ) {
     //重要参数
     val feelingValue: Int = 0
@@ -641,6 +636,15 @@ fun MainPlantPage(
                 .width(90.dp)
                 .height(50.dp)
         )
+//        Image(
+//            painter = painterResource(id = R.drawable.g1_1_ic_ar),
+//            contentDescription = null,
+//            modifier = Modifier
+//                .align(Alignment.Start)
+//                .offset(0.dp, -20.dp)
+//                .width(90.dp)
+//                .height(50.dp)
+//        )
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -661,7 +665,25 @@ fun MainPlantPage(
                     fontWeight = W900,
                     modifier = Modifier.offset(0.dp, (-10).dp)
                 )
-                Box() {
+
+                Box {
+
+                    //隐藏按钮
+                    Box(
+                        modifier = Modifier
+                            .width(100.dp)
+                            .height(20.dp)
+//                            .background(Color.Red)
+                            .clickable(
+                                onClick = showSumCard,
+                                indication = null,
+                                interactionSource = MutableInteractionSource()
+                            )
+                            .offset(x = 100.dp)
+                            .padding(bottom = 100.dp, start = 100.dp)
+
+                    )
+
                     ProgressBar(
                         modifier = Modifier
                             .height(8.dp)
@@ -830,83 +852,70 @@ fun MainPlantPage(
                             modifier = Modifier.offset(80.dp, 30.dp)
                         )
                     }
+                }
+                Spacer(modifier = Modifier.height(10.dp))
+                AnimatedVisibility(
+                    visible = state3,
+                    enter = scaleIn(transformOrigin = TransformOrigin(0f, 0f)) +
+                            fadeIn(initialAlpha = 0.3f) + expandIn(expandFrom = Alignment.TopStart),
+                    exit = scaleOut(transformOrigin = TransformOrigin(0f, 0f)) +
+                            fadeOut() + shrinkOut(shrinkTowards = Alignment.TopStart)
+                ) {
                     Box(modifier = Modifier.align(Alignment.Start)) {
                         Image(
-                            painter = painterResource(id = R.drawable.g1_1_ic_water),
+                            painter = painterResource(id = R.drawable.g1_1_ic_huoli),
                             contentDescription = null,
                             modifier = Modifier
                                 .width(140.dp)
                         )
                         Text(
-                            text = userViewModel.uiState.value.waterValue.toString() + "g",
+                            text = energyValue.toString() + "g",
                             fontWeight = W900,
                             color = BlueGray3,
                             modifier = Modifier.offset(80.dp, 30.dp)
                         )
                     }
-                    Spacer(modifier = Modifier.height(10.dp))
-                    AnimatedVisibility(
-                        visible = state3,
-                        enter = scaleIn(transformOrigin = TransformOrigin(0f, 0f)) +
-                                fadeIn(initialAlpha = 0.3f) + expandIn(expandFrom = Alignment.TopStart),
-                        exit = scaleOut(transformOrigin = TransformOrigin(0f, 0f)) +
-                                fadeOut() + shrinkOut(shrinkTowards = Alignment.TopStart)
-                    ) {
-                        Box(modifier = Modifier.align(Alignment.Start)) {
-                            Image(
-                                painter = painterResource(id = R.drawable.g1_1_ic_huoli),
-                                contentDescription = null,
-                                modifier = Modifier
-                                    .width(140.dp)
-                            )
-                            Text(
-                                text = energyValue.toString() + "g",
-                                fontWeight = W900,
-                                color = BlueGray3,
-                                modifier = Modifier.offset(80.dp, 30.dp)
-                            )
-                        }
-                    }
                 }
-                //消息
-                Column(
-                    horizontalAlignment = Alignment.End,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(20.dp, 0.dp)
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.g1_1_ic_message),
-                        contentDescription = null,
-                        modifier = Modifier.height(50.dp)
+            }
+            //消息
+            Column(
+                horizontalAlignment = Alignment.End,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(20.dp, 0.dp)
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.g1_1_ic_message),
+                    contentDescription = null,
+                    modifier = Modifier.height(50.dp)
 
+                )
+                Spacer(modifier = Modifier.height(10.dp))
+                Box() {
+                    Image(
+                        painter = painterResource(id = R.drawable.g1_1icbg_message),
+                        contentDescription = null,
+                        modifier = Modifier.height(170.dp)
                     )
-                    Spacer(modifier = Modifier.height(10.dp))
-                    Box() {
-                        Image(
-                            painter = painterResource(id = R.drawable.g1_1icbg_message),
-                            contentDescription = null,
-                            modifier = Modifier.height(170.dp)
-                        )
-                        LazyColumn(
-                            modifier = Modifier
-                                .height(160.dp)
-                                .padding(8.dp)
-                        ) {
+                    LazyColumn(
+                        modifier = Modifier
+                            .height(160.dp)
+                            .padding(8.dp)
+                    ) {
 //                        userViewModel.uiState.value.tabMessageList.forEach {listItemModel->
 //                            PlantMsgItem(listItemModel)
 //
 //                        }
-                            items(userViewModel.uiState.value.tabMessageList) { item ->
-                                PlantMsgItem(item)
-                                Spacer(modifier = Modifier.height(2.dp))
-                            }
+                        items(userViewModel.uiState.value.tabMessageList) { item ->
+                            PlantMsgItem(item)
+                            Spacer(modifier = Modifier.height(2.dp))
                         }
                     }
                 }
             }
         }
     }
+
 }
 
 //@Preview
@@ -932,7 +941,7 @@ fun SecondPlantPage(page: Int) {
         }
         if (page == 1) {
             LaunchedEffect(key1 = state2) {
-                delay(1500)
+                delay(2000)
                 state2 = true
             }
         }

@@ -21,6 +21,8 @@ buildscript {
         mavenCentral()
         jcenter()
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+
+
     }
     ext {
         composeNavigationVersion = '2.5.0-rc01'
@@ -45,6 +47,13 @@ subprojects {
     repositories {
         google()
         mavenCentral()
+//        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+//        maven { url 'http://maven.aliyun.com/nexus/content/repositories/jcenter' }
+//        maven { url "https://jitpack.io" }
+//        maven { url 'http://repo1.maven.org/maven2' }
+//        maven { url 'http://maven.aliyun.com/nexus/content/repositories/google' }
+//        maven { url 'http://maven.aliyun.com/nexus/content/repositories/gradle-plugin' }
+
     }
 
     apply plugin: 'com.diffplug.spotless'

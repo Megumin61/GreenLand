@@ -18,7 +18,9 @@ package com.example.jetpacktest02.ui.main
 
 import android.annotation.SuppressLint
 import androidx.compose.animation.*
+import androidx.compose.animation.core.FloatTweenSpec
 import androidx.compose.animation.core.animateDp
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.updateTransition
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState
@@ -26,6 +28,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.slideInVertically
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -46,7 +49,6 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.font.FontWeight.Companion.W500
 import androidx.compose.ui.text.font.FontWeight.Companion.W900
@@ -57,17 +59,16 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.navigation.NavController
-import com.airbnb.lottie.compose.*
-import com.example.jetpacktest02.HealthShare
+import com.airbnb.lottie.compose.LottieAnimation
+import com.airbnb.lottie.compose.LottieCompositionSpec
+import com.airbnb.lottie.compose.animateLottieCompositionAsState
+import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.jetpacktest02.R
 import com.example.jetpacktest02.SharePost
 import com.example.jetpacktest02.ViewModel.TapListItemModel
 import com.example.jetpacktest02.ViewModel.UserViewModel
 import com.example.jetpacktest02.screen.FriendList
 import com.example.jetpacktest02.screen.IconButtonFriendList
-import com.example.jetpacktest02.compose.GIFimage
-import com.example.jetpacktest02.compose.StepCounter
-import com.example.jetpacktest02.screen.HealthSumCard
 import com.example.scaffolddemo.ui.theme.*
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
@@ -76,10 +77,13 @@ import com.google.accompanist.pager.VerticalPager
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
+import java.time.format.TextStyle
 
+/**
+ * The Bills screen.
+ */
 
 //viewModel: UserViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
-//@OptIn(ExperimentalComposeUiApi::class,ExperimentalPagerApi::class)
 @OptIn(ExperimentalPagerApi::class, ExperimentalComposeUiApi::class)
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
@@ -213,7 +217,7 @@ fun PlantScreen(
     //pagerState为底部viewpager参数
     val pagerState: PagerState = remember { PagerState() }
     VerticalPager(count = 2, state = pagerState) { page ->
-        userViewModel.uiState.value.PlantPage.value=page
+        userViewModel.uiState.value.PlantPage.value = page
         if (page == 0) {
             MainPlantPage(userViewModel, nav01)
         } else {
@@ -234,11 +238,11 @@ fun PlantScreen(
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Text(
                 text = "应用运行以来的步数：${userViewModel.uiState.value.stepDetector.value}",
-                style = TextStyle(fontSize = 20.sp)
+                style = androidx.compose.ui.text.TextStyle(fontSize = 20.sp)
             )
             Text(
                 text = "开机以来的步数：${userViewModel.uiState.value.stepCounter.value}",
-                style = TextStyle(fontSize = 20.sp)
+                style = androidx.compose.ui.text.TextStyle(fontSize = 20.sp)
             )
         }
         Button(
@@ -379,7 +383,10 @@ fun PlantScreen(
                         ) {
                             AnimatedVisibility(
                                 visible = HealthSumCardAnim,
-                                enter = fadeIn(initialAlpha = 0f, animationSpec =tween(durationMillis = 800) ) + slideInVertically(
+                                enter = fadeIn(
+                                    initialAlpha = 0f,
+                                    animationSpec = tween(durationMillis = 800)
+                                ) + slideInVertically(
                                     initialOffsetY = { 20 },
                                     animationSpec = tween(durationMillis = 1200)
                                 )
@@ -542,7 +549,9 @@ fun PlantScreen(
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(50.dp).padding(top = 25.dp), horizontalArrangement = Arrangement.Center
+                        .height(50.dp)
+                        .padding(top = 25.dp),
+                    horizontalArrangement = Arrangement.Center
                 ) {
                     Image(
                         painter = painterResource(id = R.drawable.g4_6_1_ic_cancel),
@@ -551,7 +560,7 @@ fun PlantScreen(
                             .width(23.dp)
                             .clickable(
                                 onClick = {
-                                  showHealthSumCard=false
+                                    showHealthSumCard = false
                                 },
                                 indication = null,
                                 interactionSource = MutableInteractionSource()
@@ -589,18 +598,18 @@ fun MainPlantPage(
         mutableStateOf(false)
     }
 
-    LaunchedEffect(key1 = state){
+    LaunchedEffect(key1 = state) {
         state = true
     }
-    LaunchedEffect(key1 = state1){
+    LaunchedEffect(key1 = state1) {
         delay(250)
         state1 = true
     }
-    LaunchedEffect(key1 = state2){
+    LaunchedEffect(key1 = state2) {
         delay(500)
         state2 = true
     }
-    LaunchedEffect(key1 = state3){
+    LaunchedEffect(key1 = state3) {
         delay(750)
         state3 = true
     }
@@ -697,14 +706,6 @@ fun MainPlantPage(
                             .height(300.dp)
                     )
                 }
-//                Image(
-//                    painter = painterResource(id = R.drawable.g1_1_img_flower),
-//                    contentDescription = null,
-//                    modifier = Modifier
-//                        .width(180.dp)
-//                        .height(300.dp)
-//                )
-//                GIFimage(modifier = Modifier.width(180.dp).height(300.dp), gif = R.drawable.flower_idle2)
                 Image(
                     painter = painterResource(id = R.drawable.g1_1_bg_plantstage),
                     contentDescription = null,
@@ -829,87 +830,90 @@ fun MainPlantPage(
                             modifier = Modifier.offset(80.dp, 30.dp)
                         )
                     }
-                Box(modifier = Modifier.align(Alignment.Start)) {
-                    Image(
-                        painter = painterResource(id = R.drawable.g1_1_ic_water),
-                        contentDescription = null,
-                        modifier = Modifier
-                            .width(140.dp)
-                    )
-                    Text(
-                        text = userViewModel.uiState.value.waterValue.toString() + "g",
-                        fontWeight = W900,
-                        color = BlueGray3,
-                        modifier = Modifier.offset(80.dp, 30.dp)
-                    )
-                }
-                Spacer(modifier = Modifier.height(10.dp))
-                AnimatedVisibility(
-                    visible = state3,
-                    enter = scaleIn(transformOrigin = TransformOrigin(0f, 0f)) +
-                            fadeIn(initialAlpha = 0.3f) + expandIn(expandFrom = Alignment.TopStart),
-                    exit = scaleOut(transformOrigin = TransformOrigin(0f, 0f)) +
-                            fadeOut() + shrinkOut(shrinkTowards = Alignment.TopStart)
-                ) {
                     Box(modifier = Modifier.align(Alignment.Start)) {
                         Image(
-                            painter = painterResource(id = R.drawable.g1_1_ic_huoli),
+                            painter = painterResource(id = R.drawable.g1_1_ic_water),
                             contentDescription = null,
                             modifier = Modifier
                                 .width(140.dp)
                         )
                         Text(
-                            text = energyValue.toString() + "g",
+                            text = userViewModel.uiState.value.waterValue.toString() + "g",
                             fontWeight = W900,
                             color = BlueGray3,
                             modifier = Modifier.offset(80.dp, 30.dp)
                         )
                     }
-                }
-            }
-            //消息
-            Column(
-                horizontalAlignment = Alignment.End,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(20.dp, 0.dp)
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.g1_1_ic_message),
-                    contentDescription = null,
-                    modifier = Modifier.height(50.dp)
-
-                )
-                Spacer(modifier = Modifier.height(10.dp))
-                Box() {
-                    Image(
-                        painter = painterResource(id = R.drawable.g1_1icbg_message),
-                        contentDescription = null,
-                        modifier = Modifier.height(170.dp)
-                    )
-                    LazyColumn(
-                        modifier = Modifier
-                            .height(160.dp)
-                            .padding(8.dp)
+                    Spacer(modifier = Modifier.height(10.dp))
+                    AnimatedVisibility(
+                        visible = state3,
+                        enter = scaleIn(transformOrigin = TransformOrigin(0f, 0f)) +
+                                fadeIn(initialAlpha = 0.3f) + expandIn(expandFrom = Alignment.TopStart),
+                        exit = scaleOut(transformOrigin = TransformOrigin(0f, 0f)) +
+                                fadeOut() + shrinkOut(shrinkTowards = Alignment.TopStart)
                     ) {
+                        Box(modifier = Modifier.align(Alignment.Start)) {
+                            Image(
+                                painter = painterResource(id = R.drawable.g1_1_ic_huoli),
+                                contentDescription = null,
+                                modifier = Modifier
+                                    .width(140.dp)
+                            )
+                            Text(
+                                text = energyValue.toString() + "g",
+                                fontWeight = W900,
+                                color = BlueGray3,
+                                modifier = Modifier.offset(80.dp, 30.dp)
+                            )
+                        }
+                    }
+                }
+                //消息
+                Column(
+                    horizontalAlignment = Alignment.End,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(20.dp, 0.dp)
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.g1_1_ic_message),
+                        contentDescription = null,
+                        modifier = Modifier.height(50.dp)
+
+                    )
+                    Spacer(modifier = Modifier.height(10.dp))
+                    Box() {
+                        Image(
+                            painter = painterResource(id = R.drawable.g1_1icbg_message),
+                            contentDescription = null,
+                            modifier = Modifier.height(170.dp)
+                        )
+                        LazyColumn(
+                            modifier = Modifier
+                                .height(160.dp)
+                                .padding(8.dp)
+                        ) {
 //                        userViewModel.uiState.value.tabMessageList.forEach {listItemModel->
 //                            PlantMsgItem(listItemModel)
 //
 //                        }
-                        items(userViewModel.uiState.value.tabMessageList) { item ->
-                            PlantMsgItem(item)
-                            Spacer(modifier = Modifier.height(2.dp))
+                            items(userViewModel.uiState.value.tabMessageList) { item ->
+                                PlantMsgItem(item)
+                                Spacer(modifier = Modifier.height(2.dp))
+                            }
                         }
                     }
                 }
             }
         }
     }
-}}
+}
 
+//@Preview
+//@OptIn(ExperimentalAnimationApi::class)
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
-fun SecondPlantPage(page :Int) {
+fun SecondPlantPage(page: Int) {
     val waterTime: Int = 0
     val step: Int = 0
     val sitTime: String = "6:31:20"
@@ -1023,6 +1027,7 @@ fun SecondPlantPage(page :Int) {
     }
 }
 
+//@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PlantMsgItem(listItemModel: TapListItemModel) {
     Row(Modifier.padding(8.dp)) {
@@ -1055,4 +1060,3 @@ fun PlantMsgItem(listItemModel: TapListItemModel) {
 
 
 }
-

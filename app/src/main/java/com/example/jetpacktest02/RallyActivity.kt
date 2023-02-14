@@ -216,7 +216,7 @@ fun RallyApp() {
             //管理路由：页面跳转
             NavHost(
                 navController = navController,
-                startDestination = Plant.route,
+                startDestination = LightReminder.route,
                 modifier = Modifier.padding(innerPadding)
 
             ) {
@@ -661,6 +661,9 @@ fun RallyApp() {
                 }
                 composable(route = SharePost.route) {
                     SharePostScreen()
+                }
+                composable(route = LightReminder.route) {
+                    LightReminderScreen()
                 }
 
             }

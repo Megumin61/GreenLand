@@ -54,7 +54,7 @@ data class UiState constructor(
     val openDialog: MutableState<Boolean> = mutableStateOf(false),
     //MessageFriendScreen
     val pageState: MutableState<Int> = mutableStateOf(0),
-    var searchText: String = "",
+
     //PlantScreen
     val PlantPage: MutableState<Int> = mutableStateOf(0),
     //ChooseSeedScreen

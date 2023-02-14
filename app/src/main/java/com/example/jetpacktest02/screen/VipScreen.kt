@@ -34,6 +34,7 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -47,6 +48,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.example.jetpacktest02.R
+import com.example.jetpacktest02.ui.main.*
 
 
 /**
@@ -78,7 +80,7 @@ fun VipScreen(userViewModel:UserViewModel) {
     Surface(modifier = Modifier.fillMaxSize()) {
 
         Image(
-            painter = painterResource(id = com.example.jetpacktest02.R.drawable.g8_vip_page),
+            painter = painterResource(id = com.example.jetpacktest02.R.drawable.g8_vip_bgimg),
             contentDescription = null,
             modifier = Modifier
                 .fillMaxHeight().offset(0.dp,10.dp)
@@ -100,7 +102,7 @@ fun VipScreen(userViewModel:UserViewModel) {
             Image(
                 painter = painterResource(id = com.example.jetpacktest02.R.drawable.g7_0_img_vipcard),
                 contentDescription = null,
-                modifier = Modifier.size(width = 333.dp, height = 162.dp).offset(-5.dp,-35.dp)
+                modifier = Modifier.size(width = 333.dp, height = 162.dp).offset(-15.dp,-35.dp)
             )
         }
         if(!ifVip) {
@@ -108,11 +110,63 @@ fun VipScreen(userViewModel:UserViewModel) {
             Image(
                 painter = painterResource(id = com.example.jetpacktest02.R.drawable.g7_0_vipinactived),
                 contentDescription = null,
-                modifier = Modifier.size(width = 323.dp, height = 155.dp).offset(0.dp,-35.dp)
+                modifier = Modifier.size(width = 323.dp, height = 155.dp).offset(-15.dp,-35.dp)
             )
         }
 
+        LazyColumn(
+            Modifier
+                .fillMaxWidth() // 宽度填满父空间
+                .height(460.dp)
+                .padding(top = 0.dp, start = 0.dp, end = 0.dp, bottom = 0.dp)
+                .offset(-15.dp,-25.dp),
 
+
+            verticalArrangement = Arrangement.spacedBy(22.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+
+            content = {
+
+                item{
+                    Image(
+                        painter = painterResource(id = com.example.jetpacktest02.R.drawable.g8_1_v1),
+                        contentDescription = null,
+                        modifier = Modifier.size(width = 323.dp, height = 95.dp)
+                    )
+                }
+                item{
+                    Image(
+                        painter = painterResource(id = com.example.jetpacktest02.R.drawable.g8_1_v2),
+                        contentDescription = null,
+                        modifier = Modifier.size(width = 323.dp, height = 95.dp)
+                    )
+                }
+                item{
+                    Image(
+                        painter = painterResource(id = com.example.jetpacktest02.R.drawable.g8_1_v3),
+                        contentDescription = null,
+                        modifier = Modifier.size(width = 323.dp, height = 95.dp)
+                    )
+                }
+                item{
+                    Image(
+                        painter = painterResource(id = com.example.jetpacktest02.R.drawable.g8_1_v4),
+                        contentDescription = null,
+                        modifier = Modifier.size(width = 323.dp, height = 95.dp)
+                    )
+                }
+
+                item{
+                    Image(
+                        painter = painterResource(id = com.example.jetpacktest02.R.drawable.g8_1_v5),
+                        contentDescription = null,
+                        modifier = Modifier.size(width = 323.dp, height = 95.dp)
+                    )
+                }
+
+
+
+            })
     }
     Button(onClick = {ifdialog=true },
         shape = RoundedCornerShape(27.dp),

@@ -3,6 +3,7 @@ package com.example.jetpacktest02.screen
 import androidx.compose.material.Button
 import androidx.compose.material.Text
 import android.annotation.SuppressLint
+import androidx.compose.animation.*
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
@@ -32,6 +33,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.debugInspectorInfo
 import androidx.compose.ui.res.painterResource
@@ -54,6 +56,7 @@ import com.google.accompanist.pager.PagerState
 import com.google.accompanist.pager.rememberPagerState
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 
@@ -140,7 +143,8 @@ fun ChooseSeed(nav01: () -> Unit={},
         Column() {
             Row(
                 modifier = Modifier
-                    .height(40.dp).offset(0.dp,20.dp)
+                    .height(40.dp)
+                    .offset(0.dp, 20.dp)
                     .fillMaxWidth(), horizontalArrangement = Arrangement.Center
             ) {
                 TabRow(
@@ -189,7 +193,18 @@ fun ChooseSeed(nav01: () -> Unit={},
                 //下面为要滑动切换的界面，可以通过判断page调用不同页面
 //                Text(page.toString())
                 if (page == 0) {
-                    Page1(userViewModel)
+Box{
+    Page1(userViewModel)
+   //判断花朵
+    if (userViewModel.uiState.value.flowerid.value==1){flower1(userViewModel)}
+    if (userViewModel.uiState.value.flowerid.value==2){flower2(userViewModel)}
+    if (userViewModel.uiState.value.flowerid.value==3){flower3(userViewModel)}
+    if (userViewModel.uiState.value.flowerid.value==4){flower4(userViewModel)}
+
+}
+
+
+                    //Page1(userViewModel)
 //                    Text("12333")
                 }
                 if (page == 1) {
@@ -229,6 +244,7 @@ fun ChooseSeed(nav01: () -> Unit={},
 
 
 }
+@OptIn(ExperimentalAnimationApi::class)
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 fun Page1(userViewModel:UserViewModel){
@@ -239,6 +255,23 @@ fun Page1(userViewModel:UserViewModel){
     var ifmeaning by remember{
         mutableStateOf(1)}
     val flower_id = userViewModel.uiState.value.flowerid.value
+
+
+    //动画变量
+    var state by remember {
+        mutableStateOf(false)
+    }
+    var state1 by remember {
+        mutableStateOf(false)
+    }
+    var state2 by remember {
+        mutableStateOf(false)
+    }
+    var state3 by remember {
+        mutableStateOf(false)
+    }
+
+
 
 
     if (ifshape==1&&ifmeaning==1)
@@ -292,7 +325,7 @@ fun Page1(userViewModel:UserViewModel){
 
     Column(
         modifier=Modifier
-            .padding(top = 60.dp,start=30.dp),
+            .padding(top = 0.dp,start=30.dp).offset(0.dp,-50.dp),
 //        horizontalAlignment= Alignment.CenterHorizontally
 //             verticalArrangement = Arrangement.Center
     ) {
@@ -677,59 +710,82 @@ fun Page1(userViewModel:UserViewModel){
 
 
 
-        if (userViewModel.uiState.value.flowerid.value==1){
-            Image(
+//        if (userViewModel.uiState.value.flowerid.value==1){
+//
+//            LaunchedEffect(key1 = state) {
+//        state = true
+//    }
+//
+//    Column(modifier= Modifier
+//        .padding(top = 0.dp, start = 0.dp)
+//        .offset(120.dp, -90.dp)
+//    ) {
+//
+//        AnimatedVisibility(
+//            visible = state,
+//            enter = scaleIn(transformOrigin = TransformOrigin(1f, 2f)) +
+//                    fadeIn(initialAlpha = 0.3f) + expandIn(expandFrom = Alignment.BottomCenter),
+//            exit = scaleOut(transformOrigin = TransformOrigin(1f, 2f)) +
+//                    fadeOut() + shrinkOut(shrinkTowards = Alignment.BottomCenter)
+//        ) {
+//            Image(
+//                painter = painterResource(id = R.drawable.g3_flower),
+//                contentDescription = null,
+//                modifier = Modifier
+//                    .width(89.dp)
+//                    .height(171.dp)
+//            )
+//
+//
+//    }
+//}
+//        }else{state=false}
 
-                painter = painterResource(id = com.example.jetpacktest02.R.drawable.g3_flower),
-                contentDescription = null,
-                alignment = Alignment.Center,
-                modifier = Modifier
-                    .size(width = 89.dp, height = 171.dp)
-                    .offset(120.dp, -90.dp)
-            )
 
 
-        }
-        if (userViewModel.uiState.value.flowerid.value==2){
-
-            Image(
-
-                painter = painterResource(id = com.example.jetpacktest02.R.drawable.g3_meatmuch),
-                contentDescription = null,
-                alignment = Alignment.Center,
-                modifier = Modifier
-                    .size(width = 112.dp, height = 171.dp)
-                    .offset(110.dp, -50.dp)
-            )
 
 
-        }
-        if (userViewModel.uiState.value.flowerid.value==3){
 
-            Image(
-
-                painter = painterResource(id = com.example.jetpacktest02.R.drawable.g3_godpeople),
-                contentDescription = null,
-                alignment = Alignment.Center,
-                modifier = Modifier
-                    .size(width = 110.dp, height = 171.dp)
-                    .offset(110.dp, -68.dp)
-            )
-
-        }
-        if (userViewModel.uiState.value.flowerid.value==4){
-
-            Image(
-
-                painter = painterResource(id = com.example.jetpacktest02.R.drawable.g3_grass),
-                contentDescription = null,
-                alignment = Alignment.Center,
-                modifier = Modifier
-                    .size(width = 108.dp, height = 171.dp)
-                    .offset(110.dp, -64.dp)
-            )
-
-        }
+//        if (userViewModel.uiState.value.flowerid.value==2){
+//
+//            Image(
+//
+//                painter = painterResource(id = com.example.jetpacktest02.R.drawable.g3_meatmuch),
+//                contentDescription = null,
+//                alignment = Alignment.Center,
+//                modifier = Modifier
+//                    .size(width = 112.dp, height = 171.dp)
+//                    .offset(110.dp, -50.dp)
+//            )
+//
+//
+//        }
+//        if (userViewModel.uiState.value.flowerid.value==3){
+//
+//            Image(
+//
+//                painter = painterResource(id = com.example.jetpacktest02.R.drawable.g3_godpeople),
+//                contentDescription = null,
+//                alignment = Alignment.Center,
+//                modifier = Modifier
+//                    .size(width = 110.dp, height = 171.dp)
+//                    .offset(110.dp, -68.dp)
+//            )
+//
+//        }
+//        if (userViewModel.uiState.value.flowerid.value==4){
+//
+//            Image(
+//
+//                painter = painterResource(id = com.example.jetpacktest02.R.drawable.g3_grass),
+//                contentDescription = null,
+//                alignment = Alignment.Center,
+//                modifier = Modifier
+//                    .size(width = 108.dp, height = 171.dp)
+//                    .offset(110.dp, -64.dp)
+//            )
+//
+//        }
 //        Image(
 //
 //            painter = painterResource(id = com.example.jetpacktest02.R.drawable.g4_2_img_flower_shadowed),
@@ -839,7 +895,7 @@ fun Page2(userViewModel:UserViewModel){
                     modifier = Modifier
                         .size(width = 78.dp, height = 78.dp)
                         .offset(0.dp, -0.dp)
-                        .clickable() { ifseed = 1;userViewModel.uiState.value.flowerid.value=1 }
+                        .clickable() { ifseed = 1;userViewModel.uiState.value.flowerid.value = 1 }
                 )
             }
 
@@ -863,7 +919,7 @@ fun Page2(userViewModel:UserViewModel){
                     modifier = Modifier
                         .size(width = 78.dp, height = 78.dp)
                         .offset(20.dp, -0.dp)
-                        .clickable() { ifseed = 2;userViewModel.uiState.value.flowerid.value=2 }
+                        .clickable() { ifseed = 2;userViewModel.uiState.value.flowerid.value = 2 }
                 )
             }
 
@@ -887,7 +943,7 @@ fun Page2(userViewModel:UserViewModel){
                     modifier = Modifier
                         .size(width = 78.dp, height = 78.dp)
                         .offset(40.dp, -0.dp)
-                        .clickable() { ifseed = 3 ;userViewModel.uiState.value.flowerid.value=3}
+                        .clickable() { ifseed = 3;userViewModel.uiState.value.flowerid.value = 3 }
                 )
 
             }
@@ -937,3 +993,204 @@ fun Page2(userViewModel:UserViewModel){
 
 }
 
+
+
+@OptIn(ExperimentalAnimationApi::class)
+@SuppressLint("StateFlowValueCalledInComposition")
+@Composable
+fun flower1(userViewModel:UserViewModel){
+
+
+    val flower_id = userViewModel.uiState.value.flowerid.value
+
+    var state by remember {
+        mutableStateOf(false)
+    }
+
+
+
+    if (userViewModel.uiState.value.flowerid.value==1){
+        Box{
+            LaunchedEffect(key1 = state) {
+                state = true
+            }
+
+            Column(modifier= Modifier
+                .padding(top = 0.dp, start = 0.dp)
+                .offset(150.dp, 130.dp)
+            ) {
+
+                AnimatedVisibility(
+                    visible = state,
+                    enter = scaleIn(transformOrigin = TransformOrigin(1f, 2f)) +
+                            fadeIn(initialAlpha = 0.3f) + expandIn(expandFrom = Alignment.BottomCenter),
+                    exit = scaleOut(transformOrigin = TransformOrigin(1f, 2f)) +
+                            fadeOut() + shrinkOut(shrinkTowards = Alignment.BottomCenter)
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.g3_flower),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .width(89.dp)
+                            .height(171.dp)
+                    )
+                }
+
+            }
+        }
+    }else{state=false}
+
+
+
+
+}
+
+@OptIn(ExperimentalAnimationApi::class)
+@SuppressLint("StateFlowValueCalledInComposition")
+@Composable
+fun flower2(userViewModel:UserViewModel){
+
+
+    val flower_id = userViewModel.uiState.value.flowerid.value
+
+    var state by remember {
+        mutableStateOf(false)
+    }
+
+
+
+    if (userViewModel.uiState.value.flowerid.value==2){
+        Box{
+            LaunchedEffect(key1 = state) {
+                state = true
+            }
+
+            Column(modifier= Modifier
+                .padding(top = 0.dp, start = 0.dp)
+                .offset(139.dp, 170.dp)
+            ) {
+
+                AnimatedVisibility(
+                    visible = state,
+                    enter = scaleIn(transformOrigin = TransformOrigin(1f, 2f)) +
+                            fadeIn(initialAlpha = 0.3f) + expandIn(expandFrom = Alignment.BottomCenter),
+                    exit = scaleOut(transformOrigin = TransformOrigin(1f, 2f)) +
+                            fadeOut() + shrinkOut(shrinkTowards = Alignment.BottomCenter)
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.g3_meatmuch),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .width(117.dp)
+                            .height(171.dp)
+                    )
+                }
+
+            }
+        }
+    }else{state=false}
+
+
+
+
+}
+
+@OptIn(ExperimentalAnimationApi::class)
+@SuppressLint("StateFlowValueCalledInComposition")
+@Composable
+fun flower3(userViewModel:UserViewModel){
+
+
+    val flower_id = userViewModel.uiState.value.flowerid.value
+
+    var state by remember {
+        mutableStateOf(false)
+    }
+
+
+
+    if (userViewModel.uiState.value.flowerid.value==3){
+        Box{
+            LaunchedEffect(key1 = state) {
+                state = true
+            }
+
+            Column(modifier= Modifier
+                .padding(top = 0.dp, start = 0.dp)
+                .offset(139.dp, 152.dp)
+            ) {
+
+                AnimatedVisibility(
+                    visible = state,
+                    enter = scaleIn(transformOrigin = TransformOrigin(1f, 2f)) +
+                            fadeIn(initialAlpha = 0.3f) + expandIn(expandFrom = Alignment.BottomCenter),
+                    exit = scaleOut(transformOrigin = TransformOrigin(1f, 2f)) +
+                            fadeOut() + shrinkOut(shrinkTowards = Alignment.BottomCenter)
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.g3_godpeople),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .width(110.dp)
+                            .height(171.dp)
+                    )
+                }
+
+            }
+        }
+    }else{state=false}
+
+
+
+
+}
+
+@OptIn(ExperimentalAnimationApi::class)
+@SuppressLint("StateFlowValueCalledInComposition")
+@Composable
+fun flower4(userViewModel:UserViewModel){
+
+
+    val flower_id = userViewModel.uiState.value.flowerid.value
+
+    var state by remember {
+        mutableStateOf(false)
+    }
+
+
+
+    if (userViewModel.uiState.value.flowerid.value==4){
+        Box{
+            LaunchedEffect(key1 = state) {
+                state = true
+            }
+
+            Column(modifier= Modifier
+                .padding(top = 0.dp, start = 0.dp)
+                .offset(139.dp, 156.dp)
+            ) {
+
+                AnimatedVisibility(
+                    visible = state,
+                    enter = scaleIn(transformOrigin = TransformOrigin(1f, 2f)) +
+                            fadeIn(initialAlpha = 0.3f) + expandIn(expandFrom = Alignment.BottomCenter),
+                    exit = scaleOut(transformOrigin = TransformOrigin(1f, 2f)) +
+                            fadeOut() + shrinkOut(shrinkTowards = Alignment.BottomCenter)
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.g3_grass),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .width(108.dp)
+                            .height(171.dp)
+                    )
+                }
+
+            }
+        }
+    }else{state=false}
+
+
+
+
+}

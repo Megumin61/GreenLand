@@ -48,7 +48,8 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import okhttp3.internal.format
 import java.util.*
 
-enum class Status{ CLOSE, OPEN }
+//enum class Status{ CLOSE, OPEN }
+//@OptIn(ExperimentalMaterialApi::class)
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun SwipeableDemo() {
@@ -120,7 +121,6 @@ fun GIFimage(
 
 
 @OptIn(ExperimentalMaterialApi::class)
-
 @Composable
 fun LightReminderScreen(
     navController: NavController

@@ -35,7 +35,7 @@ val BlueGray2=Color(0xFFE4E5EB)
 val BlueGray3=Color(0xFFB8C2C0)
 val BlueGray4=Color(0xFF8AA0AC)
 val BlueGray5=Color(0xFFE9EDF0)
-
+val textGray2=Color(0xff272727)
 val GreenGray1=Color(0xffEBF3F4)
 val textGray=Color(0xff9598ac)
 val GreenMain=Color(0xFF7FC7A8)
@@ -50,4 +50,4 @@ val ProgressGray=Color(0xffE3E3E3)
 
 val Red3=Color(0xFFFDC0A1)
 val Red4=Color(0xFFFFE2C2)
-
+val GreenLightReminder=Color(0xffB6DB96)

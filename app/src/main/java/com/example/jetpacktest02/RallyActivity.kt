@@ -636,7 +636,8 @@ fun RallyApp() {
                     SharePostScreen()
                 }
                 composable(route = LightReminder.route) {
-                    LightReminderScreen()
+                    LightReminderScreen(
+                        navController = navController)
                 }
 
             }

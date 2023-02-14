@@ -2,34 +2,94 @@ package com.example.jetpacktest02.screen
 
 import android.icu.text.SimpleDateFormat
 import android.os.Build
+import androidx.annotation.Px
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.FractionalThreshold
+import androidx.compose.material.rememberSwipeableState
+import androidx.compose.material.swipeable
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight.Companion.W400
 import androidx.compose.ui.text.font.FontWeight.Companion.W700
 import androidx.compose.ui.text.font.FontWeight.Companion.W900
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import coil.ImageLoader
 import coil.compose.rememberAsyncImagePainter
 import coil.decode.GifDecoder
 import coil.decode.ImageDecoderDecoder
 import coil.request.ImageRequest
 import coil.size.Size
+import com.example.jetpacktest02.Plant
 import com.example.jetpacktest02.R
 import com.example.scaffolddemo.ui.theme.GreenLightReminder
 import com.example.scaffolddemo.ui.theme.textGray2
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import okhttp3.internal.format
 import java.util.*
+
+enum class Status{ CLOSE, OPEN }
+@OptIn(ExperimentalMaterialApi::class)
+@Composable
+fun SwipeableDemo() {
+    val blockSize = 48.dp
+    var blockSizePx = with(LocalDensity.current) { blockSize.toPx() }
+    // 创建并获取一个SwipeableState实例
+    val swipeableState = rememberSwipeableState(initialValue = Status.CLOSE)
+    // 定义锚点，锚点以Pair表示，每个状态对应一个锚点
+    val anchors = mapOf(
+        0f to Status.CLOSE,
+        blockSizePx*2 to Status.OPEN
+    )
+    Box(
+        Modifier
+            .size(height = blockSize, width = blockSize * 3)
+            .clip(RoundedCornerShape(50))
+            .background(Color.Gray)
+    ) {
+        Box(
+            Modifier
+                .offset { IntOffset(swipeableState.offset.value.toInt(), 0) }
+                .swipeable(
+                    state = swipeableState,
+                    anchors = anchors,
+                    thresholds = { from, to ->
+                        // 从关闭到开启状态时，滑块移动超过30%距离自动吸附到开启状态
+                        if (from == Status.CLOSE) {
+                            FractionalThreshold(0.3f)
+                        } else { // 从开启状态到关闭状态时，滑块移动超过50%才会自动吸附到关闭状态
+                            FractionalThreshold(0.5f)
+                        }
+                    },
+                    orientation = Orientation.Horizontal
+                )
+                .size(blockSize)
+                .clip(RoundedCornerShape(50))
+                .background(Color.Red)
+        )
+    }
+}
+
 
 @Composable
 fun GIFimage(
@@ -59,12 +119,17 @@ fun GIFimage(
 }
 
 
-@Preview
+@OptIn(ExperimentalMaterialApi::class)
+
 @Composable
-fun LightReminderScreen() {
+fun LightReminderScreen(
+    navController: NavController
+) {
+
     rememberSystemUiController().setStatusBarColor(
         GreenLightReminder, darkIcons = androidx.compose.material.MaterialTheme.colors.isLight
     )
+
     Box(modifier = Modifier.fillMaxWidth()) {
         Image(
             painter = painterResource(id = R.drawable.g10_bg_lightreminder),
@@ -115,15 +180,71 @@ fun LightReminderScreen() {
             Row(
                 Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 20.dp), horizontalArrangement = Arrangement.SpaceBetween
+                    .padding(horizontal = 30.dp), horizontalArrangement = Arrangement.SpaceBetween
             ) {
+                val blockSize = 1000.dp
+                var blockSizePx = with(LocalDensity.current) { blockSize.toPx() }
+                // 创建并获取一个SwipeableState实例
+                val swipeableState = rememberSwipeableState(initialValue = Status.CLOSE)
+                // 定义锚点，锚点以Pair表示，每个状态对应一个锚点
+                val anchors = mapOf(
+                    0f to Status.CLOSE,
+                    blockSizePx*2 to Status.OPEN
+                )
+
                 Image(
                     painter = painterResource(id = R.drawable.g10_ic_wait),
-                    contentDescription = null
+                    contentDescription = null, modifier = Modifier
+                        .offset { IntOffset(swipeableState.offset.value.toInt(), 0) }
+                        .swipeable(
+                            state = swipeableState,
+                            anchors = anchors,
+                            thresholds = { from, to ->
+                                // 从关闭到开启状态时，滑块移动超过30%距离自动吸附到开启状态
+                                if (from == Status.CLOSE) {
+                                    FractionalThreshold(0.8f)
+                                } else { // 从开启状态到关闭状态时，滑块移动超过50%才会自动吸附到关闭状态
+                                    FractionalThreshold(0.8f)
+
+                                }
+                            },
+                            orientation = Orientation.Horizontal
+                        )
                 )
+                val blockSize2 = 10.dp
+                var blockSizePx2 = with(LocalDensity.current) { blockSize2.toPx() }
+                // 创建并获取一个SwipeableState实例
+                var swipeableState2 = rememberSwipeableState(initialValue = Status.CLOSE)
+                // 定义锚点，锚点以Pair表示，每个状态对应一个锚点
+                val anchors2 = mapOf(
+                    0f to Status.CLOSE,
+                    blockSizePx2*2 to Status.OPEN
+                )
+                LaunchedEffect(key1 =swipeableState2){
+                    if(swipeableState2.currentValue==Status.OPEN){
+                    navController.navigate(Plant.route){launchSingleTop = true}
+                } }
                 Image(
                     painter = painterResource(id = R.drawable.g10_ic_drinknow),
-                    contentDescription = null
+                    contentDescription = null,modifier = Modifier
+                        .offset { IntOffset(swipeableState2.offset.value.toInt(), 0) }
+                        .swipeable(
+                            state = swipeableState2,
+                            anchors = anchors2,
+                            thresholds = { from, to ->
+                                // 从关闭到开启状态时，滑块移动超过30%距离自动吸附到开启状态
+                                if (from == Status.CLOSE) {
+                                    FractionalThreshold(0.3f)
+                                } else { // 从开启状态到关闭状态时，滑块移动超过50%才会自动吸附到关闭状态
+                                    FractionalThreshold(0.8f)
+                                }
+
+                            },
+                            orientation = Orientation.Horizontal
+                        )
+
+
+
                 )
 
             }

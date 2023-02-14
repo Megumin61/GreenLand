@@ -20,6 +20,7 @@ package com.example.jetpacktest02.ui.main
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.*
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Scaffold
@@ -99,7 +100,15 @@ fun MessageScreen(
             Spacer(Modifier.height(10.dp))
             IconButtonList(nav01, nav03, nav04, nav05)
             Spacer(Modifier.height(20.dp))
-            MessageList(nav01, nav02, nav03, nav04, nav05, userViewModel=userViewModel,controller=controller)
+            MessageList(
+                nav01,
+                nav02,
+                nav03,
+                nav04,
+                nav05,
+                userViewModel = userViewModel,
+                controller = controller
+            )
         }
 
 //        Column {
@@ -142,7 +151,11 @@ fun IconButtonList(
             modifier = Modifier
                 .width(80.dp)
                 .height(80.dp)
-                .clickable(onClick = nav01)
+                .clickable(
+                    onClick = nav01,
+                    indication = null,
+                    interactionSource = MutableInteractionSource()
+                )
 
         )
         Image(
@@ -151,7 +164,10 @@ fun IconButtonList(
             modifier = Modifier
                 .width(80.dp)
                 .height(80.dp)
-                .clickable(onClick = nav02)
+                .clickable(
+                    onClick = nav02, indication = null,
+                    interactionSource = MutableInteractionSource()
+                )
 
         )
         Image(
@@ -160,7 +176,10 @@ fun IconButtonList(
             modifier = Modifier
                 .width(80.dp)
                 .height(80.dp)
-                .clickable(onClick = nav03)
+                .clickable(
+                    onClick = nav03, indication = null,
+                    interactionSource = MutableInteractionSource()
+                )
 
         )
         Image(
@@ -169,7 +188,10 @@ fun IconButtonList(
             modifier = Modifier
                 .width(80.dp)
                 .height(80.dp)
-                .clickable(onClick = nav04)
+                .clickable(
+                    onClick = nav04, indication = null,
+                    interactionSource = MutableInteractionSource()
+                )
         )
 
     }
@@ -195,7 +217,7 @@ fun MessageList(
                 ListItemModel(
                     "幻想世界",
                     "拍了拍你的向日葵",
-                    R.drawable.g2_1_img_user01,
+                    R.drawable.userprofile_7,
                     R.drawable.g2_1_btn_friend,
                     "5min前",
                     nav01
@@ -203,7 +225,7 @@ fun MessageList(
                 ListItemModel(
                     "sandr",
                     "向你投放了图片",
-                    R.drawable.g2_1_img_user02,
+                    R.drawable.userprofile_10,
                     R.drawable.g2_1_btn_friend_disabled,
                     "8min前",
                     nav04
@@ -211,7 +233,7 @@ fun MessageList(
                 ListItemModel(
                     "施&SHI",
                     "给你留言",
-                    R.drawable.g2_1_img_user03,
+                    R.drawable.userprofile_9,
                     R.drawable.g2_1_btn_friend,
                     "14min前",
                     nav03
@@ -219,7 +241,7 @@ fun MessageList(
                 ListItemModel(
                     "ajunGrit",
                     "拍了拍你的向日葵",
-                    R.drawable.g2_1_img_user04,
+                    R.drawable.userprofile_11,
                     R.drawable.g2_1_btn_friend_disabled,
                     "17min前",
                     nav01
@@ -227,7 +249,7 @@ fun MessageList(
                 ListItemModel(
                     "foxbread",
                     "拍了拍你的向日葵",
-                    R.drawable.g2_1_img_user05,
+                    R.drawable.userprofile_12,
                     R.drawable.g2_1_btn_friend,
                     "45min前",
                     nav01
@@ -235,7 +257,7 @@ fun MessageList(
                 ListItemModel(
                     "幻想世界",
                     "拍了拍你的向日葵",
-                    R.drawable.g2_1_img_user01,
+                    R.drawable.userprofile_13,
                     R.drawable.g2_1_btn_friend_disabled,
                     "1h前",
                     nav01
@@ -243,7 +265,7 @@ fun MessageList(
                 ListItemModel(
                     "sandr",
                     "向你投放了图片",
-                    R.drawable.g2_1_img_user02,
+                    R.drawable.userprofile_14,
                     R.drawable.g2_1_btn_friend,
                     "1h前",
                     nav04
@@ -251,7 +273,7 @@ fun MessageList(
                 ListItemModel(
                     "施&SHI",
                     "给你留言",
-                    R.drawable.g2_1_img_user03,
+                    R.drawable.userprofile_15,
                     R.drawable.g2_1_btn_friend_disabled,
                     "11-31",
                     nav03
@@ -259,7 +281,7 @@ fun MessageList(
                 ListItemModel(
                     "ajunGrit",
                     "拍了拍你的向日葵",
-                    R.drawable.g2_1_img_user04,
+                    R.drawable.userprofile_16,
                     R.drawable.g2_1_btn_friend,
                     "11-31",
                     nav01
@@ -267,7 +289,7 @@ fun MessageList(
                 ListItemModel(
                     "foxbread",
                     "拍了拍你的向日葵",
-                    R.drawable.g2_1_img_user05,
+                    R.drawable.userprofile_17,
                     R.drawable.g2_1_btn_friend_disabled,
                     "11-31",
                     nav01
@@ -336,9 +358,12 @@ fun MessageItem(
                     modifier = Modifier
                         .width(40.dp)
                         .height(40.dp)
-                        .clickable(onClick = {
-                            userViewModel._uiState.value.openDialog.value = true
-                        })
+                        .clickable(
+                            onClick = {
+                                userViewModel._uiState.value.openDialog.value = true
+                            }, indication = null,
+                            interactionSource = MutableInteractionSource()
+                        )
                 )
             }
 
@@ -367,9 +392,12 @@ fun MessageItem(
                 modifier = Modifier
                     .width(45.dp)
                     .height(45.dp)
-                    .clickable(onClick = {
-                        controller.navigate("4.5-island-visitOther/$res/$name")//这里将id拼接到参数后面
-                    }),
+                    .clickable(
+                        onClick = {
+                            controller.navigate("4.5-island-visitOther/$res/$name")//这里将id拼接到参数后面
+                        }, indication = null,
+                        interactionSource = MutableInteractionSource()
+                    ),
             )
         }
     )
@@ -446,9 +474,12 @@ fun DialogCard(userViewModel: UserViewModel = androidx.lifecycle.viewmodel.compo
                             contentDescription = "",
                             modifier = Modifier
                                 .align(Alignment.CenterHorizontally)
-                                .clickable(onClick = {
-                                    userViewModel.uiState.value.openDialog.value = false
-                                }),
+                                .clickable(
+                                    onClick = {
+                                        userViewModel.uiState.value.openDialog.value = false
+                                    }, indication = null,
+                                    interactionSource = MutableInteractionSource()
+                                ),
                         )
                     }
                 }

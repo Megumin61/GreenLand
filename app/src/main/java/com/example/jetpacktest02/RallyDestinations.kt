@@ -125,6 +125,11 @@ object MessageFriend : RallyDestination {
     override val route = "2.5-message-friend"
 }
 
+object MessageID : RallyDestination {
+    override val icon = Icons.Filled.MoneyOff
+    override val route = "2.6-message-friendID"
+}
+
 object My : RallyDestination {
     override val icon = Icons.Filled.MoneyOff
     override val route = "7.0-My"
@@ -155,10 +160,14 @@ object PlantLookingForPlanFoot : RallyDestination {
     override val route = "1.4.1-plant-lookingforplan-foot"
 }
 
+object HealthConclusion : RallyDestination {
+    override val icon = Icons.Filled.MoneyOff
+    override val route = "6.1_conclusion_thisweek"
+}
 
 object PlanList : RallyDestination {
     override val icon = Icons.Filled.MoneyOff
-    override val route = "1.2.0-plant-finish a plan"
+    override val route = "plant-finish a plan"
 }
 object SetPlanSports : RallyDestination {
     override val icon = Icons.Filled.MoneyOff
@@ -180,10 +189,47 @@ object SetPlanDiy : RallyDestination {
     override val icon = Icons.Filled.MoneyOff
     override val route = "1.2.5-plant-diyplan"
 }
+object PlanListAdded : RallyDestination {
+    override val icon = Icons.Filled.MoneyOff
+    override val route = "1.2-plant-dailyplan"
+}
+
 object Test : RallyDestination {
     override val icon = Icons.Filled.MoneyOff
     override val route = "test"
 }
+object HealthShare : RallyDestination {
+    override val icon = Icons.Filled.MoneyOff
+    override val route = "6.3_Share"
+}
+
+object HealthPast : RallyDestination {
+    override val icon = Icons.Filled.MoneyOff
+    override val route = "6.2_conclusion_past"
+}
+
+object HealthTabTest : RallyDestination {
+    override val icon = Icons.Filled.MoneyOff
+    override val route = "6test"
+}
+
+object MyCupBoard : RallyDestination {
+    override val icon = Icons.Filled.MoneyOff
+    override val route = "7.2-cupboard"
+}
+object ReportCard : RallyDestination {
+    override val icon = Icons.Filled.MoneyOff
+    override val route = "reportcard"
+}
+object SharePost : RallyDestination {
+    override val icon = Icons.Filled.MoneyOff
+    override val route = "post"
+}
+object LightReminder : RallyDestination {
+    override val icon = Icons.Filled.MoneyOff
+    override val route = "light-reminder"
+}
+
 
 
 // Screens to be displayed in the top RallyTabRow

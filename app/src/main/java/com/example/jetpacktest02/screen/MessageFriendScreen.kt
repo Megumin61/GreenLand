@@ -12,6 +12,7 @@ import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.*
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
@@ -50,6 +51,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import com.example.jetpacktest02.Message
+import com.example.jetpacktest02.MessageID
 import com.example.jetpacktest02.R
 import com.example.jetpacktest02.ViewModel.UserViewModel
 import com.example.jetpacktest02.ui.main.DialogCard
@@ -67,6 +70,7 @@ import kotlinx.coroutines.launch
     "UnusedMaterialScaffoldPaddingParameter", "StateFlowValueCalledInComposition",
     "Range"
 )
+
 @Composable
 fun MessageFriendScreen(
     nav01: () -> Unit = {},
@@ -131,38 +135,6 @@ fun MessageFriendScreen(
         }
         Column(Modifier.padding(5.dp)) {
             FriendTabRow(userViewModel, controller)
-//            Column(
-//                modifier = Modifier.fillMaxSize(),
-//                horizontalAlignment = Alignment.CenterHorizontally,
-//                verticalArrangement = Arrangement.Center
-//            ) {
-//                AnimatedVisibility(
-//                    visible = state.value,
-//                    enter = slideInVertically(initialOffsetY = { -40 }) + expandVertically(
-//                        expandFrom = Alignment.Top
-//                    ) + fadeIn(initialAlpha = 0.3f), exit = shrinkHorizontally() + fadeOut()
-//                ) {
-//                    Text(
-//                        text = "ssss",
-//                        fontWeight = FontWeight.W900,
-//                        style = MaterialTheme.typography.headlineMedium
-//                    )
-//                    Image(
-//                        painter = painterResource(id = R.drawable.g2_5_btn_friend),
-//                        contentDescription = null,
-//                        modifier = Modifier
-//                            .width(100.dp)
-//                            .height(100.dp)
-//                            .offset(-10.dp, 0.dp)
-//                            .clickable(onClick = {
-//                                state.value = !state.value
-//                            })
-//                    )
-//                }
-//                Button(onClick = { state.value = !state.value }) {
-//                    Text(if (state.value) "隐藏" else "显示")
-//                }
-//            }
             Text(text = userViewModel.uiState.value.currentRoot)
         }
     }
@@ -199,56 +171,56 @@ fun FriendTabRow(
                     1,
                     "ajunGrit",
                     "1天前在线",
-                    res = R.drawable.g2_5_img_user05,
+                    res = R.drawable.userprofile_15,
                     count = "有 3 个共同朋友"
                 ),
                 FriendTest(
                     2,
                     "kevin",
                     "4天前在线",
-                    res = R.drawable.g2_5_img_user03,
+                    res = R.drawable.userprofile_16,
                     count = "有 1 个共同朋友"
                 ),
                 FriendTest(
                     3,
                     "aJuan",
                     "1天前在线",
-                    res = R.drawable.g2_5_img_user04,
+                    res = R.drawable.userprofile_17,
                     count = "有 0 个共同朋友"
                 ),
                 FriendTest(
                     4,
                     "sandr",
                     "在线",
-                    res = R.drawable.g2_5_img_user02,
+                    res = R.drawable.userprofile_18,
                     count = "有 1 个共同朋友"
                 ),
                 FriendTest(
                     5,
                     "liu猪侨",
                     "在线",
-                    res = R.drawable.g2_5_img_user01,
+                    res = R.drawable.userprofile_19,
                     count = "有 1 个共同朋友"
                 ),
                 FriendTest(
                     6,
                     "joyce",
                     "1天前在线",
-                    res = R.drawable.g2_1_img_user01,
+                    res = R.drawable.userprofile_20,
                     count = "有 2 个共同朋友"
                 ),
                 FriendTest(
                     7,
                     "foxbread",
                     "在线",
-                    res = R.drawable.g2_1_img_user05,
+                    res = R.drawable.userprofile_21,
                     count = "有 4 个共同朋友"
                 ),
                 FriendTest(
                     8,
                     "kcChang",
                     "1天前在线",
-                    res = R.drawable.g2_1_img_user03,
+                    res = R.drawable.userprofile_22,
                     count = "有 6 个共同朋友"
                 ),
 
@@ -338,13 +310,16 @@ fun FriendTabRow(
                     .width(100.dp)
                     .height(100.dp)
                     .offset(-10.dp, 0.dp)
-                    .clickable(onClick = {
-                        coroutineScope.launch {
-                            // Animate scroll to the first item
-                            pagerState.animateScrollToPage(3)
-                        }
+                    .clickable(
+                        onClick = {
+                            coroutineScope.launch {
+                                // Animate scroll to the first item
+                                pagerState.animateScrollToPage(3)
+                            }
 
-                    })
+                        }, indication = null,
+                        interactionSource = MutableInteractionSource()
+                    )
             )
         }
 
@@ -517,9 +492,12 @@ fun FriendMessageItem(
             .background(
                 color = Color.White
             )
-            .clickable(onClick = {
-                controller.navigate("4.5-island-visitOther/$res/$name")//这里将参数拼接到参数后面
-            }),
+            .clickable(
+                onClick = {
+                    controller.navigate("4.5-island-visitOther/$res/$name")//这里将参数拼接到参数后面
+                }, indication = null,
+                interactionSource = MutableInteractionSource()
+            ),
         colors = ListItemDefaults.colors(containerColor = Color.White),
         headlineText = {
             Row(
@@ -540,9 +518,12 @@ fun FriendMessageItem(
                         modifier = Modifier
                             .width(40.dp)
                             .height(40.dp)
-                            .clickable(onClick = {
-                                userViewModel._uiState.value.openDialog.value = true
-                            })
+                            .clickable(
+                                onClick = {
+                                    userViewModel._uiState.value.openDialog.value = true
+                                }, indication = null,
+                                interactionSource = MutableInteractionSource()
+                            )
                     )
                 }
             }
@@ -595,47 +576,64 @@ fun IconButtonFriendList(
     Column() {
         Row(
             Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceAround,//子元素的水平方向排列效果
+            horizontalArrangement = Arrangement.SpaceEvenly,//子元素的水平方向排列效果
 
         ) {
-            Spacer(Modifier.height(30.dp))
+            Spacer(Modifier.height(20.dp))
             //通讯录
             Image(
                 painter = painterResource(id = R.drawable.g2_5_1_ic_directory),
                 contentDescription = null,
                 modifier = Modifier
-                    .width(100.dp)
-                    .height(100.dp)
-                    .clickable(onClick = {
+                    .width(90.dp)
+                    .height(90.dp)
+                    .clickable(
+                        onClick = {
 //                    permissionState.launchPermissionRequest()
-                        isContact.value = !isContact.value;
-                        locationPermissionsState.launchMultiplePermissionRequest()
-                    })
+                            isContact.value = !isContact.value;
+                            locationPermissionsState.launchMultiplePermissionRequest()
+                        }, indication = null,
+                        interactionSource = MutableInteractionSource()
+                    )
 
             )
             Image(
                 painter = painterResource(id = R.drawable.g2_5_1_ic_code),
                 contentDescription = null,
                 modifier = Modifier
-                    .width(100.dp)
-                    .height(100.dp)
-//                .clickable(onClick = nav02)
+                    .width(90.dp)
+                    .height(90.dp)
+                    .clickable(
+                        onClick = {
+                            controller.navigate(MessageID.route) {
+                                launchSingleTop = true;
+                            }
+                        }, indication = null,
+                        interactionSource = MutableInteractionSource()
+                    )
 
             )
             Image(
                 painter = painterResource(id = R.drawable.g2_5_1_ic_scan),
                 contentDescription = null,
                 modifier = Modifier
-                    .width(100.dp)
-                    .height(100.dp)
+                    .width(90.dp)
+                    .height(90.dp)
             )
             Image(
                 painter = painterResource(id = R.drawable.g2_5_1_ic_scan1),
                 contentDescription = null,
                 modifier = Modifier
-                    .width(100.dp)
-                    .height(100.dp)
-//                .clickable(onClick = nav02)
+                    .width(90.dp)
+                    .height(90.dp)
+                    .clickable(
+                        onClick = {
+                            controller.navigate(MessageID.route) {
+                                launchSingleTop = true;
+                            }
+                        }, indication = null,
+                        interactionSource = MutableInteractionSource()
+                    )
             )
 
         }
@@ -648,7 +646,7 @@ fun IconButtonFriendList(
                 userViewModel
             )
         } else {
-            Sample(locationPermissionsState, userViewModel,controller)
+            Sample(locationPermissionsState, userViewModel, controller)
         }
     }
 }
@@ -696,11 +694,6 @@ private fun Sample(
     val context = LocalContext.current
     val contentResolver: ContentResolver = context.contentResolver
 
-//    val locationPermissionsState = rememberMultiplePermissionsState(
-//        listOf(
-//            android.Manifest.permission.READ_CONTACTS
-//        )
-//    )
     if (locationPermissionsState.allPermissionsGranted) {
 //        Text("Thanks! I can access your exact location :D")
 //        Text(userViewModel.uiState.value.searchText)
@@ -727,9 +720,8 @@ private fun Sample(
         }
         //通讯录用户，初始化，填充获取通讯录名称至对象
         val friendlist = mutableListOf<FriendTest>()
-        for(i:String in contactsList)
-        {
-            friendlist.add(FriendTest(0,i,"有 1 个共同朋友","有 1 个共同朋友",R.drawable.g2_5_img_user01))
+        for (i: String in contactsList) {
+            friendlist.add(FriendTest(0, i, "有 1 个共同朋友", "有 1 个共同朋友", R.drawable.g2_5_img_user01))
         }
 
         val grouped: Map<Char, List<FriendTest>>

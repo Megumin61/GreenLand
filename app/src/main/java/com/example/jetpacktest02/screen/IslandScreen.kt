@@ -30,6 +30,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.font.FontWeight.Companion.W800
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.*
 import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavHostController
@@ -37,6 +38,7 @@ import com.airbnb.lottie.compose.*
 import com.example.jetpacktest02.R
 import com.example.jetpacktest02.ViewModel.UserViewModel
 import com.example.jetpacktest02.ViewModel.FriendItem
+import com.example.jetpacktest02.compose.GIFimage
 import com.example.scaffolddemo.ui.theme.*
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import kotlinx.coroutines.delay
@@ -463,76 +465,135 @@ fun plantModelItem(
 
             //植物图片
             if (textMsg != "" || imgMsg != 0) {
-                Image(
-                    painter = painterResource(id = plantType),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .size(90.dp)
-                        .clickable(
-                            onClick = {
-                                if (textMsg != "") {
-                                    userViewModel.uiState.value.msgItem.value = item
-                                    userViewModel.uiState.value.showImgMsgDialog.value = false
-                                    userViewModel.uiState.value.showTextMsg.value = true
-                                    //清空好友的消息,用于消除红点
-                                    userViewModel.uiState.value.friendListData[userViewModel.uiState.value.friendListData.indexOf(
-                                        item
-                                    )] =
-                                        FriendItem(
-                                            item.userName,
-                                            item.userAvatar,
-                                            item.userPlant,
-                                            item.offsetX,
-                                            item.offsetY,
-                                            "",
-                                            0,
-                                            item.onlineTime,
-                                            item.msgTime
-                                        )
+                GIFimage(gif =plantType, modifier = Modifier
+                    .size(90.dp)
+                    .clickable(
+                        onClick = {
+                            if (textMsg != "") {
+                                userViewModel.uiState.value.msgItem.value = item
+                                userViewModel.uiState.value.showImgMsgDialog.value = false
+                                userViewModel.uiState.value.showTextMsg.value = true
+                                //清空好友的消息,用于消除红点
+                                userViewModel.uiState.value.friendListData[userViewModel.uiState.value.friendListData.indexOf(
+                                    item
+                                )] =
+                                    FriendItem(
+                                        item.userName,
+                                        item.userAvatar,
+                                        item.userPlant,
+                                        item.offsetX,
+                                        item.offsetY,
+                                        "",
+                                        0,
+                                        item.onlineTime,
+                                        item.msgTime
+                                    )
 //                                    controller.navigate("4.5-island-visitOther/$res/$name")
-                                } else if (imgMsg != 0) {
-                                    userViewModel.uiState.value.msgItem.value = item
-                                    userViewModel.uiState.value.showTextMsg.value = false
-                                    userViewModel.uiState.value.showImgMsgDialog.value = true
-                                    //清空好友的消息,用于消除红点
-                                    userViewModel.uiState.value.friendListData[userViewModel.uiState.value.friendListData.indexOf(
-                                        item
-                                    )] =
-                                        FriendItem(
-                                            item.userName,
-                                            item.userAvatar,
-                                            item.userPlant,
-                                            item.offsetX,
-                                            item.offsetY,
-                                            "",
-                                            0,
-                                            item.onlineTime,
-                                            item.msgTime
-                                        )
+                            } else if (imgMsg != 0) {
+                                userViewModel.uiState.value.msgItem.value = item
+                                userViewModel.uiState.value.showTextMsg.value = false
+                                userViewModel.uiState.value.showImgMsgDialog.value = true
+                                //清空好友的消息,用于消除红点
+                                userViewModel.uiState.value.friendListData[userViewModel.uiState.value.friendListData.indexOf(
+                                    item
+                                )] =
+                                    FriendItem(
+                                        item.userName,
+                                        item.userAvatar,
+                                        item.userPlant,
+                                        item.offsetX,
+                                        item.offsetY,
+                                        "",
+                                        0,
+                                        item.onlineTime,
+                                        item.msgTime
+                                    )
 //                                    controller.navigate("4.5-island-visitOther/$res/$name")//这里将id拼接到参数后面
-                                }
-                            },
-                            indication = null,
-                            interactionSource = MutableInteractionSource()
-                        )
-                )
+                            }
+                        },
+                        indication = null,
+                        interactionSource = MutableInteractionSource()
+                    ))
+//                Image(
+//                    painter = painterResource(id = plantType),
+//                    contentDescription = null,
+//                    modifier = Modifier
+//                        .size(90.dp)
+//                        .clickable(
+//                            onClick = {
+//                                if (textMsg != "") {
+//                                    userViewModel.uiState.value.msgItem.value = item
+//                                    userViewModel.uiState.value.showImgMsgDialog.value = false
+//                                    userViewModel.uiState.value.showTextMsg.value = true
+//                                    //清空好友的消息,用于消除红点
+//                                    userViewModel.uiState.value.friendListData[userViewModel.uiState.value.friendListData.indexOf(
+//                                        item
+//                                    )] =
+//                                        FriendItem(
+//                                            item.userName,
+//                                            item.userAvatar,
+//                                            item.userPlant,
+//                                            item.offsetX,
+//                                            item.offsetY,
+//                                            "",
+//                                            0,
+//                                            item.onlineTime,
+//                                            item.msgTime
+//                                        )
+////                                    controller.navigate("4.5-island-visitOther/$res/$name")
+//                                } else if (imgMsg != 0) {
+//                                    userViewModel.uiState.value.msgItem.value = item
+//                                    userViewModel.uiState.value.showTextMsg.value = false
+//                                    userViewModel.uiState.value.showImgMsgDialog.value = true
+//                                    //清空好友的消息,用于消除红点
+//                                    userViewModel.uiState.value.friendListData[userViewModel.uiState.value.friendListData.indexOf(
+//                                        item
+//                                    )] =
+//                                        FriendItem(
+//                                            item.userName,
+//                                            item.userAvatar,
+//                                            item.userPlant,
+//                                            item.offsetX,
+//                                            item.offsetY,
+//                                            "",
+//                                            0,
+//                                            item.onlineTime,
+//                                            item.msgTime
+//                                        )
+////                                    controller.navigate("4.5-island-visitOther/$res/$name")//这里将id拼接到参数后面
+//                                }
+//                            },
+//                            indication = null,
+//                            interactionSource = MutableInteractionSource()
+//                        )
+//                )
 
             }
             //没有消息红点的植物
             else {
-                Image(
-                    painter = painterResource(id = plantType),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .size(90.dp)
-                        .clickable(
-                            onClick = {
-                                controller.navigate("4.5-island-visitOther/$res/$name")
-                                      } ,
-                            indication = null,
-                            interactionSource = MutableInteractionSource()
-                        )
-                )
+                GIFimage(gif = plantType, modifier = Modifier
+                    .size(90.dp)
+                    .clickable(
+                        onClick = {
+                            controller.navigate("4.5-island-visitOther/$res/$name")
+                        },
+                        indication = null,
+                        interactionSource = MutableInteractionSource()
+                    ))
+
+//                Image(
+//                    painter = painterResource(id = plantType),
+//                    contentDescription = null,
+//                    modifier = Modifier
+//                        .size(90.dp)
+//                        .clickable(
+//                            onClick = {
+//                                controller.navigate("4.5-island-visitOther/$res/$name")
+//                            },
+//                            indication = null,
+//                            interactionSource = MutableInteractionSource()
+//                        )
+//                )
             }
 
         }

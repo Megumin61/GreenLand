@@ -3,17 +3,15 @@ package com.example.jetpacktest02.screen
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.pm.PackageManager
-import android.os.Handler
 import android.os.Looper
-import android.telephony.CarrierConfigManager.Gps
 import androidx.compose.animation.*
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.*
 import androidx.compose.material.Icon
@@ -22,13 +20,10 @@ import androidx.compose.material3.*
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
@@ -37,7 +32,6 @@ import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.*
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.times
@@ -52,6 +46,7 @@ import com.example.jetpacktest02.R
 import com.example.jetpacktest02.ViewModel.ExploreMemberItem
 import com.example.jetpacktest02.ViewModel.FriendItem
 import com.example.jetpacktest02.ViewModel.UserViewModel
+import com.example.jetpacktest02.compose.GIFimage
 import com.example.jetpacktest02.utils.GPSUtils
 import com.example.scaffolddemo.ui.theme.*
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
@@ -59,10 +54,6 @@ import com.google.accompanist.permissions.rememberMultiplePermissionsState
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.google.android.gms.location.*
 import kotlinx.coroutines.delay
-import java.util.*
-import kotlin.concurrent.schedule
-import kotlin.math.absoluteValue
-import kotlin.random.Random
 
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalPermissionsApi::class)
@@ -76,6 +67,7 @@ fun IslandExploreScreen(
     userViewModel: UserViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
     controller: NavHostController
 ) {
+
 
     LaunchedEffect(key1 = userViewModel._uiState.value.msgItem.value) {
         if (userViewModel._uiState.value.showTextMsg.value == true) {
@@ -148,41 +140,74 @@ fun IslandExploreScreen(
             }
 
             userViewModel.uiState.value.exploreMemberListData.forEachIndexed { index, item ->
-                if (item.animVisible){
-                    return@LaunchedEffect
-                }
-                var a = GPSUtils.getInstance().getA(
-                    item.location.latitude,
-                    item.location.longitude,
-                    userViewModel.uiState.value.mePos.value.latitude,
-                    userViewModel.uiState.value.mePos.value.longitude,
-                )
-                var b = GPSUtils.getInstance().getB(
-                    userViewModel.uiState.value.mePos.value.latitude,
-                    userViewModel.uiState.value.mePos.value.longitude,
-                    item.location.latitude,
-                    item.location.longitude
-                )
-                if (a >= 0) {
-                    item.offsetX = GPSUtils.getInstance().mockFloatBetween2(0.5f, 1.6f)
-                } else {
-                    item.offsetX = GPSUtils.getInstance().mockFloatBetween2(-0.5f, -1.5f)
-                }
-                if (b >= 0) {
-                    item.offsetY = GPSUtils.getInstance().mockFloatBetween2(0.3f, 2.1f)
-                } else {
-                    item.offsetY = GPSUtils.getInstance().mockFloatBetween2(-0.3f, -1.5f)
-                }
-            }
-
-            userViewModel.uiState.value.exploreMemberListData.forEachIndexed { index, item ->
                 item.animVisible = true
                 delay(400)//延时1秒
             }
+//            userViewModel.uiState.value.exploreMemberListData.forEachIndexed { index, item ->
+//                if (item.animVisible){
+//                    return@LaunchedEffect
+//                }
+//                var a = GPSUtils.getInstance().getA(
+//                    item.location.latitude,
+//                    item.location.longitude,
+//                    userViewModel.uiState.value.mePos.value.latitude,
+//                    userViewModel.uiState.value.mePos.value.longitude,
+//                )
+//                var b = GPSUtils.getInstance().getB(
+//                    userViewModel.uiState.value.mePos.value.latitude,
+//                    userViewModel.uiState.value.mePos.value.longitude,
+//                    item.location.latitude,
+//                    item.location.longitude
+//                )
+//                if (a >= 0) {
+//                    item.offsetX = GPSUtils.getInstance().mockFloatBetween2(0.5f, 1.6f)
+//                } else {
+//                    item.offsetX = GPSUtils.getInstance().mockFloatBetween2(-0.5f, -1.5f)
+//                }
+//                if (b >= 0) {
+//                    item.offsetY = GPSUtils.getInstance().mockFloatBetween2(0.3f, 2.1f)
+//                } else {
+//                    item.offsetY = GPSUtils.getInstance().mockFloatBetween2(-0.3f, -1.5f)
+//                }
+//            }
 
         }
-
     }
+//    else {
+//
+//        Column {
+//            val allPermissionsRevoked =
+//                locationPermissionsState.permissions.size ==
+//                        locationPermissionsState.revokedPermissions.size
+//
+//            val textToShow = if (!allPermissionsRevoked) {
+//                // If not all the permissions are revoked, it's because the user accepted the COARSE
+//                // location permission, but not the FINE one.
+//                "Yay! Thanks for letting me access your approximate location. " +
+//                        "But you know what would be great? If you allow me to know where you " +
+//                        "exactly are. Thank you!"
+//            } else if (locationPermissionsState.shouldShowRationale) {
+//                // Both location permissions have been denied
+//                "Getting your exact location is important for this app. " +
+//                        "Please grant us fine location. Thank you :D"
+//            } else {
+//                // First time the user sees this feature or the user doesn't want to be asked again
+//                "This feature requires location permission"
+//            }
+//
+//            val buttonText = if (!allPermissionsRevoked) {
+//                "Allow precise location"
+//            } else {
+//                "Request permissions"
+//            }
+//
+//            androidx.compose.material.Text(text = textToShow)
+//            Spacer(modifier = Modifier.height(8.dp))
+//            Button1(onClick = { locationPermissionsState.launchMultiplePermissionRequest() }) {
+//                androidx.compose.material.Text(buttonText)
+//            }
+//        }
+//    }
 
     //配置顶部状态栏颜色
     rememberSystemUiController().setStatusBarColor(
@@ -414,17 +439,32 @@ fun IslandExploreScreen(
                         horizontalArrangement = Arrangement.Center
                     ) {
                         //发布按钮
-                        Image(
-                            painter = painterResource(id = R.drawable.g4_2_btn_publish),
-                            contentDescription = null,
-                            modifier = Modifier
-                                .height(60.dp)
-                                .clickable(
-                                    onClick = nav03,
-                                    indication = null,
-                                    interactionSource = MutableInteractionSource()
-                                )
-                        )
+                        if (locationPermissionsState.allPermissionsGranted) {
+
+                            Image(
+                                painter = painterResource(id = R.drawable.g4_2_btn_publish),
+                                contentDescription = null,
+                                modifier = Modifier
+                                    .height(60.dp)
+                                    .clickable(
+                                        onClick = nav03,
+                                        indication = null,
+                                        interactionSource = MutableInteractionSource()
+                                    )
+                            )
+                        } else {
+                            Image(
+                                painter = painterResource(id = R.drawable.g4_2_btn_requestgps),
+                                contentDescription = null,
+                                modifier = Modifier
+                                    .height(60.dp)
+                                    .clickable(
+                                        onClick = { { locationPermissionsState.launchMultiplePermissionRequest() } },
+                                        indication = null,
+                                        interactionSource = MutableInteractionSource()
+                                    )
+                            )
+                        }
                     }
 
                 }
@@ -564,13 +604,13 @@ fun ExplorePlantModelItem(
     //计算植物大小
     var plantSize = 0.dp
     if (item.distance > 200) {
-        plantSize = 30.dp
-    } else if (item.distance > 100) {
         plantSize = 40.dp
+    } else if (item.distance > 100) {
+        plantSize = 55.dp
     } else if (item.distance > 50) {
-        plantSize = 50.dp
+        plantSize = 70.dp
     } else {
-        plantSize = 60.dp
+        plantSize = 80.dp
     }
 
 
@@ -581,7 +621,12 @@ fun ExplorePlantModelItem(
     ) {
         AnimatedVisibility(
             visible = item.animVisible,
-            enter = slideInVertically(initialOffsetY = { 100 }) + fadeIn(initialAlpha = 0.3f),
+            enter = slideInVertically(
+                initialOffsetY = { 30 },
+                animationSpec = tween(
+                    durationMillis = item.animDuration
+                )
+            ) + fadeIn(initialAlpha = 0.3f),
         ) {
             Column(
                 modifier = Modifier.fillMaxSize(),
@@ -608,78 +653,69 @@ fun ExplorePlantModelItem(
                     } else {
                     }
 
-                    //植物图片
-                    if (textMsg != "" || imgMsg != 0) {
-                        Image(
-                            painter = painterResource(id = plantType),
-                            contentDescription = null,
-                            modifier = Modifier
+                        GIFimage(
+                            gif = plantType, modifier = Modifier
                                 .size(plantSize)
                                 .clickable(
-                                    onClick = {
-                                        if (textMsg != "") {
-                                            userViewModel.uiState.value.msgItem.value =
-                                                FriendItem(msgTime = "刚刚")
-                                            userViewModel.uiState.value.msgItem.value.userName =
-                                                item.userName
-                                            userViewModel.uiState.value.msgItem.value.msgTime =
-                                                item.msgTime
-                                            userViewModel.uiState.value.msgItem.value.userAvatar =
-                                                item.userAvatar
-                                            userViewModel.uiState.value.msgItem.value.textMsg =
-                                                item.textMsg
-                                            userViewModel.uiState.value.msgItem.value.imgMsg =
-                                                item.imgMsg
-
-                                            userViewModel.uiState.value.showImgMsgDialog.value =
-                                                false
-                                            userViewModel.uiState.value.showTextMsg.value = true
-                                            //清空好友的消息,用于消除红点
-                                            item.imgMsg = 0
-                                            item.textMsg = ""
-                                        } else if (imgMsg != 0) {
-                                            userViewModel.uiState.value.msgItem.value =
-                                                FriendItem(msgTime = "刚刚")
-                                            userViewModel.uiState.value.msgItem.value.userName =
-                                                item.userName
-                                            userViewModel.uiState.value.msgItem.value.msgTime =
-                                                item.msgTime
-                                            userViewModel.uiState.value.msgItem.value.userAvatar =
-                                                item.userAvatar
-                                            userViewModel.uiState.value.msgItem.value.textMsg =
-                                                item.textMsg
-                                            userViewModel.uiState.value.msgItem.value.imgMsg =
-                                                item.imgMsg
-                                            userViewModel.uiState.value.showTextMsg.value = false
-                                            userViewModel.uiState.value.showImgMsgDialog.value =
-                                                true
-                                            //清空好友的消息,用于消除红点
-                                            item.imgMsg = 0
-                                            item.textMsg = ""
-                                        }
-                                    },
+                                    onClick =
+                                    { MsgHandleClick(userViewModel, textMsg, imgMsg, item) },
                                     indication = null,
                                     interactionSource = MutableInteractionSource()
                                 )
                         )
+//                        Image(
+//                            painter = painterResource(id = plantType),
+//                            contentDescription = null,
+//                            modifier = Modifier
+//                                .size(plantSize)
+//                                .clickable(
+//                                    onClick = {
+//                                        if (textMsg != "") {
+//                                            userViewModel.uiState.value.msgItem.value =
+//                                                FriendItem(msgTime = "刚刚")
+//                                            userViewModel.uiState.value.msgItem.value.userName =
+//                                                item.userName
+//                                            userViewModel.uiState.value.msgItem.value.msgTime =
+//                                                item.msgTime
+//                                            userViewModel.uiState.value.msgItem.value.userAvatar =
+//                                                item.userAvatar
+//                                            userViewModel.uiState.value.msgItem.value.textMsg =
+//                                                item.textMsg
+//                                            userViewModel.uiState.value.msgItem.value.imgMsg =
+//                                                item.imgMsg
+//
+//                                            userViewModel.uiState.value.showImgMsgDialog.value =
+//                                                false
+//                                            userViewModel.uiState.value.showTextMsg.value = true
+//                                            //清空好友的消息,用于消除红点
+//                                            item.imgMsg = 0
+//                                            item.textMsg = ""
+//                                        } else if (imgMsg != 0) {
+//                                            userViewModel.uiState.value.msgItem.value =
+//                                                FriendItem(msgTime = "刚刚")
+//                                            userViewModel.uiState.value.msgItem.value.userName =
+//                                                item.userName
+//                                            userViewModel.uiState.value.msgItem.value.msgTime =
+//                                                item.msgTime
+//                                            userViewModel.uiState.value.msgItem.value.userAvatar =
+//                                                item.userAvatar
+//                                            userViewModel.uiState.value.msgItem.value.textMsg =
+//                                                item.textMsg
+//                                            userViewModel.uiState.value.msgItem.value.imgMsg =
+//                                                item.imgMsg
+//                                            userViewModel.uiState.value.showTextMsg.value = false
+//                                            userViewModel.uiState.value.showImgMsgDialog.value =
+//                                                true
+//                                            //清空好友的消息,用于消除红点
+//                                            item.imgMsg = 0
+//                                            item.textMsg = ""
+//                                        }
+//                                    },
+//                                    indication = null,
+//                                    interactionSource = MutableInteractionSource()
+//                                )
+//                        )
 
-                    }
-                    //没有消息红点的植物
-                    else {
-                        Image(
-                            painter = painterResource(id = plantType),
-                            contentDescription = null,
-                            modifier = Modifier
-                                .size(plantSize)
-                                .clickable(
-                                    onClick = {
-                                        controller.navigate("4.5-island-visitOther/$res/$name")
-                                    },
-                                    indication = null,
-                                    interactionSource = MutableInteractionSource()
-                                )
-                        )
-                    }
 
                 }
                 //用户名 +距离
@@ -713,6 +749,54 @@ fun ExplorePlantModelItem(
 
 }
 
+fun MsgHandleClick(
+    userViewModel: UserViewModel,
+    textMsg: String,
+    imgMsg: Int,
+    item: ExploreMemberItem
+) {
+    if (textMsg != "") {
+        userViewModel.uiState.value.msgItem.value =
+            FriendItem(msgTime = "刚刚")
+        userViewModel.uiState.value.msgItem.value.userName =
+            item.userName
+        userViewModel.uiState.value.msgItem.value.msgTime =
+            item.msgTime
+        userViewModel.uiState.value.msgItem.value.userAvatar =
+            item.userAvatar
+        userViewModel.uiState.value.msgItem.value.textMsg =
+            item.textMsg
+        userViewModel.uiState.value.msgItem.value.imgMsg =
+            item.imgMsg
+
+        userViewModel.uiState.value.showImgMsgDialog.value =
+            false
+        userViewModel.uiState.value.showTextMsg.value = true
+        //清空好友的消息,用于消除红点
+        item.imgMsg = 0
+        item.textMsg = ""
+    } else if (imgMsg != 0) {
+        userViewModel.uiState.value.msgItem.value =
+            FriendItem(msgTime = "刚刚")
+        userViewModel.uiState.value.msgItem.value.userName =
+            item.userName
+        userViewModel.uiState.value.msgItem.value.msgTime =
+            item.msgTime
+        userViewModel.uiState.value.msgItem.value.userAvatar =
+            item.userAvatar
+        userViewModel.uiState.value.msgItem.value.textMsg =
+            item.textMsg
+        userViewModel.uiState.value.msgItem.value.imgMsg =
+            item.imgMsg
+        userViewModel.uiState.value.showTextMsg.value = false
+        userViewModel.uiState.value.showImgMsgDialog.value =
+            true
+        //清空好友的消息,用于消除红点
+        item.imgMsg = 0
+        item.textMsg = ""
+    }
+}
+
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 fun ExploreMapBgAnimation(
@@ -730,14 +814,14 @@ fun ExploreMapBgAnimation(
         mutableStateOf(1f)
     }
     LaunchedEffect(1) {
-        delay(2000)
+        delay(3800)
         isPlaying = false
     }
     //控制循环播放次数 累加该值可以增加播放次数
     var interations by remember {
-        mutableStateOf(1)
+        mutableStateOf(3)
     }
-    val composition by rememberLottieComposition(LottieCompositionSpec.Asset("animations/map2.json"))
+    val composition by rememberLottieComposition(LottieCompositionSpec.Asset("animations/map.json"))
     val progress by animateLottieCompositionAsState(
         composition,
         iterations = interations,

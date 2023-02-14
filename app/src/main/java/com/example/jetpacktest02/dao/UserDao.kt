@@ -22,10 +22,20 @@ interface UserDao {
     @Update(onConflict = OnConflictStrategy.REPLACE)
     fun updateUser(user: User)
 
+    @Query("UPDATE user_table SET position =:position WHERE id =:id")
+    fun updatePositionById(position:String,id:Int)
+
+    @Query("UPDATE user_table SET step =:step WHERE id =:id")
+    fun updateStepById(step:Int,id:Int)
+
     @Query("select * from user_table")
     fun getAllUser(): LiveData<List<User>>
 
     @Query("select * from user_table where id =:id")
     fun getUserById(id : Int):User
+
+    @Query("select * from user_table where phoneNumber =:phoneNumber")
+    fun getUserByPhone(phoneNumber : String):User
+
 
 }

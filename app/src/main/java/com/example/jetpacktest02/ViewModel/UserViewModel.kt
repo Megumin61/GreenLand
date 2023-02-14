@@ -1,12 +1,5 @@
 package com.example.jetpacktest02.ViewModel
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.text.TextRange
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.*
 import com.example.jetpacktest02.Entity.User
 import com.example.jetpacktest02.Repository.UserRepository
@@ -21,6 +14,7 @@ import javax.inject.Inject
 @HiltViewModel
 class UserViewModel @Inject  constructor(val repository: UserRepository) : ViewModel() {
 
+
     val allUsers: LiveData<List<User>> = repository.allUsers.asLiveData()
 
     val _uiState = MutableStateFlow(UiState())
@@ -31,7 +25,7 @@ class UserViewModel @Inject  constructor(val repository: UserRepository) : ViewM
      * Launching a new coroutine to insert the data in a non-blocking way
      */
     fun insert(user: User) = viewModelScope.launch {
-        repository.insertUser(user)
+        repository.insert(user)
     }
 
     fun getUserById(id: Int) = viewModelScope.launch {
@@ -41,13 +35,16 @@ class UserViewModel @Inject  constructor(val repository: UserRepository) : ViewM
     fun getUser(id: Int): User {
         return repository.getUserById(id)
     }
-    fun UpdateUser(user: User){
-        return repository.updateUser(user)
+    fun UpdateUser(user: User)=viewModelScope.launch{
+        repository.updateUser(user)
+    }
+    fun UpdatePositionById(id:Int,position:String)=viewModelScope.launch{
+        repository.updatePositionById(position,id)
+    }
+    fun UpdateStepById(id:Int,step:Int)=viewModelScope.launch{
+        repository.updateStepById(step,id)
     }
 
-    suspend fun InsertUser(user: User){
-        return repository.insertUser(user)
-    }
     fun DeleteUser(id: Int){
         return repository.deleteUserById(id)
     }

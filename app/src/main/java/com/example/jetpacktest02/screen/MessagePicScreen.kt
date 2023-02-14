@@ -19,6 +19,7 @@ package com.example.jetpacktest02.ui.main
 import android.annotation.SuppressLint
 import androidx.compose.animation.core.animateSizeAsState
 import androidx.compose.foundation.*
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Scaffold
 import androidx.compose.material.TopAppBar
@@ -116,14 +117,14 @@ fun PicMessageList(nav01: () -> Unit = {}, nav02: () -> Unit, userViewModel: Use
                 //如果需要改变下面对象里面的属性，需要单独复制一份生成一个新的对象才可以
                 PicListItemModel(
                     "Sandor",
-                    R.drawable.g2_1_img_user02,
+                    R.drawable.userprofile_21,
                     R.drawable.g2_1_btn_friend_disabled,
                     R.drawable.g2_4_img_pic,
                     "5min前"
                 ),
                 PicListItemModel(
                     "留猪侨",
-                    R.drawable.g2_4_img_user01,
+                    R.drawable.userprofile_23,
                     R.drawable.g2_1_btn_friend_disabled,
                     R.drawable.g2_4_img_pic,
                     "5min前"
@@ -200,7 +201,9 @@ fun MsgPicItem(
                                 .height(40.dp)
                                 .clickable(onClick = {
                                     userViewModel.uiState.value.openDialog.value = true
-                                })
+                                },                                    indication = null,
+                                    interactionSource = MutableInteractionSource()
+                                )
                         )
                     }
                     Text(
@@ -236,7 +239,8 @@ fun MsgPicItem(
                             .height(50.dp)
                             .clickable(onClick = {
                                 controller.navigate("4.5-island-visitOther/$res/$name")//这里将id拼接到参数后面
-                            }
+                            },                                    indication = null,
+                                interactionSource = MutableInteractionSource()
 //                            .offset(0.dp, -25.dp)
                     ))
                 }

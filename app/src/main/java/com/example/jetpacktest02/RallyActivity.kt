@@ -225,33 +225,6 @@ fun RallyApp() {
                         nav01 = {
                             navController.navigate(PlantPlan.route) { launchSingleTop = true; }
                         },
-                        nav02 = {
-                            navController.navigate(Dailyhealthmessage.route) {
-                                launchSingleTop = true;
-                            }
-                        },
-                        nav03 = {
-                            navController.navigate(IslandChooseIsland.route) {
-                                launchSingleTop = true;
-                            }
-                        },
-                        nav04 = {
-                            navController.navigate(Message.route) { launchSingleTop = true; }
-                        },
-                        nav05 = {
-                            navController.navigate(My.route) { launchSingleTop = true; }
-                        },
-                        nav06 = {
-                            navController.navigate(PlantBagPossessed.route) {
-                                launchSingleTop = true;
-                            }
-                        },
-                        nav07 = {
-                            navController.navigate(Test.route) { launchSingleTop = true; }
-                        },
-                        nav08 = {
-                            navController.navigate(HealthShare.route) { launchSingleTop = true; }
-                        },
                         userViewModel = userViewModel,
                         navController = navController
                     )

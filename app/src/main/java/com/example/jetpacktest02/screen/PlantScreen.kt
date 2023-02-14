@@ -28,6 +28,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.slideInVertically
+import androidx.compose.foundation.*
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
@@ -79,6 +80,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import java.time.format.TextStyle
 
+
 /**
  * The Bills screen.
  */
@@ -88,15 +90,7 @@ import java.time.format.TextStyle
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 fun PlantScreen(
-//            bills : (String) -> Unit = {},
     nav01: () -> Unit = {},
-    nav02: () -> Unit = {},
-    nav03: () -> Unit = {},
-    nav04: () -> Unit = {},
-    nav05: () -> Unit = {},
-    nav06: () -> Unit = {},
-    nav07: () -> Unit = {},
-    nav08: () -> Unit = {},
     userViewModel: UserViewModel,
     navController: NavController
 
@@ -110,9 +104,13 @@ fun PlantScreen(
     var HealthSumCardAnim by remember {
         mutableStateOf(false)
     }
-    LaunchedEffect(key1 = 1) {
-        delay(300)
+
+    val showSumCard: () -> Unit = {
         showHealthSumCard = true
+    }
+    LaunchedEffect(key1 = showHealthSumCard) {
+//        delay(300)
+//        showHealthSumCard = true
         delay(200)
         HealthSumCardAnim = true
     }
@@ -127,210 +125,17 @@ fun PlantScreen(
     rememberSystemUiController().setStatusBarColor(
         Color.White, darkIcons = androidx.compose.material.MaterialTheme.colors.isLight
     )
-//    Column {
-//        Text("1.1-Plant")
-//        Button(
-//            onClick = nav01,
-//            contentPadding = ButtonDefaults.ButtonWithIconContentPadding
-//        ) {
-//            Icon(
-//                Icons.Filled.Favorite,
-//                contentDescription = "Localized description",
-//                modifier = Modifier.size(ButtonDefaults.IconSize)
-//            )
-//            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-//            Text("1.2-plant-plan")
-//        }
-//        Button(
-//            onClick = nav02,
-//            contentPadding = ButtonDefaults.ButtonWithIconContentPadding
-//        ) {
-//            Icon(
-//                Icons.Filled.Favorite,
-//                contentDescription = "Localized description",
-//                modifier = Modifier.size(ButtonDefaults.IconSize)
-//            )
-//            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-//            Text("1.3-Dailyhealthmessage")
-//        }
-//        Button(
-//            onClick = nav03,
-//            contentPadding = ButtonDefaults.ButtonWithIconContentPadding
-//        ) {
-//            Icon(
-//                Icons.Filled.Favorite,
-//                contentDescription = "Localized description",
-//                modifier = Modifier.size(ButtonDefaults.IconSize)
-//            )
-//            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-//            Text("4.1-island-chooseIsland")
-//        }
-//        Button(
-//            onClick = nav04,
-//            contentPadding = ButtonDefaults.ButtonWithIconContentPadding
-//        ) {
-//            Icon(
-//                Icons.Filled.Favorite,
-//                contentDescription = "Localized description",
-//                modifier = Modifier.size(ButtonDefaults.IconSize)
-//            )
-//            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-//            Text("2.1-message")
-//        }
-//        Button(
-//            onClick = nav05,
-//            contentPadding = ButtonDefaults.ButtonWithIconContentPadding
-//        ) {
-//            Icon(
-//                Icons.Filled.Favorite,
-//                contentDescription = "Localized description",
-//                modifier = Modifier.size(ButtonDefaults.IconSize)
-//            )
-//            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-//            Text("7.0-My")
-//        }
-//        Button(
-//            onClick = nav06,
-//            contentPadding = ButtonDefaults.ButtonWithIconContentPadding
-//        ) {
-//            Icon(
-//                Icons.Filled.Favorite,
-//                contentDescription = "Localized description",
-//                modifier = Modifier.size(ButtonDefaults.IconSize)
-//            )
-//            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-//            Text("5.1.1-PlantBag-possessed")
-//        }
-//        Button(
-//            onClick = nav07,
-//            contentPadding = ButtonDefaults.ButtonWithIconContentPadding
-//        ) {
-//            Icon(
-//                Icons.Filled.Favorite,
-//                contentDescription = "Localized description",
-//                modifier = Modifier.size(ButtonDefaults.IconSize)
-//            )
-//            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-//            Text("test")
-//        }
-//    }
     //pagerState为底部viewpager参数
     val pagerState: PagerState = remember { PagerState() }
     VerticalPager(count = 2, state = pagerState) { page ->
         userViewModel.uiState.value.PlantPage.value = page
         if (page == 0) {
-            MainPlantPage(userViewModel, nav01)
-        } else {
+            MainPlantPage(userViewModel, nav01, showSumCard)
+        } else if (page == 1) {
 //            SecondPlantPage(userViewModel.uiState.value.PlantPage.value)
             SecondPlantPage(userViewModel.uiState.value.PlantPage.value)
         }
     }
-    Image(
-        painter = painterResource(id = R.drawable.g1_1_bg_plant),
-        contentDescription = null,
-        modifier = Modifier
-            .scale(1.1f, 1.0f)
-            .fillMaxHeight()
-            .fillMaxSize()
-    )
-    Column {
-        Text("1.1-Plant")
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            Text(
-                text = "应用运行以来的步数：${userViewModel.uiState.value.stepDetector.value}",
-                style = androidx.compose.ui.text.TextStyle(fontSize = 20.sp)
-            )
-            Text(
-                text = "开机以来的步数：${userViewModel.uiState.value.stepCounter.value}",
-                style = androidx.compose.ui.text.TextStyle(fontSize = 20.sp)
-            )
-        }
-        Button(
-            onClick = nav01,
-            contentPadding = ButtonDefaults.ButtonWithIconContentPadding
-        ) {
-            Icon(
-                Icons.Filled.Favorite,
-                contentDescription = "Localized description",
-                modifier = Modifier.size(ButtonDefaults.IconSize)
-            )
-            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-            Text("1.2-plant-plan")
-        }
-        Button(
-            onClick = nav02,
-            contentPadding = ButtonDefaults.ButtonWithIconContentPadding
-        ) {
-            Icon(
-                Icons.Filled.Favorite,
-                contentDescription = "Localized description",
-                modifier = Modifier.size(ButtonDefaults.IconSize)
-            )
-            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-            Text("1.3-Dailyhealthmessage")
-        }
-        Button(
-            onClick = nav03,
-            contentPadding = ButtonDefaults.ButtonWithIconContentPadding
-        ) {
-            Icon(
-                Icons.Filled.Favorite,
-                contentDescription = "Localized description",
-                modifier = Modifier.size(ButtonDefaults.IconSize)
-            )
-            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-            Text("4.1-island-chooseIsland")
-        }
-        Button(
-            onClick = nav04,
-            contentPadding = ButtonDefaults.ButtonWithIconContentPadding
-        ) {
-            Icon(
-                Icons.Filled.Favorite,
-                contentDescription = "Localized description",
-                modifier = Modifier.size(ButtonDefaults.IconSize)
-            )
-            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-            Text("2.1-message")
-        }
-        Button(
-            onClick = nav05,
-            contentPadding = ButtonDefaults.ButtonWithIconContentPadding
-        ) {
-            Icon(
-                Icons.Filled.Favorite,
-                contentDescription = "Localized description",
-                modifier = Modifier.size(ButtonDefaults.IconSize)
-            )
-            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-            Text("7.0-My")
-        }
-        Button(
-            onClick = nav06,
-            contentPadding = ButtonDefaults.ButtonWithIconContentPadding
-        ) {
-            Icon(
-                Icons.Filled.Favorite,
-                contentDescription = "Localized description",
-                modifier = Modifier.size(ButtonDefaults.IconSize)
-            )
-            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-            Text("5.1.1-PlantBag-possessed")
-        }
-        Button(
-            onClick = nav07,
-            contentPadding = ButtonDefaults.ButtonWithIconContentPadding
-        ) {
-            Icon(
-                Icons.Filled.Favorite,
-                contentDescription = "Localized description",
-                modifier = Modifier.size(ButtonDefaults.IconSize)
-            )
-            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-            Text("test")
-        }
-    }
-    MainPlantPage(userViewModel, nav01)
 
     if (showHealthSumCard) {
         Dialog(
@@ -578,6 +383,7 @@ fun PlantScreen(
 fun MainPlantPage(
     userViewModel: UserViewModel,
     nav01: () -> Unit = {},//计划
+    showSumCard: () -> Unit = {},//显示结算弹窗
 ) {
     //重要参数
     val feelingValue: Int = 0
@@ -596,6 +402,10 @@ fun MainPlantPage(
     }
     var state3 by remember {
         mutableStateOf(false)
+    }
+
+    var isExpand by remember {
+        mutableStateOf(true)
     }
 
     LaunchedEffect(key1 = state) {
@@ -641,6 +451,15 @@ fun MainPlantPage(
                 .width(90.dp)
                 .height(50.dp)
         )
+//        Image(
+//            painter = painterResource(id = R.drawable.g1_1_ic_ar),
+//            contentDescription = null,
+//            modifier = Modifier
+//                .align(Alignment.Start)
+//                .offset(0.dp, -20.dp)
+//                .width(90.dp)
+//                .height(50.dp)
+//        )
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -661,7 +480,25 @@ fun MainPlantPage(
                     fontWeight = W900,
                     modifier = Modifier.offset(0.dp, (-10).dp)
                 )
-                Box() {
+
+                Box {
+
+                    //隐藏按钮
+                    Box(
+                        modifier = Modifier
+                            .width(100.dp)
+                            .height(20.dp)
+//                            .background(Color.Red)
+                            .clickable(
+                                onClick = showSumCard,
+                                indication = null,
+                                interactionSource = MutableInteractionSource()
+                            )
+                            .offset(x = 100.dp)
+                            .padding(bottom = 100.dp, start = 100.dp)
+
+                    )
+
                     ProgressBar(
                         modifier = Modifier
                             .height(8.dp)
@@ -830,58 +667,92 @@ fun MainPlantPage(
                             modifier = Modifier.offset(80.dp, 30.dp)
                         )
                     }
+                }
+                Spacer(modifier = Modifier.height(10.dp))
+                AnimatedVisibility(
+                    visible = state3,
+                    enter = scaleIn(transformOrigin = TransformOrigin(0f, 0f)) +
+                            fadeIn(initialAlpha = 0.3f) + expandIn(expandFrom = Alignment.TopStart),
+                    exit = scaleOut(transformOrigin = TransformOrigin(0f, 0f)) +
+                            fadeOut() + shrinkOut(shrinkTowards = Alignment.TopStart)
+                ) {
                     Box(modifier = Modifier.align(Alignment.Start)) {
                         Image(
-                            painter = painterResource(id = R.drawable.g1_1_ic_water),
+                            painter = painterResource(id = R.drawable.g1_1_ic_huoli),
                             contentDescription = null,
                             modifier = Modifier
                                 .width(140.dp)
                         )
                         Text(
-                            text = userViewModel.uiState.value.waterValue.toString() + "g",
+                            text = energyValue.toString() + "g",
                             fontWeight = W900,
                             color = BlueGray3,
                             modifier = Modifier.offset(80.dp, 30.dp)
                         )
                     }
-                    Spacer(modifier = Modifier.height(10.dp))
-                    AnimatedVisibility(
-                        visible = state3,
-                        enter = scaleIn(transformOrigin = TransformOrigin(0f, 0f)) +
-                                fadeIn(initialAlpha = 0.3f) + expandIn(expandFrom = Alignment.TopStart),
-                        exit = scaleOut(transformOrigin = TransformOrigin(0f, 0f)) +
-                                fadeOut() + shrinkOut(shrinkTowards = Alignment.TopStart)
-                    ) {
-                        Box(modifier = Modifier.align(Alignment.Start)) {
-                            Image(
-                                painter = painterResource(id = R.drawable.g1_1_ic_huoli),
-                                contentDescription = null,
-                                modifier = Modifier
-                                    .width(140.dp)
-                            )
-                            Text(
-                                text = energyValue.toString() + "g",
-                                fontWeight = W900,
-                                color = BlueGray3,
-                                modifier = Modifier.offset(80.dp, 30.dp)
-                            )
-                        }
-                    }
                 }
-                //消息
-                Column(
-                    horizontalAlignment = Alignment.End,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(20.dp, 0.dp)
+            }
+            //消息
+            Column(
+                horizontalAlignment = Alignment.End,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(20.dp, 0.dp)
+            ) {
+                Surface(
+                    color = Color.White,
+                    shape = RoundedCornerShape(60.dp),
+                    border = BorderStroke(width = 1.dp, color = BlueGray5),
+                    modifier = Modifier.wrapContentWidth()
                 ) {
                     Image(
-                        painter = painterResource(id = R.drawable.g1_1_ic_message),
+                        painter = painterResource(id = R.drawable.g1_1_ic_message_point),
                         contentDescription = null,
-                        modifier = Modifier.height(50.dp)
+                        modifier = Modifier
+                            .height(6.dp)
+                            .offset(30.dp, 7.dp)
 
                     )
-                    Spacer(modifier = Modifier.height(10.dp))
+                    Row(horizontalArrangement = Arrangement.SpaceBetween) {
+                        Image(
+                            painter = painterResource(id = R.drawable.g1_1_ic_msg),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .height(40.dp)
+                                .offset(0.dp, 4.dp)
+                                .clickable(
+                                    onClick = {
+                                        isExpand = !isExpand
+                                    }, indication = null,
+                                    interactionSource = MutableInteractionSource()
+                                )
+                        )
+                        AnimatedVisibility(isExpand) {
+                            Text(
+                                text = "消息",
+                                color = Green700,
+                                fontSize = 14.sp,
+                                fontWeight = W900,
+                                modifier = Modifier.offset(0.dp, 8.dp)
+                            )
+                        }
+                        Spacer(modifier = Modifier.width(12.dp))
+                    }
+                }
+//                Image(
+//                    painter = painterResource(id = R.drawable.g1_1_ic_message),
+//                    contentDescription = null,
+//                    modifier = Modifier.height(50.dp)
+//
+//                )
+                Spacer(modifier = Modifier.height(10.dp))
+                AnimatedVisibility(
+                    visible = !isExpand,
+                    enter = scaleIn(transformOrigin = TransformOrigin(0f, 0f)) +
+                            fadeIn(initialAlpha = 0.5f) + expandIn(expandFrom = Alignment.TopStart),
+                    exit = scaleOut(transformOrigin = TransformOrigin(0f, 0f)) +
+                            fadeOut() + shrinkOut(shrinkTowards = Alignment.TopEnd)
+                ) {
                     Box() {
                         Image(
                             painter = painterResource(id = R.drawable.g1_1icbg_message),
@@ -907,6 +778,7 @@ fun MainPlantPage(
             }
         }
     }
+
 }
 
 //@Preview
@@ -932,10 +804,15 @@ fun SecondPlantPage(page: Int) {
         }
         if (page == 1) {
             LaunchedEffect(key1 = state2) {
-                delay(1500)
+                delay(2000)
                 state2 = true
             }
         }
+
+        val heightPre by animateFloatAsState(
+            targetValue = if (state2) 1f else 0f,
+            animationSpec = FloatTweenSpec(duration = 1500)
+        )
 
         Spacer(modifier = Modifier.height(30.dp))
         Row(modifier = Modifier.fillMaxWidth(), Arrangement.SpaceBetween) {
@@ -1005,6 +882,65 @@ fun SecondPlantPage(page: Int) {
                         fontSize = 20.sp,
                         fontWeight = W500,
                         modifier = Modifier.offset(22.dp, 48.dp)
+                    )
+                    Text(
+                        text = "20%",
+                        color = Red2,
+                        fontSize = 14.sp,
+                        fontWeight = W500,
+                        modifier = Modifier.offset(100.dp, 54.dp)
+                    )
+                    Image(
+                        painter = painterResource(id = R.drawable.g1_3_img_up),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .size(16.dp)
+                            .offset(130.dp, 56.dp)
+                    )
+                    Row(
+                        Modifier
+                            .width((heightPre * 280).dp)
+                            .offset(20.dp, 120.dp)
+                    ) {
+                        Surface(
+                            color = Red3, modifier = Modifier
+                                .weight(0.39f)
+                                .height(20.dp)
+                        ) {
+                        }
+                        Surface(
+                            color = Red4, modifier = Modifier
+                                .weight(0.38f)
+                                .height(20.dp)
+                        ) {
+                        }
+                        Surface(
+                            color = Green10, modifier = Modifier
+                                .weight(0.23f)
+                                .height(20.dp)
+                        ) {
+                        }
+                    }
+                    Text(
+                        text = "2:32:53",
+                        color = Color.Black,
+                        fontSize = 13.sp,
+                        fontWeight = W500,
+                        modifier = Modifier.offset(25.dp, 182.dp)
+                    )
+                    Text(
+                        text = "2:23:17",
+                        color = Color.Black,
+                        fontSize = 13.sp,
+                        fontWeight = W500,
+                        modifier = Modifier.offset(120.dp, 182.dp)
+                    )
+                    Text(
+                        text = "1:23:43",
+                        color = Color.Black,
+                        fontSize = 13.sp,
+                        fontWeight = W500,
+                        modifier = Modifier.offset(215.dp, 182.dp)
                     )
                 }
             }

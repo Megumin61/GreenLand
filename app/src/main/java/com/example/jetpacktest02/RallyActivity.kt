@@ -216,7 +216,7 @@ fun RallyApp() {
             //管理路由：页面跳转
             NavHost(
                 navController = navController,
-                startDestination = Plant.route,
+                startDestination = LoginLoading.route,
                 modifier = Modifier.padding(innerPadding)
 
             ) {
@@ -261,6 +261,26 @@ fun RallyApp() {
                         nav01 = {
                             navController.navigate(Plant.route) { launchSingleTop = true; }
                         }, userViewModel = userViewModel
+                    )
+                }
+                composable(route = LoginFront.route) {
+                    LoginFrontScreen(navController=navController
+                    )
+                }
+                composable(route = PhoneLogin.route) {
+                    PhoneLoginScreen(navController=navController
+                    )
+                }
+                composable(route = AppIntroduction.route) {
+                    AppIntroductionScreen(navController=navController
+                    )
+                }
+                composable(route = CreateAccount.route) {
+                    CreateAccountScreen(navController=navController
+                    )
+                }
+                composable(route = LoginLoading.route) {
+                    LoginLoadingScreen(navController=navController
                     )
                 }
                 composable(route = PlantPlan.route) {

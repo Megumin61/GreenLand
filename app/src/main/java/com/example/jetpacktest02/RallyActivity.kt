@@ -16,6 +16,7 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
@@ -29,6 +30,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.jetpacktest02.Entity.User
 import com.example.jetpacktest02.ViewModel.MarsViewModel
+import com.example.jetpacktest02.ViewModel.NotificationTestViewModel
 import com.example.jetpacktest02.ViewModel.UserViewModel
 import com.example.jetpacktest02.compose.MyBottomNavBar
 import com.example.jetpacktest02.compose.StepCounter
@@ -36,10 +38,13 @@ import com.example.jetpacktest02.config.UsersApplication
 import com.example.jetpacktest02.screen.*
 import com.example.jetpacktest02.ui.main.MessageMsgScreen
 import com.example.jetpacktest02.ui.main.*
+import com.example.jetpacktest02.utils.StepPremission
+import com.example.jetpacktest02.utils.TimeUtil
 import com.example.scaffolddemo.ui.theme.ScaffoldDemoTheme
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
+import java.sql.Time
 
 
 /**
@@ -61,11 +66,10 @@ class RallyActivity : ComponentActivity() {
 
 
         setContent {
-
+            NotificationTest()
 //            WordBookApp()
-            RallyApp()
+//            RallyApp()
 //            StepCounter() //全局计步器
-//            WordBookApp()
         }
     }
 
@@ -81,7 +85,28 @@ class RallyActivity : ComponentActivity() {
 }
 
 @Composable
-fun ErrorScreen(error:String) {
+fun NotificationTest(viewModel: NotificationTestViewModel = viewModel()) {
+    val context = LocalContext.current
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Button(onClick = {
+            viewModel.showNotification(context,"外卖提醒", "您好，您的外卖到了！")
+        }) {
+            Text(text = "创建一个新通知")
+        }
+        Button(onClick = {
+            viewModel.updateNotification(context,"订单提醒", "您有一条新的外卖订单，请及时接单！")
+        }) {
+            Text(text = "更新通知")
+        }
+    }
+}
+
+
+@Composable
+fun ErrorScreen(error: String) {
     Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier.fillMaxSize()
@@ -102,53 +127,100 @@ fun ResultScreen(result: String) {
 }
 
 //在这里演示如何在组件中实现对User表的增删改查
+@SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 fun WordBookApp(userViewModel: UserViewModel = viewModel()) {
 //    val count by mainViewModel.counterLiveData.observeAsState(0)
     //    val users by viewModel.allUsers.observeAsState(listOf())
-
+    StepPremission()
+    StepCounter(userViewModel)
     //这里是viewmodel提供的所有user列表的数据
     val marsViewModel: MarsViewModel = viewModel()
     val users: List<User> by userViewModel.allUsers.observeAsState(mutableListOf())
     val userList = marsViewModel.getUserList()
 
+    val user_insert = User("Hello", "13333", "dada")
+    //如果没有数据则插入
+    if (users.isEmpty()) {
+        userViewModel.insert(user_insert)
+    }
+    val user_query: User = userViewModel.getUser(1)
+    val step = user_query.step
+    val weekStep = user_query.weekStep
+//    val step2 = UsersApplication.database.userDao().getUserById(1).step
     //增：往数据库中插入某个user对象，可以不传id，id为主键自增
-    val user_insert = User("Hello", "13333","dada")
 
     //查：根据id查询某个user，
 //    val user_query : User= userViewModel.getUser(1)
 
     //改：修改某个user对象信息,需要传入主键id构造user对象
-    val user_edit = User(2,"Hello","183232","pposor2",132)
+    val user_edit = User(2, "Hello", "183232", "pposor2", 132)
 
     //删：删除某个id为1的user对象
 //    userViewModel.DeleteUser(1)
 
+    //每当步数变化，更新uiState 开机来总步数
+//    LaunchedEffect(key1 = userViewModel.uiState.value.stepCounter.value, block = {
+//        userViewModel.UpdateStepById(id = 1, step = userViewModel.uiState.value.stepCounter.value)
+//    })
+
+    //获取当前日期，并赋值储存至uistate
+    userViewModel.uiState.value.currentDate.value = TimeUtil.getCurrentDate()
+
+    //日期变化代表一天结束
+    LaunchedEffect(key1 = userViewModel.uiState.value.currentDate.value, block = {
+        //更新本周数据
+        userViewModel.UpdateWeekStepById(
+            1,
+            weekStep + userViewModel.uiState.value.stepCounter.value - step
+        )
+        //每当日期变化，更新步数，此时数据库中用户数据仍为开机以来数据
+        userViewModel.UpdateStepById(
+            id = 1, step = userViewModel.uiState.value.stepCounter.value
+        )
+    })
 
     Column {
-//        Text(text = "query_name:"+user_query.name)
-//        Text(text = "query_phone:"+user_query.phoneNumber)
-        Button(onClick = {     userViewModel.insert(user_insert) }) {
+        Text("现在表列表里有${users.size}条数据")
+
+        Button(onClick = { userViewModel.insert(user_insert) }) {
             Text(text = "insert")
         }
-        Button(onClick = {     marsViewModel.addUser(user_insert.name,user_insert.phoneNumber) }) {
+        Button(onClick = { marsViewModel.addUser(user_insert.name, user_insert.phoneNumber) }) {
             Text(text = "remoteInsert")
         }
-        Button(onClick = {     userViewModel.UpdatePositionById(id=2, position = user_edit.position) }) {
+        Button(onClick = {
+            userViewModel.UpdatePositionById(
+                id = 1,
+                position = user_edit.position
+            )
+        }) {
             Text(text = "updatePosition")
         }
-        Button(onClick = {     userViewModel.UpdateStepById(id=2, step = user_edit.step) }) {
+        Button(onClick = {
+            userViewModel.UpdateStepById(
+                id = 1,
+                step = userViewModel.uiState.value.stepCounter.value
+            )
+        }) {
             Text(text = "updateStep")
         }
 //        Text(user_edit.position)
-        Text(users.size.toString())
-        users.forEach{user ->
-            Text(user.position.toString())
+        users.forEach { user ->
+            Text("step" + user.step.toString())
         }
-        Text(text = userList.getOrNull(0)?.position.toString())
+        Text(text = "今日步数：" + users.getOrNull(0)?.step.toString())
         Text(text = userList.size.toString())
-        userList.forEach{user ->
-            Text(user.username.toString())
+        userList.forEach { user ->
+            Text("username" + user.username.toString())
+        }
+        Column() {
+            Text(text = userViewModel.uiState.value.stepDetector.value.toString())
+            Text(text = userViewModel.uiState.value.stepCounter.value.toString())
+            Text(text = "现在日期：" + TimeUtil.getCurrentDate().toString())
+            Text(text = "现在是周几：" + TimeUtil.getWeekStr(TimeUtil.getCurrentDate()).toString())
+            //日期变化时，uistate存储的本机步数减去数据库存储的昨日本机步数即为今日步数
+            Text(text = "今日步数：" + (userViewModel.uiState.value.stepCounter.value - step))
         }
     }
 }
@@ -231,6 +303,7 @@ fun RallyApp() {
                 }
                 composable(route = Test.route) {
                     TestScreen(
+//                        userViewModel = userViewModel
                         nav01 = {
                             navController.navigate(Plant.route) { launchSingleTop = true; }
                         }, userViewModel = userViewModel
@@ -292,31 +365,31 @@ fun RallyApp() {
                                 launchSingleTop = true;
                             }
                         },
-                        nav06={navController.popBackStack()}
+                        nav06 = { navController.popBackStack() }
 
-                        )
+                    )
                 }
 
                 composable(route = SetPlanSports.route) {
                     SetPlanSportsScreen(
-                        nav01 = {navController.popBackStack()}
+                        nav01 = { navController.popBackStack() }
                     )
                 }
                 composable(route = SetPlanDrink.route) {
                     SetPlanDrinkScreen(
-                        nav01 = {navController.popBackStack()}
+                        nav01 = { navController.popBackStack() }
                     )
                 }
                 composable(route = SetPlanSleep.route) {
-                    SetPlanSleepScreen(nav01 = {navController.popBackStack()})
+                    SetPlanSleepScreen(nav01 = { navController.popBackStack() })
                 }
                 composable(route = SetPlanEating.route) {
-                    SetPlanEatingScreen(nav01 = {navController.popBackStack()})
+                    SetPlanEatingScreen(nav01 = { navController.popBackStack() })
                 }
 
                 composable(route = SetPlanDiy.route) {
                     SetPlanDiyScreen(
-                        nav02 = {navController.popBackStack()},
+                        nav02 = { navController.popBackStack() },
                         nav01 = {
                             //终点，返回的
                             navController.navigate(PlanListAdded.route) {
@@ -330,8 +403,8 @@ fun RallyApp() {
                 composable(route = PlanListAdded.route) {
                     PlanListAddedScreen(
                         nav01 = {
-                        navController.navigate(SetPlanSports.route) { launchSingleTop = true; }
-                    },
+                            navController.navigate(SetPlanSports.route) { launchSingleTop = true; }
+                        },
                         nav02 = {
                             navController.navigate(SetPlanDrink.route) {
                                 launchSingleTop = true;
@@ -353,15 +426,17 @@ fun RallyApp() {
                             }
                         },
                         nav06 = {
-                        navController.navigate(PlantPlan.route) {
-                            launchSingleTop = true;popUpTo(PlantPlan.route)
-                        }
-                    },nav07 = {
-                        navController.navigate(SetPlanDiy.route) {
-                            launchSingleTop = true;popUpTo(PlantPlan.route)
-                        }
-                    }
-                        ,userViewModel = userViewModel, nav = {},)
+                            navController.navigate(PlantPlan.route) {
+                                launchSingleTop = true;popUpTo(PlantPlan.route)
+                            }
+                        },
+                        nav07 = {
+                            navController.navigate(SetPlanDiy.route) {
+                                launchSingleTop = true;popUpTo(PlantPlan.route)
+                            }
+                        },
+                        userViewModel = userViewModel, nav = {},
+                    )
                 }
 
                 composable(route = ChooseSeed.route) {

@@ -410,6 +410,7 @@ fun MainPlantPage(
         mutableStateOf(true)
     }
 
+
     LaunchedEffect(key1 = state) {
         state = true
     }

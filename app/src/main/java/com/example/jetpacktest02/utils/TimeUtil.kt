@@ -72,16 +72,16 @@ class TimeUtil {
 
             val todayStr = dateFormat.format(mCalendar.time)
 
-            if (todayStr == dateStr) {
-                return getCurTime()
-            }
+//            if (todayStr == dateStr) {
+//                return getCurTime()
+//            }
 
             val preCalendar = Calendar.getInstance()
             preCalendar.add(Calendar.DATE, -1)
             val yesterdayStr = dateFormat.format(preCalendar.time)
-            if (yesterdayStr == dateStr) {
-                return "昨天"
-            }
+//            if (yesterdayStr == dateStr) {
+//                return "昨天"
+//            }
 
             var w = 0
             try {

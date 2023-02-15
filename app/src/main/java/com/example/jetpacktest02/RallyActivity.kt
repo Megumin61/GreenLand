@@ -2,12 +2,11 @@ package com.example.jetpacktest02
 
 import MyCupBoardScreen
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Button
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Scaffold
@@ -17,8 +16,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat.startActivity
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
@@ -36,15 +34,14 @@ import com.example.jetpacktest02.compose.MyBottomNavBar
 import com.example.jetpacktest02.compose.StepCounter
 import com.example.jetpacktest02.config.UsersApplication
 import com.example.jetpacktest02.screen.*
-import com.example.jetpacktest02.ui.main.MessageMsgScreen
 import com.example.jetpacktest02.ui.main.*
+import com.example.jetpacktest02.utils.ApkUtils
 import com.example.jetpacktest02.utils.StepPremission
 import com.example.jetpacktest02.utils.TimeUtil
 import com.example.scaffolddemo.ui.theme.ScaffoldDemoTheme
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
-import java.sql.Time
 
 
 /**
@@ -66,9 +63,10 @@ class RallyActivity : ComponentActivity() {
 
 
         setContent {
-            NotificationTest()
+//            NotificationTest()
 //            WordBookApp()
-//            RallyApp()
+//            UnityTest()
+            RallyApp()
 //            StepCounter() //全局计步器
         }
     }
@@ -82,6 +80,24 @@ class RallyActivity : ComponentActivity() {
     }
 
 
+}
+
+@Composable
+fun UnityTest() {
+    val context = LocalContext.current
+    val intent = Intent(context, UnityPlayerActivity::class.java)
+    var state2 by remember {
+        mutableStateOf(false)
+    }
+    Button(onClick = {
+        state2=true
+    }) {
+        Text(text = "调用unity")
+    }
+    if(state2==true)
+    {
+        context.startActivity(intent)
+    }
 }
 
 @Composable
@@ -183,6 +199,20 @@ fun WordBookApp(userViewModel: UserViewModel = viewModel()) {
     Column {
         Text("现在表列表里有${users.size}条数据")
 
+        var text1 by remember {
+            mutableStateOf("false")
+        }
+//        com.DefaultCompany.MyPlant
+        Button(onClick = {
+            ApkUtils.StartLaunchAPK(UsersApplication.context,"com.DefaultCompany.MyPlant","com.unity3d.player.UnityPlayerActivity")
+            if(            ApkUtils.CheckApkExist(UsersApplication.context,"com.DefaultCompany.MyPlant")){
+                text1="找到了"
+            }else{
+                text1="没找到"
+            }
+        }) {
+            Text(text = text1)
+        }
         Button(onClick = { userViewModel.insert(user_insert) }) {
             Text(text = "insert")
         }
@@ -238,6 +268,7 @@ fun RallyApp() {
     val Textvalue: String = ""
 
     val userViewModel: UserViewModel = viewModel()
+    val notificationTestviewModel: NotificationTestViewModel = viewModel()
     // Fetch your currentDestination:
     val currentDestination = currentBackStack?.destination
     if (currentDestination != null) {
@@ -298,7 +329,8 @@ fun RallyApp() {
                             navController.navigate(PlantPlan.route) { launchSingleTop = true; }
                         },
                         userViewModel = userViewModel,
-                        navController = navController
+                        navController = navController,
+                        notificationTestviewModel=notificationTestviewModel
                     )
                 }
                 composable(route = Test.route) {

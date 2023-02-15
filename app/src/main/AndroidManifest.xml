@@ -32,6 +32,13 @@
                 android:value="" />
         </activity>
         <activity
+            android:name=".UnityPlayerActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".RallyActivity"
             android:exported="true">
             <intent-filter>

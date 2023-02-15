@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QCARConfig>
+    <Tracking>
+        <CylinderTarget name="nofushanquanyoudiantian" sideLength="0.200000"/>
+        <ImageTarget name="cubcub.Bottom" size="0.178200 0.175200"/>
+        <ImageTarget name="cubcub.Back" size="0.178200 0.175200"/>
+        <ImageTarget name="cubcub.Front" size="0.178200 0.175200"/>
+        <ImageTarget name="cubcub.Right" size="0.175200 0.175200"/>
+        <ImageTarget name="cubcub.Top" size="0.178200 0.175200"/>
+        <ImageTarget name="cubcub.Left" size="0.175200 0.175200"/>
+        <ImageTarget name="cubecube.Bottom" size="0.175200 0.178200"/>
+        <ImageTarget name="cubecube.Back" size="0.175200 0.175000"/>
+        <ImageTarget name="cubecube.Front" size="0.175200 0.175000"/>
+        <ImageTarget name="cubecube.Right" size="0.178200 0.175000"/>
+        <ImageTarget name="cubecube.Top" size="0.175200 0.178200"/>
+        <ImageTarget name="cubecube.Left" size="0.178200 0.175000"/>
+        <ImageTarget name="box2.Front" size="0.119200 0.201600"/>
+        <ImageTarget name="box2.Right" size="0.098000 0.201600"/>
+        <ImageTarget name="box2.Top" size="0.119200 0.098000"/>
+        <ImageTarget name="box2.Left" size="0.098000 0.201600"/>
+        <ImageTarget name="box1.Bottom" size="0.107000 0.072000"/>
+        <ImageTarget name="box1.Back" size="0.107000 0.144500"/>
+        <ImageTarget name="box1.Front" size="0.107000 0.144500"/>
+        <ImageTarget name="box1.Right" size="0.072000 0.144500"/>
+        <ImageTarget name="box1.Top" size="0.107000 0.072000"/>
+        <ImageTarget name="box1.Left" size="0.072000 0.144500"/>
+        <MultiTarget name="cubcub">
+            <Part name="cubcub.Left" translation="-0.08910000324249268 0 0" rotation="AD: 0 1 0 -90"/>
+            <Part name="cubcub.Right" translation="0.08910000324249268 0 0" rotation="AD: 0 1 0 90"/>
+            <Part name="cubcub.Front" translation="0 0 0.08760000020265579" rotation="AD: 1 0 0 0"/>
+            <Part name="cubcub.Back" translation="0 0 -0.08760000020265579" rotation="AD: 0 1 0 180"/>
+            <Part name="cubcub.Top" translation="0 0.08760000020265579 0" rotation="AD: 1 0 0 -90"/>
+            <Part name="cubcub.Bottom" translation="0 -0.08760000020265579 0" rotation="AD: 1 0 0 90"/>
+        </MultiTarget>
+        <MultiTarget name="cubecube">
+            <Part name="cubecube.Left" translation="-0.08760000020265579 0 0" rotation="AD: 0 1 0 -90"/>
+            <Part name="cubecube.Right" translation="0.08760000020265579 0 0" rotation="AD: 0 1 0 90"/>
+            <Part name="cubecube.Front" translation="0 0 0.08910000324249268" rotation="AD: 1 0 0 0"/>
+            <Part name="cubecube.Back" translation="0 0 -0.08910000324249268" rotation="AD: 0 1 0 180"/>
+            <Part name="cubecube.Top" translation="0 0.08749999850988388 0" rotation="AD: 1 0 0 -90"/>
+            <Part name="cubecube.Bottom" translation="0 -0.08749999850988388 0" rotation="AD: 1 0 0 90"/>
+        </MultiTarget>
+        <MultiTarget name="box2">
+            <Part name="box2.Left" translation="-0.05959999933838844 0 0" rotation="AD: 0 1 0 -90"/>
+            <Part name="box2.Right" translation="0.05959999933838844 0 0" rotation="AD: 0 1 0 90"/>
+            <Part name="box2.Front" translation="0 0 0.04899999871850014" rotation="AD: 1 0 0 0"/>
+            <Part name="box2.Top" translation="0 0.10080000013113022 0" rotation="AD: 1 0 0 -90"/>
+        </MultiTarget>
+        <MultiTarget name="box1">
+            <Part name="box1.Left" translation="-0.05350000038743019 0 0" rotation="AD: 0 1 0 -90"/>
+            <Part name="box1.Right" translation="0.05350000038743019 0 0" rotation="AD: 0 1 0 90"/>
+            <Part name="box1.Front" translation="0 0 0.035999998450279236" rotation="AD: 1 0 0 0"/>
+            <Part name="box1.Back" translation="0 0 -0.035999998450279236" rotation="AD: 0 1 0 180"/>
+            <Part name="box1.Top" translation="0 0.07225000113248825 0" rotation="AD: 1 0 0 -90"/>
+            <Part name="box1.Bottom" translation="0 -0.07225000113248825 0" rotation="AD: 1 0 0 90"/>
+        </MultiTarget>
+    </Tracking>
+</QCARConfig>

@@ -174,7 +174,7 @@ fun PlantBagAchievementScreen(
 //按钮----------------------------
 
 @Composable
-fun BtnToCloth(nav01: () -> Unit={},
+fun BtnToCloth(
                nav02: () -> Unit={},){
 
     Button(onClick = nav02 ,
@@ -197,7 +197,7 @@ fun BtnToCloth(nav01: () -> Unit={},
 
 
 @Composable
-fun BtnRowPage2(nav01: () -> Unit={},
+fun BtnRowPage2(
                 nav02: () -> Unit={},){
     Row (
         modifier= Modifier
@@ -209,7 +209,7 @@ fun BtnRowPage2(nav01: () -> Unit={},
 
     ){
         BtnEnergyValue()
-        BtnToCloth()
+        BtnToCloth(nav02)
     }
 }
 
@@ -270,21 +270,21 @@ fun PlantBagAchievementViewTabRow(nav01: () -> Unit={},
         achievePicSource=R.drawable.g5_2_1_img_achieve06
         btnSource6=R.drawable.g5_2_1_btn_weared
     }
-    if(ifbtnpressed==7){
-        achievePicSource=R.drawable.g5_2_1_img_achieve07
-        btnSource7=R.drawable.g5_2_1_btn_weared
-    }
-    if(ifbtnpressed==8){
-        achievePicSource=R.drawable.g5_2_1_img_achieve08
-        btnSource8=R.drawable.g5_2_1_btn_weared
-    }
+//    if(ifbtnpressed==7){
+//        achievePicSource=R.drawable.g5_2_1_img_achieve07
+//        btnSource7=R.drawable.g5_2_1_btn_weared
+//    }
+//    if(ifbtnpressed==8){
+//        achievePicSource=R.drawable.g5_2_1_img_achieve08
+//        btnSource8=R.drawable.g5_2_1_btn_weared
+//    }
     if(ifbtnpressed==9){
         achievePicSource=R.drawable.g5_2_1_img_achieve09
-        btnSource8=R.drawable.g5_2_1_btn_weared
+        btnSource9=R.drawable.g5_2_1_btn_weared
     }
     if(ifbtnpressed==10){
         achievePicSource=R.drawable.g5_2_1_img_achieve100
-        btnSource8=R.drawable.g5_2_1_btn_weared
+        btnSource10=R.drawable.g5_2_1_btn_weared
     }
 
 
@@ -321,7 +321,7 @@ fun PlantBagAchievementViewTabRow(nav01: () -> Unit={},
                             .padding(top = 0.dp)
 
                     )
-                    BtnRowPage2()
+                    BtnRowPage2(nav02)
                 }
 
                 Spacer(modifier = Modifier.height(34.dp))
@@ -709,8 +709,9 @@ fun PlantBagAchievementViewTabRow(nav01: () -> Unit={},
                                             contentDescription = null,
                                         )
                                         Column() {
-                                            Button(onClick = { },//按钮:佩戴——————————————————————————————————————————————
-                                                Modifier
+                                            Button(onClick = { },
+                                                enabled=false,//按钮:佩戴——————————————————————————————————————————————
+                                                modifier=Modifier
                                                     .width(75.dp)
                                                     .height(24.dp),
                                                 colors = ButtonDefaults.outlinedButtonColors(),
@@ -747,8 +748,9 @@ fun PlantBagAchievementViewTabRow(nav01: () -> Unit={},
                                             contentDescription = null,
                                         )
                                         Column() {
-                                            Button(onClick = { },//按钮:佩戴——————————————————————————————————————————————
-                                                Modifier
+                                            Button(onClick = { },
+                                                enabled=false,//按钮:佩戴——————————————————————————————————————————————
+                                                modifier= Modifier
                                                     .width(75.dp)
                                                     .height(24.dp),
                                                 colors = ButtonDefaults.outlinedButtonColors(),

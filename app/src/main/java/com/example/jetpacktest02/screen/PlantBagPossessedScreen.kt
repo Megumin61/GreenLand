@@ -72,6 +72,7 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 fun PlantBagPossessedScreen(
 //            bills : (String) -> Unit = {},
     nav01: () -> Unit={},
+    nav02: () -> Unit={},
 //    userViewModel: UserViewModel
 ) {
 
@@ -151,7 +152,7 @@ fun PlantBagPossessedScreen(
 //                }
 //                Spacer(modifier = Modifier.height(10.dp))
 
-                PlantBagViewTabRow()
+                PlantBagViewTabRow(nav02)
             }
 
 
@@ -166,22 +167,7 @@ fun PlantBagPossessedScreen(
 
 }
 //图片
-@Composable
-fun PlantImage(){
-    var flowerPicSource:Int=R.drawable.g5_1_1_img_flower
-    Box(contentAlignment = Alignment.TopCenter){
-        Image(painter = painterResource(
-        id = flowerPicSource),
-        contentDescription = null,
-        modifier = Modifier
-            .width(119.dp)
-            .padding(top = 38.dp)
-        )
-        BtnRow()
-    }
 
-
-}
 
 
 @Composable
@@ -204,9 +190,9 @@ fun BtnBgImg(){
 //按钮----------------------------
 
 @Composable
-fun BtnToAchievement(){
+fun BtnToAchievement(nav02: () -> Unit={},){
 
-    Button(onClick = { /*TODO*/ },
+    Button(onClick = nav02,
         colors = ButtonDefaults.outlinedButtonColors(),
         modifier = Modifier.padding(0.dp)
                 ,contentPadding = PaddingValues(0.dp)
@@ -234,7 +220,7 @@ fun BtnEnergyValue(){
 
 
 @Composable
-fun BtnRow(){
+fun BtnRow(nav02: () -> Unit={},){
     Row (
         modifier= Modifier
             .fillMaxWidth()
@@ -245,128 +231,18 @@ fun BtnRow(){
 
     ){
         BtnEnergyValue()
-        BtnToAchievement()
+        BtnToAchievement(nav02)
     }
 }
 
 
-@Composable
-fun ShopList(){
-    LazyColumn(
-        Modifier
-            .fillMaxWidth()
-            .height(380.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(20.dp),
-
-        content ={
-            item{
-                Row (
-                    horizontalArrangement = Arrangement.spacedBy(20.dp)
-                ){
-                    Box(//---------------装扮1
-                        contentAlignment = Alignment.BottomCenter
-                    ) {
-                        Image(painter = painterResource(
-                            id = R.drawable.g5_1_1_cloth01),
-                            contentDescription = null,
-                        )
-                        Column() {
-                            Button(onClick = { /*TODO*/ },
-                                colors = ButtonDefaults.outlinedButtonColors(),
-                                contentPadding = PaddingValues(0.dp),
-                                modifier = Modifier.offset(y=12.dp)
-                            ) {
-                                Image(painter = painterResource(
-                                    id = R.drawable.g_5_1_1_btn_buy),
-                                    contentDescription = null,
-                                )
-                            }
-                            Spacer(modifier = Modifier.height(12.dp))
-                        }
-                    }
-                    Box(//---------------装扮1
-                        contentAlignment = Alignment.BottomCenter
-                    ) {
-                        Image(painter = painterResource(
-                            id = R.drawable.g5_1_1_cloth02),
-                            contentDescription = null,
-                        )
-                        Column() {
-                            Button(onClick = { /*TODO*/ },
-                                colors = ButtonDefaults.outlinedButtonColors(),
-                                contentPadding = PaddingValues(0.dp),
-                                modifier = Modifier.offset(y=12.dp)
-                            ) {
-                                Image(painter = painterResource(
-                                    id = R.drawable.g_5_1_1_btn_buy),
-                                    contentDescription = null,
-                                )
-                            }
-                            Spacer(modifier = Modifier.height(12.dp))
-                        }
-                    }
-                }
-            }
-            item{
-                Row (
-                    horizontalArrangement = Arrangement.spacedBy(20.dp)
-                ){
-                    Box(//---------------装扮1
-                        contentAlignment = Alignment.BottomCenter
-                    ) {
-                        Image(painter = painterResource(
-                            id = R.drawable.g5_1_1_cloth03),
-                            contentDescription = null,
-                        )
-                        Column() {
-                            Button(onClick = { /*TODO*/ },
-                                colors = ButtonDefaults.outlinedButtonColors(),
-                                contentPadding = PaddingValues(0.dp),
-                                modifier = Modifier.offset(y=12.dp)
-                            ) {
-                                Image(painter = painterResource(
-                                    id = R.drawable.g_5_1_1_btn_buy),
-                                    contentDescription = null,
-                                )
-                            }
-                            Spacer(modifier = Modifier.height(12.dp))
-                        }
-                    }
-                    Box(//---------------装扮1
-                        contentAlignment = Alignment.BottomCenter
-                    ) {
-                        Image(painter = painterResource(
-                            id = R.drawable.g5_1_1_cloth04),
-                            contentDescription = null,
-                        )
-                        Column() {
-                            Button(onClick = { /*TODO*/ },
-                                colors = ButtonDefaults.outlinedButtonColors(),
-                                contentPadding = PaddingValues(0.dp),
-                                modifier = Modifier.offset(y=12.dp)
-                            ) {
-                                Image(painter = painterResource(
-                                    id = R.drawable.g_5_1_1_btn_buy),
-                                    contentDescription = null,
-                                )
-                            }
-                            Spacer(modifier = Modifier.height(12.dp))
-                        }
-                    }
-                }
-            }
-
-        })
-
-
-}
 
 
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun PlantBagViewTabRow(nav01: () -> Unit={},) {
+fun PlantBagViewTabRow(nav01: () -> Unit={},
+                       nav02: () -> Unit={},) {
     //state为顶部的tab导航栏绑定参数
     var state by remember { mutableStateOf(0) }
     //pagerState为底部viewpager参数
@@ -483,7 +359,7 @@ fun PlantBagViewTabRow(nav01: () -> Unit={},) {
                             .padding(top=25.dp)
 
                     )
-                    BtnRow()
+                    BtnRow(nav02)
                 }
 
                 Spacer(modifier = Modifier.height(16.dp))

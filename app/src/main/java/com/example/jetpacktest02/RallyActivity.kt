@@ -499,9 +499,25 @@ fun RallyApp() {
                     PlantBagPossessedScreen(
                         nav01 = {
                             navController.navigate(Plant.route) { launchSingleTop = true; }
+                        },
+                        nav02 = {
+                            navController.navigate(PlantBagAchievement.route) { launchSingleTop = true; }
                         }
+
                     )
                 }
+                composable(route = PlantBagAchievement.route) {
+                    PlantBagAchievementScreen(
+                        nav01 = {
+                            navController.navigate(Plant.route) { launchSingleTop = true; }
+                        },
+                        nav02 = {
+                            navController.navigate(PlantBagPossessed.route) { launchSingleTop = true; }
+                        }
+
+                    )
+                }
+
                 composable(route = PlantFoot.route) {
                     PlantFootScreen(
                         nav01 = {
@@ -526,35 +542,32 @@ fun RallyApp() {
                     )
                 }
 
-                composable(route = HealthConclusion.route) {
-                    HealthConclusionScreen(
-                        nav01 = {
-                            navController.navigate(HealthShare.route) { launchSingleTop = true; }
-                        }
-                    )
-                }
+
                 composable(route = MyCupBoard.route) {
                     MyCupBoardScreen(
-//                        nav01 = {
-//                            navController.navigate(MyCupBoard.route) { launchSingleTop = true; }
-//                        }
+                        nav01 = {
+                            navController.navigate(My.route) { launchSingleTop = true; }
+                        }
 
                     )
                 }
                 composable(route = HealthPast.route) {
                     HealthPastScreen(
-                            nav01 = {
-                               navController.navigate(HealthShare.route) { launchSingleTop = true; }
-                            }
+                        nav01 = {
+                               navController.navigate(My.route) { launchSingleTop = true; }
+                            },
+                        nav02 = {
+                            navController.navigate(HealthShare.route) { launchSingleTop = true; }
+                        },
 
                     )
                 }
 
                 composable(route = MySetting.route) {
                     MySettingScreen(
-//                        nav01 = {
-//                            navController.navigate(MyCupBoard.route) { launchSingleTop = true; }
-//                        }
+                        nav01 = {
+                            navController.navigate(My.route) { launchSingleTop = true; }
+                        }
 
                     )
                 }
@@ -567,12 +580,7 @@ fun RallyApp() {
 
                     )
                 }
-                composable(route = HealthPast.route) {
-                    HealthPastScreen(
 
-
-                    )
-                }
 
             }
         }

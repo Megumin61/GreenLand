@@ -84,6 +84,7 @@ import org.intellij.lang.annotations.JdkConstants.HorizontalAlignment
 fun HealthPastScreen(
 //            bills : (String) -> Unit = {},
     nav01: () -> Unit = {},
+    nav02: () -> Unit = {},
 
     ) {
     //配置顶部状态栏颜色
@@ -138,7 +139,7 @@ fun HealthPastScreen(
         }
     ){Column {
 
-        PastHealthViewTabRow()
+        PastHealthViewTabRow(nav02)
 
     }}
 
@@ -262,7 +263,8 @@ fun LazyRowPlant01() {
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun PastHealthViewTabRow(nav01: () -> Unit={},) {
+fun PastHealthViewTabRow(nav01: () -> Unit={},
+                         nav02: () -> Unit = {},) {
     //state为顶部的tab导航栏绑定参数
     var state by remember { mutableStateOf(0) }
     //pagerState为底部viewpager参数
@@ -370,7 +372,7 @@ fun PastHealthViewTabRow(nav01: () -> Unit={},) {
                             ImgAdviceFrame()
                         }
                         item{
-                            Button(onClick = nav01,
+                            Button(onClick = nav02,
                                 colors = ButtonDefaults.outlinedButtonColors(),
                                 contentPadding = PaddingValues(0.dp),
                                 modifier = Modifier.padding(bottom = 10.dp)

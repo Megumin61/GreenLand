@@ -16,8 +16,6 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
@@ -31,8 +29,6 @@ import com.example.jetpacktest02.Entity.User
 import com.example.jetpacktest02.ViewModel.MarsViewModel
 import com.example.jetpacktest02.ViewModel.UserViewModel
 import com.example.jetpacktest02.compose.MyBottomNavBar
-import com.example.jetpacktest02.compose.StepCounter
-import com.example.jetpacktest02.config.UsersApplication
 import com.example.jetpacktest02.screen.*
 import com.example.jetpacktest02.ui.main.MessageMsgScreen
 import com.example.jetpacktest02.ui.main.*
@@ -81,7 +77,7 @@ class RallyActivity : ComponentActivity() {
 }
 
 @Composable
-fun ErrorScreen(error:String) {
+fun ErrorScreen(error: String) {
     Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier.fillMaxSize()
@@ -113,13 +109,13 @@ fun WordBookApp(userViewModel: UserViewModel = viewModel()) {
     val userList = marsViewModel.getUserList()
 
     //增：往数据库中插入某个user对象，可以不传id，id为主键自增
-    val user_insert = User("Hello", "13333","dada")
+    val user_insert = User("Hello", "13333", "dada")
 
     //查：根据id查询某个user，
 //    val user_query : User= userViewModel.getUser(1)
 
     //改：修改某个user对象信息,需要传入主键id构造user对象
-    val user_edit = User(2,"Hello","183232","pposor2",132)
+    val user_edit = User(2, "Hello", "183232", "pposor2", 132)
 
     //删：删除某个id为1的user对象
 //    userViewModel.DeleteUser(1)
@@ -128,26 +124,31 @@ fun WordBookApp(userViewModel: UserViewModel = viewModel()) {
     Column {
 //        Text(text = "query_name:"+user_query.name)
 //        Text(text = "query_phone:"+user_query.phoneNumber)
-        Button(onClick = {     userViewModel.insert(user_insert) }) {
+        Button(onClick = { userViewModel.insert(user_insert) }) {
             Text(text = "insert")
         }
-        Button(onClick = {     marsViewModel.addUser(user_insert.name,user_insert.phoneNumber) }) {
+        Button(onClick = { marsViewModel.addUser(user_insert.name, user_insert.phoneNumber) }) {
             Text(text = "remoteInsert")
         }
-        Button(onClick = {     userViewModel.UpdatePositionById(id=2, position = user_edit.position) }) {
+        Button(onClick = {
+            userViewModel.UpdatePositionById(
+                id = 2,
+                position = user_edit.position
+            )
+        }) {
             Text(text = "updatePosition")
         }
-        Button(onClick = {     userViewModel.UpdateStepById(id=2, step = user_edit.step) }) {
+        Button(onClick = { userViewModel.UpdateStepById(id = 2, step = user_edit.step) }) {
             Text(text = "updateStep")
         }
 //        Text(user_edit.position)
         Text(users.size.toString())
-        users.forEach{user ->
+        users.forEach { user ->
             Text(user.position.toString())
         }
         Text(text = userList.getOrNull(0)?.position.toString())
         Text(text = userList.size.toString())
-        userList.forEach{user ->
+        userList.forEach { user ->
             Text(user.username.toString())
         }
     }
@@ -216,7 +217,7 @@ fun RallyApp() {
             //管理路由：页面跳转
             NavHost(
                 navController = navController,
-                startDestination = LightReminder.route,
+                startDestination = Plant.route,
                 modifier = Modifier.padding(innerPadding)
 
             ) {
@@ -237,23 +238,28 @@ fun RallyApp() {
                     )
                 }
                 composable(route = LoginFront.route) {
-                    LoginFrontScreen(navController=navController
+                    LoginFrontScreen(
+                        navController = navController
                     )
                 }
                 composable(route = PhoneLogin.route) {
-                    PhoneLoginScreen(navController=navController
+                    PhoneLoginScreen(
+                        navController = navController
                     )
                 }
                 composable(route = AppIntroduction.route) {
-                    AppIntroductionScreen(navController=navController
+                    AppIntroductionScreen(
+                        navController = navController
                     )
                 }
                 composable(route = CreateAccount.route) {
-                    CreateAccountScreen(navController=navController
+                    CreateAccountScreen(
+                        navController = navController
                     )
                 }
                 composable(route = LoginLoading.route) {
-                    LoginLoadingScreen(navController=navController
+                    LoginLoadingScreen(
+                        navController = navController
                     )
                 }
                 composable(route = PlantPlan.route) {
@@ -304,31 +310,31 @@ fun RallyApp() {
                                 launchSingleTop = true;
                             }
                         },
-                        nav06={navController.popBackStack()}
+                        nav06 = { navController.popBackStack() }
 
-                        )
+                    )
                 }
 
                 composable(route = SetPlanSports.route) {
                     SetPlanSportsScreen(
-                        nav01 = {navController.popBackStack()}
+                        nav01 = { navController.popBackStack() }
                     )
                 }
                 composable(route = SetPlanDrink.route) {
                     SetPlanDrinkScreen(
-                        nav01 = {navController.popBackStack()}
+                        nav01 = { navController.popBackStack() }
                     )
                 }
                 composable(route = SetPlanSleep.route) {
-                    SetPlanSleepScreen(nav01 = {navController.popBackStack()})
+                    SetPlanSleepScreen(nav01 = { navController.popBackStack() })
                 }
                 composable(route = SetPlanEating.route) {
-                    SetPlanEatingScreen(nav01 = {navController.popBackStack()})
+                    SetPlanEatingScreen(nav01 = { navController.popBackStack() })
                 }
 
                 composable(route = SetPlanDiy.route) {
                     SetPlanDiyScreen(
-                        nav02 = {navController.popBackStack()},
+                        nav02 = { navController.popBackStack() },
                         nav01 = {
                             //终点，返回的
                             navController.navigate(PlanListAdded.route) {
@@ -342,8 +348,8 @@ fun RallyApp() {
                 composable(route = PlanListAdded.route) {
                     PlanListAddedScreen(
                         nav01 = {
-                        navController.navigate(SetPlanSports.route) { launchSingleTop = true; }
-                    },
+                            navController.navigate(SetPlanSports.route) { launchSingleTop = true; }
+                        },
                         nav02 = {
                             navController.navigate(SetPlanDrink.route) {
                                 launchSingleTop = true;
@@ -365,15 +371,17 @@ fun RallyApp() {
                             }
                         },
                         nav06 = {
-                        navController.navigate(PlantPlan.route) {
-                            launchSingleTop = true;popUpTo(PlantPlan.route)
-                        }
-                    },nav07 = {
-                        navController.navigate(SetPlanDiy.route) {
-                            launchSingleTop = true;popUpTo(PlantPlan.route)
-                        }
-                    }
-                        ,userViewModel = userViewModel, nav = {},)
+                            navController.navigate(PlantPlan.route) {
+                                launchSingleTop = true;popUpTo(PlantPlan.route)
+                            }
+                        },
+                        nav07 = {
+                            navController.navigate(SetPlanDiy.route) {
+                                launchSingleTop = true;popUpTo(PlantPlan.route)
+                            }
+                        },
+                        userViewModel = userViewModel, nav = {},
+                    )
                 }
 
                 composable(route = ChooseSeed.route) {
@@ -424,7 +432,7 @@ fun RallyApp() {
                         },
                         nav04 = {
                             //导航 目的地、返回路径
-                            navController.navigate(IslandVisitOther.route) {
+                            navController.navigate(IslandVisitMe.route) {
                                 launchSingleTop = true; popUpTo(Island.route) {}
                             }
                         },
@@ -451,12 +459,17 @@ fun RallyApp() {
                         },
                         nav04 = {
                             //导航 目的地、返回路径
-                            navController.navigate(IslandVisitOther.route) {
+                            navController.navigate(IslandVisitMe.route) {
                                 launchSingleTop = true; popUpTo(IslandExplore.route) {}
                             }
                         },
                         userViewModel,
-                        controller = navController
+                        controller = navController,
+                        navVisitOther = {
+                            navController.navigate(IslandVisitOther.route) {
+                                launchSingleTop = true; popUpTo(IslandExplore.route) {}
+                            }
+                        },
                     )
                 }
                 composable(route = IslandMemberList.route) {
@@ -497,6 +510,23 @@ fun RallyApp() {
                     )
                 }
                 composable(
+                    route = IslandVisitMe.route,
+                    //接收参数方
+                    arguments = listOf(navArgument("res") { type = NavType.IntType },
+                        navArgument("name") { type = NavType.StringType }
+                    )
+                ) {
+                    IslandVisitMeScreen(
+                        res = it.arguments?.getInt("res"), //传递用户头像
+                        name = it.arguments?.getString("name"), //传递用户名称
+                        nav01 = {
+                            navController.popBackStack()
+                        },
+                        navController = navController,
+                        userViewModel = userViewModel
+                    )
+                }
+                composable(
                     route = IslandVisitOther.route,
                     //接收参数方
                     arguments = listOf(navArgument("res") { type = NavType.IntType },
@@ -508,7 +538,9 @@ fun RallyApp() {
                         name = it.arguments?.getString("name"), //传递用户名称
                         nav01 = {
                             navController.popBackStack()
-                        }
+                        },
+                        navController = navController,
+                        userViewModel = userViewModel
                     )
                 }
 
@@ -657,7 +689,8 @@ fun RallyApp() {
                 }
                 composable(route = LightReminder.route) {
                     LightReminderScreen(
-                        navController = navController)
+                        navController = navController
+                    )
                 }
 
             }

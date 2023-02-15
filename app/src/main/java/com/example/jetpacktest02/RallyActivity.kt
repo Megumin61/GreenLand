@@ -313,7 +313,7 @@ fun RallyApp() {
                             navController.navigate(PlanList.route) {
                                 launchSingleTop = true;
                             }
-                        }
+                        },navController = navController
                     )
                 }
 

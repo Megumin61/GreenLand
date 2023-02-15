@@ -197,19 +197,19 @@ fun PlanListScreen(
                         mutableStateOf(false)
                     }
                     LaunchedEffect(key1 = state1){
-                        delay(200)
+                        delay(100)
                         state1 = true
                     }
                     LaunchedEffect(key1 = state2){
-                        delay(400)
+                        delay(200)
                         state2 = true
                     }
                     LaunchedEffect(key1 = state3){
-                        delay(600)
+                        delay(300)
                         state3 = true
                     }
                     LaunchedEffect(key1 = state4){
-                        delay(800)
+                        delay(400)
                         state4 = true
                     }
                         Column(Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {

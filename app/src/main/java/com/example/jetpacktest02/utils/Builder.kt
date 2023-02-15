@@ -61,7 +61,7 @@ fun Notification.update(
     action1: String? = null,
     visibleType: Int = VISIBILITY_PUBLIC
 ): Notification  {
-    titleNew?.let { title = titleNew }
+    titleNew?.let { title = "绿岛" }
     messageNew?.let { message = messageNew}
     action1?.let { action = action1  }
     if (visibleType != visibility) visibility = visibleType
@@ -73,7 +73,7 @@ fun Notification.builder(context: Context): android.app.Notification.Builder {
     val builder = android.app.Notification.Builder(context, MAIN_CHANNEL_ID)
         .setContentTitle(title)
         .setContentText(message)
-        .setSmallIcon(R.mipmap.ic_launcher)
+        .setSmallIcon(R.drawable.g0_ic_appicon)
         .setPriority(android.app.Notification.PRIORITY_DEFAULT)
         .setVisibility(visibility)
         .setAutoCancel(true)

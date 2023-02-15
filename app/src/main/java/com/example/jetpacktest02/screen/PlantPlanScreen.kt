@@ -63,6 +63,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import androidx.navigation.NavController
 import coil.ImageLoader
 import coil.compose.rememberAsyncImagePainter
 import coil.decode.GifDecoder
@@ -71,6 +72,7 @@ import coil.request.ImageRequest
 import coil.size.Size
 import com.airbnb.lottie.compose.*
 import com.airbnb.lottie.model.content.CircleShape
+import com.example.jetpacktest02.PlanList
 import com.example.jetpacktest02.R
 import com.example.jetpacktest02.screen.AvatarItem
 import com.example.scaffolddemo.ui.theme.*
@@ -145,33 +147,6 @@ fun PlanItem(@DrawableRes iconRes: Int) {
 }
 
 
-@Composable
-fun GIFimage(
-    modifier: Modifier = Modifier,
-    gif:Int
-) {
-    val context = LocalContext.current
-    val imageLoader = ImageLoader.Builder(context)
-        .components {
-            if (Build.VERSION.SDK_INT >= 28) {
-                add(ImageDecoderDecoder.Factory())
-            } else {
-                add(GifDecoder.Factory())
-            }
-        }
-        .build()
-    Image(
-        painter = rememberAsyncImagePainter(
-            ImageRequest.Builder(context).data(data =gif ).apply(block = {
-                size(Size.ORIGINAL)
-            }).build(), imageLoader = imageLoader
-        ),
-
-        contentDescription = null,
-        modifier = modifier.fillMaxWidth()
-    )
-}
-
 
 @OptIn(ExperimentalMaterialApi::class, ExperimentalPagerApi::class, ExperimentalComposeUiApi::class,
     ExperimentalAnimationApi::class
@@ -228,7 +203,11 @@ fun NewScreen() {
                             modifier = Modifier
                                 .offset(110.dp, 1.dp)
                                 .size(32.dp)
-                                .clickable(onClick = { scope.launch { state.show() } }, indication = null, interactionSource = MutableInteractionSource())
+                                .clickable(
+                                    onClick = { scope.launch { state.show() } },
+                                    indication = null,
+                                    interactionSource = MutableInteractionSource()
+                                )
                         )
                 }
 
@@ -267,7 +246,15 @@ fun NewScreen() {
             Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
 
                 com.example.jetpacktest02.screen.GIFimage(
-                    modifier = Modifier.clickable(onClick = {change=true },indication = null,interactionSource = MutableInteractionSource() ).size(flowerSize).offset(0.dp, -60.dp).fillMaxWidth(),
+                    modifier = Modifier
+                        .clickable(
+                            onClick = { change = true },
+                            indication = null,
+                            interactionSource = MutableInteractionSource()
+                        )
+                        .size(flowerSize)
+                        .offset(0.dp, -60.dp)
+                        .fillMaxWidth(),
                     gif = R.drawable.gif_04
                 )
             }}}
@@ -445,6 +432,7 @@ fun NewScreen() {
         sheetShape = MaterialTheme.shapes.large,
         sheetContent = {
             PlanBottomSheet()
+
         }
     ) {
     }
@@ -835,18 +823,17 @@ fun EatCardPage(
 
 }
 
-@Preview
-@OptIn(ExperimentalMaterialApi::class)
+
+@OptIn(ExperimentalMaterialApi::class, ExperimentalPagerApi::class, ExperimentalAnimationApi::class)
 @Composable
 fun PlantPlanScreen(
-
     nav01: () -> Unit = {},
     nav02: () -> Unit = {},
     nav03: () -> Unit = {},
     nav05: () -> Unit = {},
+    navController: NavController
 
     ) {
-
 
     Box() {
         rememberSystemUiController().setStatusBarColor(
@@ -863,12 +850,17 @@ fun PlantPlanScreen(
                 ) {
                     Row() {
 
-                            Icon(
-                                bitmap = ImageBitmap.imageResource(id = R.drawable.g1_2_0_ic_arrow_left),
-                                contentDescription = null,
-                                modifier = Modifier.offset(-110.dp, 5.dp).clickable(onClick =nav03, indication = null, interactionSource = MutableInteractionSource()
-                            ))
-
+                        Icon(
+                            bitmap = ImageBitmap.imageResource(id = R.drawable.g1_2_0_ic_arrow_left),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .offset(-110.dp, 5.dp)
+                                .clickable(
+                                    onClick = nav03,
+                                    indication = null,
+                                    interactionSource = MutableInteractionSource()
+                                )
+                        )
 
                         Text(
                             text = "计划日程",
@@ -877,14 +869,18 @@ fun PlantPlanScreen(
                                 fontSize = 18.sp
                             ), modifier = Modifier.offset(-117.dp, 5.dp)
                         )
-                            Icon(
-                                bitmap = ImageBitmap.imageResource(id = R.drawable.g1_4_1_ic_more),
-                                contentDescription = null,
-                                modifier = Modifier
-                                    .offset(90.dp, 5.dp)
-                                    .size(32.dp)
-                                    .clickable(onClick = { scope.launch { state.show() } }, indication = null, interactionSource = MutableInteractionSource())
-                            )
+                        Icon(
+                            bitmap = ImageBitmap.imageResource(id = R.drawable.g1_4_1_ic_more),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .offset(90.dp, 5.dp)
+                                .size(32.dp)
+                                .clickable(
+                                    onClick = { scope.launch { state.show() } },
+                                    indication = null,
+                                    interactionSource = MutableInteractionSource()
+                                )
+                        )
                     }
 
                 }
@@ -897,10 +893,304 @@ fun PlantPlanScreen(
                     .offset(50.dp, 130.dp)
             )
         }
+        //NewScreen()
+
+        var openCalendar by remember {
+            mutableStateOf(false)
+        }
+        //控制卡片pager的切换
+        val pagerState = rememberPagerState()
+        LaunchedEffect(pagerState) {
+            snapshotFlow { pagerState.currentPage }.collect { page ->
+                pagerState.animateScrollToPage(page)
+            }
+        }
+
+
+        Box(modifier = Modifier.fillMaxWidth()) {
+            Image(
+                painter = painterResource(id = R.drawable.g1_4_1_bg),
+                contentDescription = null,
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .fillMaxSize(), contentScale = ContentScale.FillWidth
+            )
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                Box(
+                    modifier = Modifier.fillMaxWidth(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Row() {
+                        Icon(
+                            bitmap = ImageBitmap.imageResource(id = R.drawable.g1_2_0_ic_arrow_left),
+                            contentDescription = null,
+                            modifier = Modifier.offset(-110.dp, 5.dp)
+                        )
+                        Text(
+                            text = "计划日程",
+                            style = TextStyle(
+                                fontWeight = FontWeight.W900, //设置字体粗细
+                                fontSize = 18.sp
+                            ), modifier = Modifier.offset(-100.dp, 1.dp)
+                        )
+                        Icon(
+                            bitmap = ImageBitmap.imageResource(id = R.drawable.g1_4_1_ic_more),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .offset(110.dp, 1.dp)
+                                .size(32.dp)
+                                .clickable(
+                                    onClick = { scope.launch { state.show() } },
+                                    indication = null,
+                                    interactionSource = MutableInteractionSource()
+                                )
+                        )
+                    }
+
+                }
+            }
+            var change by remember { mutableStateOf(false) }
+            val flowerSize by animateDpAsState(
+                targetValue = if (change) 320.dp else 300.dp
+            )
+
+            /*LaunchedEffect(key1 = change) {
+                delay(1000)
+                change = true}*/
+
+            if (flowerSize == 320.dp) {
+                change = false
+            }
+            var state1 by remember {
+                mutableStateOf(false)
+            }
+            LaunchedEffect(key1 = state1) {
+                delay(250)
+                state1 = true
+            }
+            AnimatedVisibility(
+                visible = state1,
+                enter = scaleIn(transformOrigin = TransformOrigin(0f, 0f)) +
+                        fadeIn(initialAlpha = 0.3f) + expandIn(expandFrom = Alignment.Center),
+                exit = scaleOut(transformOrigin = TransformOrigin(0f, 0f)) +
+                        fadeOut() + shrinkOut(shrinkTowards = Alignment.Center)
+            ) {
+                Column(
+                    Modifier
+                        .fillMaxSize()
+                        .padding(vertical = 140.dp), verticalArrangement = Arrangement.Top
+                ) {
+                    Column(
+                        Modifier.fillMaxWidth(),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+
+                        com.example.jetpacktest02.screen.GIFimage(
+                            modifier = Modifier
+                                .clickable(
+                                    onClick = { change = true },
+                                    indication = null,
+                                    interactionSource = MutableInteractionSource()
+                                )
+                                .size(flowerSize)
+                                .offset(0.dp, -60.dp)
+                                .fillMaxWidth(),
+                            gif = R.drawable.gif_04
+                        )
+                    }
+                }
+            }
+            //添加动画
+
+
+            Column(Modifier.fillMaxSize(), verticalArrangement = Arrangement.Bottom) {
+                var state by remember {
+                    mutableStateOf(false)
+                }
+                LaunchedEffect(key1 = state) {
+                    delay(100)
+                    state = true
+                }
+                AnimatedVisibility(
+                    visible = state,
+                    enter = slideInVertically(initialOffsetY = { -40 }
+                    ) + expandVertically(
+                        expandFrom = Alignment.Top
+                    ) + fadeIn(initialAlpha = 0.3f),
+                    exit = fadeOut(targetAlpha = 0f) + shrinkVertically(shrinkTowards = Alignment.Top)
+                ) {
+                    Box(modifier = Modifier.fillMaxWidth(), Alignment.BottomCenter) {
+                        HorizontalPager(count = 4, state = pagerState) { page ->
+                            when (page) {
+                                0 -> {
+                                    CardPage(
+                                        planname = "运动",
+                                        aimcontent = "目标步数",
+                                        realcontent = "实际步数",
+                                        aimnum = 3000,
+                                        realnum = 2786,
+                                        { openCalendar = true }
+                                    )
+                                }
+                                1 -> {
+                                    CardPage(
+                                        planname = "喝水",
+                                        aimcontent = "目标次数",
+                                        realcontent = "实际次数",
+                                        aimnum = 25,
+                                        realnum = 18,
+                                        { openCalendar = true }
+                                    )
+                                }
+                                2 -> {
+                                    CardPage(
+                                        planname = "睡眠",
+                                        aimcontent = "目标次数",
+                                        realcontent = "实际次数",
+                                        aimnum = 25,
+                                        realnum = 18,
+                                        { openCalendar = true }
+                                    )
+                                }
+                                3 -> {
+                                    EatCardPage(
+                                        planname = "吃饭",
+                                        breakfastPic = R.drawable.g1_1_ic_eatcard_green,
+                                        breakfastState = "8:00",
+                                        lunchPic = R.drawable.g1_1_ic_eatcard_red,
+                                        lunchState = "缺餐",
+                                        dinnerPic = R.drawable.g1_1_ic_eatcard_gray,
+                                        dinnerState = "",
+                                        openCalendar = { openCalendar = true }
+                                    )
+                                }
+                            }
+                        }
+                        /* ViewPager*/
+
+
+                    }
+                }
+            }
+        }
+        //日历弹窗组件
+        if (openCalendar) {
+
+            Dialog(
+                onDismissRequest = { openCalendar = false },
+
+                ) {
+                Kalendar(
+                    kalendarType = KalendarType.Firey, kalendarThemeColors = listOf(
+                        KalendarThemeColor(
+                            Color(0xffEAFEFD),
+                            Color(0XFFBBDED8),
+                            Color(0xFF8BABA8)
+                        ),
+                        KalendarThemeColor(
+                            Color(0xffEAFEFD),
+                            Color(0XFFBBDED8),
+                            Color(0xFF8BABA8)
+                        ),
+                        KalendarThemeColor(
+                            Color(0xffEAFEFD),
+                            Color(0XFFBBDED8),
+                            Color(0xFF8BABA8)
+                        ),
+                        KalendarThemeColor(
+                            Color(0xffEAFEFD),
+                            Color(0XFFBBDED8),
+                            Color(0xFF8BABA8)
+                        ),
+                        KalendarThemeColor(
+                            Color(0xffEAFEFD),
+                            Color(0XFFBBDED8),
+                            Color(0xFF8BABA8)
+                        ),
+                        KalendarThemeColor(
+                            Color(0xffEAFEFD),
+                            Color(0XFFBBDED8),
+                            Color(0xFF8BABA8)
+                        ),
+                        KalendarThemeColor(
+                            Color(0xffEAFEFD),
+                            Color(0XFFBBDED8),
+                            Color(0xFF8BABA8)
+                        ),
+                        KalendarThemeColor(
+                            Color(0xffEAFEFD),
+                            Color(0XFFBBDED8),
+                            Color(0xFF8BABA8)
+                        ),
+                        KalendarThemeColor(
+                            Color(0xffEAFEFD),
+                            Color(0XFFBBDED8),
+                            Color(0xFF8BABA8)
+                        ),
+                        KalendarThemeColor(
+                            Color(0xffEAFEFD),
+                            Color(0XFFBBDED8),
+                            Color(0xFF8BABA8)
+                        ),
+                        KalendarThemeColor(
+                            Color(0xffEAFEFD),
+                            Color(0XFFBBDED8),
+                            Color(0xFF8BABA8)
+                        ),
+                        KalendarThemeColor(
+                            Color(0xffEAFEFD),
+                            Color(0XFFBBDED8),
+                            Color(0xFF8BABA8)
+                        ),
+                    ),
+                    kalendarEvents = listOf(
+                        KalendarEvent(LocalDate(2023, 2, 5), "Birthday"),
+                        KalendarEvent(LocalDate(2023, 2, 5), "Birthday"),
+                        KalendarEvent(LocalDate(2023, 2, 5), "Birthday"),
+                        KalendarEvent(LocalDate(2023, 2, 23), "Birthday"),
+                        KalendarEvent(LocalDate(2023, 2, 23), "Party"),
+                        KalendarEvent(LocalDate(2023, 2, 23), "Club"),
+                    ),
+                    modifier = Modifier.clip(RoundedCornerShape(15.dp))
+                )
+                Row(
+                    modifier = Modifier
+                        .offset(y = 0.dp)
+                        .fillMaxWidth()
+                        .padding(10.dp), horizontalArrangement = Arrangement.End
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.g4_6_1_ic_cancel),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .size(20.dp)
+                            .clickable(onClick = { openCalendar = false })
+                    )
+                }
+
+            }
+        }
+
+        //处理”返回键“事件，当抽屉展开时，返回键触发“关闭抽屉”
+        BackHandler(
+            enabled = (state.currentValue == ModalBottomSheetValue.HalfExpanded
+                    || state.currentValue == ModalBottomSheetValue.Expanded),
+            onBack = {
+                scope.launch {
+                    state.hide()
+                }
+            }
+        )
+
+
+
         ModalBottomSheetLayout(
+
             sheetState = state,
             sheetShape = MaterialTheme.shapes.large,
             sheetContent = {
+
+                //底部弹窗样式
                 Column() {
                     androidx.compose.material.ListItem(
                         text = {
@@ -924,7 +1214,10 @@ fun PlantPlanScreen(
                                         fontWeight = FontWeight.W900, //设置字体粗细
                                         fontSize = 16.sp,
                                     ),
-                                    modifier = Modifier.clickable(onClick = nav05, indication = null, interactionSource = MutableInteractionSource())
+                                    modifier = Modifier.clickable(onClick = {navController.navigate(
+                                        PlanList.route){scope.launch {
+                                        state.hide()}
+                                    }},indication = null,interactionSource = MutableInteractionSource())
                                 )
                                 Spacer(modifier = Modifier.padding(vertical = 15.dp))
                                 Text(
@@ -942,22 +1235,23 @@ fun PlantPlanScreen(
                         }
                     )
                 }
+
+
+                // 底部弹窗样式
+
+
             }
         ) {
+
         }
 
-        //处理”返回键“事件，当抽屉展开时，返回键触发“关闭抽屉”
-        BackHandler(
-            enabled = (state.currentValue == ModalBottomSheetValue.HalfExpanded
-                    || state.currentValue == ModalBottomSheetValue.Expanded),
-            onBack = {
-                scope.launch {
-                    state.hide()
-                }
-            }
-        )
 
-        NewScreen()
+
+
+
+
+
+        // NewScreen()
 
 
         Column {
@@ -1013,5 +1307,5 @@ fun PlantPlanScreen(
         }
 
     }
-
 }
+

@@ -263,7 +263,7 @@ fun LazyRowPlant01() {
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun PastHealthViewTabRow(nav01: () -> Unit={},
+fun PastHealthViewTabRow(
                          nav02: () -> Unit = {},) {
     //state为顶部的tab导航栏绑定参数
     var state by remember { mutableStateOf(0) }

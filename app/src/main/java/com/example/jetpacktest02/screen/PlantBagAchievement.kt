@@ -66,6 +66,7 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
  * 负责人：方凯荣
  * 对接人：
  */
+@OptIn(ExperimentalPagerApi::class)
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter", "StateFlowValueCalledInComposition")
 @Preview(showBackground=true,widthDp=393,heightDp=851)
 @Composable
@@ -76,6 +77,91 @@ fun PlantBagAchievementScreen(
     nav02: () -> Unit={},
 //    userViewModel: UserViewModel
 ) {
+    //state为顶部的tab导航栏绑定参数
+    var state by remember { mutableStateOf(0) }
+    //pagerState为底部viewpager参数
+    val pagerState: PagerState = remember { PagerState() }
+
+    var achievePicSource:Int=R.drawable.g5_1_1_img_flower
+    var btnSource1:Int=R.drawable.g5_2_1_btn_wear
+    var btnSource2:Int=R.drawable.g5_2_1_btn_wear
+    var btnSource3:Int=R.drawable.g5_2_1_btn_wear
+    var btnSource4:Int=R.drawable.g5_2_1_btn_wear
+    var btnSource5:Int=R.drawable.g5_2_1_btn_wear
+    var btnSource6:Int=R.drawable.g5_2_1_btn_wear
+    var btnSource7:Int=R.drawable.g5_2_1_btn_weared
+    var btnSource8:Int=R.drawable.g5_2_1_btn_weared
+    var btnSource9:Int=R.drawable.g5_2_1_btn_wear
+    var btnSource10:Int=R.drawable.g5_2_1_btn_wear
+
+
+    var ifbtnpressed by remember{
+        mutableStateOf(0)}
+
+    if(ifbtnpressed==0){
+        achievePicSource=R.drawable.g5_2_1_img_achieve00
+        btnSource1=R.drawable.g5_2_1_btn_wear
+    }
+    if(ifbtnpressed==1){
+        achievePicSource=R.drawable.g5_2_1_img_achieve01
+        btnSource1=R.drawable.g5_2_1_btn_weared
+    }
+    if(ifbtnpressed==2){
+        achievePicSource=R.drawable.g5_2_1_img_achieve02
+        btnSource2=R.drawable.g5_2_1_btn_weared
+    }
+    if(ifbtnpressed==3){
+        achievePicSource=R.drawable.g5_2_1_img_achieve03
+        btnSource3=R.drawable.g5_2_1_btn_weared
+    }
+    if(ifbtnpressed==4){
+        achievePicSource=R.drawable.g5_2_1_img_achieve04
+        btnSource4=R.drawable.g5_2_1_btn_weared
+    }
+    if(ifbtnpressed==5){
+        achievePicSource=R.drawable.g5_2_1_img_achieve05
+        btnSource5=R.drawable.g5_2_1_btn_weared
+    }
+    if(ifbtnpressed==6){
+        achievePicSource=R.drawable.g5_2_1_img_achieve06
+        btnSource6=R.drawable.g5_2_1_btn_weared
+    }
+//    if(ifbtnpressed==7){
+//        achievePicSource=R.drawable.g5_2_1_img_achieve07
+//        btnSource7=R.drawable.g5_2_1_btn_weared
+//    }
+//    if(ifbtnpressed==8){
+//        achievePicSource=R.drawable.g5_2_1_img_achieve08
+//        btnSource8=R.drawable.g5_2_1_btn_weared
+//    }
+    if(ifbtnpressed==9){
+        achievePicSource=R.drawable.g5_2_1_img_achieve09
+        btnSource9=R.drawable.g5_2_1_btn_weared
+    }
+    if(ifbtnpressed==10){
+        achievePicSource=R.drawable.g5_2_1_img_achieve100
+        btnSource10=R.drawable.g5_2_1_btn_weared
+    }
+
+
+
+
+
+
+
+    val titles = listOf("活力成就", "社交成就","特殊成就")
+    //将底部pager的参数和顶部导航栏的参数state绑定，让pager响应顶部导航栏参数变化
+    LaunchedEffect(pagerState) {
+        snapshotFlow { state }.collect { page ->
+            pagerState.animateScrollToPage(page)
+        }
+    }
+    //将底部pager的参数和顶部导航栏的参数state绑定
+    LaunchedEffect(pagerState) {
+        snapshotFlow { pagerState.currentPage }.collect { page ->
+            state = page
+        }
+    }
 
     rememberSystemUiController().setStatusBarColor(
         Color(242,234,220), darkIcons = androidx.compose.material.MaterialTheme.colors.isLight
@@ -153,7 +239,658 @@ fun PlantBagAchievementScreen(
 //                }
 //                Spacer(modifier = Modifier.height(10.dp))
 
-                PlantBagAchievementViewTabRow()
+                Box(contentAlignment = Alignment.TopCenter,
+                    modifier = Modifier.fillMaxSize()){
+
+                    Column() {
+                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                            Box(contentAlignment = Alignment.TopCenter){
+                                Image(painter = painterResource(
+                                    id = achievePicSource),//植物图片--------------------------------------------------------------------------------------------------
+                                    contentDescription = null,
+                                    modifier = Modifier
+//                            .width(119.dp)
+                                        .padding(top = 0.dp)
+
+                                )
+                                Row (
+                                    modifier= Modifier
+                                        .fillMaxWidth()
+                                        .padding(start = 20.dp, end = 20.dp),
+
+                                    horizontalArrangement = Arrangement.SpaceBetween,
+
+
+                                    ){
+                                    BtnEnergyValue()
+                                    Button(onClick = nav02 ,
+                                        colors = ButtonDefaults.outlinedButtonColors(),
+                                        modifier = Modifier.padding(0.dp)
+                                        ,contentPadding = PaddingValues(0.dp)
+                                    ) {
+                                        Image(painter = painterResource(
+                                            id = R.drawable.g5_1_2_btn_tocloth),
+                                            contentDescription = null,
+                                        )
+                                    }
+                                }
+                            }
+
+                            Spacer(modifier = Modifier.height(34.dp))
+                            androidx.compose.material.TabRow(
+                                modifier= Modifier
+                                    .padding(horizontal = 27.dp)
+                                    .height(40.dp),
+                                backgroundColor = Color.Transparent,
+                                selectedTabIndex = state,
+                                indicator = @Composable { tabPositions ->
+                                    androidx.compose.material.TabRowDefaults.Indicator(
+                                        Modifier.customTabIndicatorOffset(tabPositions[state]),
+                                        color = Color(26, 207, 163)
+                                    )
+                                }
+                            ) {
+                                titles.forEachIndexed { index, title ->
+                                    androidx.compose.material.Tab(
+                                        modifier = Modifier
+                                            .background(Color.Transparent)
+                                            .width(10.dp),
+                                        selected = state == index,
+                                        onClick = { state = index },
+                                        text = {
+                                            androidx.compose.material.Text(
+                                                text = title,
+                                                maxLines = 2,
+                                                overflow = TextOverflow.Ellipsis,
+                                                fontSize = 16.sp,
+                                                fontWeight = FontWeight.W800,
+                                            )
+                                        },
+                                        selectedContentColor = Color.Black,
+                                        unselectedContentColor = Gray1
+                                    )
+                                }
+                            }
+                        }
+                        Spacer(modifier = Modifier.height(20.dp))
+                        HorizontalPager(count = 3, state = pagerState) { page ->
+
+                            //下面为要滑动切换的界面，可以通过判断page调用不同页面
+                            if (page == 0) {
+                                LazyColumn(//活力成就列表--------------------------------------------------------------------------------------------------
+                                    Modifier
+                                        .fillMaxWidth()
+                                        .height(380.dp),
+                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                    verticalArrangement = Arrangement.spacedBy(15.dp),
+
+                                    content ={
+                                        item{
+                                            Row (//活力成就行1
+                                                horizontalArrangement = Arrangement.spacedBy(30.dp)
+                                            ){
+                                                Box(
+
+                                                    contentAlignment = Alignment.BottomCenter
+
+
+                                                ) {
+                                                    Image(painter = painterResource(
+                                                        id = R.drawable.g5_2_1_achieve1),
+                                                        contentDescription = null,
+                                                    )
+                                                    Column() {
+                                                        Button(onClick = {
+                                                            if (ifbtnpressed==0||
+                                                                ifbtnpressed==2||
+                                                                ifbtnpressed==3||
+                                                                ifbtnpressed==4||
+                                                                ifbtnpressed==5||
+                                                                ifbtnpressed==6||
+                                                                ifbtnpressed==7||
+                                                                ifbtnpressed==8||
+                                                                ifbtnpressed==9||
+                                                                ifbtnpressed==10)
+                                                            {ifbtnpressed=1}
+                                                            else{ifbtnpressed=0}
+                                                        },//按钮:佩戴——————————————————————————————————————————————
+                                                            Modifier
+                                                                .width(75.dp)
+                                                                .height(24.dp),
+                                                            colors = ButtonDefaults.outlinedButtonColors(),
+                                                            shape = RoundedCornerShape(//圆角
+                                                                50,50,50,50),
+
+
+                                                            contentPadding = PaddingValues(bottom = 0.dp,top=0.dp)
+                                                        ) {
+                                                            Image(painter = painterResource(
+                                                                id =btnSource1),
+                                                                contentDescription = null,
+                                                            )
+                                                        }
+
+                                                    }
+
+                                                }
+                                                Box(
+
+                                                    contentAlignment = Alignment.BottomCenter
+
+
+                                                ) {
+                                                    Image(painter = painterResource(
+                                                        id = R.drawable.g5_2_1_achieve2),
+                                                        contentDescription = null,
+                                                    )
+                                                    Column() {
+                                                        Button(onClick = {
+                                                            if (ifbtnpressed==0||
+                                                                ifbtnpressed==1||
+                                                                ifbtnpressed==3||
+                                                                ifbtnpressed==4||
+                                                                ifbtnpressed==5||
+                                                                ifbtnpressed==6||
+                                                                ifbtnpressed==7||
+                                                                ifbtnpressed==8||
+                                                                ifbtnpressed==9||
+                                                                ifbtnpressed==10)
+                                                            {ifbtnpressed=2}
+                                                            else{ifbtnpressed=0}
+                                                        },//按钮:佩戴——————————————————————————————————————————————
+                                                            Modifier
+                                                                .width(75.dp)
+                                                                .height(24.dp),
+                                                            colors = ButtonDefaults.outlinedButtonColors(),
+                                                            shape = RoundedCornerShape(//圆角
+                                                                50,50,50,50),
+
+
+                                                            contentPadding = PaddingValues(bottom = 0.dp,top=0.dp)
+                                                        ) {
+                                                            Image(painter = painterResource(
+                                                                id =btnSource2),
+                                                                contentDescription = null,
+                                                            )
+                                                        }
+
+                                                    }
+
+                                                }
+                                                Box(
+
+                                                    contentAlignment = Alignment.BottomCenter
+
+
+                                                ) {
+                                                    Image(painter = painterResource(
+                                                        id = R.drawable.g5_2_1_achieve3),
+                                                        contentDescription = null,
+                                                    )
+                                                    Column() {
+                                                        Button(onClick = {
+                                                            if (ifbtnpressed==0||
+                                                                ifbtnpressed==2||
+                                                                ifbtnpressed==1||
+                                                                ifbtnpressed==4||
+                                                                ifbtnpressed==5||
+                                                                ifbtnpressed==6||
+                                                                ifbtnpressed==7||
+                                                                ifbtnpressed==8||
+                                                                ifbtnpressed==9||
+                                                                ifbtnpressed==10)
+                                                            {ifbtnpressed=3}
+                                                            else{ifbtnpressed=0}
+                                                        },//按钮:佩戴——————————————————————————————————————————————
+                                                            Modifier
+                                                                .width(75.dp)
+                                                                .height(24.dp),
+                                                            colors = ButtonDefaults.outlinedButtonColors(),
+                                                            shape = RoundedCornerShape(//圆角
+                                                                50,50,50,50),
+
+
+                                                            contentPadding = PaddingValues(bottom = 0.dp,top=0.dp)
+                                                        ) {
+                                                            Image(painter = painterResource(
+                                                                id =btnSource3),
+                                                                contentDescription = null,
+                                                            )
+                                                        }
+
+                                                    }
+
+                                                }
+                                            }
+                                        }
+                                        item{
+                                            Row (//活力成就行2
+                                                horizontalArrangement = Arrangement.spacedBy(45.dp)
+                                            ){
+                                                Box(
+
+                                                    contentAlignment = Alignment.BottomCenter
+
+
+                                                ) {
+                                                    Image(painter = painterResource(
+                                                        id = R.drawable.g5_2_1_achieve4),
+                                                        contentDescription = null,
+                                                    )
+                                                    Column() {
+                                                        Button(onClick = {
+                                                            if (ifbtnpressed==0||
+                                                                ifbtnpressed==2||
+                                                                ifbtnpressed==3||
+                                                                ifbtnpressed==1||
+                                                                ifbtnpressed==5||
+                                                                ifbtnpressed==6||
+                                                                ifbtnpressed==7||
+                                                                ifbtnpressed==8||
+                                                                ifbtnpressed==9||
+                                                                ifbtnpressed==10)
+                                                            {ifbtnpressed=4}
+                                                            else{ifbtnpressed=0}
+                                                        },//按钮:佩戴——————————————————————————————————————————————
+                                                            Modifier
+                                                                .width(75.dp)
+                                                                .height(24.dp),
+                                                            colors = ButtonDefaults.outlinedButtonColors(),
+                                                            shape = RoundedCornerShape(//圆角
+                                                                50,50,50,50),
+
+
+                                                            contentPadding = PaddingValues(bottom = 0.dp,top=0.dp)
+                                                        ) {
+                                                            Image(painter = painterResource(
+                                                                btnSource4),
+                                                                contentDescription = null,
+                                                            )
+                                                        }
+
+                                                    }
+
+                                                }
+                                                Box(
+
+                                                    contentAlignment = Alignment.BottomCenter,
+                                                    modifier = Modifier
+                                                        .width(75.dp)
+                                                        .height(24.dp)
+
+                                                ) {
+                                                    Image(painter = painterResource(
+                                                        id = R.drawable.g5_2_1_achieve_empty),
+                                                        contentDescription = null,
+                                                    )
+
+
+                                                }
+                                                Box(
+
+                                                    contentAlignment = Alignment.BottomCenter,
+                                                    modifier = Modifier
+                                                        .width(75.dp)
+                                                        .height(24.dp)
+
+
+                                                ) {
+                                                    Image(painter = painterResource(
+                                                        id = R.drawable.g5_2_1_achieve_empty),
+                                                        contentDescription = null,
+                                                    )
+
+
+                                                }
+                                            }
+                                        }
+
+
+
+                                    })
+                            }
+                            if (page == 1) {
+                                LazyColumn(//社交成就列表--------------------------------------------------------------------------------------------------
+                                    Modifier
+                                        .fillMaxWidth()
+                                        .height(380.dp),
+                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                    verticalArrangement = Arrangement.spacedBy(15.dp),
+
+                                    content ={
+                                        item{
+                                            Row (//社交成就行1
+                                                horizontalArrangement = Arrangement.spacedBy(30.dp)
+                                            ){
+                                                Box(
+
+                                                    contentAlignment = Alignment.BottomCenter
+
+
+                                                ) {
+                                                    Image(painter = painterResource(
+                                                        id = R.drawable.g5_2_1_achieve5),
+                                                        contentDescription = null,
+                                                    )
+                                                    Column() {
+                                                        Button(onClick = {
+                                                            if (ifbtnpressed==0||
+                                                                ifbtnpressed==2||
+                                                                ifbtnpressed==1||
+                                                                ifbtnpressed==4||
+                                                                ifbtnpressed==3||
+                                                                ifbtnpressed==6||
+                                                                ifbtnpressed==7||
+                                                                ifbtnpressed==8||
+                                                                ifbtnpressed==9||
+                                                                ifbtnpressed==10)
+                                                            {ifbtnpressed=5}
+                                                            else{ifbtnpressed=0}
+                                                        },//按钮:佩戴——————————————————————————————————————————————
+                                                            Modifier
+                                                                .width(75.dp)
+                                                                .height(24.dp),
+                                                            colors = ButtonDefaults.outlinedButtonColors(),
+                                                            shape = RoundedCornerShape(//圆角
+                                                                50,50,50,50),
+
+
+                                                            contentPadding = PaddingValues(bottom = 0.dp,top=0.dp)
+                                                        ) {
+                                                            Image(painter = painterResource(
+                                                                id =btnSource5),
+                                                                contentDescription = null,
+                                                            )
+                                                        }
+
+                                                    }
+
+                                                }
+                                                Box(
+
+                                                    contentAlignment = Alignment.BottomCenter
+
+
+                                                ) {
+                                                    Image(painter = painterResource(
+                                                        id = R.drawable.g5_2_1_achieve6),
+                                                        contentDescription = null,
+                                                    )
+                                                    Column() {
+                                                        Button(onClick = {
+                                                            if (ifbtnpressed==0||
+                                                                ifbtnpressed==2||
+                                                                ifbtnpressed==1||
+                                                                ifbtnpressed==4||
+                                                                ifbtnpressed==5||
+                                                                ifbtnpressed==3||
+                                                                ifbtnpressed==7||
+                                                                ifbtnpressed==8||
+                                                                ifbtnpressed==9||
+                                                                ifbtnpressed==10)
+                                                            {ifbtnpressed=6}
+                                                            else{ifbtnpressed=0}
+                                                        },//按钮:佩戴——————————————————————————————————————————————
+                                                            Modifier
+                                                                .width(75.dp)
+                                                                .height(24.dp),
+                                                            colors = ButtonDefaults.outlinedButtonColors(),
+                                                            shape = RoundedCornerShape(//圆角
+                                                                50,50,50,50),
+
+
+                                                            contentPadding = PaddingValues(bottom = 0.dp,top=0.dp)
+                                                        ) {
+                                                            Image(painter = painterResource(
+                                                                id =btnSource6),
+                                                                contentDescription = null,
+                                                            )
+                                                        }
+
+                                                    }
+
+                                                }
+                                                Box(
+
+                                                    contentAlignment = Alignment.BottomCenter
+
+
+                                                ) {
+                                                    Image(painter = painterResource(
+                                                        id = R.drawable.g5_2_1_achieve7),
+                                                        contentDescription = null,
+                                                    )
+                                                    Column() {
+                                                        Button(onClick = { },
+                                                            enabled=false,//按钮:佩戴——————————————————————————————————————————————
+                                                            modifier=Modifier
+                                                                .width(75.dp)
+                                                                .height(24.dp),
+                                                            colors = ButtonDefaults.outlinedButtonColors(),
+                                                            interactionSource = MutableInteractionSource(),
+                                                            shape = RoundedCornerShape(//圆角
+                                                                50,50,50,50),
+
+
+                                                            contentPadding = PaddingValues(bottom = 0.dp,top=0.dp)
+                                                        ) {
+                                                            Image(painter = painterResource(
+                                                                id =R.drawable.g5_2_1_btn_unattained),
+                                                                contentDescription = null,
+                                                            )
+                                                        }
+
+                                                    }
+
+                                                }
+                                            }
+                                        }
+                                        item{
+                                            Row (//社交成就行2
+                                                horizontalArrangement = Arrangement.spacedBy(40.dp)
+                                            ){
+                                                Box(
+
+                                                    contentAlignment = Alignment.BottomCenter
+
+
+                                                ) {
+                                                    Image(painter = painterResource(
+                                                        id = R.drawable.g5_2_1_achieve8),
+                                                        contentDescription = null,
+                                                    )
+                                                    Column() {
+                                                        Button(onClick = { },
+                                                            enabled=false,//按钮:佩戴——————————————————————————————————————————————
+                                                            modifier= Modifier
+                                                                .width(75.dp)
+                                                                .height(24.dp),
+                                                            colors = ButtonDefaults.outlinedButtonColors(),
+                                                            shape = RoundedCornerShape(//圆角
+                                                                50,50,50,50),
+
+
+                                                            contentPadding = PaddingValues(bottom = 0.dp,top=0.dp)
+                                                        ) {
+                                                            Image(painter = painterResource(
+                                                                id =R.drawable.g5_2_1_btn_unattained),
+                                                                contentDescription = null,
+                                                            )
+                                                        }
+
+                                                    }
+
+                                                }
+                                                Box(
+
+                                                    contentAlignment = Alignment.BottomCenter,
+                                                    modifier = Modifier
+                                                        .width(75.dp)
+                                                        .height(24.dp)
+
+
+                                                ) {
+                                                    Image(painter = painterResource(
+                                                        id = R.drawable.g5_2_1_achieve_empty),
+                                                        contentDescription = null,
+                                                    )
+
+
+                                                }
+                                                Box(
+
+                                                    contentAlignment = Alignment.BottomCenter,
+                                                    modifier = Modifier
+                                                        .width(75.dp)
+                                                        .height(24.dp)
+
+
+                                                ) {
+                                                    Image(painter = painterResource(
+                                                        id = R.drawable.g5_2_1_achieve_empty),
+                                                        contentDescription = null,
+                                                    )
+
+
+                                                }
+                                            }
+                                        }
+
+
+
+                                    })
+                            }
+                            if (page == 2) {
+                                LazyColumn(//特殊成就列表--------------------------------------------------------------------------------------------------
+                                    Modifier
+                                        .fillMaxWidth()
+                                        .height(380.dp),
+                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                    verticalArrangement = Arrangement.spacedBy(15.dp),
+
+                                    content ={
+                                        item{
+                                            Row (//社交成就行1
+                                                horizontalArrangement = Arrangement.spacedBy(30.dp)
+                                            ){
+                                                Box(
+
+                                                    contentAlignment = Alignment.BottomCenter
+
+
+                                                ) {
+                                                    Image(painter = painterResource(
+                                                        id = R.drawable.g5_2_1_achieve9),
+                                                        contentDescription = null,
+                                                    )
+                                                    Column() {
+                                                        Button(onClick = {
+                                                            if (ifbtnpressed==0||
+                                                                ifbtnpressed==2||
+                                                                ifbtnpressed==1||
+                                                                ifbtnpressed==4||
+                                                                ifbtnpressed==5||
+                                                                ifbtnpressed==6||
+                                                                ifbtnpressed==7||
+                                                                ifbtnpressed==8||
+                                                                ifbtnpressed==3||
+                                                                ifbtnpressed==10)
+                                                            {ifbtnpressed=9}
+                                                            else{ifbtnpressed=0}
+                                                        },//按钮:佩戴——————————————————————————————————————————————
+                                                            Modifier
+                                                                .width(75.dp)
+                                                                .height(24.dp),
+                                                            colors = ButtonDefaults.outlinedButtonColors(),
+                                                            shape = RoundedCornerShape(//圆角
+                                                                50,50,50,50),
+
+
+                                                            contentPadding = PaddingValues(bottom = 0.dp,top=0.dp)
+                                                        ) {
+                                                            Image(painter = painterResource(
+                                                                id =btnSource9),
+                                                                contentDescription = null,
+                                                            )
+                                                        }
+
+                                                    }
+
+                                                }
+                                                Box(
+
+                                                    contentAlignment = Alignment.BottomCenter
+
+
+                                                ) {
+                                                    Image(painter = painterResource(
+                                                        id = R.drawable.g5_2_1_achieve10),
+                                                        contentDescription = null,
+                                                    )
+                                                    Column() {
+                                                        Button( onClick = {
+                                                            if (ifbtnpressed==0||
+                                                                ifbtnpressed==2||
+                                                                ifbtnpressed==1||
+                                                                ifbtnpressed==4||
+                                                                ifbtnpressed==5||
+                                                                ifbtnpressed==6||
+                                                                ifbtnpressed==7||
+                                                                ifbtnpressed==8||
+                                                                ifbtnpressed==9||
+                                                                ifbtnpressed==3)
+                                                            {ifbtnpressed=10}
+                                                            else{ifbtnpressed=0}
+                                                        },//按钮:佩戴——————————————————————————————————————————————
+                                                            Modifier
+                                                                .width(75.dp)
+                                                                .height(24.dp),
+                                                            colors = ButtonDefaults.outlinedButtonColors(),
+                                                            shape = RoundedCornerShape(//圆角
+                                                                50,50,50,50),
+
+
+                                                            contentPadding = PaddingValues(bottom = 0.dp,top=0.dp)
+                                                        ) {
+                                                            Image(painter = painterResource(
+                                                                id =btnSource10),
+                                                                contentDescription = null,
+                                                            )
+                                                        }
+
+                                                    }
+
+                                                }
+                                                Box(
+
+                                                    contentAlignment = Alignment.BottomCenter,
+                                                    modifier = Modifier
+                                                        .width(75.dp)
+                                                        .height(24.dp)
+
+
+                                                ) {
+                                                    Image(painter = painterResource(
+                                                        id = R.drawable.g5_2_1_achieve_empty),
+                                                        contentDescription = null,
+                                                    )
+
+
+                                                }
+
+                                            }
+                                        }
+
+
+
+
+                                    })
+                            }
+
+
+                        }
+                    }
+                }
             }
 
 
@@ -173,45 +910,6 @@ fun PlantBagAchievementScreen(
 
 //按钮----------------------------
 
-@Composable
-fun BtnToCloth(
-               nav02: () -> Unit={},){
-
-    Button(onClick = nav02 ,
-        colors = ButtonDefaults.outlinedButtonColors(),
-        modifier = Modifier.padding(0.dp)
-                ,contentPadding = PaddingValues(0.dp)
-    ) {
-        Image(painter = painterResource(
-            id = R.drawable.g5_1_2_btn_tocloth),
-            contentDescription = null,
-        )
-    }
-
-}
-
-
-
-
-
-
-
-@Composable
-fun BtnRowPage2(
-                nav02: () -> Unit={},){
-    Row (
-        modifier= Modifier
-            .fillMaxWidth()
-            .padding(start = 20.dp, end = 20.dp),
-
-        horizontalArrangement = Arrangement.SpaceBetween,
-
-
-    ){
-        BtnEnergyValue()
-        BtnToCloth(nav02)
-    }
-}
 
 
 
@@ -219,726 +917,11 @@ fun BtnRowPage2(
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun PlantBagAchievementViewTabRow(nav01: () -> Unit={},
+fun PlantBagAchievementViewTabRow(
                                   nav02: () -> Unit={},) {
-    //state为顶部的tab导航栏绑定参数
-    var state by remember { mutableStateOf(0) }
-    //pagerState为底部viewpager参数
-    val pagerState: PagerState = remember { PagerState() }
 
-    var achievePicSource:Int=R.drawable.g5_1_1_img_flower
-    var btnSource1:Int=R.drawable.g5_2_1_btn_wear
-    var btnSource2:Int=R.drawable.g5_2_1_btn_wear
-    var btnSource3:Int=R.drawable.g5_2_1_btn_wear
-    var btnSource4:Int=R.drawable.g5_2_1_btn_wear
-    var btnSource5:Int=R.drawable.g5_2_1_btn_wear
-    var btnSource6:Int=R.drawable.g5_2_1_btn_wear
-    var btnSource7:Int=R.drawable.g5_2_1_btn_weared
-    var btnSource8:Int=R.drawable.g5_2_1_btn_weared
-    var btnSource9:Int=R.drawable.g5_2_1_btn_wear
-    var btnSource10:Int=R.drawable.g5_2_1_btn_wear
 
 
-    var ifbtnpressed by remember{
-        mutableStateOf(0)}
-
-    if(ifbtnpressed==0){
-        achievePicSource=R.drawable.g5_2_1_img_achieve00
-        btnSource1=R.drawable.g5_2_1_btn_wear
-    }
-    if(ifbtnpressed==1){
-        achievePicSource=R.drawable.g5_2_1_img_achieve01
-        btnSource1=R.drawable.g5_2_1_btn_weared
-    }
-    if(ifbtnpressed==2){
-        achievePicSource=R.drawable.g5_2_1_img_achieve02
-        btnSource2=R.drawable.g5_2_1_btn_weared
-    }
-    if(ifbtnpressed==3){
-        achievePicSource=R.drawable.g5_2_1_img_achieve03
-        btnSource3=R.drawable.g5_2_1_btn_weared
-    }
-    if(ifbtnpressed==4){
-        achievePicSource=R.drawable.g5_2_1_img_achieve04
-        btnSource4=R.drawable.g5_2_1_btn_weared
-    }
-    if(ifbtnpressed==5){
-        achievePicSource=R.drawable.g5_2_1_img_achieve05
-        btnSource5=R.drawable.g5_2_1_btn_weared
-    }
-    if(ifbtnpressed==6){
-        achievePicSource=R.drawable.g5_2_1_img_achieve06
-        btnSource6=R.drawable.g5_2_1_btn_weared
-    }
-//    if(ifbtnpressed==7){
-//        achievePicSource=R.drawable.g5_2_1_img_achieve07
-//        btnSource7=R.drawable.g5_2_1_btn_weared
-//    }
-//    if(ifbtnpressed==8){
-//        achievePicSource=R.drawable.g5_2_1_img_achieve08
-//        btnSource8=R.drawable.g5_2_1_btn_weared
-//    }
-    if(ifbtnpressed==9){
-        achievePicSource=R.drawable.g5_2_1_img_achieve09
-        btnSource9=R.drawable.g5_2_1_btn_weared
-    }
-    if(ifbtnpressed==10){
-        achievePicSource=R.drawable.g5_2_1_img_achieve100
-        btnSource10=R.drawable.g5_2_1_btn_weared
-    }
-
-
-
-
-
-
-
-
-    //将底部pager的参数和顶部导航栏的参数state绑定，让pager响应顶部导航栏参数变化
-    LaunchedEffect(pagerState) {
-        snapshotFlow { state }.collect { page ->
-            pagerState.animateScrollToPage(page)
-        }
-    }
-    //将底部pager的参数和顶部导航栏的参数state绑定
-    LaunchedEffect(pagerState) {
-        snapshotFlow { pagerState.currentPage }.collect { page ->
-            state = page
-        }
-    }
-    val titles = listOf("活力成就", "社交成就","特殊成就")
-    Box(contentAlignment = Alignment.TopCenter,
-        modifier = Modifier.fillMaxSize()){
-
-        Column() {
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                Box(contentAlignment = Alignment.TopCenter){
-                    Image(painter = painterResource(
-                        id = achievePicSource),//植物图片--------------------------------------------------------------------------------------------------
-                        contentDescription = null,
-                        modifier = Modifier
-//                            .width(119.dp)
-                            .padding(top = 0.dp)
-
-                    )
-                    BtnRowPage2(nav02)
-                }
-
-                Spacer(modifier = Modifier.height(34.dp))
-                androidx.compose.material.TabRow(
-                    modifier= Modifier
-                        .padding(horizontal = 27.dp)
-                        .height(40.dp),
-                    backgroundColor = Color.Transparent,
-                    selectedTabIndex = state,
-                    indicator = @Composable { tabPositions ->
-                        androidx.compose.material.TabRowDefaults.Indicator(
-                            Modifier.customTabIndicatorOffset(tabPositions[state]),
-                            color = Color(26, 207, 163)
-                        )
-                    }
-                ) {
-                    titles.forEachIndexed { index, title ->
-                        androidx.compose.material.Tab(
-                            modifier = Modifier
-                                .background(Color.Transparent)
-                                .width(10.dp),
-                            selected = state == index,
-                            onClick = { state = index },
-                            text = {
-                                androidx.compose.material.Text(
-                                    text = title,
-                                    maxLines = 2,
-                                    overflow = TextOverflow.Ellipsis,
-                                    fontSize = 16.sp,
-                                    fontWeight = FontWeight.W800,
-                                )
-                            },
-                            selectedContentColor = Color.Black,
-                            unselectedContentColor = Gray1
-                        )
-                    }
-                }
-            }
-            Spacer(modifier = Modifier.height(20.dp))
-            HorizontalPager(count = 3, state = pagerState) { page ->
-
-                //下面为要滑动切换的界面，可以通过判断page调用不同页面
-                if (page == 0) {
-                    LazyColumn(//活力成就列表--------------------------------------------------------------------------------------------------
-                        Modifier
-                            .fillMaxWidth()
-                            .height(380.dp),
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.spacedBy(15.dp),
-
-                        content ={
-                            item{
-                                Row (//活力成就行1
-                                    horizontalArrangement = Arrangement.spacedBy(30.dp)
-                                ){
-                                    Box(
-
-                                        contentAlignment = Alignment.BottomCenter
-
-
-                                    ) {
-                                        Image(painter = painterResource(
-                                            id = R.drawable.g5_2_1_achieve1),
-                                            contentDescription = null,
-                                        )
-                                        Column() {
-                                            Button(onClick = {
-                                            if (ifbtnpressed==0||
-                                                ifbtnpressed==2||
-                                                ifbtnpressed==3||
-                                                ifbtnpressed==4||
-                                                ifbtnpressed==5||
-                                                ifbtnpressed==6||
-                                                ifbtnpressed==7||
-                                                ifbtnpressed==8||
-                                                ifbtnpressed==9||
-                                                ifbtnpressed==10)
-                                                     {ifbtnpressed=1}
-                                            else{ifbtnpressed=0}
-                                                             },//按钮:佩戴——————————————————————————————————————————————
-                                                Modifier
-                                                    .width(75.dp)
-                                                    .height(24.dp),
-                                                colors = ButtonDefaults.outlinedButtonColors(),
-                                                shape = RoundedCornerShape(//圆角
-                                                    50,50,50,50),
-
-
-                                                contentPadding = PaddingValues(bottom = 0.dp,top=0.dp)
-                                            ) {
-                                                Image(painter = painterResource(
-                                                    id =btnSource1),
-                                                    contentDescription = null,
-                                                )
-                                            }
-
-                                        }
-
-                                    }
-                                    Box(
-
-                                        contentAlignment = Alignment.BottomCenter
-
-
-                                    ) {
-                                        Image(painter = painterResource(
-                                            id = R.drawable.g5_2_1_achieve2),
-                                            contentDescription = null,
-                                        )
-                                        Column() {
-                                            Button(onClick = {
-                                                if (ifbtnpressed==0||
-                                                    ifbtnpressed==1||
-                                                    ifbtnpressed==3||
-                                                    ifbtnpressed==4||
-                                                    ifbtnpressed==5||
-                                                    ifbtnpressed==6||
-                                                    ifbtnpressed==7||
-                                                    ifbtnpressed==8||
-                                                    ifbtnpressed==9||
-                                                    ifbtnpressed==10)
-                                                {ifbtnpressed=2}
-                                                else{ifbtnpressed=0}
-                                            },//按钮:佩戴——————————————————————————————————————————————
-                                                Modifier
-                                                    .width(75.dp)
-                                                    .height(24.dp),
-                                                colors = ButtonDefaults.outlinedButtonColors(),
-                                                shape = RoundedCornerShape(//圆角
-                                                    50,50,50,50),
-
-
-                                                contentPadding = PaddingValues(bottom = 0.dp,top=0.dp)
-                                            ) {
-                                                Image(painter = painterResource(
-                                                    id =btnSource2),
-                                                    contentDescription = null,
-                                                )
-                                            }
-
-                                        }
-
-                                    }
-                                    Box(
-
-                                        contentAlignment = Alignment.BottomCenter
-
-
-                                    ) {
-                                        Image(painter = painterResource(
-                                            id = R.drawable.g5_2_1_achieve3),
-                                            contentDescription = null,
-                                        )
-                                        Column() {
-                                            Button(onClick = {
-                                                if (ifbtnpressed==0||
-                                                    ifbtnpressed==2||
-                                                    ifbtnpressed==1||
-                                                    ifbtnpressed==4||
-                                                    ifbtnpressed==5||
-                                                    ifbtnpressed==6||
-                                                    ifbtnpressed==7||
-                                                    ifbtnpressed==8||
-                                                    ifbtnpressed==9||
-                                                    ifbtnpressed==10)
-                                                {ifbtnpressed=3}
-                                                else{ifbtnpressed=0}
-                                            },//按钮:佩戴——————————————————————————————————————————————
-                                                Modifier
-                                                    .width(75.dp)
-                                                    .height(24.dp),
-                                                colors = ButtonDefaults.outlinedButtonColors(),
-                                                shape = RoundedCornerShape(//圆角
-                                                    50,50,50,50),
-
-
-                                                contentPadding = PaddingValues(bottom = 0.dp,top=0.dp)
-                                            ) {
-                                                Image(painter = painterResource(
-                                                    id =btnSource3),
-                                                    contentDescription = null,
-                                                )
-                                            }
-
-                                        }
-
-                                    }
-                                }
-                            }
-                            item{
-                                Row (//活力成就行2
-                                    horizontalArrangement = Arrangement.spacedBy(45.dp)
-                                ){
-                                    Box(
-
-                                        contentAlignment = Alignment.BottomCenter
-
-
-                                    ) {
-                                        Image(painter = painterResource(
-                                            id = R.drawable.g5_2_1_achieve4),
-                                            contentDescription = null,
-                                        )
-                                        Column() {
-                                            Button(onClick = {
-                                                if (ifbtnpressed==0||
-                                                    ifbtnpressed==2||
-                                                    ifbtnpressed==3||
-                                                    ifbtnpressed==1||
-                                                    ifbtnpressed==5||
-                                                    ifbtnpressed==6||
-                                                    ifbtnpressed==7||
-                                                    ifbtnpressed==8||
-                                                    ifbtnpressed==9||
-                                                    ifbtnpressed==10)
-                                                {ifbtnpressed=4}
-                                                else{ifbtnpressed=0}
-                                            },//按钮:佩戴——————————————————————————————————————————————
-                                                Modifier
-                                                    .width(75.dp)
-                                                    .height(24.dp),
-                                                colors = ButtonDefaults.outlinedButtonColors(),
-                                                shape = RoundedCornerShape(//圆角
-                                                    50,50,50,50),
-
-
-                                                contentPadding = PaddingValues(bottom = 0.dp,top=0.dp)
-                                            ) {
-                                                Image(painter = painterResource(
-                                                    btnSource4),
-                                                    contentDescription = null,
-                                                )
-                                            }
-
-                                        }
-
-                                    }
-                                    Box(
-
-                                        contentAlignment = Alignment.BottomCenter,
-                                        modifier = Modifier
-                                            .width(75.dp)
-                                            .height(24.dp)
-
-                                    ) {
-                                        Image(painter = painterResource(
-                                            id = R.drawable.g5_2_1_achieve_empty),
-                                            contentDescription = null,
-                                        )
-
-
-                                    }
-                                    Box(
-
-                                        contentAlignment = Alignment.BottomCenter,
-                                        modifier = Modifier
-                                            .width(75.dp)
-                                            .height(24.dp)
-
-
-                                    ) {
-                                        Image(painter = painterResource(
-                                            id = R.drawable.g5_2_1_achieve_empty),
-                                            contentDescription = null,
-                                        )
-
-
-                                    }
-                                }
-                            }
-
-
-
-                        })
-                }
-                if (page == 1) {
-                    LazyColumn(//社交成就列表--------------------------------------------------------------------------------------------------
-                        Modifier
-                            .fillMaxWidth()
-                            .height(380.dp),
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.spacedBy(15.dp),
-
-                        content ={
-                            item{
-                                Row (//社交成就行1
-                                    horizontalArrangement = Arrangement.spacedBy(30.dp)
-                                ){
-                                    Box(
-
-                                        contentAlignment = Alignment.BottomCenter
-
-
-                                    ) {
-                                        Image(painter = painterResource(
-                                            id = R.drawable.g5_2_1_achieve5),
-                                            contentDescription = null,
-                                        )
-                                        Column() {
-                                            Button(onClick = {
-                                                if (ifbtnpressed==0||
-                                                    ifbtnpressed==2||
-                                                    ifbtnpressed==1||
-                                                    ifbtnpressed==4||
-                                                    ifbtnpressed==3||
-                                                    ifbtnpressed==6||
-                                                    ifbtnpressed==7||
-                                                    ifbtnpressed==8||
-                                                    ifbtnpressed==9||
-                                                    ifbtnpressed==10)
-                                                {ifbtnpressed=5}
-                                                else{ifbtnpressed=0}
-                                            },//按钮:佩戴——————————————————————————————————————————————
-                                                Modifier
-                                                    .width(75.dp)
-                                                    .height(24.dp),
-                                                colors = ButtonDefaults.outlinedButtonColors(),
-                                                shape = RoundedCornerShape(//圆角
-                                                    50,50,50,50),
-
-
-                                                contentPadding = PaddingValues(bottom = 0.dp,top=0.dp)
-                                            ) {
-                                                Image(painter = painterResource(
-                                                    id =btnSource5),
-                                                    contentDescription = null,
-                                                )
-                                            }
-
-                                        }
-
-                                    }
-                                    Box(
-
-                                        contentAlignment = Alignment.BottomCenter
-
-
-                                    ) {
-                                        Image(painter = painterResource(
-                                            id = R.drawable.g5_2_1_achieve6),
-                                            contentDescription = null,
-                                        )
-                                        Column() {
-                                            Button(onClick = {
-                                                if (ifbtnpressed==0||
-                                                    ifbtnpressed==2||
-                                                    ifbtnpressed==1||
-                                                    ifbtnpressed==4||
-                                                    ifbtnpressed==5||
-                                                    ifbtnpressed==3||
-                                                    ifbtnpressed==7||
-                                                    ifbtnpressed==8||
-                                                    ifbtnpressed==9||
-                                                    ifbtnpressed==10)
-                                                {ifbtnpressed=6}
-                                                else{ifbtnpressed=0}
-                                            },//按钮:佩戴——————————————————————————————————————————————
-                                                Modifier
-                                                    .width(75.dp)
-                                                    .height(24.dp),
-                                                colors = ButtonDefaults.outlinedButtonColors(),
-                                                shape = RoundedCornerShape(//圆角
-                                                    50,50,50,50),
-
-
-                                                contentPadding = PaddingValues(bottom = 0.dp,top=0.dp)
-                                            ) {
-                                                Image(painter = painterResource(
-                                                    id =btnSource6),
-                                                    contentDescription = null,
-                                                )
-                                            }
-
-                                        }
-
-                                    }
-                                    Box(
-
-                                        contentAlignment = Alignment.BottomCenter
-
-
-                                    ) {
-                                        Image(painter = painterResource(
-                                            id = R.drawable.g5_2_1_achieve7),
-                                            contentDescription = null,
-                                        )
-                                        Column() {
-                                            Button(onClick = { },
-                                                enabled=false,//按钮:佩戴——————————————————————————————————————————————
-                                                modifier=Modifier
-                                                    .width(75.dp)
-                                                    .height(24.dp),
-                                                colors = ButtonDefaults.outlinedButtonColors(),
-                                                interactionSource = MutableInteractionSource(),
-                                                shape = RoundedCornerShape(//圆角
-                                                    50,50,50,50),
-
-
-                                                contentPadding = PaddingValues(bottom = 0.dp,top=0.dp)
-                                            ) {
-                                                Image(painter = painterResource(
-                                                    id =R.drawable.g5_2_1_btn_unattained),
-                                                    contentDescription = null,
-                                                )
-                                            }
-
-                                        }
-
-                                    }
-                                }
-                            }
-                            item{
-                                Row (//社交成就行2
-                                    horizontalArrangement = Arrangement.spacedBy(40.dp)
-                                ){
-                                    Box(
-
-                                        contentAlignment = Alignment.BottomCenter
-
-
-                                    ) {
-                                        Image(painter = painterResource(
-                                            id = R.drawable.g5_2_1_achieve8),
-                                            contentDescription = null,
-                                        )
-                                        Column() {
-                                            Button(onClick = { },
-                                                enabled=false,//按钮:佩戴——————————————————————————————————————————————
-                                                modifier= Modifier
-                                                    .width(75.dp)
-                                                    .height(24.dp),
-                                                colors = ButtonDefaults.outlinedButtonColors(),
-                                                shape = RoundedCornerShape(//圆角
-                                                    50,50,50,50),
-
-
-                                                contentPadding = PaddingValues(bottom = 0.dp,top=0.dp)
-                                            ) {
-                                                Image(painter = painterResource(
-                                                    id =R.drawable.g5_2_1_btn_unattained),
-                                                    contentDescription = null,
-                                                )
-                                            }
-
-                                        }
-
-                                    }
-                                    Box(
-
-                                        contentAlignment = Alignment.BottomCenter,
-                                        modifier = Modifier
-                                            .width(75.dp)
-                                            .height(24.dp)
-
-
-                                    ) {
-                                        Image(painter = painterResource(
-                                            id = R.drawable.g5_2_1_achieve_empty),
-                                            contentDescription = null,
-                                        )
-
-
-                                    }
-                                    Box(
-
-                                        contentAlignment = Alignment.BottomCenter,
-                                        modifier = Modifier
-                                            .width(75.dp)
-                                            .height(24.dp)
-
-
-                                    ) {
-                                        Image(painter = painterResource(
-                                            id = R.drawable.g5_2_1_achieve_empty),
-                                            contentDescription = null,
-                                        )
-
-
-                                    }
-                                }
-                            }
-
-
-
-                        })
-                }
-                if (page == 2) {
-                    LazyColumn(//特殊成就列表--------------------------------------------------------------------------------------------------
-                        Modifier
-                            .fillMaxWidth()
-                            .height(380.dp),
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.spacedBy(15.dp),
-
-                        content ={
-                            item{
-                                Row (//社交成就行1
-                                    horizontalArrangement = Arrangement.spacedBy(30.dp)
-                                ){
-                                    Box(
-
-                                        contentAlignment = Alignment.BottomCenter
-
-
-                                    ) {
-                                        Image(painter = painterResource(
-                                            id = R.drawable.g5_2_1_achieve9),
-                                            contentDescription = null,
-                                        )
-                                        Column() {
-                                            Button(onClick = {
-                                                if (ifbtnpressed==0||
-                                                    ifbtnpressed==2||
-                                                    ifbtnpressed==1||
-                                                    ifbtnpressed==4||
-                                                    ifbtnpressed==5||
-                                                    ifbtnpressed==6||
-                                                    ifbtnpressed==7||
-                                                    ifbtnpressed==8||
-                                                    ifbtnpressed==3||
-                                                    ifbtnpressed==10)
-                                                {ifbtnpressed=9}
-                                                else{ifbtnpressed=0}
-                                            },//按钮:佩戴——————————————————————————————————————————————
-                                                Modifier
-                                                    .width(75.dp)
-                                                    .height(24.dp),
-                                                colors = ButtonDefaults.outlinedButtonColors(),
-                                                shape = RoundedCornerShape(//圆角
-                                                    50,50,50,50),
-
-
-                                                contentPadding = PaddingValues(bottom = 0.dp,top=0.dp)
-                                            ) {
-                                                Image(painter = painterResource(
-                                                    id =btnSource9),
-                                                    contentDescription = null,
-                                                )
-                                            }
-
-                                        }
-
-                                    }
-                                    Box(
-
-                                        contentAlignment = Alignment.BottomCenter
-
-
-                                    ) {
-                                        Image(painter = painterResource(
-                                            id = R.drawable.g5_2_1_achieve10),
-                                            contentDescription = null,
-                                        )
-                                        Column() {
-                                            Button( onClick = {
-                                                if (ifbtnpressed==0||
-                                                    ifbtnpressed==2||
-                                                    ifbtnpressed==1||
-                                                    ifbtnpressed==4||
-                                                    ifbtnpressed==5||
-                                                    ifbtnpressed==6||
-                                                    ifbtnpressed==7||
-                                                    ifbtnpressed==8||
-                                                    ifbtnpressed==9||
-                                                    ifbtnpressed==3)
-                                                {ifbtnpressed=10}
-                                                else{ifbtnpressed=0}
-                                             },//按钮:佩戴——————————————————————————————————————————————
-                                                Modifier
-                                                    .width(75.dp)
-                                                    .height(24.dp),
-                                                colors = ButtonDefaults.outlinedButtonColors(),
-                                                shape = RoundedCornerShape(//圆角
-                                                    50,50,50,50),
-
-
-                                                contentPadding = PaddingValues(bottom = 0.dp,top=0.dp)
-                                            ) {
-                                                Image(painter = painterResource(
-                                                    id =btnSource10),
-                                                    contentDescription = null,
-                                                )
-                                            }
-
-                                        }
-
-                                    }
-                                    Box(
-
-                                        contentAlignment = Alignment.BottomCenter,
-                                        modifier = Modifier
-                                            .width(75.dp)
-                                            .height(24.dp)
-
-
-                                    ) {
-                                        Image(painter = painterResource(
-                                            id = R.drawable.g5_2_1_achieve_empty),
-                                            contentDescription = null,
-                                        )
-
-
-                                    }
-
-                                }
-                            }
-
-
-
-
-                        })
-                }
-
-
-            }
-        }
-    }
 
 
 }

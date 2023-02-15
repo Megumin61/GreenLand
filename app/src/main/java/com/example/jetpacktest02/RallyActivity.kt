@@ -566,7 +566,7 @@ fun RallyApp() {
                 composable(route = MySetting.route) {
                     MySettingScreen(
                         nav01 = {
-                            navController.navigate(My.route) { launchSingleTop = true; }
+                            navController.navigate(PlantBagAchievement.route) { launchSingleTop = true; }
                         }
 
                     )

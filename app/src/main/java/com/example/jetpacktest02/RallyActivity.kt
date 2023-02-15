@@ -216,7 +216,7 @@ fun RallyApp() {
             //管理路由：页面跳转
             NavHost(
                 navController = navController,
-                startDestination = LightReminder.route,
+                startDestination = PlantPlan.route,
                 modifier = Modifier.padding(innerPadding)
 
             ) {
@@ -236,6 +236,14 @@ fun RallyApp() {
                         }, userViewModel = userViewModel
                     )
                 }
+                composable(route = PlanBottom.route) {
+                    PlanBottomSheet(
+                        nav05 = {
+                            navController.navigate(PlanList.route) { launchSingleTop = true; }
+                        }
+                    )
+                }
+
                 composable(route = PlantPlan.route) {
                     PlantPlanScreen(
                         nav01 = {

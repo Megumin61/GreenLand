@@ -224,6 +224,10 @@ object LightReminder : RallyDestination {
     override val icon = Icons.Filled.MoneyOff
     override val route = "light-reminder"
 }
+object PlanBottom : RallyDestination {
+    override val icon = Icons.Filled.MoneyOff
+    override val route = "bottom"
+}
 
 
 

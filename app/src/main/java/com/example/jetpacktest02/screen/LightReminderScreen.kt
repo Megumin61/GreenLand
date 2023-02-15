@@ -1,7 +1,13 @@
 package com.example.jetpacktest02.screen
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
+import android.content.Context.NOTIFICATION_SERVICE
+import android.graphics.BitmapFactory
 import android.icu.text.SimpleDateFormat
 import android.os.Build
+import android.os.Bundle
 import androidx.annotation.Px
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -9,10 +15,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.FractionalThreshold
-import androidx.compose.material.rememberSwipeableState
-import androidx.compose.material.swipeable
+import androidx.compose.material.*
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -32,6 +35,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.app.NotificationCompat
+import androidx.core.content.ContextCompat.getSystemService
+import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import coil.ImageLoader
@@ -42,6 +48,7 @@ import coil.request.ImageRequest
 import coil.size.Size
 import com.example.jetpacktest02.Plant
 import com.example.jetpacktest02.R
+
 import com.example.scaffolddemo.ui.theme.GreenLightReminder
 import com.example.scaffolddemo.ui.theme.textGray2
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
@@ -123,7 +130,8 @@ fun GIFimage(
 
 @Composable
 fun LightReminderScreen(
-    navController: NavController
+    navController: NavController,
+
 ) {
 
     rememberSystemUiController().setStatusBarColor(
@@ -131,6 +139,7 @@ fun LightReminderScreen(
     )
 
     Box(modifier = Modifier.fillMaxWidth()) {
+
         Image(
             painter = painterResource(id = R.drawable.g10_bg_lightreminder),
             contentDescription = null,
@@ -138,6 +147,22 @@ fun LightReminderScreen(
                 .fillMaxHeight()
                 .fillMaxSize(), contentScale = ContentScale.FillWidth
         )
+        /*val context = LocalContext.current
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Button(onClick = {
+                viewModel.showNotification(context,"外卖提醒", "您好，您的外卖到了！")
+            }) {
+                Text(text = "创建一个新通知")
+            }
+            Button(onClick = {
+                viewModel.updateNotification(context,"订单提醒", "您有一条新的外卖订单，请及时接单！")
+            }) {
+                Text(text = "更新通知")
+            }
+        }*/
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -253,3 +278,8 @@ fun LightReminderScreen(
 
     }
 }
+
+
+
+
+

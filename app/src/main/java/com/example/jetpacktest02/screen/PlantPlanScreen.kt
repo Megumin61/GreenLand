@@ -18,6 +18,7 @@ package com.example.jetpacktest02.ui.main
 
 import android.annotation.SuppressLint
 import android.media.Image
+import android.os.Build
 import android.widget.Space
 import androidx.activity.compose.BackHandler
 import androidx.annotation.DrawableRes
@@ -49,6 +50,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
@@ -60,6 +62,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import coil.ImageLoader
+import coil.compose.rememberAsyncImagePainter
+import coil.decode.GifDecoder
+import coil.decode.ImageDecoderDecoder
+import coil.request.ImageRequest
+import coil.size.Size
 import com.airbnb.lottie.compose.*
 import com.airbnb.lottie.model.content.CircleShape
 import com.example.jetpacktest02.R
@@ -136,6 +144,34 @@ fun PlanItem(@DrawableRes iconRes: Int) {
 }
 
 
+@Composable
+fun GIFimage(
+    modifier: Modifier = Modifier,
+    gif:Int
+) {
+    val context = LocalContext.current
+    val imageLoader = ImageLoader.Builder(context)
+        .components {
+            if (Build.VERSION.SDK_INT >= 28) {
+                add(ImageDecoderDecoder.Factory())
+            } else {
+                add(GifDecoder.Factory())
+            }
+        }
+        .build()
+    Image(
+        painter = rememberAsyncImagePainter(
+            ImageRequest.Builder(context).data(data =gif ).apply(block = {
+                size(Size.ORIGINAL)
+            }).build(), imageLoader = imageLoader
+        ),
+
+        contentDescription = null,
+        modifier = modifier.fillMaxWidth()
+    )
+}
+
+
 @OptIn(ExperimentalMaterialApi::class, ExperimentalPagerApi::class, ExperimentalComposeUiApi::class)
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 
@@ -197,14 +233,14 @@ fun NewScreen() {
         }
         var change by remember{ mutableStateOf(false) }
         val flowerSize by animateDpAsState(
-            targetValue = if(change) 350.dp else 310.dp
+            targetValue = if(change) 310.dp else 300.dp
         )
 
         /*LaunchedEffect(key1 = change) {
             delay(1000)
             change = true}*/
 
-        if(flowerSize == 350.dp) {
+        if(flowerSize == 310.dp) {
             change = false
         }
         Column(
@@ -212,14 +248,10 @@ fun NewScreen() {
                 .fillMaxSize()
                 .padding(vertical = 140.dp), verticalArrangement = Arrangement.Top) {
             Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
-                Image(
-                    painter = painterResource(id = R.drawable.g1_1_img_flower), contentDescription = null,
-                    modifier = Modifier
-                        .size(flowerSize)
-                        .fillMaxWidth()
-                        .offset(0.dp, -60.dp)
-                        .clickable(onClick = {change=true } )
 
+                com.example.jetpacktest02.screen.GIFimage(
+                    modifier = Modifier.clickable(onClick = {change=true },indication = null,interactionSource = MutableInteractionSource() ).size(flowerSize).offset(0.dp, -60.dp).fillMaxWidth(),
+                    gif = R.drawable.gif_04
                 )
             }}
         //添加动画

@@ -66,6 +66,7 @@ import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.jetpacktest02.R
 import com.example.jetpacktest02.SharePost
+
 import com.example.jetpacktest02.ViewModel.TapListItemModel
 import com.example.jetpacktest02.ViewModel.UserViewModel
 import com.example.jetpacktest02.screen.FriendList
@@ -92,7 +93,8 @@ import java.time.format.TextStyle
 fun PlantScreen(
     nav01: () -> Unit = {},
     userViewModel: UserViewModel,
-    navController: NavController
+    navController: NavController,
+
 
 ) {
 

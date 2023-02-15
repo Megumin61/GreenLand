@@ -49,6 +49,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.imageResource
@@ -172,7 +173,9 @@ fun GIFimage(
 }
 
 
-@OptIn(ExperimentalMaterialApi::class, ExperimentalPagerApi::class, ExperimentalComposeUiApi::class)
+@OptIn(ExperimentalMaterialApi::class, ExperimentalPagerApi::class, ExperimentalComposeUiApi::class,
+    ExperimentalAnimationApi::class
+)
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 
 /*部分布局样式,CardPage放在里面*/
@@ -233,16 +236,30 @@ fun NewScreen() {
         }
         var change by remember{ mutableStateOf(false) }
         val flowerSize by animateDpAsState(
-            targetValue = if(change) 310.dp else 300.dp
+            targetValue = if(change) 320.dp else 300.dp
         )
 
         /*LaunchedEffect(key1 = change) {
             delay(1000)
             change = true}*/
 
-        if(flowerSize == 310.dp) {
+        if(flowerSize == 320.dp) {
             change = false
         }
+        var state1 by remember {
+            mutableStateOf(false)
+        }
+        LaunchedEffect(key1 = state1){
+            delay(250)
+            state1 = true
+        }
+        AnimatedVisibility(
+            visible = state1,
+            enter = scaleIn(transformOrigin = TransformOrigin(0f, 0f)) +
+                    fadeIn(initialAlpha = 0.3f) + expandIn(expandFrom = Alignment.Center),
+            exit = scaleOut(transformOrigin = TransformOrigin(0f, 0f)) +
+                    fadeOut() + shrinkOut(shrinkTowards = Alignment.Center)
+        ) {
         Column(
             Modifier
                 .fillMaxSize()
@@ -253,7 +270,7 @@ fun NewScreen() {
                     modifier = Modifier.clickable(onClick = {change=true },indication = null,interactionSource = MutableInteractionSource() ).size(flowerSize).offset(0.dp, -60.dp).fillMaxWidth(),
                     gif = R.drawable.gif_04
                 )
-            }}
+            }}}
         //添加动画
 
 

@@ -19,6 +19,7 @@ import androidx.compose.material.*
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -52,6 +53,7 @@ import com.example.jetpacktest02.R
 import com.example.scaffolddemo.ui.theme.GreenLightReminder
 import com.example.scaffolddemo.ui.theme.textGray2
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import kotlinx.coroutines.flow.collect
 import okhttp3.internal.format
 import java.util.*
 
@@ -245,10 +247,11 @@ fun LightReminderScreen(
                     0f to Status.CLOSE,
                     blockSizePx2*2 to Status.OPEN
                 )
-                LaunchedEffect(key1 =swipeableState2){
-                    if(swipeableState2.currentValue==Status.OPEN){
-                    navController.navigate(Plant.route){launchSingleTop = true}
-                } }
+                LaunchedEffect(swipeableState2){
+                    snapshotFlow {swipeableState2.currentValue  }.collect{ value ->
+                        if (value == Status .OPEN){navController.navigate(Plant.route){launchSingleTop=true}}
+                    }}
+
                 Image(
                     painter = painterResource(id = R.drawable.g10_ic_drinknow),
                     contentDescription = null,modifier = Modifier

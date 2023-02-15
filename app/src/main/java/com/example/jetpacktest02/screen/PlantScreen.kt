@@ -49,6 +49,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.TransformOrigin
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.font.FontWeight.Companion.W500
@@ -59,6 +60,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
@@ -66,6 +68,7 @@ import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.jetpacktest02.R
 import com.example.jetpacktest02.SharePost
+import com.example.jetpacktest02.ViewModel.NotificationTestViewModel
 
 import com.example.jetpacktest02.ViewModel.TapListItemModel
 import com.example.jetpacktest02.ViewModel.UserViewModel
@@ -788,7 +791,8 @@ fun MainPlantPage(
 //@OptIn(ExperimentalAnimationApi::class)
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
-fun SecondPlantPage(page: Int) {
+fun SecondPlantPage(page: Int,viewModel: NotificationTestViewModel = viewModel()) {
+    val context = LocalContext.current
     val waterTime: Int = 0
     val step: Int = 0
     val sitTime: String = "6:31:20"
@@ -830,7 +834,8 @@ fun SecondPlantPage(page: Int) {
                     Image(
                         painter = painterResource(id = R.drawable.g1_3_ic_watercount),
                         contentDescription = null,
-                        modifier = Modifier.height(180.dp)
+                        modifier = Modifier.height(180.dp).clickable ( onClick = {
+                            viewModel.showNotification(context,"轻提醒", "喝口水休息一下吧！")},indication = null,interactionSource = MutableInteractionSource())
                     )
                     Text(
                         text = waterTime.toString() + "次",
@@ -996,6 +1001,20 @@ fun PlantMsgItem(listItemModel: TapListItemModel) {
             )
         }
     }
-
-
 }
+
+@Composable
+fun NotificationTest(viewModel: NotificationTestViewModel = viewModel()) {
+    val context = LocalContext.current
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Button(onClick = {
+            viewModel.showNotification(context,"轻提醒", "喝口水休息一下吧！")
+        }) {
+            Text(text = "创建一个新通知")
+        }
+    }
+}
+

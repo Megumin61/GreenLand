@@ -66,9 +66,9 @@ class RallyActivity : ComponentActivity() {
 
 
         setContent {
-            NotificationTest()
+//            NotificationTest()
 //            WordBookApp()
-//            RallyApp()
+              RallyApp()
 //            StepCounter() //全局计步器
         }
     }
@@ -288,7 +288,7 @@ fun RallyApp() {
             //管理路由：页面跳转
             NavHost(
                 navController = navController,
-                startDestination = PlantPlan.route,
+                startDestination = LightReminder.route,
                 modifier = Modifier.padding(innerPadding)
 
             ) {

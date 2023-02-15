@@ -28,6 +28,9 @@ interface UserDao {
     @Query("UPDATE user_table SET step =:step WHERE id =:id")
     fun updateStepById(step:Int,id:Int)
 
+    @Query("UPDATE user_table SET weekStep =:weekStep WHERE id =:id")
+    fun updateWeekStepById(weekStep:Int,id:Int)
+
     @Query("select * from user_table")
     fun getAllUser(): LiveData<List<User>>
 

@@ -69,5 +69,11 @@ class UserRepository @Inject constructor() {
         UsersApplication.database.userDao().updateStepById(step,id)
     }
 
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun updateWeekStepById(weekStep:Int,id:Int) {
+        UsersApplication.database.userDao().updateWeekStepById(weekStep,id)
+    }
+
 
 }

@@ -20,6 +20,8 @@ class User() {
     lateinit var position: String
     @ColumnInfo(name = "step")
     var step: Int = 0
+    @ColumnInfo(name = "weekStep")
+    var weekStep: Int = 0
 
 
     //次构造

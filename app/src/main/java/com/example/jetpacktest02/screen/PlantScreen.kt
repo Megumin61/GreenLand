@@ -114,8 +114,10 @@ fun PlantScreen(
     LaunchedEffect(key1 = showHealthSumCard) {
 //        delay(300)
 //        showHealthSumCard = true
-        delay(200)
-        HealthSumCardAnim = true
+        if(showHealthSumCard == true){
+            delay(300)
+            HealthSumCardAnim = true
+        }
     }
     val progress by animateLottieCompositionAsState(
         composition,
@@ -337,7 +339,7 @@ fun PlantScreen(
                                     modifier = Modifier
                                         .width(136.dp)
                                         .height(54.dp),
-                                    colors = ButtonDefaults.buttonColors(containerColor = LightGreen)
+                                    colors = ButtonDefaults.buttonColors(containerColor = Green5)
                                 ) {
                                     Text(
                                         text = "查看报告",

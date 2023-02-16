@@ -5,11 +5,9 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.slideInVertically
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
+import androidx.compose.foundation.*
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Scaffold
 import androidx.compose.material.TopAppBar
 import androidx.compose.material3.*
@@ -32,135 +30,158 @@ import com.example.jetpacktest02.R
 import com.example.jetpacktest02.ui.main.ProgressBar
 import com.example.jetpacktest02.ui.main.iconDecrease
 import com.example.jetpacktest02.ui.main.iconIncrease
-import com.example.scaffolddemo.ui.theme.Green1
-import com.example.scaffolddemo.ui.theme.Green2
-import com.example.scaffolddemo.ui.theme.Green4
-import com.example.scaffolddemo.ui.theme.LightGreen
+import com.example.scaffolddemo.ui.theme.*
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import kotlinx.coroutines.delay
 
 
 @Composable
-fun ProgressStep(){
-    Row (
-        verticalAlignment = Alignment.CenterVertically){
-        Row(horizontalArrangement = Arrangement.spacedBy(5.dp)
-            , verticalAlignment = Alignment.CenterVertically){
+fun ProgressStep() {
+    Row(
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(5.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
             ProgressBar(
                 modifier = Modifier
-                    .width(130.dp) // 指定进度条宽度
+                    .width(100.dp) // 指定进度条宽度
                     .height(12.dp), // 指定进度条高度
                 progress = 0.6f,
-                color = Color(207,235,223),
+                color = Color(207, 235, 223),
                 cornerRadius = 12.dp,
                 backgroundColor = Color.Transparent
             )
         }
 
-        Text(text = "8342 ",
+        Text(
+            text = "8342 ",
             fontSize = 12.sp,
             fontWeight = FontWeight.W900,
-            color= Color.DarkGray)
+            color = Color.DarkGray
+        )
         iconIncrease()
 
     }
 }
+
 @Composable
-fun ProgressSit(){
-    Row (
-        verticalAlignment = Alignment.CenterVertically){
-        Row(horizontalArrangement = Arrangement.spacedBy(5.dp)
-            , verticalAlignment = Alignment.CenterVertically){
+fun ProgressSit() {
+    Row(
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(5.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
             ProgressBar(
                 modifier = Modifier
-                    .width(130.dp) // 指定进度条宽度
+                    .width(100.dp) // 指定进度条宽度
                     .height(12.dp), // 指定进度条高度
                 progress = 0.8f,
-                color = Color(255,226,194),
+                color = Color(255, 226, 194),
                 cornerRadius = 12.dp,
                 backgroundColor = Color.Transparent
             )
         }
 
-        Text(text = "6:20:12 ",
+        Text(
+            text = "6:20:12 ",
             fontSize = 12.sp,
             fontWeight = FontWeight.W900,
-            color= Color.DarkGray)
+            color = Color.DarkGray
+        )
         iconDecrease()
 
     }
 }
+
 @Composable
-fun ProgressWater(){
-    Row (
-        verticalAlignment = Alignment.CenterVertically){
-        Row(horizontalArrangement = Arrangement.spacedBy(5.dp)
-            , verticalAlignment = Alignment.CenterVertically){
+fun ProgressWater() {
+    Row(
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(5.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
             ProgressBar(
                 modifier = Modifier
-                    .width(130.dp) // 指定进度条宽度
+                    .width(100.dp) // 指定进度条宽度
                     .height(12.dp), // 指定进度条高度
                 progress = 0.7f,
-                color = Color(207,235,223),
+                color = Color(207, 235, 223),
                 cornerRadius = 12.dp,
                 backgroundColor = Color.Transparent
             )
         }
 
-        Text(text = "7次 ",
+        Text(
+            text = "7次 ",
             fontSize = 12.sp,
             fontWeight = FontWeight.W900,
-            color= Color.DarkGray)
+            color = Color.DarkGray
+        )
         iconIncrease()
 
     }
 }
+
 @Composable
-fun ProgressEat(){
-    Row (
-        verticalAlignment = Alignment.CenterVertically){
-        Row(horizontalArrangement = Arrangement.spacedBy(5.dp)
-            , verticalAlignment = Alignment.CenterVertically){
+fun ProgressEat() {
+    Row(
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(5.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
             ProgressBar(
                 modifier = Modifier
-                    .width(130.dp) // 指定进度条宽度
+                    .width(100.dp) // 指定进度条宽度
                     .height(12.dp), // 指定进度条高度
                 progress = 0.5f,
-                color = Color(207,235,223),
+                color = Color(207, 235, 223),
                 cornerRadius = 12.dp,
                 backgroundColor = Color.Transparent
             )
         }
 
-        Text(text = "2.5次 ",
+        Text(
+            text = "2.5次 ",
             fontSize = 12.sp,
             fontWeight = FontWeight.W900,
-            color= Color.DarkGray)
+            color = Color.DarkGray
+        )
         iconIncrease()
 
     }
 }
 
 @Composable
-fun ProgressPlant(){
-    Row (
-        verticalAlignment = Alignment.CenterVertically){
-        Row(horizontalArrangement = Arrangement.spacedBy(5.dp)
-            , verticalAlignment = Alignment.CenterVertically){
+fun ProgressPlant() {
+    Row(
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(5.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
 
             ProgressBar(
                 modifier = Modifier
                     .width(90.dp) // 指定进度条宽度
                     .height(6.dp)
-                    .offset(85.dp,270.dp), // 指定进度条高度
+                    .offset(75.dp, 258.dp), // 指定进度条高度
                 progress = 0.8f,
-                color = Color(26,207,163),
+                color = Color(26, 207, 163),
                 cornerRadius = 12.dp,
                 backgroundColor = Color.White
             )
         }
     }
-    Row(modifier = Modifier.offset(108.dp,280.dp)) {
+    Row(modifier = Modifier.offset(97.dp, 265.dp)) {
         Text(
             text = "94",
             fontSize = 12.sp,
@@ -173,20 +194,25 @@ fun ProgressPlant(){
         )
     }
 }
+
 @Composable
-fun ThreeParameterColumn(){
-    Column(modifier=Modifier.padding(end = 20.dp,top=37.dp).offset(261.dp,136.dp),
-        verticalArrangement = Arrangement.spacedBy(33.dp)) {
-        Text(text = "78", fontSize = 10.sp, color = Color(184,192,194))
-        Text(text = "372g", fontSize = 10.sp, color = Color(184,192,194))
-        Text(text = "70", fontSize = 10.sp, color = Color(184,192,194))
+fun ThreeParameterColumn() {
+    Column(
+        modifier = Modifier
+            .padding(end = 0.dp, top = 39.dp)
+            .offset(241.dp, 126.dp),
+        verticalArrangement = Arrangement.spacedBy(30.dp)
+    ) {
+        Text(text = "78", fontSize = 10.sp, color = Color(184, 192, 194))
+        Text(text = "372g", fontSize = 10.sp, color = Color(184, 192, 194))
+        Text(text = "70", fontSize = 10.sp, color = Color(184, 192, 194))
     }
 }
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Preview
 @Composable
-fun SharePostScreen(){
+fun SharePostScreen() {
 
     var animVisible by remember {
         mutableStateOf(false)
@@ -198,7 +224,7 @@ fun SharePostScreen(){
     rememberSystemUiController().setStatusBarColor(
         Green1, darkIcons = androidx.compose.material.MaterialTheme.colors.isLight
     )
-    Surface(modifier = Modifier.fillMaxSize()){
+    Surface(modifier = Modifier.fillMaxSize()) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
@@ -211,7 +237,7 @@ fun SharePostScreen(){
                         )
                     )
                 )
-        ){
+        ) {
             Scaffold(
                 topBar = {
                     TopAppBar(title = {
@@ -239,7 +265,8 @@ fun SharePostScreen(){
                                 Icon(
                                     bitmap = ImageBitmap.imageResource(id = R.drawable.g1_2_0_ic_arrow_left),
                                     contentDescription = null
-                                ) }
+                                )
+                            }
                         },
                         //右侧按钮
                         actions = {
@@ -285,7 +312,8 @@ fun SharePostScreen(){
                         Box(Modifier.fillMaxSize()) {
                             Row(
                                 Modifier.fillMaxWidth(),
-                                horizontalArrangement = Arrangement.Center
+                                horizontalArrangement = Arrangement.Center,
+                                verticalAlignment = Alignment.CenterVertically
                             ) {
                                 Image(
                                     painter = painterResource(id = R.drawable.g6_ic_skcc_pic),
@@ -307,26 +335,54 @@ fun SharePostScreen(){
                                         color = Green4,
                                         textAlign = TextAlign.Justify
                                     )
+
                                 }
+
+
                             }
                             Column(
-                                Modifier.fillMaxSize().offset(0.dp, 80.dp),
+                                Modifier
+                                    .fillMaxSize()
+                                    .offset(0.dp, 80.dp),
                                 horizontalAlignment = Alignment.CenterHorizontally
                             ) {
-                                Image(
-                                    painter = painterResource(id = R.drawable.g6_ic_skcc_sharepost),
-                                    contentDescription = null,
-                                    modifier = Modifier.scale(1.05f)
-                                )
+                                Box(modifier = Modifier.fillMaxWidth()) {
+                                    Image(
+                                        painter = painterResource(id = R.drawable.g6_ic_skcc_sharepost),
+                                        contentDescription = null,
+                                        modifier = Modifier.scale(1.05f)
+                                    )
+                                    //查看详情跳转每周总结详情页
+                                    Row(
+                                        Modifier
+                                            .fillMaxWidth()
+                                            .clickable(
+                                                onClick = {},
+                                                indication = null,
+                                                interactionSource = MutableInteractionSource()
+                                            )
+                                            .padding(end = 50.dp, top = 35.dp),
+                                        horizontalArrangement = Arrangement.End,
+                                    ) {
+                                        Text(
+                                            text = "查看详情", fontSize = 13.sp,
+                                            color = Gray1,
+                                            textAlign = TextAlign.Justify
+                                        )
+                                    }
+
+                                }
+
 
                             }
                             ProgressPlant()
                             ThreeParameterColumn()
                             Column(
-                                modifier = Modifier.padding(start = 65.dp, end = 70.dp)
-                                    .offset(60.dp, 350.dp),
+                                modifier = Modifier
+                                    .padding(start = 55.dp, end = 70.dp)
+                                    .offset(60.dp, 328.dp),
                                 horizontalAlignment = Alignment.Start,
-                                verticalArrangement = Arrangement.spacedBy(20.dp)
+                                verticalArrangement = Arrangement.spacedBy(16.dp)
                             ) {
                                 ProgressStep()
                                 ProgressSit()
@@ -336,7 +392,9 @@ fun SharePostScreen(){
                             }
                         }
                     }
-                    }
-                }}}
+                }
+            }
+        }
+    }
 
 }

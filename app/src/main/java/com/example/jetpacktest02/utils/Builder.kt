@@ -61,7 +61,7 @@ fun Notification.update(
     action1: String? = null,
     visibleType: Int = VISIBILITY_PUBLIC
 ): Notification  {
-    titleNew?.let { title = titleNew }
+    titleNew?.let { title = "绿岛" }
     messageNew?.let { message = messageNew}
     action1?.let { action = action1  }
     if (visibleType != visibility) visibility = visibleType
@@ -73,7 +73,7 @@ fun Notification.builder(context: Context): android.app.Notification.Builder {
     val builder = android.app.Notification.Builder(context, MAIN_CHANNEL_ID)
         .setContentTitle(title)
         .setContentText(message)
-        .setSmallIcon(R.mipmap.ic_launcher)
+        .setSmallIcon(R.drawable.g0_ic_appicon)
         .setPriority(android.app.Notification.PRIORITY_DEFAULT)
         .setVisibility(visibility)
         .setAutoCancel(true)
@@ -113,7 +113,7 @@ fun Context.getNotificationManager(): NotificationManagerCompat {
     // API 26 Android 8.0开始必须为每个通知指定一个channel才会显示
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
         val channel = NotificationChannel(MAIN_CHANNEL_ID, MAIN_CHANNEL,
-            NotificationManager.IMPORTANCE_HIGH
+            NotificationManager.IMPORTANCE_DEFAULT
         )
         notificationManager.createNotificationChannel(channel)
     }

@@ -35,6 +35,9 @@ import java.time.Duration
  * Data class that represents the UI state
  */
 data class UiState constructor(
+    //发布私信/图片页面模式 （留言模式:0 / 照片模式:1）
+    var deliverPageMode :MutableState<Int> = mutableStateOf(0),
+
     //运动步数 变量
     var stepDetector: MutableState<Int> = mutableStateOf(0), // 自应用运行以来STEP_DETECTOR检测到的步数
     var stepCounter: MutableState<Int> = mutableStateOf(0), // 自系统开机以来STEP_COUNTER检测到的步数
@@ -117,7 +120,7 @@ data class UiState constructor(
         FriendItem(
             userName = "ajunGrit", //本人用户名
             userAvatar = R.drawable.g2_1_img_user04, //本人头像
-            userPlant = R.drawable.gif_6, //本人植物
+            userPlant = R.drawable.gif_4, //本人植物
             offsetX = 0f,
             offsetY = 0f,
             textMsg = "",
@@ -216,7 +219,7 @@ data class UiState constructor(
         ), ExploreMemberItem(
             userName = "1234",
             userAvatar = R.drawable.g2_1_img_user02,
-            userPlant = R.drawable.gif_4,
+            userPlant = R.drawable.gif_6,
             offsetX = -1.2f,
             offsetY = 1.3f,
             textMsg = "大家新年快乐鸭！",

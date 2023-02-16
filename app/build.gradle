@@ -25,9 +25,9 @@ android {
         vectorDrawables.useSupportLibrary = true
 
 
-//        ndk {
-//            abiFilters 'armeabi-v7a', 'x86'
-//        }
+        ndk {
+            abiFilters 'armeabi-v7a', 'x86'
+        }
     }
 
     packagingOptions {

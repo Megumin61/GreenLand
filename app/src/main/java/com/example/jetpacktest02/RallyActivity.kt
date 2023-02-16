@@ -2,11 +2,12 @@ package com.example.jetpacktest02
 
 import MyCupBoardScreen
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Button
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Scaffold
@@ -16,7 +17,8 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.core.content.ContextCompat.startActivity
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
@@ -34,14 +36,15 @@ import com.example.jetpacktest02.compose.MyBottomNavBar
 import com.example.jetpacktest02.compose.StepCounter
 import com.example.jetpacktest02.config.UsersApplication
 import com.example.jetpacktest02.screen.*
+import com.example.jetpacktest02.ui.main.MessageMsgScreen
 import com.example.jetpacktest02.ui.main.*
-import com.example.jetpacktest02.utils.ApkUtils
 import com.example.jetpacktest02.utils.StepPremission
 import com.example.jetpacktest02.utils.TimeUtil
 import com.example.scaffolddemo.ui.theme.ScaffoldDemoTheme
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
+import java.sql.Time
 
 
 /**
@@ -63,9 +66,11 @@ class RallyActivity : ComponentActivity() {
 
 
         setContent {
-//            NotificationTest()
+
+            WordBookApp()
+//            RallyApp()
+//            StepCounter() //全局计步器
 //            WordBookApp()
-            RallyApp()
         }
     }
 
@@ -88,12 +93,12 @@ fun NotificationTest(viewModel: NotificationTestViewModel = viewModel()) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Button(onClick = {
-            viewModel.showNotification(context,"外卖提醒", "您好，您的外卖到了！")
+            viewModel.showNotification(context, "外卖提醒", "您好，您的外卖到了！")
         }) {
             Text(text = "创建一个新通知")
         }
         Button(onClick = {
-            viewModel.updateNotification(context,"订单提醒", "您有一条新的外卖订单，请及时接单！")
+            viewModel.updateNotification(context, "订单提醒", "您有一条新的外卖订单，请及时接单！")
         }) {
             Text(text = "更新通知")
         }
@@ -135,16 +140,8 @@ fun WordBookApp(userViewModel: UserViewModel = viewModel()) {
     val users: List<User> by userViewModel.allUsers.observeAsState(mutableListOf())
     val userList = marsViewModel.getUserList()
 
-    val user_insert = User("Hello", "13333", "dada")
-    //如果没有数据则插入
-//    if (users.isEmpty()) {
-//        userViewModel.insert(user_insert)
-//    }
-    val user_query: User = userViewModel.getUser(1)
-    val step = user_query.step
-    val weekStep = user_query.weekStep
-//    val step2 = UsersApplication.database.userDao().getUserById(1).step
     //增：往数据库中插入某个user对象，可以不传id，id为主键自增
+    val user_insert = User("Hello", "13333", "dada")
 
     //查：根据id查询某个user，
 //    val user_query : User= userViewModel.getUser(1)
@@ -155,46 +152,10 @@ fun WordBookApp(userViewModel: UserViewModel = viewModel()) {
     //删：删除某个id为1的user对象
 //    userViewModel.DeleteUser(1)
 
-    //每当步数变化，更新uiState 开机来总步数
-//    LaunchedEffect(key1 = userViewModel.uiState.value.stepCounter.value, block = {
-//        userViewModel.UpdateStepById(id = 1, step = userViewModel.uiState.value.stepCounter.value)
-//    })
-
-    //获取当前日期，并赋值储存至uistate
-    userViewModel.uiState.value.currentDate.value = TimeUtil.getCurrentDate()
-
-    //日期变化代表一天结束
-    LaunchedEffect(key1 = userViewModel.uiState.value.currentDate.value, block = {
-        //更新本周数据
-        userViewModel.UpdateWeekStepById(
-            1,
-            weekStep + userViewModel.uiState.value.stepCounter.value - step
-        )
-        //每当日期变化，更新步数，此时数据库中用户数据仍为开机以来数据
-        userViewModel.UpdateStepById(
-            id = 1, step = userViewModel.uiState.value.stepCounter.value
-        )
-    })
 
     Column {
-        Text("现在表列表里有${users.size}条数据")
-
-        var text1 by remember {
-            mutableStateOf("false")
-        }
-//        com.DefaultCompany.MyPlant
-        Button(onClick = {
-            ApkUtils.StartLaunchAPK(UsersApplication.context,"com.DefaultCompany.MyPlant","com.unity3d.player.UnityPlayerActivity")
-
-            if(            ApkUtils.CheckApkExist(UsersApplication.context,"com.DefaultCompany.MyPlant")){
-                text1="找到了"
-                ApkUtils.StartLaunchAPK(UsersApplication.context,"com.DefaultCompany.MyPlant","com.unity3d.player.UnityPlayerActivity")
-            }else{
-                text1="没找到"
-            }
-        }) {
-            Text(text = text1)
-        }
+//        Text(text = "query_name:"+user_query.name)
+//        Text(text = "query_phone:"+user_query.phoneNumber)
         Button(onClick = { userViewModel.insert(user_insert) }) {
             Text(text = "insert")
         }
@@ -203,36 +164,24 @@ fun WordBookApp(userViewModel: UserViewModel = viewModel()) {
         }
         Button(onClick = {
             userViewModel.UpdatePositionById(
-                id = 1,
+                id = 2,
                 position = user_edit.position
             )
         }) {
             Text(text = "updatePosition")
         }
-        Button(onClick = {
-            userViewModel.UpdateStepById(
-                id = 1,
-                step = userViewModel.uiState.value.stepCounter.value
-            )
-        }) {
+        Button(onClick = { userViewModel.UpdateStepById(id = 2, step = user_edit.step) }) {
             Text(text = "updateStep")
         }
 //        Text(user_edit.position)
+        Text(users.size.toString())
         users.forEach { user ->
-            Text("step" + user.step.toString())
+            Text(user.position.toString())
         }
-        Text(text = "今日步数：" + users.getOrNull(0)?.step.toString())
+        Text(text = userList.getOrNull(0)?.position.toString())
         Text(text = userList.size.toString())
         userList.forEach { user ->
-            Text("username" + user.username.toString())
-        }
-        Column() {
-            Text(text = userViewModel.uiState.value.stepDetector.value.toString())
-            Text(text = userViewModel.uiState.value.stepCounter.value.toString())
-            Text(text = "现在日期：" + TimeUtil.getCurrentDate().toString())
-            Text(text = "现在是周几：" + TimeUtil.getWeekStr(TimeUtil.getCurrentDate()).toString())
-            //日期变化时，uistate存储的本机步数减去数据库存储的昨日本机步数即为今日步数
-            Text(text = "今日步数：" + (userViewModel.uiState.value.stepCounter.value - step))
+            Text(user.username.toString())
         }
     }
 }
@@ -250,7 +199,6 @@ fun RallyApp() {
     val Textvalue: String = ""
 
     val userViewModel: UserViewModel = viewModel()
-    val notificationTestviewModel: NotificationTestViewModel = viewModel()
     // Fetch your currentDestination:
     val currentDestination = currentBackStack?.destination
     if (currentDestination != null) {
@@ -301,7 +249,7 @@ fun RallyApp() {
             //管理路由：页面跳转
             NavHost(
                 navController = navController,
-                startDestination = SharePost.route,
+                startDestination = LoginLoading.route,
                 modifier = Modifier.padding(innerPadding)
 
             ) {
@@ -311,16 +259,39 @@ fun RallyApp() {
                             navController.navigate(PlantPlan.route) { launchSingleTop = true; }
                         },
                         userViewModel = userViewModel,
-                        navController = navController,
-                        notificationTestviewModel=notificationTestviewModel
+                        navController = navController
                     )
                 }
                 composable(route = Test.route) {
                     TestScreen(
-//                        userViewModel = userViewModel
                         nav01 = {
                             navController.navigate(Plant.route) { launchSingleTop = true; }
                         }, userViewModel = userViewModel
+                    )
+                }
+                composable(route = LoginFront.route) {
+                    LoginFrontScreen(
+                        navController = navController
+                    )
+                }
+                composable(route = PhoneLogin.route) {
+                    PhoneLoginScreen(
+                        navController = navController
+                    )
+                }
+                composable(route = AppIntroduction.route) {
+                    AppIntroductionScreen(
+                        navController = navController
+                    )
+                }
+                composable(route = CreateAccount.route) {
+                    CreateAccountScreen(
+                        navController = navController
+                    )
+                }
+                composable(route = LoginLoading.route) {
+                    LoginLoadingScreen(
+                        navController = navController
                     )
                 }
                 composable(route = PlantPlan.route) {
@@ -342,7 +313,7 @@ fun RallyApp() {
                             navController.navigate(PlanList.route) {
                                 launchSingleTop = true;
                             }
-                        }
+                        }, navController = navController
                     )
                 }
 
@@ -493,7 +464,7 @@ fun RallyApp() {
                         },
                         nav04 = {
                             //导航 目的地、返回路径
-                            navController.navigate(IslandVisitOther.route) {
+                            navController.navigate(IslandVisitMe.route) {
                                 launchSingleTop = true; popUpTo(Island.route) {}
                             }
                         },
@@ -520,12 +491,17 @@ fun RallyApp() {
                         },
                         nav04 = {
                             //导航 目的地、返回路径
-                            navController.navigate(IslandVisitOther.route) {
+                            navController.navigate(IslandVisitMe.route) {
                                 launchSingleTop = true; popUpTo(IslandExplore.route) {}
                             }
                         },
                         userViewModel,
-                        controller = navController
+                        controller = navController,
+                        navVisitOther = {
+                            navController.navigate(IslandVisitOther.route) {
+                                launchSingleTop = true; popUpTo(IslandExplore.route) {}
+                            }
+                        },
                     )
                 }
                 composable(route = IslandMemberList.route) {
@@ -566,6 +542,23 @@ fun RallyApp() {
                     )
                 }
                 composable(
+                    route = IslandVisitMe.route,
+                    //接收参数方
+                    arguments = listOf(navArgument("res") { type = NavType.IntType },
+                        navArgument("name") { type = NavType.StringType }
+                    )
+                ) {
+                    IslandVisitMeScreen(
+                        res = it.arguments?.getInt("res"), //传递用户头像
+                        name = it.arguments?.getString("name"), //传递用户名称
+                        nav01 = {
+                            navController.popBackStack()
+                        },
+                        navController = navController,
+                        userViewModel = userViewModel
+                    )
+                }
+                composable(
                     route = IslandVisitOther.route,
                     //接收参数方
                     arguments = listOf(navArgument("res") { type = NavType.IntType },
@@ -577,7 +570,9 @@ fun RallyApp() {
                         name = it.arguments?.getString("name"), //传递用户名称
                         nav01 = {
                             navController.popBackStack()
-                        }
+                        },
+                        navController = navController,
+                        userViewModel = userViewModel
                     )
                 }
 
@@ -723,6 +718,11 @@ fun RallyApp() {
                 }
                 composable(route = SharePost.route) {
                     SharePostScreen()
+                }
+                composable(route = LightReminder.route) {
+                    LightReminderScreen(
+                        navController = navController
+                    )
                 }
 
             }

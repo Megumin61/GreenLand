@@ -4,6 +4,7 @@ package com.example.jetpacktest02.screen
 import android.annotation.SuppressLint
 import android.util.Log
 import androidx.activity.compose.BackHandler
+import androidx.camera.core.Camera
 import androidx.camera.core.CameraSelector
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
@@ -11,11 +12,11 @@ import androidx.compose.foundation.*
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Camera
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
@@ -34,13 +35,13 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
 import com.example.jetpacktest02.R
-import com.example.jetpacktest02.ViewModel.ExploreMemberItem
 import com.example.jetpacktest02.ViewModel.UserViewModel
 import com.example.scaffolddemo.ui.theme.*
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
@@ -48,6 +49,7 @@ import com.google.accompanist.permissions.PermissionRequired
 import com.google.accompanist.permissions.rememberPermissionState
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import kotlinx.coroutines.launch
+import okio.utf8Size
 
 @ExperimentalPermissionsApi
 @ExperimentalMaterialApi
@@ -69,14 +71,14 @@ fun IslandDeliverScreen(
             rememberPermissionState(permission = "android.permission.CAMERA")
 
         //页面模式（留言模式:0 / 照片模式:1）
-//        var deliverPageMode by remember {
-//            mutableStateOf(0)
-//        }
+        var pageMode by remember {
+            mutableStateOf(0)
+        }
         var deliverBtnOffset by remember {
             mutableStateOf(0.dp)
         }
 
-        if (userViewModel.uiState.value.deliverPageMode.value == 1) {
+        if (pageMode == 1) {
             deliverBtnOffset = 30.dp
         } else {
             deliverBtnOffset = 0.dp
@@ -85,29 +87,12 @@ fun IslandDeliverScreen(
         //输入框文字
         var text by remember { mutableStateOf("") }
 
-        //SnackBar状态变量
-        val snackbarHostState = remember { SnackbarHostState() }
-
         //底部抽屉 状态变量
         val state = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
         val scope = rememberCoroutineScope()
 
         //顶部菜单栏
         Scaffold(
-            snackbarHost = {
-                androidx.compose.material3.SnackbarHost(snackbarHostState) { data ->
-                    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
-                        androidx.compose.material3.Snackbar(
-                            modifier = Modifier.width(200.dp),
-                            snackbarData = data,
-                            containerColor = LightGreen,
-                            contentColor = Color.White,
-                            shape = RoundedCornerShape(30.dp),
-                        )
-                    }
-
-                }
-            },
             topBar = {
                 TopAppBar(title = {
                     Box(
@@ -178,10 +163,10 @@ fun IslandDeliverScreen(
                                 //切换页面模式
                                 .clickable {
                                     permissionState.launchPermissionRequest()
-                                    if (userViewModel.uiState.value.deliverPageMode.value== 0) {
-                                        userViewModel.uiState.value.deliverPageMode.value = 1 //切换成照片模式
+                                    if (pageMode == 0) {
+                                        pageMode = 1 //切换成照片模式
                                     } else {
-                                        userViewModel.uiState.value.deliverPageMode.value = 0
+                                        pageMode = 0
                                     }
                                 },
                         )
@@ -204,7 +189,7 @@ fun IslandDeliverScreen(
                             elevation = 1.5.dp
 
                         ) {
-                            when (userViewModel.uiState.value.deliverPageMode.value) {
+                            when (pageMode) {
                                 0 -> {
                                     //上方区域
                                     Column(
@@ -314,23 +299,14 @@ fun IslandDeliverScreen(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         //留言模式下
-                        if (userViewModel.uiState.value.deliverPageMode.value == 0) {
+                        if (pageMode == 0) {
                             Image(
                                 painter = painterResource(id = R.drawable.g4_6_btn_sendmessage),
                                 contentDescription = null,
                                 modifier = Modifier
                                     .size(80.dp)
                                     .clickable(
-                                        onClick = {
-                                            scope.launch {
-                                                snackbarHostState.showSnackbar(
-                                                    "发送成功~"
-                                                )
-                                            }
-                                            text = ""
-                                            //清空visitItem的值
-                                            userViewModel.uiState.value.visitItem.value = ExploreMemberItem()
-                                        },
+                                        onClick = {},
                                         indication = null,
                                         interactionSource = MutableInteractionSource()
                                     ),
@@ -508,7 +484,6 @@ fun IslandDeliverScreen(
                 onBack = {
                     scope.launch {
                         state.hide()
-
                     }
                 }
             )
@@ -541,7 +516,7 @@ fun IslandDeliverScreen(
                     }
                 },
                 permissionNotAvailableContent = { /*TODO*/ }) {
-                when (userViewModel.uiState.value.deliverPageMode.value) {
+                when (pageMode) {
                     0 -> {}
                     1 -> {
 //                        CameraX()

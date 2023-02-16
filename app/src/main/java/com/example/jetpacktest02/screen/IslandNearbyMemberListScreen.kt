@@ -11,7 +11,6 @@ import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
 import androidx.compose.material3.*
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
@@ -42,7 +41,6 @@ import com.example.jetpacktest02.ViewModel.UserViewModel
 import com.example.scaffolddemo.ui.theme.*
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -67,27 +65,10 @@ fun IslandNearbyMemberListScreen(
         Flesh2, darkIcons = androidx.compose.material.MaterialTheme.colors.isLight
     )
 
-    //SnackBar状态变量
-    val snackbarHostState = remember { SnackbarHostState() }
-    val scope = rememberCoroutineScope()
 
     Surface(modifier = Modifier.fillMaxSize()) {
         //顶部菜单栏
         Scaffold(
-            snackbarHost = {
-                androidx.compose.material3.SnackbarHost(snackbarHostState) { data ->
-                    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
-                        androidx.compose.material3.Snackbar(
-                            modifier = Modifier.width(200.dp),
-                            snackbarData = data,
-                            containerColor = LightGreen,
-                            contentColor = Color.White,
-                            shape = RoundedCornerShape(30.dp),
-                        )
-                    }
-
-                }
-            },
             topBar = {
                 TopAppBar(title = {
                     Box(
@@ -231,13 +212,6 @@ fun IslandNearbyMemberListScreen(
                                             onClick = {
                                                 userViewModel.uiState.value.showRequestFriendDialog.value =
                                                     false
-                                                scope.launch {
-                                                    snackbarHostState.showSnackbar(
-                                                        "成功发送好友申请~"
-                                                    )
-                                                }
-//                                                text = ""
-
                                             },
                                             indication = null,
                                             interactionSource = MutableInteractionSource()

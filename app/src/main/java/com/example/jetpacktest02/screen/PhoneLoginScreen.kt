@@ -24,9 +24,6 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
-import com.example.jetpacktest02.AppIntroduction
-import com.example.jetpacktest02.LoginFront
 import com.example.jetpacktest02.ViewModel.UserViewModel
 import com.example.scaffolddemo.ui.theme.Green1
 import com.example.scaffolddemo.ui.theme.Green700
@@ -43,9 +40,7 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PhoneLoginScreen(
-    navController: NavController
-) {
+fun PhoneLoginScreen() {
     var phonenumber by remember{ mutableStateOf("")}
     var captcha by remember{ mutableStateOf("")}
 
@@ -65,8 +60,8 @@ fun PhoneLoginScreen(
         )
         Column(
             modifier=Modifier
-                .padding(start=0.dp, end = 19.dp,top=40.dp)
-            ,horizontalAlignment= Alignment.End
+                .padding(start=300.dp, end = 19.dp,top=40.dp)
+            ,horizontalAlignment= Alignment.CenterHorizontally
 
         )
         {
@@ -85,7 +80,7 @@ fun PhoneLoginScreen(
 
         Column(
             modifier=Modifier
-                .padding(top = 380.dp,start=0.dp, end = 0.dp)
+                .padding(top = 450.dp,start=16.dp, end = 16.dp)
             ,horizontalAlignment= Alignment.CenterHorizontally
 //             verticalArrangement = Arrangement.Center
         ){
@@ -213,7 +208,7 @@ fun PhoneLoginScreen(
 
 
 //登录按钮
-            Button(onClick = { navController.navigate(AppIntroduction.route) { launchSingleTop = true; }},
+            Button(onClick = { /*TODO*/ },
                 shape = RoundedCornerShape(27.dp),
                 colors = ButtonDefaults.buttonColors(
                     containerColor = GreenMain,

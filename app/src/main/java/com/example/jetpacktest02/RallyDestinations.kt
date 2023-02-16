@@ -50,26 +50,6 @@ object Bills : RallyDestination {
     override val icon = Icons.Filled.MoneyOff
     override val route = "Bills"
 }
-object LoginFront : RallyDestination {
-    override val icon = Icons.Filled.MoneyOff
-    override val route = "LoginFront"
-}
-object PhoneLogin : RallyDestination {
-    override val icon = Icons.Filled.MoneyOff
-    override val route = "PhoneLogin"
-}
-object CreateAccount : RallyDestination {
-    override val icon = Icons.Filled.MoneyOff
-    override val route = "CreateAccount"
-}
-object AppIntroduction : RallyDestination {
-    override val icon = Icons.Filled.MoneyOff
-    override val route = "AppIntroduction"
-}
-object LoginLoading : RallyDestination {
-    override val icon = Icons.Filled.MoneyOff
-    override val route = "LoginLoading"
-}
 
 object Plant : RallyDestination {
     override val icon = Icons.Filled.MoneyOff
@@ -114,10 +94,6 @@ object IslandNearbyMemberList : RallyDestination {
 object IslandVisitOther : RallyDestination {
     override val icon = Icons.Filled.MoneyOff
     override val route = "4.5-island-visitOther/{res}/{name}"
-}
-object IslandVisitMe : RallyDestination {
-    override val icon = Icons.Filled.MoneyOff
-    override val route = "4.5-island-visitMe/{res}/{name}"
 }
 
 object IslandDeliver : RallyDestination {
@@ -243,14 +219,6 @@ object ReportCard : RallyDestination {
 object SharePost : RallyDestination {
     override val icon = Icons.Filled.MoneyOff
     override val route = "post"
-}
-object LightReminder : RallyDestination {
-    override val icon = Icons.Filled.MoneyOff
-    override val route = "light-reminder"
-}
-object PlanBottom : RallyDestination {
-    override val icon = Icons.Filled.MoneyOff
-    override val route = "bottom"
 }
 
 

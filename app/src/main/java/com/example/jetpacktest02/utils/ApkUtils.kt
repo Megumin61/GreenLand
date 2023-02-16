@@ -6,6 +6,9 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.text.TextUtils
+import android.util.Log
+import android.widget.Toast
+import com.example.jetpacktest02.config.UsersApplication
 
 class ApkUtils {
     companion object {
@@ -34,7 +37,7 @@ class ApkUtils {
                 return
             }
             // 启动指定的activity页面
-            //intent.component = ComponentName(packageName,activityName)
+            intent.component = ComponentName(packageName,activityName)
             //启动到app的主页或启动到原来留下的位置
             intent.component = ComponentName(packageName, mainAct!!)
             //启动app
@@ -45,19 +48,21 @@ class ApkUtils {
         //根据包名 判断某APP是否安装
         public fun CheckApkExist(context: Context, packageName: String): Boolean {
             //  检查app是否有安装
+            var intent = Intent()
             if (TextUtils.isEmpty(packageName))
-                return false
+                return true
             try {
                 val info = context.packageManager
                     .getApplicationInfo(
                         packageName,
                         PackageManager.GET_UNINSTALLED_PACKAGES
                     )
-                // Timber.d(info.toString()) // Timber 是我打印 log 用的工具，这里只是打印一下 log
+                intent = context.packageManager.getLaunchIntentForPackage(packageName)!!;
+//                Toast.makeText(UsersApplication.context,info.toString(), Toast.LENGTH_SHORT).show()
                 return true
             } catch (e: PackageManager.NameNotFoundException) {
                 // Timber.d(e.toString()) // Timber 是我打印 log 用的工具，这里只是打印一下 log
-
+                Toast.makeText(UsersApplication.context,e.message.toString(), Toast.LENGTH_SHORT).show()
                 return false
             }
 

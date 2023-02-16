@@ -575,7 +575,7 @@ fun plantModelItem(
                     .size(90.dp)
                     .clickable(
                         onClick = {
-                            controller.navigate("4.5-island-visitMe/$res/$name")
+                            controller.navigate("4.5-island-visitOther/$res/$name")
                         },
                         indication = null,
                         interactionSource = MutableInteractionSource()

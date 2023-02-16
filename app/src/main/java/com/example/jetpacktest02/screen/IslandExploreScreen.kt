@@ -37,15 +37,11 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.times
 import androidx.compose.ui.window.Dialog
 import androidx.core.app.ActivityCompat
-import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
-import com.example.jetpacktest02.IslandExplore
-import com.example.jetpacktest02.IslandVisitMe
-import com.example.jetpacktest02.IslandVisitOther
 import com.example.jetpacktest02.R
 import com.example.jetpacktest02.ViewModel.ExploreMemberItem
 import com.example.jetpacktest02.ViewModel.FriendItem
@@ -69,8 +65,7 @@ fun IslandExploreScreen(
     nav03: () -> Unit = {},
     nav04: () -> Unit = {},
     userViewModel: UserViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
-    controller: NavHostController,
-    navVisitOther :()-> Unit ={},
+    controller: NavHostController
 ) {
 
 
@@ -436,7 +431,7 @@ fun IslandExploreScreen(
                     }
 
                     // 地图扫描动画背景
-                    ExploreMapBgAnimation(nav03, nav04,navVisitOther=navVisitOther, userViewModel = userViewModel, controller)
+                    ExploreMapBgAnimation(nav03, nav04, userViewModel = userViewModel, controller)
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -603,7 +598,7 @@ fun ExplorePlantModelItem(
     nav2: () -> Unit = {},
     userViewModel: UserViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
     item: ExploreMemberItem,
-    controller: NavHostController,
+    controller: NavHostController
 ) {
 
     //计算植物大小
@@ -663,15 +658,7 @@ fun ExplorePlantModelItem(
                                 .size(plantSize)
                                 .clickable(
                                     onClick =
-                                    {
-                                        MsgHandleClick(
-                                            userViewModel,
-                                            textMsg,
-                                            imgMsg,
-                                            item,
-                                            controller
-                                        )
-                                    },
+                                    { MsgHandleClick(userViewModel, textMsg, imgMsg, item) },
                                     indication = null,
                                     interactionSource = MutableInteractionSource()
                                 )
@@ -766,8 +753,7 @@ fun MsgHandleClick(
     userViewModel: UserViewModel,
     textMsg: String,
     imgMsg: Int,
-    item: ExploreMemberItem,
-    navController: NavHostController
+    item: ExploreMemberItem
 ) {
     if (textMsg != "") {
         userViewModel.uiState.value.msgItem.value =
@@ -808,12 +794,6 @@ fun MsgHandleClick(
         //清空好友的消息,用于消除红点
         item.imgMsg = 0
         item.textMsg = ""
-    }else {
-        navController.navigate("4.5-island-visitOther/${item.userAvatar}/${item.userName}")
-//        controller.navigate("4.5-island-visitOther/$res/$name")//这里将参数拼接到参数后面
-//        navController.navigate("${IslandVisitOther.route}/${item.userAvatar}/${item.userName}") {
-//            launchSingleTop = true; popUpTo(IslandExplore.route) {}
-//        }
     }
 }
 
@@ -822,9 +802,8 @@ fun MsgHandleClick(
 fun ExploreMapBgAnimation(
     nav: () -> Unit = {},
     nav2: () -> Unit = {},
-    navVisitOther:()->Unit ={},
     userViewModel: UserViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
-    controller: NavHostController,
+    controller: NavHostController
 ) {
     //控制播放
     var isPlaying by remember {
@@ -884,7 +863,7 @@ fun ExploreMapBgAnimation(
                 item.offsetY,
                 item.textMsg,
                 item.imgMsg,
-                navVisitOther,
+                nav2,
                 userViewModel = userViewModel,
                 item,
                 controller

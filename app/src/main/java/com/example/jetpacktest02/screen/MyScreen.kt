@@ -17,6 +17,7 @@
 package com.example.jetpacktest02.ui.main
 
 import androidx.annotation.DrawableRes
+import androidx.compose.animation.*
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -49,11 +50,13 @@ import androidx.compose.ui.unit.sp
 import com.example.jetpacktest02.R
 import com.example.scaffolddemo.ui.theme.Green1
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import kotlinx.coroutines.delay
 
 
 /**
  * The Bills screen.
  */
+@OptIn(ExperimentalAnimationApi::class)
 @Preview(showBackground=true,widthDp=393,heightDp=851)
 @Composable
 fun MyScreen(
@@ -65,6 +68,35 @@ fun MyScreen(
     rememberSystemUiController().setStatusBarColor(
         Green1, darkIcons = androidx.compose.material.MaterialTheme.colors.isLight
     )
+    var state by remember {
+        mutableStateOf(false)
+    }
+    var state1 by remember {
+        mutableStateOf(false)
+    }
+    var state2 by remember {
+        mutableStateOf(false)
+    }
+    var state3 by remember {
+        mutableStateOf(false)
+
+    }
+
+    LaunchedEffect(key1 = state){
+        state = true
+    }
+    LaunchedEffect(key1 = state1){
+        delay(250)
+        state1 = true
+    }
+    LaunchedEffect(key1 = state2){
+        delay(500)
+        state2 = true
+    }
+    LaunchedEffect(key1 = state3){
+        delay(750)
+        state3 = true
+    }
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -85,15 +117,40 @@ fun MyScreen(
 
         modifier = Modifier.padding(top=50.dp, start = 20.dp, end = 20.dp),
         verticalArrangement = Arrangement.spacedBy(10.dp)) {
-            UserInfo()
-            UserSign()
-            Image(
+            AnimatedVisibility(
+                visible = state1,
+                enter = scaleIn(transformOrigin = TransformOrigin(0f, 0f)) +
+                        fadeIn(initialAlpha = 0.3f) + expandIn(expandFrom = Alignment.TopStart),
+                exit = scaleOut(transformOrigin = TransformOrigin(0f, 0f)) +
+                        fadeOut() + shrinkOut(shrinkTowards = Alignment.TopStart)
+            ){UserInfo()}
+            AnimatedVisibility(
+                visible = state1,
+                enter = scaleIn(transformOrigin = TransformOrigin(0f, 0f)) +
+                        fadeIn(initialAlpha = 0.3f) + expandIn(expandFrom = Alignment.TopStart),
+                exit = scaleOut(transformOrigin = TransformOrigin(0f, 0f)) +
+                        fadeOut() + shrinkOut(shrinkTowards = Alignment.TopStart)
+            ){UserSign()}
+            AnimatedVisibility(
+                visible = state2,
+                enter = scaleIn(transformOrigin = TransformOrigin(0f, 0f)) +
+                        fadeIn(initialAlpha = 0.3f) + expandIn(expandFrom = Alignment.TopStart),
+                exit = scaleOut(transformOrigin = TransformOrigin(0f, 0f)) +
+                        fadeOut() + shrinkOut(shrinkTowards = Alignment.TopStart)
+            ){Image(
                 painter = painterResource(id = R.drawable.g8_1_img_card),
                 contentDescription = null,
                 modifier = Modifier.padding(horizontal = 13.dp)
-            )
+            )}
+
             Spacer(modifier = Modifier.height(10.dp))
-            Box(contentAlignment = Alignment.Center){
+            AnimatedVisibility(
+                visible = state3,
+                enter = scaleIn(transformOrigin = TransformOrigin(0f, 0f)) +
+                        fadeIn(initialAlpha = 0.3f) + expandIn(expandFrom = Alignment.TopStart),
+                exit = scaleOut(transformOrigin = TransformOrigin(0f, 0f)) +
+                        fadeOut() + shrinkOut(shrinkTowards = Alignment.TopStart)
+            ){Box(contentAlignment = Alignment.Center){
                 Image(
                     painter = painterResource(id = R.drawable.g7_0_btnbg),
                     contentDescription = null,
@@ -135,7 +192,8 @@ fun MyScreen(
                     }
 
                 }
-            }
+            }}
+
 
         }
     }

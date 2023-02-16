@@ -16,8 +16,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.jetpacktest02.ViewModel.UserViewModel
 
 @Composable
-fun StepCounter(){
-    val userViewModel: UserViewModel = viewModel()
+fun StepCounter(userViewModel:UserViewModel){
+//    val userViewModel: UserViewModel = viewModel()
 
     val ctx = LocalContext.current
     val sensorManager: SensorManager = ctx.getSystemService(Context.SENSOR_SERVICE) as SensorManager

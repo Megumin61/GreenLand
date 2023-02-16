@@ -225,10 +225,6 @@ object SharePost : RallyDestination {
     override val icon = Icons.Filled.MoneyOff
     override val route = "post"
 }
-object LightReminder : RallyDestination {
-    override val icon = Icons.Filled.MoneyOff
-    override val route = "light-reminder"
-}
 
 
 

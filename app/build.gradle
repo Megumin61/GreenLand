@@ -24,6 +24,10 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
 
+
+//        ndk {
+//            abiFilters 'armeabi-v7a', 'x86'
+//        }
     }
 
     packagingOptions {
@@ -55,6 +59,7 @@ dependencies {
 
     //日历依赖
     implementation("com.himanshoe:kalendar:1.2.0")
+    implementation files('libs\\unity-classes.jar')
 
     //lottie 2D动画框架依赖
     def lottieVersion = "5.2.0"

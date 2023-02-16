@@ -5,12 +5,26 @@ pluginManagement {
         mavenCentral()
     }
 }
+//dependencyResolutionManagement {
+//    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+//    repositories {
+//        google()
+//        mavenCentral()
+//    }
+//}
 dependencyResolutionManagement {
-    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    //repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)替换成
+    repositoriesMode.set(RepositoriesMode.PREFER_SETTINGS)
     repositories {
         google()
         mavenCentral()
+        jcenter() // Warning: this repository is going to shut down soon
+        maven { url "https://jitpack.io" }
+        // 1.添加MobSDK Maven地址
+        maven { allowInsecureProtocol = true  //加这个是因为mob会被判定为不安全的协议而无法引入
+            url "http://mvn.mob.com/android"}
     }
 }
 rootProject.name = "JetpackTest02"
 include ':app'
+include ':code'

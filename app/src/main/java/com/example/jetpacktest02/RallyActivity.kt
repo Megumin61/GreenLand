@@ -63,9 +63,9 @@ class RallyActivity : ComponentActivity() {
 
 
         setContent {
-            NotificationTest()
+//            NotificationTest()
 //            WordBookApp()
-//            RallyApp()
+            RallyApp()
         }
     }
 

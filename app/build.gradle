@@ -1,17 +1,11 @@
 plugins {
     id 'com.android.application'
-    id 'com.mob.sdk'
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
     id 'org.jetbrains.kotlin.plugin.serialization' version '1.7.10'
 }
 
-MobSDK {
-    appKey "3756609b23565"     //修改为你自己的appKey
-    appSecret "c51f491614d362d47d0a21a22742ba97"    //修改为你自己的appSecret
-    SMSSDK {}
-}
 
 android {
     namespace 'com.example.jetpacktest02'
@@ -66,6 +60,7 @@ dependencies {
     //日历依赖
     implementation("com.himanshoe:kalendar:1.2.0")
     implementation files('libs\\unity-classes.jar')
+
     //lottie 2D动画框架依赖
     def lottieVersion = "5.2.0"
     implementation "com.airbnb.android:lottie-compose:$lottieVersion"

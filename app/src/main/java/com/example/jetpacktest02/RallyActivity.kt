@@ -2,6 +2,7 @@ package com.example.jetpacktest02
 
 import MyCupBoardScreen
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -66,9 +67,8 @@ class RallyActivity : ComponentActivity() {
 
 
         setContent {
-
-            WordBookApp()
-//            RallyApp()
+//            WordBookApp()
+            RallyApp()
 //            StepCounter() //全局计步器
 //            WordBookApp()
         }
@@ -154,8 +154,39 @@ fun WordBookApp(userViewModel: UserViewModel = viewModel()) {
 
 
     Column {
-//        Text(text = "query_name:"+user_query.name)
-//        Text(text = "query_phone:"+user_query.phoneNumber)
+        Text("现在表列表里有${users.size}条数据")
+
+//        var text1 by remember {
+//            mutableStateOf("false")
+//        }
+////        com.DefaultCompany.MyPlant
+//        Button(onClick = {
+//            ApkUtils.StartLaunchAPK(UsersApplication.context,"com.DefaultCompany.MyPlant","com.unity3d.player.UnityPlayerActivity")
+//
+//            if(            ApkUtils.CheckApkExist(UsersApplication.context,"com.DefaultCompany.MyPlant")){
+//                text1="找到了"
+//                ApkUtils.StartLaunchAPK(UsersApplication.context,"com.DefaultCompany.MyPlant","com.unity3d.player.UnityPlayerActivity")
+//            }else{
+//                text1="没找到"
+//            }
+//        }) {
+//            Text(text = text1)
+//        }
+        val context = LocalContext.current
+        val intent = Intent(context, MainActivity::class.java)
+        var state2 by remember {
+            mutableStateOf(false)
+        }
+        Button(onClick = {
+            state2=true
+        }) {
+            Text(text = "调用验证码")
+        }
+        if(state2==true)
+        {
+            context.startActivity(intent)
+        }
+
         Button(onClick = { userViewModel.insert(user_insert) }) {
             Text(text = "insert")
         }

@@ -64,8 +64,8 @@ class RallyActivity : ComponentActivity() {
 
         setContent {
 //            NotificationTest()
-//            WordBookApp()
-            RallyApp()
+            WordBookApp()
+//            RallyApp()
         }
     }
 
@@ -179,22 +179,37 @@ fun WordBookApp(userViewModel: UserViewModel = viewModel()) {
     Column {
         Text("现在表列表里有${users.size}条数据")
 
-        var text1 by remember {
-            mutableStateOf("false")
+//        var text1 by remember {
+//            mutableStateOf("false")
+//        }
+////        com.DefaultCompany.MyPlant
+//        Button(onClick = {
+//            ApkUtils.StartLaunchAPK(UsersApplication.context,"com.DefaultCompany.MyPlant","com.unity3d.player.UnityPlayerActivity")
+//
+//            if(            ApkUtils.CheckApkExist(UsersApplication.context,"com.DefaultCompany.MyPlant")){
+//                text1="找到了"
+//                ApkUtils.StartLaunchAPK(UsersApplication.context,"com.DefaultCompany.MyPlant","com.unity3d.player.UnityPlayerActivity")
+//            }else{
+//                text1="没找到"
+//            }
+//        }) {
+//            Text(text = text1)
+//        }
+        val context = LocalContext.current
+        val intent = Intent(context, MainActivity::class.java)
+        var state2 by remember {
+            mutableStateOf(false)
         }
-//        com.DefaultCompany.MyPlant
         Button(onClick = {
-            ApkUtils.StartLaunchAPK(UsersApplication.context,"com.DefaultCompany.MyPlant","com.unity3d.player.UnityPlayerActivity")
-
-            if(            ApkUtils.CheckApkExist(UsersApplication.context,"com.DefaultCompany.MyPlant")){
-                text1="找到了"
-                ApkUtils.StartLaunchAPK(UsersApplication.context,"com.DefaultCompany.MyPlant","com.unity3d.player.UnityPlayerActivity")
-            }else{
-                text1="没找到"
-            }
+            state2=true
         }) {
-            Text(text = text1)
+            Text(text = "调用验证码")
         }
+        if(state2==true)
+        {
+            context.startActivity(intent)
+        }
+
         Button(onClick = { userViewModel.insert(user_insert) }) {
             Text(text = "insert")
         }

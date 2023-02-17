@@ -642,7 +642,7 @@ fun MainPlantPage(
                             painter = painterResource(id = R.drawable.g1_1_ic_feeling),
                             contentDescription = null,
                             modifier = Modifier
-                                .width(140.dp)
+                                .width(130.dp)
                         )
                         Text(
                             text = feelingValue.toString() + "g",
@@ -666,7 +666,7 @@ fun MainPlantPage(
                             painter = painterResource(id = R.drawable.g1_1_ic_water),
                             contentDescription = null,
                             modifier = Modifier
-                                .width(140.dp)
+                                .width(130.dp)
                         )
                         Text(
                             text = userViewModel.uiState.value.waterValue.toString() + "g",
@@ -689,7 +689,7 @@ fun MainPlantPage(
                             painter = painterResource(id = R.drawable.g1_1_ic_huoli),
                             contentDescription = null,
                             modifier = Modifier
-                                .width(140.dp)
+                                .width(130.dp)
                         )
                         Text(
                             text = energyValue.toString() + "g",
@@ -909,7 +909,7 @@ fun SecondPlantPage(page: Int,viewModel: NotificationTestViewModel = viewModel()
                     )
                     Row(
                         Modifier
-                            .width((heightPre * 280).dp)
+                            .width((heightPre * 250).dp)
                             .offset(20.dp, 120.dp)
                     ) {
                         Surface(
@@ -936,21 +936,21 @@ fun SecondPlantPage(page: Int,viewModel: NotificationTestViewModel = viewModel()
                         color = Color.Black,
                         fontSize = 13.sp,
                         fontWeight = W500,
-                        modifier = Modifier.offset(25.dp, 182.dp)
+                        modifier = Modifier.offset(25.dp, 168.dp)
                     )
                     Text(
                         text = "2:23:17",
                         color = Color.Black,
                         fontSize = 13.sp,
                         fontWeight = W500,
-                        modifier = Modifier.offset(120.dp, 182.dp)
+                        modifier = Modifier.offset(110.dp, 168.dp)
                     )
                     Text(
                         text = "1:23:43",
                         color = Color.Black,
                         fontSize = 13.sp,
                         fontWeight = W500,
-                        modifier = Modifier.offset(215.dp, 182.dp)
+                        modifier = Modifier.offset(200.dp, 168.dp)
                     )
                 }
             }

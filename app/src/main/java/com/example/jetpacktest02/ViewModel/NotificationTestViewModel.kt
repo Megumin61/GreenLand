@@ -4,7 +4,7 @@ import android.app.Notification.VISIBILITY_PUBLIC
 import android.content.Context
 import android.content.Intent
 import androidx.lifecycle.ViewModel
-import com.example.jetpacktest02.NewUserActivity
+import com.example.jetpacktest02.LockScreenActivity
 import com.example.jetpacktest02.utils.Notification
 import com.example.jetpacktest02.utils.buildNotification
 import com.example.jetpacktest02.utils.show
@@ -15,7 +15,7 @@ class NotificationTestViewModel: ViewModel() {
     var notification: Notification? = null
 
     private fun buildNotification(context: Context, title: String, message: String) {
-        val clickIntent = Intent(context, NewUserActivity::class.java)
+        val clickIntent = Intent(context, LockScreenActivity::class.java)
         notification = context.buildNotification(
             id = 1,
             title = title,

@@ -7,8 +7,6 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Button
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Scaffold
@@ -18,8 +16,6 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
@@ -35,9 +31,7 @@ import com.example.jetpacktest02.ViewModel.NotificationTestViewModel
 import com.example.jetpacktest02.ViewModel.UserViewModel
 import com.example.jetpacktest02.compose.MyBottomNavBar
 import com.example.jetpacktest02.compose.StepCounter
-import com.example.jetpacktest02.config.UsersApplication
 import com.example.jetpacktest02.screen.*
-import com.example.jetpacktest02.ui.main.MessageMsgScreen
 import com.example.jetpacktest02.ui.main.*
 import com.example.jetpacktest02.utils.StepPremission
 import com.example.jetpacktest02.utils.TimeUtil
@@ -45,7 +39,6 @@ import com.example.scaffolddemo.ui.theme.ScaffoldDemoTheme
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
-import java.sql.Time
 
 
 /**
@@ -63,7 +56,6 @@ class RallyActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window, true)
-
 
 
         setContent {
@@ -84,7 +76,23 @@ class RallyActivity : ComponentActivity() {
 
 
 }
-
+@Composable
+fun UnityTest() {
+    val context = LocalContext.current
+    val intent = Intent(context, UnityPlayerActivity::class.java)
+    var state2 by remember {
+        mutableStateOf(false)
+    }
+    Button(onClick = {
+        state2=true
+    }) {
+        Text(text = "调用unity")
+    }
+    if(state2==true)
+    {
+        context.startActivity(intent)
+    }
+}
 @Composable
 fun NotificationTest(viewModel: NotificationTestViewModel = viewModel()) {
     val context = LocalContext.current
@@ -140,8 +148,16 @@ fun WordBookApp(userViewModel: UserViewModel = viewModel()) {
     val users: List<User> by userViewModel.allUsers.observeAsState(mutableListOf())
     val userList = marsViewModel.getUserList()
 
-    //增：往数据库中插入某个user对象，可以不传id，id为主键自增
     val user_insert = User("Hello", "13333", "dada")
+    //如果没有数据则插入
+//    if (users.isEmpty()) {
+//        userViewModel.insert(user_insert)
+//    }
+    val user_query: User = userViewModel.getUser(1)
+    val step = user_query.step
+    val weekStep = user_query.weekStep
+//    val step2 = UsersApplication.database.userDao().getUserById(1).step
+    //增：往数据库中插入某个user对象，可以不传id，id为主键自增
 
     //查：根据id查询某个user，
 //    val user_query : User= userViewModel.getUser(1)
@@ -152,6 +168,26 @@ fun WordBookApp(userViewModel: UserViewModel = viewModel()) {
     //删：删除某个id为1的user对象
 //    userViewModel.DeleteUser(1)
 
+    //每当步数变化，更新uiState 开机来总步数
+//    LaunchedEffect(key1 = userViewModel.uiState.value.stepCounter.value, block = {
+//        userViewModel.UpdateStepById(id = 1, step = userViewModel.uiState.value.stepCounter.value)
+//    })
+
+    //获取当前日期，并赋值储存至uistate
+    userViewModel.uiState.value.currentDate.value = TimeUtil.getCurrentDate()
+
+    //日期变化代表一天结束
+    LaunchedEffect(key1 = userViewModel.uiState.value.currentDate.value, block = {
+        //更新本周数据
+        userViewModel.UpdateWeekStepById(
+            1,
+            weekStep + userViewModel.uiState.value.stepCounter.value - step
+        )
+        //每当日期变化，更新步数，此时数据库中用户数据仍为开机以来数据
+        userViewModel.UpdateStepById(
+            id = 1, step = userViewModel.uiState.value.stepCounter.value
+        )
+    })
 
     Column {
         Text("现在表列表里有${users.size}条数据")
@@ -195,27 +231,40 @@ fun WordBookApp(userViewModel: UserViewModel = viewModel()) {
         }
         Button(onClick = {
             userViewModel.UpdatePositionById(
-                id = 2,
+                id = 1,
                 position = user_edit.position
             )
         }) {
             Text(text = "updatePosition")
         }
-        Button(onClick = { userViewModel.UpdateStepById(id = 2, step = user_edit.step) }) {
+        Button(onClick = {
+            userViewModel.UpdateStepById(
+                id = 1,
+                step = userViewModel.uiState.value.stepCounter.value
+            )
+        }) {
             Text(text = "updateStep")
         }
 //        Text(user_edit.position)
-        Text(users.size.toString())
         users.forEach { user ->
-            Text(user.position.toString())
+            Text("step" + user.step.toString())
         }
-        Text(text = userList.getOrNull(0)?.position.toString())
+        Text(text = "今日步数：" + users.getOrNull(0)?.step.toString())
         Text(text = userList.size.toString())
         userList.forEach { user ->
-            Text(user.username.toString())
+            Text("username" + user.username.toString())
+        }
+        Column() {
+            Text(text = userViewModel.uiState.value.stepDetector.value.toString())
+            Text(text = userViewModel.uiState.value.stepCounter.value.toString())
+            Text(text = "现在日期：" + TimeUtil.getCurrentDate().toString())
+            Text(text = "现在是周几：" + TimeUtil.getWeekStr(TimeUtil.getCurrentDate()).toString())
+            //日期变化时，uistate存储的本机步数减去数据库存储的昨日本机步数即为今日步数
+            Text(text = "今日步数：" + (userViewModel.uiState.value.stepCounter.value - step))
         }
     }
 }
+
 
 @SuppressLint("StateFlowValueCalledInComposition")
 @ExperimentalPermissionsApi
@@ -280,7 +329,7 @@ fun RallyApp() {
             //管理路由：页面跳转
             NavHost(
                 navController = navController,
-                startDestination = LoginLoading.route,
+                startDestination = Plant.route,
                 modifier = Modifier.padding(innerPadding)
 
             ) {
@@ -752,7 +801,7 @@ fun RallyApp() {
                 }
                 composable(route = LightReminder.route) {
                     LightReminderScreen(
-                        navController = navController
+//                        navController = navController
                     )
                 }
 

@@ -4,6 +4,7 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.content.Context.NOTIFICATION_SERVICE
+import android.content.Intent
 import android.graphics.BitmapFactory
 import android.icu.text.SimpleDateFormat
 import android.os.Build
@@ -17,9 +18,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.snapshotFlow
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -49,9 +48,12 @@ import coil.request.ImageRequest
 import coil.size.Size
 import com.example.jetpacktest02.Plant
 import com.example.jetpacktest02.R
+import com.example.jetpacktest02.RallyActivity
+import com.example.jetpacktest02.UnityPlayerActivity
 
 import com.example.scaffolddemo.ui.theme.GreenLightReminder
 import com.example.scaffolddemo.ui.theme.textGray2
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import kotlinx.coroutines.flow.collect
 import okhttp3.internal.format
@@ -129,11 +131,10 @@ fun GIFimage(
 }
 
 
-@OptIn(ExperimentalMaterialApi::class)
+@OptIn(ExperimentalMaterialApi::class, ExperimentalPermissionsApi::class)
 @Composable
 fun LightReminderScreen(
-    navController: NavController,
-
+//    navController: NavController,
 ) {
 
     rememberSystemUiController().setStatusBarColor(
@@ -247,9 +248,26 @@ fun LightReminderScreen(
                     0f to Status.CLOSE,
                     blockSizePx2*2 to Status.OPEN
                 )
+                val context = LocalContext.current
+                val intent = Intent(context, RallyActivity::class.java)
+//                var state2 by remember {
+//                    mutableStateOf(false)
+//                }
+//                Button(onClick = {
+//                    state2=true
+//                }) {
+//                    androidx.compose.material.Text(text = "调用unity")
+//                }
+//                if(state2==true)
+//                {
+//                    context.startActivity(intent)
+//                }
                 LaunchedEffect(swipeableState2){
                     snapshotFlow {swipeableState2.currentValue  }.collect{ value ->
-                        if (value == Status .OPEN){navController.navigate(Plant.route){launchSingleTop=true}}
+                        if (value == Status .OPEN){
+//                            navController.navigate(Plant.route){launchSingleTop=true}
+                            context.startActivity(intent)
+                        }
                     }}
 
                 Image(

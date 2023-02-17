@@ -56,7 +56,9 @@ class MainActivity : AppCompatActivity() {
                     msg.data.getString("code"),
                     Toast.LENGTH_LONG
                 ).show()
-                else -> {}
+                else -> {
+                    Toast.makeText(this@MainActivity, msg.data.toString(), Toast.LENGTH_LONG)
+                    .show()}
             }
         }
     }

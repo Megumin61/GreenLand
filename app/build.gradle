@@ -8,12 +8,20 @@ plugins {
 }
 
 MobSDK {
-    appKey "3756609b23565"     //修改为你自己的appKey
-    appSecret "c51f491614d362d47d0a21a22742ba97"    //修改为你自己的appSecret
+    appKey "3779cda4614d3"     //修改为你自己的appKey
+    appSecret "d0646ecc4e49eb641c26c8356a367618"    //修改为你自己的appSecret
     SMSSDK {}
 }
 
 android {
+    signingConfigs {
+        debug {
+            storeFile file('F:\\zjs\\Android\\JetpackTest02\\222.jks')
+            storePassword '123456'
+            keyAlias 'key0'
+            keyPassword '123456'
+        }
+    }
     namespace 'com.example.jetpacktest02'
     compileSdk 33
     buildFeatures {

@@ -47,7 +47,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 2 -> Toast.makeText(this@MainActivity, "获取短信验证码成功", Toast.LENGTH_LONG).show()
                 3 -> {
-                    Log.i("Codr", "获取短信验证码失败")
+                    Log.i("code", "获取短信验证码失败")
                     Toast.makeText(this@MainActivity, msg.data.getString("code"), Toast.LENGTH_LONG)
                         .show()
                 }

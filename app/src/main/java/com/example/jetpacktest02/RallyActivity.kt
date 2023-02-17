@@ -76,6 +76,7 @@ class RallyActivity : ComponentActivity() {
 
 
 }
+
 @Composable
 fun UnityTest() {
     val context = LocalContext.current
@@ -84,15 +85,15 @@ fun UnityTest() {
         mutableStateOf(false)
     }
     Button(onClick = {
-        state2=true
+        state2 = true
     }) {
         Text(text = "调用unity")
     }
-    if(state2==true)
-    {
+    if (state2 == true) {
         context.startActivity(intent)
     }
 }
+
 @Composable
 fun NotificationTest(viewModel: NotificationTestViewModel = viewModel()) {
     val context = LocalContext.current
@@ -214,12 +215,11 @@ fun WordBookApp(userViewModel: UserViewModel = viewModel()) {
             mutableStateOf(false)
         }
         Button(onClick = {
-            state2=true
+            state2 = true
         }) {
             Text(text = "调用验证码")
         }
-        if(state2==true)
-        {
+        if (state2 == true) {
             context.startActivity(intent)
         }
 
@@ -329,7 +329,7 @@ fun RallyApp() {
             //管理路由：页面跳转
             NavHost(
                 navController = navController,
-                startDestination = Plant.route,
+                startDestination = LoginFront.route,
                 modifier = Modifier.padding(innerPadding)
 
             ) {

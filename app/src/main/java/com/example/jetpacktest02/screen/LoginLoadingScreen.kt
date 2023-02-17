@@ -26,6 +26,8 @@ import kotlinx.coroutines.delay
  */
 @Composable
 fun LoginLoadingScreen(navController: NavController){
+
+
     LaunchedEffect(key1 = 1){
         delay(2000)
         navController.navigate(LoginFront.route) { launchSingleTop = true; }

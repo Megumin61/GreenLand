@@ -14,14 +14,14 @@ MobSDK {
 }
 
 android {
-    signingConfigs {
-        debug {
-            storeFile file('F:\\zjs\\Android\\JetpackTest02\\222.jks')
-            storePassword '123456'
-            keyAlias 'key0'
-            keyPassword '123456'
-        }
-    }
+//    signingConfigs {
+//        debug {
+//            storeFile file('F:\\zjs\\Android\\JetpackTest02\\222.jks')
+//            storePassword '123456'
+//            keyAlias 'key0'
+//            keyPassword '123456'
+//        }
+//    }
     namespace 'com.example.jetpacktest02'
     compileSdk 33
     buildFeatures {

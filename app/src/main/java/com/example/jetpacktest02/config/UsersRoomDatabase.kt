@@ -35,7 +35,9 @@ abstract class UsersRoomDatabase : RoomDatabase() {
                     context.applicationContext,
                     UsersRoomDatabase::class.java,
                     "user_database"
-                ).addCallback(UserDatabaseCallback(scope)).allowMainThreadQueries().build()
+                ).addCallback(UserDatabaseCallback(scope))
+                    .allowMainThreadQueries()
+                    .build()
                 instance.getOpenHelper().getWritableDatabase()
                 INSTANCE = instance
                 // return instance

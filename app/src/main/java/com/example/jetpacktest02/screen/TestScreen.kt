@@ -22,21 +22,43 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.app.ActivityCompat
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.jetpacktest02.R
 import com.example.jetpacktest02.ViewModel.UserViewModel
+import com.example.jetpacktest02.compose.StepCounter
 import com.example.jetpacktest02.utils.GPSUtils
+import com.example.jetpacktest02.utils.TimeUtil
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.google.android.gms.location.*
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter", "StateFlowValueCalledInComposition")
-@OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun TestScreen(
     nav01: () -> Unit = {},
-    userViewModel: UserViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
+    userViewModel: UserViewModel = viewModel(),
 ) {
+    //获取位置实例
+//    PosGet(nav01,userViewModel)
+//    StepCounter(userViewModel)
+//    Column() {
+//        Text(text = userViewModel.uiState.value.stepDetector.value.toString())
+//        Text(text = userViewModel.uiState.value.stepCounter.value.toString())
+//        Text(text = "现在日期："+TimeUtil.getCurrentDate().toString())
+//        Text(text = "现在是周几："+TimeUtil.getWeekStr(TimeUtil.getCurrentDate()).toString())
+//    }
+
+}
+
+
+
+
+@OptIn(ExperimentalPermissionsApi::class)
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter", "StateFlowValueCalledInComposition")
+@Composable
+fun PosGet(nav01: () -> Unit = {},
+           userViewModel: UserViewModel = viewModel(),){
     var distance by remember {
         mutableStateOf(0.0)
     }

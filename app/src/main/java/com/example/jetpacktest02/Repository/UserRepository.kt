@@ -1,9 +1,12 @@
 package com.example.jetpacktest02.Repository
 
+import android.os.AsyncTask
+import android.provider.Contacts.People
 import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData
 import com.example.jetpacktest02.Entity.User
 import com.example.jetpacktest02.config.UsersApplication
+import com.example.jetpacktest02.dao.UserDao
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -34,11 +37,10 @@ class UserRepository @Inject constructor() {
             UsersApplication.database.userDao()?.deleteUser(user)
         }
     }
-
-    fun updateUser(user:User){
-        GlobalScope.launch {
-            UsersApplication.database.userDao()?.updateUser(user)
-        }
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun updateUser(user:User){
+            UsersApplication.database.userDao().updateUser(user)
     }
 
     fun getAllUsers(): LiveData<List<User>>? {
@@ -47,6 +49,30 @@ class UserRepository @Inject constructor() {
 
     fun getUserById(id : Int): User {
         return UsersApplication.database.userDao().getUserById(id)
+    }
+
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun insert(user: User) {
+        UsersApplication.database.userDao().insertUser(user)
+    }
+
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun updatePositionById(position:String,id:Int) {
+        UsersApplication.database.userDao().updatePositionById(position,id)
+    }
+
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun updateStepById(step:Int,id:Int) {
+        UsersApplication.database.userDao().updateStepById(step,id)
+    }
+
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun updateWeekStepById(weekStep:Int,id:Int) {
+        UsersApplication.database.userDao().updateWeekStepById(weekStep,id)
     }
 
 

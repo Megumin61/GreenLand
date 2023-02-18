@@ -1,12 +1,27 @@
 plugins {
     id 'com.android.application'
+    id 'com.mob.sdk'
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
+    id 'org.jetbrains.kotlin.plugin.serialization' version '1.7.10'
 }
 
+MobSDK {
+    appKey "3779cda4614d3"     //修改为你自己的appKey
+    appSecret "d0646ecc4e49eb641c26c8356a367618"    //修改为你自己的appSecret
+    SMSSDK {}
+}
 
 android {
+//    signingConfigs {
+//        debug {
+//            storeFile file('F:\\zjs\\Android\\JetpackTest02\\222.jks')
+//            storePassword '123456'
+//            keyAlias 'key0'
+//            keyPassword '123456'
+//        }
+//    }
     namespace 'com.example.jetpacktest02'
     compileSdk 33
     buildFeatures {
@@ -23,6 +38,10 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
 
+
+        ndk {
+            abiFilters 'armeabi-v7a', 'x86'
+        }
     }
 
     packagingOptions {
@@ -48,9 +67,13 @@ android {
 }
 
 dependencies {
+    //gif依赖
+    implementation "io.coil-kt:coil-compose:2.1.0"
+    implementation "io.coil-kt:coil-gif:2.1.0"
+
     //日历依赖
     implementation("com.himanshoe:kalendar:1.2.0")
-
+    implementation files('libs\\unity-classes.jar')
     //lottie 2D动画框架依赖
     def lottieVersion = "5.2.0"
     implementation "com.airbnb.android:lottie-compose:$lottieVersion"
@@ -156,5 +179,12 @@ dependencies {
 //viewpage指示器
     implementation "com.google.accompanist:accompanist-pager-indicators:$accompanist_version"
 
+    // Retrofit
+    implementation "com.squareup.retrofit2:retrofit:2.9.0"
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+// Retrofit with Kotlin serialization Converter
+    implementation "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0"
+    // Kotlin serialization
+    implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.0"
 
 }

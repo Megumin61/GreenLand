@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QCARConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="qcar_config.xsd">
+  <Tracking>
+    <ImageTarget name="8" size="1.000000 1.109375" />
+    <ImageTarget name="7" size="1.000000 0.917989" />
+    <ImageTarget name="6" size="1.000000 0.985375" />
+    <ImageTarget name="1" size="1.000000 1.042279" />
+    <ImageTarget name="1212121" size="1.000000 1.044037" />
+    <ImageTarget name="122222" size="1.000000 1.044037" />
+    <ImageTarget name="clap" size="1.000000 1.058601" />
+    <ImageTarget name="refuse" size="1.000000 0.969203" />
+    <ImageTarget name="success" size="1.000000 0.900192" />
+    <ImageTarget name="sad" size="1.000000 0.930818" />
+    <ImageTarget name="2121" size="1.000000 1.044037" />
+    <ImageTarget name="Group71" size="2.000000 1.015957" />
+    <ImageTarget name="Group6" size="1.000000 0.974490" />
+    <ImageTarget name="Group66" size="1.000000 0.974490" />
+    <ImageTarget name="pic2" size="1.000000 0.988604" />
+    <ImageTarget name="pic1" size="1.000000 0.990000" />
+    <ImageTarget name="mars_target_images_3" size="2.000000 3.411348" />
+    <ImageTarget name="2_20220821143859" size="1.500000 0.811170" />
+  </Tracking>
+</QCARConfig>

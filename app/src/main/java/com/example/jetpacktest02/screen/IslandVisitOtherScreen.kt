@@ -4,13 +4,17 @@ import android.annotation.SuppressLint
 import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import androidx.compose.foundation.*
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.Scaffold
+import androidx.compose.material.TopAppBar
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -23,14 +27,19 @@ import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.compose.ui.window.Dialog
+import androidx.navigation.NavController
 import com.airbnb.lottie.compose.*
+import com.example.jetpacktest02.IslandDeliver
+import com.example.jetpacktest02.IslandVisitOther
 import com.example.jetpacktest02.R
-import com.example.scaffolddemo.ui.theme.*
+import com.example.jetpacktest02.ViewModel.UserViewModel
+import com.example.scaffolddemo.ui.theme.Green1
+import com.example.scaffolddemo.ui.theme.Green2
+import com.example.scaffolddemo.ui.theme.LightGreen
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -38,25 +47,27 @@ import kotlinx.coroutines.launch
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun IslandVisitOtherScreen(
-
     //导航函数
     nav01: () -> Unit = {},
     nav02: () -> Unit = {},
     res: Int?,//用户头像
-    name: String?//用户名字
-) {
+    name: String?,//用户名字
+    navController: NavController,
+    userViewModel: UserViewModel
+){
+
     var webView: WebView
-    var showLoadingProgress by remember {
-        mutableStateOf(true)
-    }
+//    var showLoadingProgress by remember {
+//        mutableStateOf(true)
+//    }
     //植物状态显示变量
     var showPlantState by remember {
         mutableStateOf(false)
     }
-    LaunchedEffect(key1 = showLoadingProgress){
-        delay(10000)
-        showLoadingProgress = false
-    }
+//    LaunchedEffect(key1 = showLoadingProgress) {
+//        delay(10000)
+//        showLoadingProgress = false
+//    }
     val loadProgress = remember {
         mutableStateOf(0f)
     }
@@ -73,11 +84,27 @@ fun IslandVisitOtherScreen(
         restartOnPlay = true  // 暂停后重新播放是否从头开始
     )
 
+    //SnackBar状态变量
+    val snackbarHostState = remember { SnackbarHostState() }
+    val scope = rememberCoroutineScope()
 
     Surface(modifier = Modifier.fillMaxSize()) {
-
         //页面布局组件
         Scaffold(
+            snackbarHost = {
+                SnackbarHost(snackbarHostState) { data ->
+                    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
+                        Snackbar(
+                            modifier = Modifier.width(300.dp),
+                            snackbarData = data,
+                            containerColor = LightGreen,
+                            contentColor = Color.White,
+                            shape = RoundedCornerShape(30.dp),
+                        )
+                    }
+
+                }
+            },
             //顶部菜单栏
             topBar = {
                 TopAppBar(title = {
@@ -165,11 +192,11 @@ fun IslandVisitOtherScreen(
                             webView.setHorizontalScrollBarEnabled(false);
 
                             webView.apply {
-                                settings.domStorageEnabled = false
+                                settings.domStorageEnabled = true
                                 settings.javaScriptEnabled = true
                                 webViewClient = object : WebViewClient() {}
-//                                loadUrl("https://my.spline.design/-07468d271e6d991e66a8f68035dea85b/") //仙人球链接
-                                loadUrl("https://my.spline.design/-5cc97696ab5d97403db1ba1f59eaf94d/") //向白魁链接
+                                loadUrl("https://my.spline.design/-07468d271e6d991e66a8f68035dea85b/") //仙人球链接
+//                                loadUrl("https://my.spline.design/-5cc97696ab5d97403db1ba1f59eaf94d/") //向白魁链接
 
                             }
 
@@ -190,7 +217,7 @@ fun IslandVisitOtherScreen(
 
 
                     //页面其余组件
-                    if (!showLoadingProgress) {
+                    if (loadProgress.value/100>=1f) {
                         Column(
                             modifier = Modifier
                                 .fillMaxSize()
@@ -362,7 +389,17 @@ fun IslandVisitOtherScreen(
                                             contentDescription = null,
                                             modifier = Modifier
                                                 .size(75.dp)
-                                                .clickable { }
+                                                .clickable(
+                                                    onClick = {
+                                                        scope.launch {
+                                                            snackbarHostState.showSnackbar(
+                                                                "你拍了拍${name}的植物~"
+                                                            )
+                                                        }
+                                                    },
+                                                    indication = null,
+                                                    interactionSource = MutableInteractionSource()
+                                                )
                                         )
                                         Spacer(modifier = Modifier.width(20.dp))
                                         Image(
@@ -370,7 +407,29 @@ fun IslandVisitOtherScreen(
                                             contentDescription = null,
                                             modifier = Modifier
                                                 .size(75.dp)
-                                                .clickable { }
+                                                .clickable(
+                                                    onClick = {
+
+                                                        if (name != null) {
+                                                            userViewModel.uiState.value.visitItem.value.userName =
+                                                                name
+                                                        }
+                                                        if (res != null) {
+                                                            userViewModel.uiState.value.visitItem.value.userAvatar =
+                                                                res
+                                                        }
+                                                        userViewModel.uiState.value.deliverPageMode.value = 0 //切换为消息模式
+
+                                                        navController.navigate(IslandDeliver.route) {
+                                                            launchSingleTop = true; popUpTo(
+                                                            IslandVisitOther.route
+                                                        ) {}
+                                                        }
+
+                                                    },
+                                                    indication = null,
+                                                    interactionSource = MutableInteractionSource()
+                                                )
                                         )
                                         Spacer(modifier = Modifier.width(20.dp))
                                         Image(
@@ -378,7 +437,29 @@ fun IslandVisitOtherScreen(
                                             contentDescription = null,
                                             modifier = Modifier
                                                 .size(75.dp)
-                                                .clickable { }
+                                                .clickable(
+                                                    onClick = {
+
+                                                        if (name != null) {
+                                                            userViewModel.uiState.value.visitItem.value.userName =
+                                                                name
+                                                        }
+                                                        if (res != null) {
+                                                            userViewModel.uiState.value.visitItem.value.userAvatar =
+                                                                res
+                                                        }
+                                                        userViewModel.uiState.value.deliverPageMode.value = 1 //切换为消息模式
+
+                                                        navController.navigate(IslandDeliver.route) {
+                                                            launchSingleTop = true; popUpTo(
+                                                            IslandVisitOther.route
+                                                        ) {}
+                                                        }
+
+                                                    },
+                                                    indication = null,
+                                                    interactionSource = MutableInteractionSource()
+                                                )
                                         )
                                     }
                                 }
@@ -431,7 +512,7 @@ fun IslandVisitOtherScreen(
                 }
             }
 
-            if (showLoadingProgress) {
+            if (loadProgress.value/100<1f) {
                 Dialog(onDismissRequest = ({})) {
                     Box(
                         modifier = Modifier
@@ -460,4 +541,3 @@ fun IslandVisitOtherScreen(
         }
     }
 }
-

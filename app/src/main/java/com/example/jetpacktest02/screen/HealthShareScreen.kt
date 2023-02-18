@@ -67,6 +67,7 @@ import androidx.compose.ui.unit.sp
 import com.example.jetpacktest02.R
 import com.example.jetpacktest02.compose.MyTopAppBar
 import com.example.scaffolddemo.ui.theme.Green1
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import kotlinx.coroutines.delay
 import org.intellij.lang.annotations.JdkConstants.HorizontalAlignment
 
@@ -94,6 +95,7 @@ fun HealthShareScreen(
             animationSpec = tween(durationMillis = 1200)
         )
     ) {
+
 
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Box(

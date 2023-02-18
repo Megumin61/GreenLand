@@ -2,6 +2,7 @@ package com.example.jetpacktest02
 
 import MyCupBoardScreen
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -34,11 +35,9 @@ import com.example.jetpacktest02.ViewModel.NotificationTestViewModel
 import com.example.jetpacktest02.ViewModel.UserViewModel
 import com.example.jetpacktest02.compose.MyBottomNavBar
 import com.example.jetpacktest02.compose.StepCounter
-import com.example.jetpacktest02.config.UsersApplication
 import com.example.jetpacktest02.screen.*
 import com.example.jetpacktest02.ui.main.MessageMsgScreen
 import com.example.jetpacktest02.ui.main.*
-import com.example.jetpacktest02.utils.ApkUtils
 import com.example.jetpacktest02.utils.StepPremission
 import com.example.jetpacktest02.utils.TimeUtil
 import com.example.scaffolddemo.ui.theme.ScaffoldDemoTheme
@@ -64,9 +63,7 @@ class RallyActivity : ComponentActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, true)
 
 
-
         setContent {
-//            NotificationTest()
 //            WordBookApp()
             RallyApp()
 //            StepCounter() //全局计步器
@@ -86,6 +83,23 @@ class RallyActivity : ComponentActivity() {
 }
 
 @Composable
+fun UnityTest() {
+    val context = LocalContext.current
+    val intent = Intent(context, UnityPlayerActivity::class.java)
+    var state2 by remember {
+        mutableStateOf(false)
+    }
+    Button(onClick = {
+        state2 = true
+    }) {
+        Text(text = "调用unity")
+    }
+    if (state2 == true) {
+        context.startActivity(intent)
+    }
+}
+
+@Composable
 fun NotificationTest(viewModel: NotificationTestViewModel = viewModel()) {
     val context = LocalContext.current
     Column(
@@ -93,12 +107,12 @@ fun NotificationTest(viewModel: NotificationTestViewModel = viewModel()) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Button(onClick = {
-            viewModel.showNotification(context,"外卖提醒", "您好，您的外卖到了！")
+            viewModel.showNotification(context, "外卖提醒", "您好，您的外卖到了！")
         }) {
             Text(text = "创建一个新通知")
         }
         Button(onClick = {
-            viewModel.updateNotification(context,"订单提醒", "您有一条新的外卖订单，请及时接单！")
+            viewModel.updateNotification(context, "订单提醒", "您有一条新的外卖订单，请及时接单！")
         }) {
             Text(text = "更新通知")
         }
@@ -184,22 +198,36 @@ fun WordBookApp(userViewModel: UserViewModel = viewModel()) {
     Column {
         Text("现在表列表里有${users.size}条数据")
 
-        var text1 by remember {
-            mutableStateOf("false")
+//        var text1 by remember {
+//            mutableStateOf("false")
+//        }
+////        com.DefaultCompany.MyPlant
+//        Button(onClick = {
+//            ApkUtils.StartLaunchAPK(UsersApplication.context,"com.DefaultCompany.MyPlant","com.unity3d.player.UnityPlayerActivity")
+//
+//            if(            ApkUtils.CheckApkExist(UsersApplication.context,"com.DefaultCompany.MyPlant")){
+//                text1="找到了"
+//                ApkUtils.StartLaunchAPK(UsersApplication.context,"com.DefaultCompany.MyPlant","com.unity3d.player.UnityPlayerActivity")
+//            }else{
+//                text1="没找到"
+//            }
+//        }) {
+//            Text(text = text1)
+//        }
+        val context = LocalContext.current
+        val intent = Intent(context, MainActivity::class.java)
+        var state2 by remember {
+            mutableStateOf(false)
         }
-//        com.DefaultCompany.MyPlant
         Button(onClick = {
-            ApkUtils.StartLaunchAPK(UsersApplication.context,"com.DefaultCompany.MyPlant","com.unity3d.player.UnityPlayerActivity")
-
-            if(            ApkUtils.CheckApkExist(UsersApplication.context,"com.DefaultCompany.MyPlant")){
-                text1="找到了"
-                ApkUtils.StartLaunchAPK(UsersApplication.context,"com.DefaultCompany.MyPlant","com.unity3d.player.UnityPlayerActivity")
-            }else{
-                text1="没找到"
-            }
+            state2 = true
         }) {
-            Text(text = text1)
+            Text(text = "调用验证码")
         }
+        if (state2 == true) {
+            context.startActivity(intent)
+        }
+
         Button(onClick = { userViewModel.insert(user_insert) }) {
             Text(text = "insert")
         }
@@ -241,6 +269,7 @@ fun WordBookApp(userViewModel: UserViewModel = viewModel()) {
         }
     }
 }
+
 
 @SuppressLint("StateFlowValueCalledInComposition")
 @ExperimentalPermissionsApi
@@ -305,7 +334,7 @@ fun RallyApp() {
             //管理路由：页面跳转
             NavHost(
                 navController = navController,
-                startDestination = Plant.route,
+                startDestination = LoginLoading.route,
                 modifier = Modifier.padding(innerPadding)
 
             ) {
@@ -331,10 +360,34 @@ fun RallyApp() {
 
                 composable(route = Test.route) {
                     TestScreen(
-//                        userViewModel = userViewModel
                         nav01 = {
                             navController.navigate(Plant.route) { launchSingleTop = true; }
                         }, userViewModel = userViewModel
+                    )
+                }
+                composable(route = LoginFront.route) {
+                    LoginFrontScreen(
+                        navController = navController
+                    )
+                }
+                composable(route = PhoneLogin.route) {
+                    PhoneLoginScreen(
+                        navController = navController
+                    )
+                }
+                composable(route = AppIntroduction.route) {
+                    AppIntroductionScreen(
+                        navController = navController
+                    )
+                }
+                composable(route = CreateAccount.route) {
+                    CreateAccountScreen(
+                        navController = navController
+                    )
+                }
+                composable(route = LoginLoading.route) {
+                    LoginLoadingScreen(
+                        navController = navController
                     )
                 }
                 composable(route = PlantPlan.route) {
@@ -356,7 +409,7 @@ fun RallyApp() {
                             navController.navigate(PlanList.route) {
                                 launchSingleTop = true;
                             }
-                        }
+                        }, navController = navController
                     )
                 }
 
@@ -520,7 +573,7 @@ fun RallyApp() {
                         },
                         nav04 = {
                             //导航 目的地、返回路径
-                            navController.navigate(IslandVisitOther.route) {
+                            navController.navigate(IslandVisitMe.route) {
                                 launchSingleTop = true; popUpTo(Island.route) {}
                             }
                         },
@@ -547,12 +600,17 @@ fun RallyApp() {
                         },
                         nav04 = {
                             //导航 目的地、返回路径
-                            navController.navigate(IslandVisitOther.route) {
+                            navController.navigate(IslandVisitMe.route) {
                                 launchSingleTop = true; popUpTo(IslandExplore.route) {}
                             }
                         },
                         userViewModel,
-                        controller = navController
+                        controller = navController,
+                        navVisitOther = {
+                            navController.navigate(IslandVisitOther.route) {
+                                launchSingleTop = true; popUpTo(IslandExplore.route) {}
+                            }
+                        },
                     )
                 }
                 composable(route = IslandMemberList.route) {
@@ -593,6 +651,23 @@ fun RallyApp() {
                     )
                 }
                 composable(
+                    route = IslandVisitMe.route,
+                    //接收参数方
+                    arguments = listOf(navArgument("res") { type = NavType.IntType },
+                        navArgument("name") { type = NavType.StringType }
+                    )
+                ) {
+                    IslandVisitMeScreen(
+                        res = it.arguments?.getInt("res"), //传递用户头像
+                        name = it.arguments?.getString("name"), //传递用户名称
+                        nav01 = {
+                            navController.popBackStack()
+                        },
+                        navController = navController,
+                        userViewModel = userViewModel
+                    )
+                }
+                composable(
                     route = IslandVisitOther.route,
                     //接收参数方
                     arguments = listOf(navArgument("res") { type = NavType.IntType },
@@ -604,7 +679,9 @@ fun RallyApp() {
                         name = it.arguments?.getString("name"), //传递用户名称
                         nav01 = {
                             navController.popBackStack()
-                        }
+                        },
+                        navController = navController,
+                        userViewModel = userViewModel
                     )
                 }
 
@@ -751,9 +828,11 @@ fun RallyApp() {
                 composable(route = SharePost.route) {
                     SharePostScreen()
                 }
-               // composable(route = LightReminder.route) {
-                   //LightReminderScreen()
-               // }
+                composable(route = LightReminder.route) {
+                    LightReminderScreen(
+//                        navController = navController
+                    )
+                }
 
             }
         }

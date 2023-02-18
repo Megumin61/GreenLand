@@ -49,6 +49,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.TransformOrigin
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.font.FontWeight.Companion.W500
@@ -59,6 +60,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
@@ -67,9 +69,9 @@ import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.jetpacktest02.R
 import com.example.jetpacktest02.SharePost
 import com.example.jetpacktest02.ViewModel.NotificationTestViewModel
+
 import com.example.jetpacktest02.ViewModel.TapListItemModel
 import com.example.jetpacktest02.ViewModel.UserViewModel
-import com.example.jetpacktest02.config.UsersApplication
 import com.example.jetpacktest02.screen.FriendList
 import com.example.jetpacktest02.screen.IconButtonFriendList
 import com.example.scaffolddemo.ui.theme.*
@@ -95,7 +97,7 @@ fun PlantScreen(
     nav01: () -> Unit = {},
     userViewModel: UserViewModel,
     navController: NavController,
-    notificationTestviewModel: NotificationTestViewModel
+
 
 ) {
 
@@ -114,8 +116,10 @@ fun PlantScreen(
     LaunchedEffect(key1 = showHealthSumCard) {
 //        delay(300)
 //        showHealthSumCard = true
-        delay(200)
-        HealthSumCardAnim = true
+        if(showHealthSumCard == true){
+            delay(300)
+            HealthSumCardAnim = true
+        }
     }
     val progress by animateLottieCompositionAsState(
         composition,
@@ -136,7 +140,7 @@ fun PlantScreen(
             MainPlantPage(userViewModel, nav01, showSumCard)
         } else if (page == 1) {
 //            SecondPlantPage(userViewModel.uiState.value.PlantPage.value)
-            SecondPlantPage(userViewModel.uiState.value.PlantPage.value, notificationTestviewModel)
+            SecondPlantPage(userViewModel.uiState.value.PlantPage.value)
         }
     }
 
@@ -337,7 +341,7 @@ fun PlantScreen(
                                     modifier = Modifier
                                         .width(136.dp)
                                         .height(54.dp),
-                                    colors = ButtonDefaults.buttonColors(containerColor = LightGreen)
+                                    colors = ButtonDefaults.buttonColors(containerColor = Green5)
                                 ) {
                                     Text(
                                         text = "查看报告",
@@ -625,6 +629,7 @@ fun MainPlantPage(
                     .padding(20.dp)
                     .fillMaxHeight()
             ) {
+                Spacer(modifier = Modifier.height(10.dp))
                 AnimatedVisibility(
                     visible = state1,
                     enter = scaleIn(transformOrigin = TransformOrigin(0f, 0f)) +
@@ -788,7 +793,8 @@ fun MainPlantPage(
 //@OptIn(ExperimentalAnimationApi::class)
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
-fun SecondPlantPage(page: Int, notificationTestviewModel: NotificationTestViewModel) {
+fun SecondPlantPage(page: Int,viewModel: NotificationTestViewModel = viewModel()) {
+    val context = LocalContext.current
     val waterTime: Int = 0
     val step: Int = 0
     val sitTime: String = "6:31:20"
@@ -830,18 +836,8 @@ fun SecondPlantPage(page: Int, notificationTestviewModel: NotificationTestViewMo
                     Image(
                         painter = painterResource(id = R.drawable.g1_3_ic_watercount),
                         contentDescription = null,
-                        modifier = Modifier
-                            .height(180.dp)
-                            .clickable(
-                                onClick = {
-                                    notificationTestviewModel.showNotification(
-                                        context = UsersApplication.context,
-                                        "轻提醒",
-                                        "休息一下把"
-                                    )
-                                }, indication = null,
-                                interactionSource = MutableInteractionSource()
-                            )
+                        modifier = Modifier.height(180.dp).clickable ( onClick = {
+                            viewModel.showNotification(context,"轻提醒", "喝口水休息一下吧！")},indication = null,interactionSource = MutableInteractionSource())
                     )
                     Text(
                         text = waterTime.toString() + "次",
@@ -940,21 +936,21 @@ fun SecondPlantPage(page: Int, notificationTestviewModel: NotificationTestViewMo
                         color = Color.Black,
                         fontSize = 13.sp,
                         fontWeight = W500,
-                        modifier = Modifier.offset(25.dp, 167.dp)
+                        modifier = Modifier.offset(25.dp, 168.dp)
                     )
                     Text(
                         text = "2:23:17",
                         color = Color.Black,
                         fontSize = 13.sp,
                         fontWeight = W500,
-                        modifier = Modifier.offset(120.dp, 167.dp)
+                        modifier = Modifier.offset(110.dp, 168.dp)
                     )
                     Text(
                         text = "1:23:43",
                         color = Color.Black,
                         fontSize = 13.sp,
                         fontWeight = W500,
-                        modifier = Modifier.offset(215.dp, 167.dp)
+                        modifier = Modifier.offset(200.dp, 168.dp)
                     )
                 }
             }
@@ -1007,6 +1003,20 @@ fun PlantMsgItem(listItemModel: TapListItemModel) {
             )
         }
     }
-
-
 }
+
+@Composable
+fun NotificationTest(viewModel: NotificationTestViewModel = viewModel()) {
+    val context = LocalContext.current
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Button(onClick = {
+            viewModel.showNotification(context,"轻提醒", "喝口水休息一下吧！")
+        }) {
+            Text(text = "创建一个新通知")
+        }
+    }
+}
+

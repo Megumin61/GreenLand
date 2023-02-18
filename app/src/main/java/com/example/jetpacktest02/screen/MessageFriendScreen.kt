@@ -431,7 +431,7 @@ fun FriendList(
     ) {
         LazyColumn(
             state = state, modifier = Modifier
-                .padding(20.dp)
+                .padding(20.dp,20.dp,0.dp,20.dp)
                 .width(300.dp),
             horizontalAlignment = Alignment.Start
         ) {
@@ -656,7 +656,7 @@ fun TextButton(state: LazyListState) {
     val coroutineScope = rememberCoroutineScope()
 
     LazyColumn(
-        modifier = Modifier.offset(-5.dp, 20.dp),
+        modifier = Modifier.offset(-10.dp, 20.dp),
         horizontalAlignment = Alignment.End
     ) {
         // Add 5 items

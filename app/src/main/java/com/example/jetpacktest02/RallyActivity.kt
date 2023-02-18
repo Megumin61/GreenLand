@@ -16,6 +16,7 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
@@ -308,16 +309,26 @@ fun RallyApp() {
                 modifier = Modifier.padding(innerPadding)
 
             ) {
+//                composable(route = Plant.route) {
+//                    PlantScreen(
+//                        nav01 = {
+//                            navController.navigate(Plant.route) { launchSingleTop = true; }
+//                        }, userViewModel = userViewModel
+////                        navController = navController
+//                       // notificationTestviewModel=notificationTestviewModel
+//                    )
+//                }
+
+
                 composable(route = Plant.route) {
-                    PlantScreen(
+                    TestScreen(
+//                        userViewModel = userViewModel
                         nav01 = {
-                            navController.navigate(PlantPlan.route) { launchSingleTop = true; }
-                        },
-                        userViewModel = userViewModel,
-                        navController = navController,
-                        notificationTestviewModel=notificationTestviewModel
+                            navController.navigate(Plant.route) { launchSingleTop = true; }
+                        }, userViewModel = userViewModel
                     )
                 }
+
                 composable(route = Test.route) {
                     TestScreen(
 //                        userViewModel = userViewModel
@@ -740,9 +751,9 @@ fun RallyApp() {
                 composable(route = SharePost.route) {
                     SharePostScreen()
                 }
-                composable(route = LightReminder.route) {
-                    LightReminderScreen()
-                }
+               // composable(route = LightReminder.route) {
+                   //LightReminderScreen()
+               // }
 
             }
         }

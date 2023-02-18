@@ -38,10 +38,7 @@ import com.example.jetpacktest02.LoginFront
 import com.example.jetpacktest02.MainActivity
 import com.example.jetpacktest02.PhoneLogin
 import com.example.jetpacktest02.ViewModel.UserViewModel
-import com.example.scaffolddemo.ui.theme.Green1
-import com.example.scaffolddemo.ui.theme.GreenMain
-import com.example.scaffolddemo.ui.theme.Text3Gray
-import com.example.scaffolddemo.ui.theme.WechatGreen
+import com.example.scaffolddemo.ui.theme.*
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import java.util.*
 
@@ -59,7 +56,7 @@ fun LoginFrontScreen(
 
     //配置顶部状态栏颜色
     rememberSystemUiController().setStatusBarColor(
-        Green1, darkIcons = androidx.compose.material.MaterialTheme.colors.isLight
+        Flesh2, darkIcons = androidx.compose.material.MaterialTheme.colors.isLight
     )
 
 

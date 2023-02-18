@@ -252,6 +252,10 @@ object PlanBottom : RallyDestination {
     override val icon = Icons.Filled.MoneyOff
     override val route = "bottom"
 }
+object Vip : RallyDestination {
+    override val icon = Icons.Filled.MoneyOff
+    override val route = "vip"
+}
 
 
 

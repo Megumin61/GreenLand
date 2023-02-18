@@ -15,6 +15,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import com.example.jetpacktest02.HealthShare
 import com.example.jetpacktest02.LoginFront
+import com.example.scaffolddemo.ui.theme.Flesh2
 import com.example.scaffolddemo.ui.theme.Green1
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import kotlinx.coroutines.delay
@@ -35,7 +36,7 @@ fun LoginLoadingScreen(navController: NavController){
 
     //配置顶部状态栏颜色
     rememberSystemUiController().setStatusBarColor(
-        Green1,darkIcons = androidx.compose.material.MaterialTheme.colors.isLight)
+        Flesh2,darkIcons = androidx.compose.material.MaterialTheme.colors.isLight)
 
 
     Column{

@@ -627,14 +627,14 @@ fun MapBgAnimation(
         mutableStateOf(1f)
     }
     LaunchedEffect(1) {
-        delay(2000)
+        delay(3800)
         isPlaying = false
     }
     //控制循环播放次数 累加该值可以增加播放次数
     var interations by remember {
-        mutableStateOf(1)
+        mutableStateOf(3)
     }
-    val composition by rememberLottieComposition(LottieCompositionSpec.Asset("animations/map2.json"))
+    val composition by rememberLottieComposition(LottieCompositionSpec.Asset("animations/map.json"))
     val progress by animateLottieCompositionAsState(
         composition,
         iterations = interations,

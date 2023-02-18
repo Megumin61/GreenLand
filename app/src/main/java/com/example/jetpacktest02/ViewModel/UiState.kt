@@ -147,7 +147,7 @@ data class UiState constructor(
         ), FriendItem(
             userName = "skcccccccc",
             userAvatar = R.drawable.g2_1_img_user03,
-            userPlant = R.drawable.gif_05,
+            userPlant = R.drawable.gif_5,
             offsetX = -1f,
             offsetY = -0.7f,
             textMsg = "",
@@ -156,7 +156,7 @@ data class UiState constructor(
         ), FriendItem(
             userName = "foxbread",
             userAvatar = R.drawable.g2_1_img_user05,
-            userPlant = R.drawable.gif_06,
+            userPlant = R.drawable.gif_6,
             offsetX = 0.7f,
             offsetY = -1f,
             textMsg = "",
@@ -165,7 +165,7 @@ data class UiState constructor(
         ), FriendItem(
             userName = "sandro",
             userAvatar = R.drawable.g2_1_img_user02,
-            userPlant = R.drawable.gif_05,
+            userPlant = R.drawable.gif_5,
             offsetX = -1.2f,
             offsetY = 1.3f,
             textMsg = "大家新年快乐鸭！",
@@ -175,7 +175,7 @@ data class UiState constructor(
         FriendItem(
             userName = "sanchooo",
             userAvatar = R.drawable.g2_1_img_user02,
-            userPlant = R.drawable.gif_05,
+            userPlant = R.drawable.gif_5,
             offsetX = -0.2f,
             offsetY = 1.65f,
             textMsg = "大家好！我的名字叫桑乔。",

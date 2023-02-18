@@ -299,7 +299,7 @@ fun RallyApp() {
                         }
                     },
                     nav02 = {
-                        navController.navigate(VipUnsigned.route) {
+                        navController.navigate(Vip.route) {
                             launchSingleTop = true;popUpTo(
                             Plant.route
                         )
@@ -333,6 +333,11 @@ fun RallyApp() {
                 modifier = Modifier.padding(innerPadding)
 
             ) {
+                composable(route = Vip.route) {
+                    VipScreen(
+                    )
+                }
+
                 composable(route = Plant.route) {
                     PlantScreen(
                         nav01 = {

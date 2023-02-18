@@ -86,15 +86,15 @@ fun MyScreen(
         state = true
     }
     LaunchedEffect(key1 = state1){
-        delay(250)
+        delay(150)
         state1 = true
     }
     LaunchedEffect(key1 = state2){
-        delay(500)
+        delay(250)
         state2 = true
     }
     LaunchedEffect(key1 = state3){
-        delay(750)
+        delay(350)
         state3 = true
     }
     Box(

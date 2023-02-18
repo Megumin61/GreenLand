@@ -18,6 +18,7 @@ package com.example.jetpacktest02.ui.main
 
 import android.annotation.SuppressLint
 import android.text.style.BackgroundColorSpan
+import androidx.compose.animation.*
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
@@ -42,6 +43,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
@@ -65,7 +67,7 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
  * 负责人：方凯荣
  * 对接人：
  */
-@OptIn(ExperimentalPagerApi::class)
+@OptIn(ExperimentalPagerApi::class, ExperimentalAnimationApi::class)
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter", "StateFlowValueCalledInComposition")
 @Preview(showBackground=true,widthDp=393,heightDp=851)
 @Composable
@@ -165,6 +167,7 @@ fun PlantBagPossessedScreen(
     }
 
 
+
     //将底部pager的参数和顶部导航栏的参数state绑定，让pager响应顶部导航栏参数变化
     LaunchedEffect(pagerState) {
         snapshotFlow { state }.collect { page ->
@@ -233,6 +236,7 @@ fun PlantBagPossessedScreen(
         }
     ){
         Box(contentAlignment = Alignment.TopCenter){
+
             Image(
                 painter = painterResource(id = R.drawable.g5_1_1_bg),//背景图片
                 contentDescription = null,
@@ -261,6 +265,7 @@ fun PlantBagPossessedScreen(
                     Column() {
                         Column(horizontalAlignment = Alignment.CenterHorizontally) {
                             Box(contentAlignment = Alignment.TopCenter){
+
                                 Image(painter = painterResource(
                                     id = flowerPicSource),//植物图片--------------------------------------------------------------------------------------------------
                                     contentDescription = null,
@@ -269,6 +274,7 @@ fun PlantBagPossessedScreen(
                                         .padding(top=25.dp)
 
                                 )
+
                                 Row (
                                     modifier= Modifier
                                         .fillMaxWidth()

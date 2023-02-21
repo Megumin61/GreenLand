@@ -164,6 +164,11 @@ object PlantBagPossessed : RallyDestination {
     override val route = "5.1.1-PlantBag-possessed"
 }
 
+object PlantBagAchievement : RallyDestination {
+    override val icon = Icons.Filled.MoneyOff
+    override val route = "5.2-PlantBag-achievement"
+}
+
 object PlantFoot : RallyDestination {
     override val icon = Icons.Filled.MoneyOff
     override val route = "1.2.1-plant-foot"
@@ -257,6 +262,10 @@ object Vip : RallyDestination {
     override val route = "vip"
 }
 
+object MySetting : RallyDestination {
+    override val icon = Icons.Filled.MoneyOff
+    override val route = "7.3-Setting"
+}
 
 
 // Screens to be displayed in the top RallyTabRow

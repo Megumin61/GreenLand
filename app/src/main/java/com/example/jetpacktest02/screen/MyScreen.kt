@@ -17,9 +17,11 @@
 package com.example.jetpacktest02.ui.main
 
 import androidx.annotation.DrawableRes
+import androidx.compose.animation.*
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.BasicTextField
@@ -47,19 +49,58 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.jetpacktest02.R
+import com.example.scaffolddemo.ui.theme.Green1
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import kotlinx.coroutines.delay
 
 
 /**
  * The Bills screen.
  */
+@OptIn(ExperimentalAnimationApi::class)
 @Preview(showBackground=true,widthDp=393,heightDp=851)
 @Composable
 fun MyScreen(
 //            bills : (String) -> Unit = {},
-    nav01: () -> Unit={},//展柜
-    nav02: () -> Unit={},//健康总结
+
+    nav01: () -> Unit={},
+    nav02: () -> Unit={},
+    nav03: () -> Unit={},
+    nav04: () -> Unit={},
 
 ) {
+    rememberSystemUiController().setStatusBarColor(
+        Green1, darkIcons = androidx.compose.material.MaterialTheme.colors.isLight
+    )
+    var state by remember {
+        mutableStateOf(false)
+    }
+    var state1 by remember {
+        mutableStateOf(false)
+    }
+    var state2 by remember {
+        mutableStateOf(false)
+    }
+    var state3 by remember {
+        mutableStateOf(false)
+
+    }
+
+    LaunchedEffect(key1 = state){
+        state = true
+    }
+    LaunchedEffect(key1 = state1){
+        delay(150)
+        state1 = true
+    }
+    LaunchedEffect(key1 = state2){
+        delay(250)
+        state2 = true
+    }
+    LaunchedEffect(key1 = state3){
+        delay(350)
+        state3 = true
+    }
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -80,57 +121,87 @@ fun MyScreen(
 
         modifier = Modifier.padding(top=50.dp, start = 20.dp, end = 20.dp),
         verticalArrangement = Arrangement.spacedBy(10.dp)) {
-            UserInfo()
-            UserSign()
-            Image(
+            AnimatedVisibility(
+                visible = state1,
+                enter = scaleIn(transformOrigin = TransformOrigin(0f, 0f)) +
+                        fadeIn(initialAlpha = 0.3f) + expandIn(expandFrom = Alignment.TopStart),
+                exit = scaleOut(transformOrigin = TransformOrigin(0f, 0f)) +
+                        fadeOut() + shrinkOut(shrinkTowards = Alignment.TopStart)
+            ){UserInfo()}
+            AnimatedVisibility(
+                visible = state1,
+                enter = scaleIn(transformOrigin = TransformOrigin(0f, 0f)) +
+                        fadeIn(initialAlpha = 0.3f) + expandIn(expandFrom = Alignment.TopStart),
+                exit = scaleOut(transformOrigin = TransformOrigin(0f, 0f)) +
+                        fadeOut() + shrinkOut(shrinkTowards = Alignment.TopStart)
+            ){UserSign()}
+            AnimatedVisibility(
+                visible = state2,
+                enter = scaleIn(transformOrigin = TransformOrigin(0f, 0f)) +
+                        fadeIn(initialAlpha = 0.3f) + expandIn(expandFrom = Alignment.TopStart),
+                exit = scaleOut(transformOrigin = TransformOrigin(0f, 0f)) +
+                        fadeOut() + shrinkOut(shrinkTowards = Alignment.TopStart)
+            ){Image(
                 painter = painterResource(id = R.drawable.g8_1_img_card),
                 contentDescription = null,
-                modifier = Modifier.padding(horizontal = 13.dp)
-            )
-            Spacer(modifier = Modifier.height(10.dp))
-            Box(contentAlignment = Alignment.Center){
+                modifier = Modifier.padding(horizontal = 13.dp).clickable(onClick = nav04, indication = null, interactionSource = remember {
+                    MutableInteractionSource()
+                })
+            )}
+
+            Spacer(modifier = Modifier.height(0.dp))
+            AnimatedVisibility(
+                visible = state3,
+                enter = scaleIn(transformOrigin = TransformOrigin(0f, 0f)) +
+                        fadeIn(initialAlpha = 0.3f) + expandIn(expandFrom = Alignment.TopStart),
+                exit = scaleOut(transformOrigin = TransformOrigin(0f, 0f)) +
+                        fadeOut() + shrinkOut(shrinkTowards = Alignment.TopStart)
+            ){Box(contentAlignment = Alignment.Center){
                 Image(
                     painter = painterResource(id = R.drawable.g7_0_btnbg),
                     contentDescription = null,
                 )
                 Column(verticalArrangement = Arrangement.spacedBy(27.dp), horizontalAlignment = Alignment.CenterHorizontally) {
-                    Button(onClick = nav02,
-                        colors = ButtonDefaults.outlinedButtonColors(),
-                        contentPadding = PaddingValues(0.dp),
-                        shape = RectangleShape
-                    ) {
-                        Image(
-                            painter = painterResource(id = R.drawable.g7_0_ic_health),
-                            contentDescription = null,
-                            modifier = Modifier.size(width=300.dp,height=54.dp)
-                        )
 
-                    }
-                    Button(onClick = nav01,
-                        colors = ButtonDefaults.outlinedButtonColors(),
-                        contentPadding = PaddingValues(0.dp),
-                        shape = RectangleShape) {
-                        Image(
-                            painter = painterResource(id = R.drawable.g7_0_ic_cupboard),
-                            contentDescription = null,
-                            modifier = Modifier.size(width=300.dp,height=54.dp)
-                        )
+                    Image(
+                        painter = painterResource(id = R.drawable.g7_0_ic_health),
+                        contentDescription = null,
+                        modifier = Modifier.size(width=300.dp,height=54.dp)
+                            .clickable(onClick = nav02, indication = null, interactionSource = remember {
+                                MutableInteractionSource()
+                            })
 
-                    }
-                    Button(onClick = { /*TODO*/ },
-                        colors = ButtonDefaults.outlinedButtonColors(),
-                        contentPadding = PaddingValues(0.dp),
-                        shape = RectangleShape) {
-                        Image(
-                            painter = painterResource(id = R.drawable.g7_0_ic_settings),
-                            contentDescription = null,
-                            modifier = Modifier.size(width=300.dp,height=54.dp)
-                        )
 
-                    }
+                    )
+                    Image(
+                        painter = painterResource(id = R.drawable.g7_0_ic_cupboard),
+                        contentDescription = null,
+                        modifier = Modifier.size(width=300.dp,height=54.dp)
+                            .clickable(onClick = nav01, indication = null, interactionSource = remember {
+                                MutableInteractionSource()
+                            })
+
+                    )
+//                    Button(onClick = nav03,
+//                        colors = ButtonDefaults.outlinedButtonColors(),
+//                        contentPadding = PaddingValues(0.dp),
+//                        shape = RectangleShape) {
+//
+//
+//                    }
+                    Image(
+                        painter = painterResource(id = R.drawable.g7_0_ic_settings),
+                        contentDescription = null,
+                        modifier = Modifier.size(width=300.dp,height=54.dp)
+                            .clickable(onClick = nav03, indication = null, interactionSource = remember {
+                                MutableInteractionSource()
+                            })
+
+                    )
 
                 }
-            }
+            }}
+
 
         }
     }
@@ -165,13 +236,13 @@ fun BtnArea(nav01: () -> Unit={}){
 fun UserInfo(){
  Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(horizontal = 15.dp)){
      Image(
-         painter = painterResource(id = R.drawable.g7_0_userprofile),
+         painter = painterResource(id = R.drawable.g7_0_userprofile),//用户的头像--------------------------------------------
          contentDescription = null,
          Modifier.clip(CircleShape)
      )
      Spacer(modifier = Modifier.width(10.dp))
      Column() {
-         Text(text = "Miguminnn", fontSize = 18.sp,
+         Text(text = "Miguminnn", fontSize = 18.sp,//用户的昵称---------------------------
              fontWeight = W700, 
              color = Color(73,74,89))
          Spacer(modifier = Modifier.height(10.dp))

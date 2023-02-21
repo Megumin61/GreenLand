@@ -21,7 +21,11 @@ import android.text.BoringLayout
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
+
+import androidx.compose.ui.text.input.DeleteSurroundingTextInCodePointsCommand
+
 import androidx.lifecycle.ViewModel
+
 import com.example.jetpacktest02.R
 import com.example.jetpacktest02.screen.LocationDetails
 import com.google.accompanist.pager.rememberPagerState
@@ -240,7 +244,8 @@ data class UiState constructor(
             location = LocationDetails(latitude = 23.170444, longitude = 113.25302),
             isFriend = true,animDuration=200
         )
-    )
+    ),
+
 
 )
 
@@ -297,3 +302,4 @@ data class TapListItemModel(
     var res2: Int,
     var time: String
 )
+

@@ -24,7 +24,6 @@ import com.example.jetpacktest02.CreateAccount
 import com.example.jetpacktest02.LoginFront
 import com.example.jetpacktest02.Plant
 import com.example.jetpacktest02.R
-import com.example.jetpacktest02.ui.main.PlantFrame
 import com.example.scaffolddemo.ui.theme.*
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager

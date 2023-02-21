@@ -1,6 +1,7 @@
 package com.example.jetpacktest02
 
 import MyCupBoardScreen
+import MySettingScreen
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
@@ -151,9 +152,9 @@ fun WordBookApp(userViewModel: UserViewModel = viewModel()) {
 
     val user_insert = User("Hello", "13333", "dada")
     //如果没有数据则插入
-//    if (users.isEmpty()) {
-//        userViewModel.insert(user_insert)
-//    }
+    if (users.isEmpty()) {
+        userViewModel.insert(user_insert)
+    }
     val user_query: User = userViewModel.getUser(1)
     val step = user_query.step
     val weekStep = user_query.weekStep
@@ -329,7 +330,7 @@ fun RallyApp() {
             //管理路由：页面跳转
             NavHost(
                 navController = navController,
-                startDestination = LoginFront.route,
+                startDestination = Plant.route,
                 modifier = Modifier.padding(innerPadding)
 
             ) {
@@ -729,19 +730,40 @@ fun RallyApp() {
                     MyScreen(
                         nav01 = {
                             navController.navigate(MyCupBoard.route) { launchSingleTop = true; }
-                        },
+                        } ,
                         nav02 = {
                             navController.navigate(HealthPast.route) { launchSingleTop = true; }
-                        },
+                        } ,
+                        nav03 = {
+                            navController.navigate(MySetting.route) { launchSingleTop = true; }
+                        } ,
+
+
                     )
                 }
                 composable(route = PlantBagPossessed.route) {
                     PlantBagPossessedScreen(
                         nav01 = {
                             navController.navigate(Plant.route) { launchSingleTop = true; }
+                        },
+                        nav02 = {
+                            navController.navigate(PlantBagAchievement.route) { launchSingleTop = true; }
                         }
+
                     )
                 }
+                composable(route = PlantBagAchievement.route) {
+                    PlantBagAchievementScreen(
+                        nav01 = {
+                            navController.navigate(Plant.route) { launchSingleTop = true; }
+                        },
+                        nav02 = {
+                            navController.navigate(PlantBagPossessed.route) { launchSingleTop = true; }
+                        }
+
+                    )
+                }
+
                 composable(route = PlantFoot.route) {
                     PlantFootScreen(
                         nav01 = {
@@ -765,42 +787,58 @@ fun RallyApp() {
                         }
                     )
                 }
+
                 composable(route = MyCupBoard.route) {
                     MyCupBoardScreen(
-
-                    )
-                }
-                composable(route = HealthConclusion.route) {
-                    HealthConclusionScreen(
                         nav01 = {
-                            navController.navigate(HealthShare.route) { launchSingleTop = true; }
-                        }
+                            navController.navigate(My.route) { launchSingleTop = true; }
+                        },
+                        nav02 = {
+                            navController.navigate(VipUnsigned.route) { launchSingleTop = true; }
+                        },
                     )
                 }
+
                 composable(route = ReportCard.route) {
                     HealthSumCard(
                     )
                 }
-                composable(route = HealthShare.route) {
-                    HealthShareScreen(
-                    )
-                }
+//                composable(route = HealthShare.route) {
+//                    HealthShareScreen(
+//                    )
+//                }
 
-                composable(route = My.route) {
-                    BtnArea(
-                        nav01 = {
-                            navController.navigate(MyCupBoard.route) { launchSingleTop = true; }
-                        })
-                }
+
 
                 composable(route = HealthPast.route) {
                     HealthPastScreen(
-//                        nav01 = {
-//                            navController.navigate(MyCupBoard.route) { launchSingleTop = true; }
-//                        }
+                        nav01 = {
+                               navController.navigate(My.route) { launchSingleTop = true; }
+                            },
+                        nav02 = {
+                            navController.navigate(HealthShare.route) { launchSingleTop = true; }
+                        },
 
                     )
                 }
+
+                composable(route = MySetting.route) {
+                    MySettingScreen(
+                        nav01 = {
+                            navController.navigate(PlantBagAchievement.route) { launchSingleTop = true; }
+                        }
+
+                    )
+                }
+
+//                composable(route = HealthShare.route) {
+//                    HealthShareScreen(
+////                        nav01 = {
+////                            navController.navigate(HealthShare.route) { launchSingleTop = true; }
+////                        }
+//
+//                    )
+//                }
                 composable(route = SharePost.route) {
                     SharePostScreen()
                 }
@@ -809,6 +847,7 @@ fun RallyApp() {
 //                        navController = navController
                     )
                 }
+
 
             }
         }

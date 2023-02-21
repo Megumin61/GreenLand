@@ -152,9 +152,9 @@ fun WordBookApp(userViewModel: UserViewModel = viewModel()) {
 
     val user_insert = User("Hello", "13333", "dada")
     //如果没有数据则插入
-//    if (users.isEmpty()) {
-//        userViewModel.insert(user_insert)
-//    }
+    if (users.isEmpty()) {
+        userViewModel.insert(user_insert)
+    }
     val user_query: User = userViewModel.getUser(1)
     val step = user_query.step
     val weekStep = user_query.weekStep

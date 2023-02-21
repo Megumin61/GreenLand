@@ -106,7 +106,7 @@ class MarsViewModel : ViewModel() {
     fun updatePos(id:Int,pos:String){
         val json:String = "{\n" +
                 "    \"id\":\"${id}\",\n" +
-                "    \"step\":\"${pos}\"\n" +
+                "    \"pos\":\"${pos}\"\n" +
                 "}"
         val body = RequestBody.create(
             "application/json".toMediaTypeOrNull(), json

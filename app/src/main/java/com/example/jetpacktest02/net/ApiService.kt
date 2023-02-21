@@ -77,7 +77,8 @@ interface ApiService {
 }
 
 private const val BASE_URL =
-    "http://10.0.2.2:28391/back/"
+//    "http://10.0.2.2:28391/back/"
+    "http://42.192.100.220:28391/back/"
 
 /**
  * Use the Retrofit builder to build a retrofit object using a kotlinx.serialization converter

@@ -18,6 +18,7 @@ package com.example.jetpacktest02.ui.main
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.*
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Scaffold
 import androidx.compose.material.TopAppBar
@@ -74,7 +75,7 @@ fun MessageTapScreen(
                     IconButton(onClick = nav01) {
                         Icon(
                             painter = painterResource(id = R.drawable.g1_2_0_ic_arrow_left),
-                            contentDescription =""
+                            contentDescription = ""
                         )
 
                     }
@@ -93,7 +94,7 @@ fun MessageTapScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Spacer(Modifier.height(0.dp))
-            TapMessageList(nav01, nav02,userViewModel)
+            TapMessageList(nav01, nav02, userViewModel)
         }
     }
 
@@ -103,7 +104,7 @@ fun MessageTapScreen(
 //@Preview(showBackground = true, backgroundColor = 0xFFF0EAE2, heightDp = 180)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TapMessageList(nav01: () -> Unit = {}, nav02: () -> Unit,    userViewModel: UserViewModel) {
+fun TapMessageList(nav01: () -> Unit = {}, nav02: () -> Unit, userViewModel: UserViewModel) {
 
     val listDat1 by remember {
         mutableStateOf(
@@ -241,7 +242,12 @@ fun TapMessageItem(
                     contentDescription = null,
                     modifier = Modifier
                         .width(40.dp)
-                        .height(40.dp).clickable(onClick = {userViewModel.uiState.value.openDialog.value=true})
+                        .height(40.dp)
+                        .clickable(
+                            onClick = { userViewModel.uiState.value.openDialog.value = true },
+                            indication = null,
+                            interactionSource = MutableInteractionSource()
+                        )
                 )
             }
 

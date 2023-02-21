@@ -4,18 +4,18 @@ package com.example.jetpacktest02.screen
 import android.annotation.SuppressLint
 import android.util.Log
 import androidx.activity.compose.BackHandler
-import androidx.camera.core.Camera
 import androidx.camera.core.CameraSelector
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.compose.foundation.*
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Camera
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
@@ -34,12 +34,13 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
+import androidx.navigation.NavController
 import com.example.jetpacktest02.R
+import com.example.jetpacktest02.ViewModel.ExploreMemberItem
 import com.example.jetpacktest02.ViewModel.UserViewModel
 import com.example.scaffolddemo.ui.theme.*
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
@@ -55,6 +56,7 @@ import kotlinx.coroutines.launch
 fun IslandDeliverScreen(
     nav01: () -> Unit = {},
     userViewModel: UserViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
+    navController: NavController
 ) {
     //配置顶部状态栏颜色
     rememberSystemUiController().setStatusBarColor(
@@ -67,18 +69,24 @@ fun IslandDeliverScreen(
             rememberPermissionState(permission = "android.permission.CAMERA")
 
         //页面模式（留言模式:0 / 照片模式:1）
-        var pageMode by remember {
-            mutableStateOf(0)
-        }
+//        var deliverPageMode by remember {
+//            mutableStateOf(0)
+//        }
         var deliverBtnOffset by remember {
             mutableStateOf(0.dp)
         }
 
-        if (pageMode == 1) {
+        if (userViewModel.uiState.value.deliverPageMode.value == 1) {
             deliverBtnOffset = 30.dp
         } else {
             deliverBtnOffset = 0.dp
         }
+
+        //输入框文字
+        var text by remember { mutableStateOf("") }
+
+        //SnackBar状态变量
+        val snackbarHostState = remember { SnackbarHostState() }
 
         //底部抽屉 状态变量
         val state = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
@@ -86,6 +94,20 @@ fun IslandDeliverScreen(
 
         //顶部菜单栏
         Scaffold(
+            snackbarHost = {
+                androidx.compose.material3.SnackbarHost(snackbarHostState) { data ->
+                    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
+                        androidx.compose.material3.Snackbar(
+                            modifier = Modifier.width(200.dp),
+                            snackbarData = data,
+                            containerColor = LightGreen,
+                            contentColor = Color.White,
+                            shape = RoundedCornerShape(30.dp),
+                        )
+                    }
+
+                }
+            },
             topBar = {
                 TopAppBar(title = {
                     Box(
@@ -156,10 +178,10 @@ fun IslandDeliverScreen(
                                 //切换页面模式
                                 .clickable {
                                     permissionState.launchPermissionRequest()
-                                    if (pageMode == 0) {
-                                        pageMode = 1 //切换成照片模式
+                                    if (userViewModel.uiState.value.deliverPageMode.value== 0) {
+                                        userViewModel.uiState.value.deliverPageMode.value = 1 //切换成照片模式
                                     } else {
-                                        pageMode = 0
+                                        userViewModel.uiState.value.deliverPageMode.value = 0
                                     }
                                 },
                         )
@@ -182,7 +204,7 @@ fun IslandDeliverScreen(
                             elevation = 1.5.dp
 
                         ) {
-                            when (pageMode) {
+                            when (userViewModel.uiState.value.deliverPageMode.value) {
                                 0 -> {
                                     //上方区域
                                     Column(
@@ -196,7 +218,6 @@ fun IslandDeliverScreen(
                                         //文字输入区
                                         Row(modifier = Modifier) {
 
-                                            var text by remember { mutableStateOf("大家新年快乐鸭！！！开工大吉！！大家新年快乐鸭！！！开工大吉！！大家新年快乐鸭！！！开工大吉！！") }
 
                                             Box(
                                                 modifier = Modifier
@@ -264,7 +285,7 @@ fun IslandDeliverScreen(
                                                             color = Color(0xFF4552B8)
                                                         )
                                                     ) {
-                                                        append("20")
+                                                        append(text.length.toString())
                                                     }
                                                     append("/100")
                                                 },
@@ -293,14 +314,25 @@ fun IslandDeliverScreen(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         //留言模式下
-                        if (pageMode == 0) {
+                        if (userViewModel.uiState.value.deliverPageMode.value == 0) {
                             Image(
                                 painter = painterResource(id = R.drawable.g4_6_btn_sendmessage),
                                 contentDescription = null,
                                 modifier = Modifier
                                     .size(80.dp)
                                     .clickable(
-                                        onClick = {}
+                                        onClick = {
+                                            scope.launch {
+                                                snackbarHostState.showSnackbar(
+                                                    "发送成功~"
+                                                )
+                                            }
+                                            text = ""
+                                            //清空visitItem的值
+                                            userViewModel.uiState.value.visitItem.value = ExploreMemberItem()
+                                        },
+                                        indication = null,
+                                        interactionSource = MutableInteractionSource()
                                     ),
                             )
                         }
@@ -312,7 +344,9 @@ fun IslandDeliverScreen(
                                 modifier = Modifier
                                     .size(80.dp)
                                     .clickable(
-                                        onClick = {}
+                                        onClick = {},
+                                        indication = null,
+                                        interactionSource = MutableInteractionSource()
                                     ),
                             )
                             Image(
@@ -321,7 +355,9 @@ fun IslandDeliverScreen(
                                 modifier = Modifier
                                     .size(60.dp)
                                     .clickable(
-                                        onClick = {}
+                                        onClick = {},
+                                        indication = null,
+                                        interactionSource = MutableInteractionSource()
                                     ),
                             )
                         }
@@ -340,7 +376,7 @@ fun IslandDeliverScreen(
                             shape = CircleShape,
                             border = BorderStroke(2.dp, Green5)
                         ) {
-                            if(userViewModel.uiState.value.visitItem.value.userName!=""){
+                            if (userViewModel.uiState.value.visitItem.value.userName != "") {
                                 Image(
                                     painter = painterResource(id = userViewModel.uiState.value.visitItem.value.userAvatar),
                                     contentDescription = null,
@@ -387,7 +423,7 @@ fun IslandDeliverScreen(
                                     contentAlignment = Alignment.Center
                                 ) {
                                     Text(
-                                        text = "选择可见好友",
+                                        text = "选择可见成员",
                                         style = TextStyle(
                                             fontWeight = FontWeight.W900, //设置字体粗细
                                             fontSize = 16.sp,
@@ -472,6 +508,7 @@ fun IslandDeliverScreen(
                 onBack = {
                     scope.launch {
                         state.hide()
+
                     }
                 }
             )
@@ -504,7 +541,7 @@ fun IslandDeliverScreen(
                     }
                 },
                 permissionNotAvailableContent = { /*TODO*/ }) {
-                when (pageMode) {
+                when (userViewModel.uiState.value.deliverPageMode.value) {
                     0 -> {}
                     1 -> {
 //                        CameraX()
@@ -574,7 +611,7 @@ fun AvatarItem(
                 )
             }
             else -> {
-                if ( text == userViewModel.uiState.value.visitItem.value.userName) {
+                if (text == userViewModel.uiState.value.visitItem.value.userName) {
                     Surface(
                         shape = CircleShape,
                         border = BorderStroke(2.dp, Green5)
@@ -583,7 +620,8 @@ fun AvatarItem(
                             painter = painterResource(id = avatar),
                             contentDescription = null,
                             modifier = Modifier
-                                .size(50.dp).alpha(0.3f)
+                                .size(50.dp)
+                                .alpha(0.3f)
                                 .clickable(onClick = {}),
                         )
                     }

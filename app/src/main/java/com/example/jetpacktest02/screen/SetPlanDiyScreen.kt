@@ -32,6 +32,7 @@ import com.example.jetpacktest02.R
 import com.example.jetpacktest02.ViewModel.UserViewModel
 import com.example.scaffolddemo.ui.theme.*
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import kotlinx.coroutines.delay
 import kotlin.math.roundToInt
 
 
@@ -90,7 +91,7 @@ public fun DiyPlanName(PlanName: String, onNumChange: (String) -> Unit) {
 
 @Composable
 fun SetPlanDiyScreen(
-    nav01: () -> Unit = {},
+    nav01: () -> Unit = {},nav02: () -> Unit = {},
     userViewModel: UserViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
 ){
     rememberSystemUiController().setStatusBarColor(
@@ -174,11 +175,10 @@ fun SetPlanDiyScreen(
                         elevation = 0.dp, //设置阴影
                         //左侧按钮
                         navigationIcon = {
-                            IconButton(onClick = {}) {
-                                Icon(
-                                    bitmap = ImageBitmap.imageResource(id = R.drawable.g1_2_0_ic_arrow_left),
-                                    contentDescription = null
-                                ) }
+                            Icon(
+                                bitmap = ImageBitmap.imageResource(id = R.drawable.g1_2_0_ic_arrow_left),
+                                contentDescription = null, modifier = Modifier.offset(19.dp).clickable(onClick =nav02, indication = null, interactionSource = MutableInteractionSource() )
+                            )
                         },
                         //右侧按钮
                         actions = {
@@ -220,6 +220,19 @@ fun SetPlanDiyScreen(
                         DiyPlanName(PlanName=userViewModel.uiState.value.diyPlanName.value,onNumChange={userViewModel.uiState.value.diyPlanName.value=it})
 
                     }
+                    var state by remember {
+                        mutableStateOf(false)
+                    }
+                    LaunchedEffect(key1 = state) {
+                        delay(100)
+                        state = true
+                    }
+                    AnimatedVisibility(
+                        visible = state,
+                        enter =slideInVertically(initialOffsetY = { -40 }
+                        ) + fadeIn(initialAlpha = 0.3f),
+                        exit= fadeOut(targetAlpha = 0f) + shrinkVertically(shrinkTowards = Alignment.Top)
+                    ) {
 
 
                     Card(
@@ -443,7 +456,7 @@ fun SetPlanDiyScreen(
                                 }
                                 Spacer(modifier = Modifier.padding(16.dp))
                                 Button(
-                                    onClick =  nav01 ,
+                                    onClick =  nav01 ,interactionSource = MutableInteractionSource(),
                                     modifier = Modifier
                                         .width(136.dp)
                                         .height(54.dp),
@@ -458,7 +471,7 @@ fun SetPlanDiyScreen(
                                 Spacer(modifier = Modifier.padding(10.dp))
                             }
                         }
-                    }
+                    }}
                     Spacer(Modifier.height(20.dp))
 
 

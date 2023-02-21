@@ -62,10 +62,12 @@ import kotlinx.coroutines.delay
 @Composable
 fun MyScreen(
 //            bills : (String) -> Unit = {},
+
     nav01: () -> Unit={},
     nav02: () -> Unit={},
     nav03: () -> Unit={},
     nav04: () -> Unit={},
+
 ) {
     rememberSystemUiController().setStatusBarColor(
         Green1, darkIcons = androidx.compose.material.MaterialTheme.colors.isLight
@@ -160,6 +162,7 @@ fun MyScreen(
                     contentDescription = null,
                 )
                 Column(verticalArrangement = Arrangement.spacedBy(27.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+
                     Image(
                         painter = painterResource(id = R.drawable.g7_0_ic_health),
                         contentDescription = null,
@@ -167,6 +170,7 @@ fun MyScreen(
                             .clickable(onClick = nav02, indication = null, interactionSource = remember {
                                 MutableInteractionSource()
                             })
+
 
                     )
                     Image(

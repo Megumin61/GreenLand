@@ -16,12 +16,22 @@ class User() {
     @ColumnInfo(name = "phoneNumber")
     lateinit var phoneNumber: String
 
+    @ColumnInfo(name = "position")
+    lateinit var position: String
+    @ColumnInfo(name = "step")
+    var step: Int = 0
+    @ColumnInfo(name = "weekStep")
+    var weekStep: Int = 0
+
+
     //次构造
 //    @Ignore
-    constructor(id :Int,name: String, phoneNumber: String) : this() {
+    constructor(id :Int,name: String, phoneNumber: String,position:String,step:Int) : this() {
         this.id = id
         this.name = name
         this.phoneNumber = phoneNumber
+        this.position = position
+        this.step=step
     }
 
     //次构造
@@ -29,6 +39,16 @@ class User() {
     constructor(name: String, phoneNumber: String) : this() {
         this.name = name
         this.phoneNumber = phoneNumber
+    }
+    @Ignore
+    constructor(name: String, phoneNumber: String,position:String) : this() {
+        this.name = name
+        this.phoneNumber = phoneNumber
+        this.position = position
+    }
+    @Ignore
+    constructor(id: Int,position:String) : this() {
+        this.position = position
     }
 }
 

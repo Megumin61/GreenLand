@@ -15,31 +15,58 @@
  */
 package com.example.jetpacktest02.ViewModel
 
+import android.hardware.Sensor
+import android.hardware.SensorManager
 import android.text.BoringLayout
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
+
 import androidx.compose.ui.text.input.DeleteSurroundingTextInCodePointsCommand
+
+import androidx.lifecycle.ViewModel
+
 import com.example.jetpacktest02.R
 import com.example.jetpacktest02.screen.LocationDetails
 import com.google.accompanist.pager.rememberPagerState
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 import java.time.Duration
 
 /**
  * Data class that represents the UI state
  */
 data class UiState constructor(
+    //发布私信/图片页面模式 （留言模式:0 / 照片模式:1）
+    var deliverPageMode :MutableState<Int> = mutableStateOf(0),
 
-    var diyPlanName :MutableState<String> = mutableStateOf(  ""),
+    //运动步数 变量
+    var stepDetector: MutableState<Int> = mutableStateOf(0), // 自应用运行以来STEP_DETECTOR检测到的步数
+    var stepCounter: MutableState<Int> = mutableStateOf(0), // 自系统开机以来STEP_COUNTER检测到的步数
+    var currentDate: MutableState<String> = mutableStateOf(""),
+    var currentStep: MutableState<Int> = mutableStateOf(0),
+    var sensorManager: SensorManager? = null,
+    val hasRecord: MutableState<Boolean> = mutableStateOf(false),
+    //未记录之前的步数
+    var hasStepCount: MutableState<Int> = mutableStateOf(0),
+    //下次记录之前的步数
+    var previousStepCount: MutableState<Int> = mutableStateOf(0),
+
+
+    var diyPlanName: MutableState<String> = mutableStateOf(""),
     var currentRoot: String = "",
     //MessageScreen
     val openDialog: MutableState<Boolean> = mutableStateOf(false),
     //MessageFriendScreen
     val pageState: MutableState<Int> = mutableStateOf(0),
+    //PlantScreen
+    val PlantPage: MutableState<Int> = mutableStateOf(0),
     //ChooseSeedScreen
     val chooseSeedPageState: MutableState<Int> = mutableStateOf(0),
     var searchText: String = "",
-    val waterValue:Int=0,
+    val waterValue: Int = 0,
     val tabMessageList: MutableList<TapListItemModel> =
         mutableStateListOf(
             //如果需要改变下面对象里面的属性，需要单独复制一份生成一个新的对象才可以
@@ -97,7 +124,7 @@ data class UiState constructor(
         FriendItem(
             userName = "ajunGrit", //本人用户名
             userAvatar = R.drawable.g2_1_img_user04, //本人头像
-            userPlant = R.drawable.g4_2_img_flower_shadowed, //本人植物
+            userPlant = R.drawable.gif_4, //本人植物
             offsetX = 0f,
             offsetY = 0f,
             textMsg = "",
@@ -115,7 +142,7 @@ data class UiState constructor(
         FriendItem(
             userName = "megumin",
             userAvatar = R.drawable.g2_1_img_user01,
-            userPlant = R.drawable.g4_2_img_grass_shadowed,
+            userPlant = R.drawable.gif_4,
             offsetX = 1f,
             offsetY = 1f,
             textMsg = "",
@@ -124,7 +151,7 @@ data class UiState constructor(
         ), FriendItem(
             userName = "skcccccccc",
             userAvatar = R.drawable.g2_1_img_user03,
-            userPlant = R.drawable.g4_2_img_cactus_shadowed,
+            userPlant = R.drawable.gif_05,
             offsetX = -1f,
             offsetY = -0.7f,
             textMsg = "",
@@ -133,7 +160,7 @@ data class UiState constructor(
         ), FriendItem(
             userName = "foxbread",
             userAvatar = R.drawable.g2_1_img_user05,
-            userPlant = R.drawable.g4_2_img_flower_shadowed,
+            userPlant = R.drawable.gif_06,
             offsetX = 0.7f,
             offsetY = -1f,
             textMsg = "",
@@ -142,7 +169,7 @@ data class UiState constructor(
         ), FriendItem(
             userName = "sandro",
             userAvatar = R.drawable.g2_1_img_user02,
-            userPlant = R.drawable.g4_2_img_cactus_shadowed,
+            userPlant = R.drawable.gif_05,
             offsetX = -1.2f,
             offsetY = 1.3f,
             textMsg = "大家新年快乐鸭！",
@@ -152,7 +179,7 @@ data class UiState constructor(
         FriendItem(
             userName = "sanchooo",
             userAvatar = R.drawable.g2_1_img_user02,
-            userPlant = R.drawable.g4_2_img_grass_shadowed,
+            userPlant = R.drawable.gif_05,
             offsetX = -0.2f,
             offsetY = 1.65f,
             textMsg = "大家好！我的名字叫桑乔。",
@@ -166,48 +193,48 @@ data class UiState constructor(
         ExploreMemberItem(
             userName = "megumin",
             userAvatar = R.drawable.g2_1_img_user01,
-            userPlant = R.drawable.g4_2_img_grass_shadowed,
+            userPlant = R.drawable.gif_1,
             offsetX = 1f,
             offsetY = 1f,
             textMsg = "",
             imgMsg = 0,
             onlineTime = "10分钟前来过", msgTime = "", isFriend = true,
-            location = LocationDetails(latitude = 23.173542, longitude = 113.253338)
+            location = LocationDetails(latitude = 23.173542, longitude = 113.253338), animDuration = 1000
         ), ExploreMemberItem(
             userName = "skcs1234",
             userAvatar = R.drawable.g2_1_img_user03,
-            userPlant = R.drawable.g4_2_img_cactus_shadowed,
+            userPlant = R.drawable.gif_2,
             offsetX = -1f,
             offsetY = -0.7f,
             textMsg = "",
             imgMsg = 0,
             onlineTime = "10分钟前来过", msgTime = "",
-            location = LocationDetails(latitude = 23.17309, longitude = 113.253686)
+            location = LocationDetails(latitude = 23.17309, longitude = 113.253686), animDuration = 800
         ), ExploreMemberItem(
             userName = "fox1234",
             userAvatar = R.drawable.g2_1_img_user05,
-            userPlant = R.drawable.g4_2_img_flower_shadowed,
+            userPlant = R.drawable.gif_3,
             offsetX = 0.7f,
             offsetY = -1f,
             textMsg = "",
             imgMsg = R.drawable.g4_6_img_imgmsg,
             onlineTime = "10分钟前来过", msgTime = "20分钟前",
-            location = LocationDetails(latitude = 23.172914, longitude = 113.254578)
+            location = LocationDetails(latitude = 23.172914, longitude = 113.254578),animDuration = 500
         ), ExploreMemberItem(
             userName = "1234",
             userAvatar = R.drawable.g2_1_img_user02,
-            userPlant = R.drawable.g4_2_img_cactus_shadowed,
+            userPlant = R.drawable.gif_6,
             offsetX = -1.2f,
             offsetY = 1.3f,
             textMsg = "大家新年快乐鸭！",
             imgMsg = 0,
             onlineTime = "10分钟前来过", msgTime = "10分钟前",
-            location = LocationDetails(latitude = 23.173095, longitude = 113.254137)
+            location = LocationDetails(latitude = 23.173095, longitude = 113.254137),animDuration=600
         ),
         ExploreMemberItem(
             userName = "sanchooo",
             userAvatar = R.drawable.g2_1_img_user02,
-            userPlant = R.drawable.g4_2_img_grass_shadowed,
+            userPlant = R.drawable.gif_5,
             offsetX = -0.2f,
             offsetY = 1.65f,
             textMsg = "大家好！我的名字叫桑乔。",
@@ -215,7 +242,7 @@ data class UiState constructor(
             onlineTime = "10分钟前来过",
             msgTime = "10分钟前",
             location = LocationDetails(latitude = 23.170444, longitude = 113.25302),
-            isFriend = true
+            isFriend = true,animDuration=200
         )
     ),
 
@@ -263,7 +290,8 @@ data class ExploreMemberItem(
     var distance: Double = 0.0,
     var isFriend: Boolean = false,
     var location: LocationDetails = LocationDetails(latitude = 0.0, longitude = 0.0),
-    var animVisible: Boolean = false
+    var animVisible: Boolean = false,
+    var animDuration :Int =400
 )
 
 //消息，拍一拍消息列表对象
@@ -275,43 +303,3 @@ data class TapListItemModel(
     var time: String
 )
 
-//健康总结 各项健康指标的日数据
-data class HealthConclusionItem(
-    public var stepMonday:Int=200,//周一步数
-    var stepTuesday:Int,//周二步数
-    var stepWednesday:Int,//周三步数
-    var stepThursday:Int,//周四步数
-    var stepFriday:Int,//周五步数
-    var stepSaturday:Int,//周六步数
-    var stepSunday:Int,//周天步数
-    var avgStep:Float=(stepMonday+stepTuesday+stepWednesday+stepThursday+stepFriday+stepFriday+stepSaturday+stepSunday)/7f,//一周平均步数
-
-    var sitMonday:Int,//周一久坐时间
-    var sitTuesday:Int,//周二久坐时间
-    var sitWednesday:Int,//周三久坐时间
-    var sitThursday:Int,//周四久坐时间
-    var sitFriday:Int,//周五久坐时间
-    var sitSaturday:Int,//周六久坐时间
-    var sitSunday:Int,//周天久坐时间
-    var avgSit:Float=(sitMonday+sitTuesday+sitWednesday+sitThursday+sitFriday+sitFriday+sitSaturday+sitSunday)/7f,//一周平均久坐时间
-
-
-    var waterMonday:Int,//周一喝水次数
-    var waterTuesday:Int,//周二喝水次数
-    var waterWednesday:Int,//周三喝水次数
-    var waterThursday:Int,//周四喝水次数
-    var waterFriday:Int,//周五喝水次数
-    var waterSaturday:Int,//周六喝水次数
-    var waterSunday:Int,//周天喝水次数
-    var avgWater:Float=(waterMonday+waterTuesday+waterWednesday+waterThursday+waterFriday+waterFriday+waterSaturday+waterSunday)/7f,//一周平均喝水次数
-
-    var eatMonday:Int,//周一按时吃饭次数
-    var eatTuesday:Int,//周二按时吃饭次数
-    var eatWednesday:Int,//周三按时吃饭次数
-    var eatThursday:Int,//周四按时吃饭次数
-    var eatFriday:Int,//周五按时吃饭次数
-    var eatSaturday:Int,//周六按时吃饭次数
-    var eatSunday:Int,//周天按时吃饭次数
-    var avgEat:Float=(eatMonday+eatTuesday+eatWednesday+eatThursday+eatFriday+eatFriday+eatSaturday+eatSunday)/7f,//一周平均按时吃饭次数
-
-)

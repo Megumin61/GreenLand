@@ -21,11 +21,12 @@ class UserViewModel @Inject  constructor(val repository: UserRepository) : ViewM
 
     val uiState: StateFlow<UiState> = _uiState.asStateFlow()
 
+
     /**
      * Launching a new coroutine to insert the data in a non-blocking way
      */
     fun insert(user: User) = viewModelScope.launch {
-        repository.insertUser(user)
+        repository.insert(user)
     }
 
     fun getUserById(id: Int) = viewModelScope.launch {
@@ -35,16 +36,24 @@ class UserViewModel @Inject  constructor(val repository: UserRepository) : ViewM
     fun getUser(id: Int): User {
         return repository.getUserById(id)
     }
-    fun UpdateUser(user: User){
-        return repository.updateUser(user)
+    fun UpdateUser(user: User)=viewModelScope.launch{
+        repository.updateUser(user)
+    }
+    fun UpdatePositionById(id:Int,position:String)=viewModelScope.launch{
+        repository.updatePositionById(position,id)
+    }
+    fun UpdateStepById(id:Int,step:Int)=viewModelScope.launch{
+        repository.updateStepById(step,id)
     }
 
-    suspend fun InsertUser(user: User){
-        return repository.insertUser(user)
+    fun UpdateWeekStepById(id:Int,step:Int)=viewModelScope.launch{
+        repository.updateWeekStepById(step,id)
     }
+
     fun DeleteUser(id: Int){
         return repository.deleteUserById(id)
     }
+
 
 
 

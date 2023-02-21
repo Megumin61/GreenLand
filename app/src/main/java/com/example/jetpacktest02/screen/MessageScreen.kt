@@ -20,6 +20,7 @@ package com.example.jetpacktest02.ui.main
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.*
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Scaffold
@@ -99,7 +100,15 @@ fun MessageScreen(
             Spacer(Modifier.height(10.dp))
             IconButtonList(nav01, nav03, nav04, nav05)
             Spacer(Modifier.height(20.dp))
-            MessageList(nav01, nav02, nav03, nav04, nav05, userViewModel=userViewModel,controller=controller)
+            MessageList(
+                nav01,
+                nav02,
+                nav03,
+                nav04,
+                nav05,
+                userViewModel = userViewModel,
+                controller = controller
+            )
         }
 
 //        Column {
@@ -142,7 +151,11 @@ fun IconButtonList(
             modifier = Modifier
                 .width(80.dp)
                 .height(80.dp)
-                .clickable(onClick = nav01)
+                .clickable(
+                    onClick = nav01,
+                    indication = null,
+                    interactionSource = MutableInteractionSource()
+                )
 
         )
         Image(
@@ -151,7 +164,10 @@ fun IconButtonList(
             modifier = Modifier
                 .width(80.dp)
                 .height(80.dp)
-                .clickable(onClick = nav02)
+                .clickable(
+                    onClick = nav02, indication = null,
+                    interactionSource = MutableInteractionSource()
+                )
 
         )
         Image(
@@ -160,7 +176,10 @@ fun IconButtonList(
             modifier = Modifier
                 .width(80.dp)
                 .height(80.dp)
-                .clickable(onClick = nav03)
+                .clickable(
+                    onClick = nav03, indication = null,
+                    interactionSource = MutableInteractionSource()
+                )
 
         )
         Image(
@@ -169,7 +188,10 @@ fun IconButtonList(
             modifier = Modifier
                 .width(80.dp)
                 .height(80.dp)
-                .clickable(onClick = nav04)
+                .clickable(
+                    onClick = nav04, indication = null,
+                    interactionSource = MutableInteractionSource()
+                )
         )
 
     }
@@ -336,9 +358,12 @@ fun MessageItem(
                     modifier = Modifier
                         .width(40.dp)
                         .height(40.dp)
-                        .clickable(onClick = {
-                            userViewModel._uiState.value.openDialog.value = true
-                        })
+                        .clickable(
+                            onClick = {
+                                userViewModel._uiState.value.openDialog.value = true
+                            }, indication = null,
+                            interactionSource = MutableInteractionSource()
+                        )
                 )
             }
 
@@ -367,9 +392,12 @@ fun MessageItem(
                 modifier = Modifier
                     .width(45.dp)
                     .height(45.dp)
-                    .clickable(onClick = {
-                        controller.navigate("4.5-island-visitOther/$res/$name")//这里将id拼接到参数后面
-                    }),
+                    .clickable(
+                        onClick = {
+                            controller.navigate("4.5-island-visitOther/$res/$name")//这里将id拼接到参数后面
+                        }, indication = null,
+                        interactionSource = MutableInteractionSource()
+                    ),
             )
         }
     )
@@ -446,9 +474,12 @@ fun DialogCard(userViewModel: UserViewModel = androidx.lifecycle.viewmodel.compo
                             contentDescription = "",
                             modifier = Modifier
                                 .align(Alignment.CenterHorizontally)
-                                .clickable(onClick = {
-                                    userViewModel.uiState.value.openDialog.value = false
-                                }),
+                                .clickable(
+                                    onClick = {
+                                        userViewModel.uiState.value.openDialog.value = false
+                                    }, indication = null,
+                                    interactionSource = MutableInteractionSource()
+                                ),
                         )
                     }
                 }

@@ -109,10 +109,10 @@ fun MyBottomNavBar(
                     .padding(0.dp, 0.dp, 0.dp, 0.dp)
             )
             BottomNavigationItem(
-                selected = currentDestination?.hierarchy?.any { it.route == VipUnsigned.route } == true,
+                selected = currentDestination?.hierarchy?.any { it.route == Vip.route } == true,
                 onClick = nav02,
                 icon = {
-                    if (currentDestination?.route == VipUnsigned.route) {
+                    if (currentDestination?.route == Vip.route) {
                         Icon(
                             imageVector = ImageVector.vectorResource(id = navItems[1].active_icon),
                             contentDescription = null,
@@ -128,7 +128,7 @@ fun MyBottomNavBar(
                 },
                 alwaysShowLabel = true,
                 label = {
-                    if (currentDestination?.route == VipUnsigned.route) {
+                    if (currentDestination?.route == Vip.route) {
                         Text(text = "会员", color = activeColor)
                     } else {
                         Text(text = "会员", color = normalColor)

@@ -1,6 +1,7 @@
 package com.example.jetpacktest02.screen
 
 import android.annotation.SuppressLint
+import androidx.compose.animation.*
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
@@ -41,6 +42,7 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 
 import androidx.compose.ui.draw.scale
+import androidx.compose.ui.graphics.TransformOrigin
 
 import androidx.compose.ui.res.painterResource
 
@@ -49,6 +51,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.example.jetpacktest02.R
 import com.example.jetpacktest02.ui.main.*
+import kotlinx.coroutines.delay
 
 
 /**
@@ -57,6 +60,7 @@ import com.example.jetpacktest02.ui.main.*
  */
 
 
+@OptIn(ExperimentalAnimationApi::class)
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 fun VipScreen(userViewModel:UserViewModel) {
@@ -71,6 +75,35 @@ fun VipScreen(userViewModel:UserViewModel) {
 
     val ifVip = userViewModel.uiState.value.isVip.value
 
+    var state by remember {
+        mutableStateOf(false)
+    }
+    var state1 by remember {
+        mutableStateOf(false)
+    }
+    var state2 by remember {
+        mutableStateOf(false)
+    }
+    var state3 by remember {
+        mutableStateOf(false)
+
+    }
+
+    LaunchedEffect(key1 = state){
+        state = true
+    }
+    LaunchedEffect(key1 = state1){
+        delay(150)
+        state1 = true
+    }
+    LaunchedEffect(key1 = state2){
+        delay(250)
+        state2 = true
+    }
+    LaunchedEffect(key1 = state3){
+        delay(350)
+        state3 = true
+    }
 
     //配置顶部状态栏颜色
     rememberSystemUiController().setStatusBarColor(
@@ -99,115 +132,124 @@ fun VipScreen(userViewModel:UserViewModel) {
         , verticalArrangement = Arrangement.SpaceBetween
 //             verticalArrangement = Arrangement.Center
     ){
-        if (ifVip) {
-            //会员已激活卡片
-            Image(
-                painter = painterResource(id = com.example.jetpacktest02.R.drawable.g7_0_img_vipcard),
-                contentDescription = null,
-                modifier = Modifier.size(width = 323.dp, height = 165.dp).offset(0.dp,0.dp)
-            )
+        AnimatedVisibility(
+            visible = state1,
+            enter = scaleIn(transformOrigin = TransformOrigin(0f, 0f)) +
+                    fadeIn(initialAlpha = 0.3f) + expandIn(expandFrom = Alignment.TopStart),
+            exit = scaleOut(transformOrigin = TransformOrigin(0f, 0f)) +
+                    fadeOut() + shrinkOut(shrinkTowards = Alignment.TopStart)
+        ){
+            if (ifVip) {
+                //会员已激活卡片
+                Image(
+                    painter = painterResource(id = com.example.jetpacktest02.R.drawable.g7_0_img_vipcard),
+                    contentDescription = null,
+                    modifier = Modifier.size(width = 323.dp, height = 165.dp).offset(0.dp,0.dp)
+                )
+            }
+            if(!ifVip) {
+                //会员未激活卡片
+                Image(
+                    painter = painterResource(id = com.example.jetpacktest02.R.drawable.g7_0_vipinactived),
+                    contentDescription = null,
+                    modifier = Modifier.size(width = 323.dp, height = 155.dp).offset(0.dp,0.dp)
+                )
+            }
         }
-        if(!ifVip) {
-            //会员未激活卡片
-            Image(
-                painter = painterResource(id = com.example.jetpacktest02.R.drawable.g7_0_vipinactived),
-                contentDescription = null,
-                modifier = Modifier.size(width = 323.dp, height = 155.dp).offset(0.dp,0.dp)
-            )
+        AnimatedVisibility(
+            visible = state2,
+            enter = scaleIn(transformOrigin = TransformOrigin(0f, 0f)) +
+                    fadeIn(initialAlpha = 0.3f) + expandIn(expandFrom = Alignment.TopStart),
+            exit = scaleOut(transformOrigin = TransformOrigin(0f, 0f)) +
+                    fadeOut() + shrinkOut(shrinkTowards = Alignment.TopStart)
+        )
+        {
+            LazyColumn(
+                Modifier
+                    .fillMaxWidth() // 宽度填满父空间
+                    .height(350.dp)
+                    .padding(top = 0.dp, start = 0.dp, end = 0.dp, bottom = 0.dp)
+                    .offset(0.dp,0.dp),
+
+
+                verticalArrangement = Arrangement.spacedBy(22.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+
+                content = {
+
+                    item{
+                        Image(
+                            painter = painterResource(id = com.example.jetpacktest02.R.drawable.g8_1_v1),
+                            contentDescription = null,
+                            modifier = Modifier.size(width = 323.dp, height = 95.dp)
+                        )
+                    }
+                    item{
+                        Image(
+                            painter = painterResource(id = com.example.jetpacktest02.R.drawable.g8_1_v2),
+                            contentDescription = null,
+                            modifier = Modifier.size(width = 323.dp, height = 95.dp)
+                        )
+                    }
+                    item{
+                        Image(
+                            painter = painterResource(id = com.example.jetpacktest02.R.drawable.g8_1_v3),
+                            contentDescription = null,
+                            modifier = Modifier.size(width = 323.dp, height = 95.dp)
+                        )
+                    }
+                    item{
+                        Image(
+                            painter = painterResource(id = com.example.jetpacktest02.R.drawable.g8_1_v4),
+                            contentDescription = null,
+                            modifier = Modifier.size(width = 323.dp, height = 95.dp)
+                        )
+                    }
+
+                    item{
+                        Image(
+                            painter = painterResource(id = com.example.jetpacktest02.R.drawable.g8_1_v5),
+                            contentDescription = null,
+                            modifier = Modifier.size(width = 323.dp, height = 95.dp)
+                        )
+                    }
+
+
+
+                })
         }
-        LazyColumn(
-            Modifier
-                .fillMaxWidth() // 宽度填满父空间
-                .height(350.dp)
-                .padding(top = 0.dp, start = 0.dp, end = 0.dp, bottom = 0.dp)
-                .offset(0.dp,0.dp),
+
+        AnimatedVisibility(
+            visible = state3,
+            enter = scaleIn(transformOrigin = TransformOrigin(0f, 0f)) +
+                    fadeIn(initialAlpha = 0.3f) + expandIn(expandFrom = Alignment.TopStart),
+            exit = scaleOut(transformOrigin = TransformOrigin(0f, 0f)) +
+                    fadeOut() + shrinkOut(shrinkTowards = Alignment.TopStart)
+        ){
+            Column(modifier = Modifier.fillMaxWidth().padding(bottom = 30.dp, end = 20.dp), verticalArrangement = Arrangement.Bottom, horizontalAlignment = Alignment.End) {
+                Button(onClick = {ifdialog=true },
+                    shape = RoundedCornerShape(27.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = GreenMain,
+                        contentColor = GreenMain
+                    ),
+                    modifier = Modifier
+                        .size(width = 204.dp, height = 50.dp)
+                    ,
 
 
-            verticalArrangement = Arrangement.spacedBy(22.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
+                    ) {
 
-            content = {
-
-                item{
-                    Image(
-                        painter = painterResource(id = com.example.jetpacktest02.R.drawable.g8_1_v1),
-                        contentDescription = null,
-                        modifier = Modifier.size(width = 323.dp, height = 95.dp)
-                    )
+                    Spacer(Modifier.size(ButtonDefaults.IconSpacing))
+                    Text(text = "确认协议并开通", color = Color.White , fontSize = 18.sp)
                 }
-                item{
-                    Image(
-                        painter = painterResource(id = com.example.jetpacktest02.R.drawable.g8_1_v2),
-                        contentDescription = null,
-                        modifier = Modifier.size(width = 323.dp, height = 95.dp)
-                    )
-                }
-                item{
-                    Image(
-                        painter = painterResource(id = com.example.jetpacktest02.R.drawable.g8_1_v3),
-                        contentDescription = null,
-                        modifier = Modifier.size(width = 323.dp, height = 95.dp)
-                    )
-                }
-                item{
-                    Image(
-                        painter = painterResource(id = com.example.jetpacktest02.R.drawable.g8_1_v4),
-                        contentDescription = null,
-                        modifier = Modifier.size(width = 323.dp, height = 95.dp)
-                    )
-                }
-
-                item{
-                    Image(
-                        painter = painterResource(id = com.example.jetpacktest02.R.drawable.g8_1_v5),
-                        contentDescription = null,
-                        modifier = Modifier.size(width = 323.dp, height = 95.dp)
-                    )
-                }
-
-
-
-            })
-
-        Column(modifier = Modifier.fillMaxWidth().padding(bottom = 30.dp, end = 20.dp), verticalArrangement = Arrangement.Bottom, horizontalAlignment = Alignment.End) {
-            Button(onClick = {ifdialog=true },
-                shape = RoundedCornerShape(27.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = GreenMain,
-                    contentColor = GreenMain
-                ),
-                modifier = Modifier
-                    .size(width = 204.dp, height = 50.dp)
-                ,
-
-
-                ) {
-
-                Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-                Text(text = "确认协议并开通", color = Color.White , fontSize = 18.sp)
             }
         }
 
 
+
     }
-//    Button(onClick = {ifdialog=true },
-//        shape = RoundedCornerShape(27.dp),
-//        colors = ButtonDefaults.buttonColors(
-//            containerColor = GreenMain,
-//            contentColor = GreenMain
-//        ),
-//        modifier = Modifier
-//            .size(width = 204.dp, height = 50.dp)
-//            .offset(160.dp, 670.dp)
-//
-//        ,
-//
-//
-//        ) {
-//
-////        Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-//        Text(text = "确认协议并开通", color = Color.White , fontSize = 18.sp)
-//    }
+
     if (ifdialog) {
         //背景颜色
         Image(

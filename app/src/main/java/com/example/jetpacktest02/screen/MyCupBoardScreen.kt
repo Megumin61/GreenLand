@@ -2,16 +2,18 @@ import android.annotation.SuppressLint
 import android.icu.text.CurrencyPluralInfo
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
@@ -22,8 +24,10 @@ import androidx.compose.ui.unit.sp
 import com.example.jetpacktest02.R
 import com.example.jetpacktest02.ui.main.HealthTopAppBar
 import com.example.jetpacktest02.ui.main.HealthViewTabRow
+import com.example.scaffolddemo.ui.theme.DateBlue
 import com.example.scaffolddemo.ui.theme.Green1
 import com.example.scaffolddemo.ui.theme.Green2
+import com.example.scaffolddemo.ui.theme.GreenMain
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.HorizontalPagerIndicator
@@ -37,7 +41,11 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 @OptIn(ExperimentalPagerApi::class)
 @Preview(showBackground=true,widthDp=393,heightDp=851)
 @Composable
-fun MyCupBoardScreen(nav01: () -> Unit={},) {
+fun MyCupBoardScreen(nav01: () -> Unit={},
+                     nav02: () -> Unit={},) {
+
+    var ifdialog by remember{
+        mutableStateOf(false)}
     rememberSystemUiController().setStatusBarColor(
         Green1, darkIcons = androidx.compose.material.MaterialTheme.colors.isLight
     )
@@ -104,78 +112,283 @@ fun MyCupBoardScreen(nav01: () -> Unit={},) {
 
         contentAlignment = Alignment.TopCenter
     ){
+
         Box(){
+
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 val pagerState: PagerState = remember { PagerState() }
 
                 HorizontalPager(count = 3, state = pagerState) { page ->
                     if (page == 0) {
-                        CupBoard1()
+                        Box(contentAlignment = Alignment.Center) {
+                            Image(
+                                painter = painterResource(
+                                    id = R.drawable.g7_2_cupboard
+                                ),
+                                contentDescription = null,
+                            )
+                            Row(horizontalArrangement = Arrangement.spacedBy(18.dp)
+                                , modifier = Modifier.padding(top=5.dp)) {
+                                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                                    Plant01()
+                                    Plant02()
+                                    Column(horizontalAlignment = Alignment.CenterHorizontally,
+                                        verticalArrangement = Arrangement.spacedBy(0.dp)
+                                    ) {
+                                        Image(painter = painterResource(
+                                            id = R.drawable.g7_2_img_add),
+                                            contentDescription = null,
+                                        )
+                                        Text(text = "", color = Color.White, fontWeight = FontWeight.W700, fontSize = 12.sp)
+                                    }
+                                }
+                                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                                    Plant03()
+                                    Plant04()
+                                    Column(horizontalAlignment = Alignment.CenterHorizontally,
+                                        verticalArrangement = Arrangement.spacedBy(0.dp)
+                                    ) {
+                                        Image(painter = painterResource(
+                                            id = R.drawable.g7_2_img_add),
+                                            contentDescription = null,
+                                        )
+                                        Text(text = "", color = Color.White, fontWeight = FontWeight.W700, fontSize = 12.sp)
+                                    }
+                                }
+                            }
+                        }
                     }
                     if (page == 1) {
-                        CupBoard2()
-                    }
-                    if (page == 2) {
-                        CupBoard3()
+                        Box(contentAlignment = Alignment.Center){
+                            Image(painter = painterResource(
+                                id = R.drawable.g7_2_cupboard),
+                                contentDescription = null,
+                            )
+                            Row(horizontalArrangement = Arrangement.spacedBy(18.dp)){
+                                Column(horizontalAlignment = Alignment.CenterHorizontally){
+                                    Column(horizontalAlignment = Alignment.CenterHorizontally,
+                                        verticalArrangement = Arrangement.spacedBy(0.dp)
+                                    ) {
+                                        Image(painter = painterResource(
+                                            id = R.drawable.g7_2_img_locked),
+                                            contentDescription = null,
+                                            modifier = Modifier.clickable(onClick =  {ifdialog=true })
+                                        )
+                                        Text(text = "", color = Color.White, fontWeight = FontWeight.W700, fontSize = 13.sp)
+                                    }
+                                    Column(horizontalAlignment = Alignment.CenterHorizontally,
+                                        verticalArrangement = Arrangement.spacedBy(0.dp)
+                                    ) {
+                                        Image(painter = painterResource(
+                                            id = R.drawable.g7_2_img_locked),
+                                            contentDescription = null,
+                                            modifier = Modifier.clickable(onClick =  {ifdialog=true })
+                                        )
+                                        Text(text = "", color = Color.White, fontWeight = FontWeight.W700, fontSize = 13.sp)
+                                    }
+                                    Column(horizontalAlignment = Alignment.CenterHorizontally,
+                                        verticalArrangement = Arrangement.spacedBy(0.dp)
+                                    ) {
+                                        Image(painter = painterResource(
+                                            id = R.drawable.g7_2_img_locked),
+                                            contentDescription = null,
+                                            modifier = Modifier.clickable(onClick =  {ifdialog=true })
+                                        )
+                                        Text(text = "", color = Color.White, fontWeight = FontWeight.W700, fontSize = 13.sp)
+                                    }
+                                }
+                                Column (horizontalAlignment = Alignment.CenterHorizontally){
+                                    Column(horizontalAlignment = Alignment.CenterHorizontally,
+                                        verticalArrangement = Arrangement.spacedBy(0.dp)
+                                    ) {
+                                        Image(painter = painterResource(
+                                            id = R.drawable.g7_2_img_locked),
+                                            contentDescription = null,
+                                            modifier = Modifier.clickable(onClick =  {ifdialog=true })
+                                        )
+                                        Text(text = "", color = Color.White, fontWeight = FontWeight.W700, fontSize = 13.sp)
+                                    }
+                                    Column(horizontalAlignment = Alignment.CenterHorizontally,
+                                        verticalArrangement = Arrangement.spacedBy(0.dp)
+                                    ) {
+                                        Image(painter = painterResource(
+                                            id = R.drawable.g7_2_img_locked),
+                                            contentDescription = null,
+                                            modifier = Modifier.clickable(onClick =  {ifdialog=true })
+                                        )
+                                        Text(text = "", color = Color.White, fontWeight = FontWeight.W700, fontSize = 13.sp)
+                                    }
+                                    Column(horizontalAlignment = Alignment.CenterHorizontally,
+                                        verticalArrangement = Arrangement.spacedBy(0.dp)
+                                    ) {
+                                        Image(painter = painterResource(
+                                            id = R.drawable.g7_2_img_locked),
+                                            contentDescription = null,
+                                            modifier = Modifier.clickable(onClick =  {ifdialog=true })
+                                        )
+                                        Text(text = "", color = Color.White, fontWeight = FontWeight.W700, fontSize = 13.sp)
+                                    }
+                                }
+                            }
                     }
 
+
                 }
+                    if (page == 2) {
+                        Box(contentAlignment = Alignment.Center) {
+                            Image(
+                                painter = painterResource(
+                                    id = R.drawable.g7_2_cupboard
+                                ),
+                                contentDescription = null,
+                            )
+                            Row(modifier=Modifier.padding(top=0.dp),
+                                horizontalArrangement = Arrangement.spacedBy(18.dp)) {
+                                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                                    Column(horizontalAlignment = Alignment.CenterHorizontally,
+                                        verticalArrangement = Arrangement.spacedBy(0.dp)
+                                    ) {
+                                        Image(painter = painterResource(
+                                            id = R.drawable.g7_2_img_locked),
+                                            contentDescription = null,
+                                            modifier = Modifier.clickable(onClick =  {ifdialog=true })
+                                        )
+                                        Text(text = "", color = Color.White, fontWeight = FontWeight.W700, fontSize = 13.sp)
+                                    }
+                                    Column(horizontalAlignment = Alignment.CenterHorizontally,
+                                        verticalArrangement = Arrangement.spacedBy(0.dp)
+                                    ) {
+                                        Image(painter = painterResource(
+                                            id = R.drawable.g7_2_img_locked),
+                                            contentDescription = null,
+                                            modifier = Modifier.clickable(onClick =  {ifdialog=true })
+                                        )
+                                        Text(text = "", color = Color.White, fontWeight = FontWeight.W700, fontSize = 13.sp)
+                                    }
+                                    Column(horizontalAlignment = Alignment.CenterHorizontally,
+                                        verticalArrangement = Arrangement.spacedBy(0.dp)
+                                    ) {
+                                        Image(painter = painterResource(
+                                            id = R.drawable.g7_2_img_locked),
+                                            contentDescription = null,
+                                            modifier = Modifier.clickable(onClick =  {ifdialog=true })
+                                        )
+                                        Text(text = "", color = Color.White, fontWeight = FontWeight.W700, fontSize = 13.sp)
+                                    }
+                                }
+                                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                                    Column(horizontalAlignment = Alignment.CenterHorizontally,
+                                        verticalArrangement = Arrangement.spacedBy(0.dp)
+                                    ) {
+                                        Image(painter = painterResource(
+                                            id = R.drawable.g7_2_img_locked),
+                                            contentDescription = null,
+                                            modifier = Modifier.clickable(onClick =  {ifdialog=true })
+                                        )
+                                        Text(text = "", color = Color.White, fontWeight = FontWeight.W700, fontSize = 13.sp)
+                                    }
+                                    Column(horizontalAlignment = Alignment.CenterHorizontally,
+                                        verticalArrangement = Arrangement.spacedBy(0.dp)
+                                    ) {
+                                        Image(painter = painterResource(
+                                            id = R.drawable.g7_2_img_locked),
+                                            contentDescription = null,
+                                            modifier = Modifier.clickable(onClick =  {ifdialog=true })
+                                        )
+                                        Text(text = "", color = Color.White, fontWeight = FontWeight.W700, fontSize = 13.sp)
+                                    }
+                                    Column(horizontalAlignment = Alignment.CenterHorizontally,
+                                        verticalArrangement = Arrangement.spacedBy(0.dp)
+                                    ) {
+                                        Image(painter = painterResource(
+                                            id = R.drawable.g7_2_img_locked),
+                                            contentDescription = null,
+                                            modifier = Modifier.clickable(onClick =  {ifdialog=true })
+                                        )
+                                        Text(text = "", color = Color.White, fontWeight = FontWeight.W700, fontSize = 13.sp)
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+            }
                 HorizontalPagerIndicator(pagerState = pagerState,
                     activeColor = Color(127,199,168),
                     inactiveColor = Color.White,
                     spacing = 13.dp)
-            }
         }
 
-    }}
+    }
+
+    }
 
 
 
 }
+    if (ifdialog) {
+        //背景颜色
+        Image(
+            painter = painterResource(id = com.example.jetpacktest02.R.drawable.g8_backblur),
+            contentDescription = null,
+            alpha = 0.34f,
+            modifier = Modifier
+                .fillMaxHeight()
+                .fillMaxSize(), contentScale = ContentScale.FillWidth
+        )
+        Box{
+
+
+            Image(
+
+
+                painter = painterResource(id = com.example.jetpacktest02.R.drawable.g7_2_1_lockdialog),
+                contentDescription = null,
+                alignment = Alignment.Center,
+                modifier = Modifier
+                    .size(width = 291.dp, height = 362.dp)
+                    .offset(50.dp, 200.dp)
+            )
+
+
+
+
+
+
+            Button(onClick = nav02,
+                shape = RoundedCornerShape(30.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = GreenMain,
+                    contentColor = GreenMain
+                ),
+                modifier = Modifier
+                    .size(width = 201.dp, height = 42.dp)
+                    .offset(96.dp, 494.dp)
+
+            ) {
+                Text(text = "了解绿岛会员", color = Color.White , fontSize = 16.sp)
+            }
+
+
+        }
+//        Image(
+//            painter = painterResource(id = com.example.jetpacktest02.R.drawable.g8_dialog),
+//            contentDescription = null,
+//            alignment = Alignment.Center,
+//            modifier = Modifier
+//                .size(width = 291.dp, height = 362.dp)
+//                .offset(50.dp, 200.dp)
+//        )
+        if (!ifdialog){}
+    }
 
 @Composable
 fun CupBoard1 (){
-    Box(contentAlignment = Alignment.Center) {
-        Image(
-            painter = painterResource(
-                id = R.drawable.g7_2_cupboard
-            ),
-            contentDescription = null,
-        )
-        Row(horizontalArrangement = Arrangement.spacedBy(18.dp)
-        , modifier = Modifier.padding(top=5.dp)) {
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                Plant01()
-                Plant02()
-                PlantAdd()
-            }
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                Plant03()
-                Plant04()
-                PlantAdd()
-            }
-        }
-    }
+
 }
 @Composable
 fun CupBoard2 (){
-Box(contentAlignment = Alignment.Center){
-    Image(painter = painterResource(
-        id = R.drawable.g7_2_cupboard),
-        contentDescription = null,
-    )
-    Row(horizontalArrangement = Arrangement.spacedBy(18.dp)){
-        Column(horizontalAlignment = Alignment.CenterHorizontally){
-            PlantLocked()
-            PlantLocked()
-            PlantLocked()
-        }
-        Column (horizontalAlignment = Alignment.CenterHorizontally){
-            PlantLocked()
-            PlantLocked()
-            PlantLocked()
-        }
-    }
+
 }
 
 
@@ -183,27 +396,7 @@ Box(contentAlignment = Alignment.Center){
 }
 @Composable
 fun CupBoard3 (){
-    Box(contentAlignment = Alignment.Center) {
-        Image(
-            painter = painterResource(
-                id = R.drawable.g7_2_cupboard
-            ),
-            contentDescription = null,
-        )
-        Row(modifier=Modifier.padding(top=0.dp),
-            horizontalArrangement = Arrangement.spacedBy(18.dp)) {
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                PlantLocked()
-                PlantLocked()
-                PlantLocked()
-            }
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                PlantLocked()
-                PlantLocked()
-                PlantLocked()
-            }
-        }
-    }
+
 
 
 }
@@ -269,30 +462,31 @@ fun Plant04(){//------------第一个植物及其名称—---------------
         Text(text = "八爪花", color = Color.White, fontWeight = FontWeight.W700, fontSize = 13.sp)
     }
 }
-@Composable
-fun PlantLocked(){//------------第一个植物及其名称—---------------
-    Column(horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(0.dp)
-    ) {
-        Image(painter = painterResource(
-            id = R.drawable.g7_2_img_locked),
-            contentDescription = null,
-        )
-        Text(text = "", color = Color.White, fontWeight = FontWeight.W700, fontSize = 13.sp)
-    }
-}
-@Composable
-fun PlantAdd(){//------------第一个植物及其名称—---------------
-    Column(horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(0.dp)
-    ) {
-        Image(painter = painterResource(
-            id = R.drawable.g7_2_img_add),
-            contentDescription = null,
-        )
-        Text(text = "", color = Color.White, fontWeight = FontWeight.W700, fontSize = 12.sp)
-    }
-}
+//@Composable
+//fun PlantLocked(){//------------第一个植物及其名称—---------------
+//    Column(horizontalAlignment = Alignment.CenterHorizontally,
+//        verticalArrangement = Arrangement.spacedBy(0.dp)
+//    ) {
+//        Image(painter = painterResource(
+//            id = R.drawable.g7_2_img_locked),
+//            contentDescription = null,
+//            modifier = Modifier.clickable(onClick =  {ifdialog=true })
+//        )
+//        Text(text = "", color = Color.White, fontWeight = FontWeight.W700, fontSize = 13.sp)
+//    }
+//}
+//@Composable
+//fun PlantAdd(){//------------第一个植物及其名称—---------------
+//    Column(horizontalAlignment = Alignment.CenterHorizontally,
+//        verticalArrangement = Arrangement.spacedBy(0.dp)
+//    ) {
+//        Image(painter = painterResource(
+//            id = R.drawable.g7_2_img_add),
+//            contentDescription = null,
+//        )
+//        Text(text = "", color = Color.White, fontWeight = FontWeight.W700, fontSize = 12.sp)
+//    }
+//}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

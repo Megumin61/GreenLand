@@ -45,7 +45,7 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 @Composable
 fun MySettingScreen(nav01: () -> Unit = {}) {
     rememberSystemUiController().setStatusBarColor(
-        Color.White, darkIcons = androidx.compose.material.MaterialTheme.colors.isLight
+        Color(243,243,243), darkIcons = androidx.compose.material.MaterialTheme.colors.isLight
     )
     androidx.compose.material.Scaffold(
         topBar = {

@@ -547,7 +547,10 @@ fun RallyApp() {
                     MyCupBoardScreen(
                         nav01 = {
                             navController.navigate(My.route) { launchSingleTop = true; }
-                        }
+                        },
+                        nav02 = {
+                            navController.navigate(VipUnsigned.route) { launchSingleTop = true; }
+                        },
 
                     )
                 }

@@ -65,6 +65,7 @@ fun MyBottomNavBar(
     )
     if (currentDestination?.route == Plant.route ||
         currentDestination?.route == VipUnsigned.route ||
+        currentDestination?.route == Vip.route ||
         currentDestination?.route == IslandChooseIsland.route ||
         currentDestination?.route == Message.route ||
         currentDestination?.route == My.route

@@ -66,14 +66,14 @@ import kotlinx.coroutines.launch
  */
 
 
-
 @OptIn(ExperimentalPagerApi::class)
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter", "StateFlowValueCalledInComposition")
 @Composable
-fun ChooseSeed(nav01: () -> Unit={},
-               nav02: () -> Unit={},
-               userViewModel:UserViewModel)
-{
+fun ChooseSeed(
+    nav01: () -> Unit = {},
+    nav02: () -> Unit = {},
+    userViewModel: UserViewModel
+) {
 
     val titles = listOf("自定义", "随机")
     //state为顶部的tab导航栏绑定参数
@@ -118,13 +118,13 @@ fun ChooseSeed(nav01: () -> Unit={},
                                 fontWeight = FontWeight.W900, //设置字体粗细
                                 fontSize = 18.sp,
                             ),
-                            modifier = Modifier.offset(-28.dp,0.dp)//向左偏移一段距离
+                            modifier = Modifier.offset(-28.dp, 0.dp)//向左偏移一段距离
                         )
                     }
                 },
                 //左侧按钮
                 navigationIcon = {
-                    IconButton(onClick = nav02, modifier = Modifier.offset(0.dp,10.dp)) {
+                    IconButton(onClick = nav02, modifier = Modifier.offset(0.dp, 10.dp)) {
                         Icon(
                             painter = painterResource(id = R.drawable.g1_2_0_ic_arrow_left),
                             contentDescription = ""
@@ -144,7 +144,7 @@ fun ChooseSeed(nav01: () -> Unit={},
             Row(
                 modifier = Modifier
                     .height(40.dp)
-                    .offset(0.dp, 20.dp)
+                    .offset(0.dp, 0.dp)
                     .fillMaxWidth(), horizontalArrangement = Arrangement.Center
             ) {
                 TabRow(
@@ -193,15 +193,23 @@ fun ChooseSeed(nav01: () -> Unit={},
                 //下面为要滑动切换的界面，可以通过判断page调用不同页面
 //                Text(page.toString())
                 if (page == 0) {
-Box{
-    Page1(userViewModel)
-   //判断花朵
-    if (userViewModel.uiState.value.flowerid.value==1){flower1(userViewModel)}
-    if (userViewModel.uiState.value.flowerid.value==2){flower2(userViewModel)}
-    if (userViewModel.uiState.value.flowerid.value==3){flower3(userViewModel)}
-    if (userViewModel.uiState.value.flowerid.value==4){flower4(userViewModel)}
+                    Box {
+                        Page1(userViewModel)
+                        //判断花朵
+                        if (userViewModel.uiState.value.flowerid.value == 1) {
+                            flower1(userViewModel)
+                        }
+                        if (userViewModel.uiState.value.flowerid.value == 2) {
+                            flower2(userViewModel)
+                        }
+                        if (userViewModel.uiState.value.flowerid.value == 3) {
+                            flower3(userViewModel)
+                        }
+                        if (userViewModel.uiState.value.flowerid.value == 4) {
+                            flower4(userViewModel)
+                        }
 
-}
+                    }
 
 
                     //Page1(userViewModel)
@@ -213,14 +221,17 @@ Box{
                 }
             }
         }
-        Column(modifier=Modifier
-            .padding(top = 600.dp,start=30.dp),
-            horizontalAlignment= Alignment.CenterHorizontally
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 600.dp, start = 0.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            Button(onClick = nav02,
+            Button(
+                onClick = nav02,
 
                 interactionSource = MutableInteractionSource(),
-                shape = RoundedCornerShape(27.dp),border = BorderStroke(1.dp, GreenMain),
+                shape = RoundedCornerShape(27.dp), border = BorderStroke(1.dp, GreenMain),
                 colors = ButtonDefaults.buttonColors(
                     containerColor = GreenMain,
                     contentColor = GreenMain
@@ -229,7 +240,7 @@ Box{
 
                 modifier = Modifier
                     .size(width = 136.dp, height = 48.dp)
-                    .offset(100.dp, 60.dp)
+                    .offset(0.dp, 0.dp)
 
             ) {
                 Text(text = "种下", color = Color.White, fontSize = 16.sp)
@@ -238,22 +249,24 @@ Box{
         }
 
 
-
     }
 
 
-
 }
+
 @OptIn(ExperimentalAnimationApi::class)
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
-fun Page1(userViewModel:UserViewModel){
-    var ifcolor by remember{
-        mutableStateOf(1)}
-    var ifshape by remember{
-        mutableStateOf(1)}
-    var ifmeaning by remember{
-        mutableStateOf(1)}
+fun Page1(userViewModel: UserViewModel) {
+    var ifcolor by remember {
+        mutableStateOf(1)
+    }
+    var ifshape by remember {
+        mutableStateOf(1)
+    }
+    var ifmeaning by remember {
+        mutableStateOf(1)
+    }
     val flower_id = userViewModel.uiState.value.flowerid.value
 
 
@@ -274,58 +287,47 @@ fun Page1(userViewModel:UserViewModel){
 
 
 
-    if (ifshape==1&&ifmeaning==1)
-    {
-        userViewModel.uiState.value.flowerid.value=1
+    if (ifshape == 1 && ifmeaning == 1) {
+        userViewModel.uiState.value.flowerid.value = 1
     }
-    if (ifshape==1&&ifmeaning==2)
-    {
-        userViewModel.uiState.value.flowerid.value=2
+    if (ifshape == 1 && ifmeaning == 2) {
+        userViewModel.uiState.value.flowerid.value = 2
     }
-    if (ifshape==1&&ifmeaning==3)
-    {
-        userViewModel.uiState.value.flowerid.value=3
+    if (ifshape == 1 && ifmeaning == 3) {
+        userViewModel.uiState.value.flowerid.value = 3
     }
-    if (ifshape==1&&ifmeaning==4)
-    {
-        userViewModel.uiState.value.flowerid.value=4
+    if (ifshape == 1 && ifmeaning == 4) {
+        userViewModel.uiState.value.flowerid.value = 4
     }
-    if (ifshape==2&&ifmeaning==1)
-    {
-        userViewModel.uiState.value.flowerid.value=2
+    if (ifshape == 2 && ifmeaning == 1) {
+        userViewModel.uiState.value.flowerid.value = 2
     }
-    if (ifshape==2&&ifmeaning==2)
-    {
-        userViewModel.uiState.value.flowerid.value=3
+    if (ifshape == 2 && ifmeaning == 2) {
+        userViewModel.uiState.value.flowerid.value = 3
     }
-    if (ifshape==2&&ifmeaning==3)
-    {
-        userViewModel.uiState.value.flowerid.value=4
+    if (ifshape == 2 && ifmeaning == 3) {
+        userViewModel.uiState.value.flowerid.value = 4
     }
-    if (ifshape==2&&ifmeaning==4)
-    {
-        userViewModel.uiState.value.flowerid.value=1
+    if (ifshape == 2 && ifmeaning == 4) {
+        userViewModel.uiState.value.flowerid.value = 1
     }
-    if (ifshape==3&&ifmeaning==1)
-    {
-        userViewModel.uiState.value.flowerid.value=3
+    if (ifshape == 3 && ifmeaning == 1) {
+        userViewModel.uiState.value.flowerid.value = 3
     }
-    if (ifshape==3&&ifmeaning==2)
-    {
-        userViewModel.uiState.value.flowerid.value=4
+    if (ifshape == 3 && ifmeaning == 2) {
+        userViewModel.uiState.value.flowerid.value = 4
     }
-    if (ifshape==3&&ifmeaning==3)
-    {
-        userViewModel.uiState.value.flowerid.value=1
+    if (ifshape == 3 && ifmeaning == 3) {
+        userViewModel.uiState.value.flowerid.value = 1
     }
-    if (ifshape==3&&ifmeaning==4)
-    {
-        userViewModel.uiState.value.flowerid.value=2
+    if (ifshape == 3 && ifmeaning == 4) {
+        userViewModel.uiState.value.flowerid.value = 2
     }
 
     Column(
-        modifier=Modifier
-            .padding(top = 0.dp,start=30.dp).offset(0.dp,-50.dp),
+        modifier = Modifier
+            .padding(top = 0.dp, start = 30.dp)
+            .offset(0.dp, -75.dp),
 //        horizontalAlignment= Alignment.CenterHorizontally
 //             verticalArrangement = Arrangement.Center
     ) {
@@ -334,12 +336,18 @@ fun Page1(userViewModel:UserViewModel){
 //            ,
 //            horizontalArrangement = Arrangement.Center
         ) {
-            Text(text = "01 颜色", color = Color.Black , fontSize = 14.sp,fontWeight = FontWeight.W600, modifier = Modifier.offset(0.dp,2.dp)
+            Text(
+                text = "01 颜色",
+                color = Color.Black,
+                fontSize = 14.sp,
+                fontWeight = FontWeight.W600,
+                modifier = Modifier.offset(0.dp, 2.dp)
             )
 
-            if(ifcolor==1){
+            if (ifcolor == 1) {
 
-                Button(onClick = {  },
+                Button(
+                    onClick = { },
                     shape = RoundedCornerShape(15.dp),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = GreenMain,
@@ -347,21 +355,22 @@ fun Page1(userViewModel:UserViewModel){
                     ),
                     modifier = Modifier
                         .size(width = 50.dp, height = 30.dp)
-                        .offset(20.dp, -5.dp),contentPadding = PaddingValues(0.dp)
+                        .offset(15.dp, -5.dp), contentPadding = PaddingValues(0.dp)
 
                 ) {
                     Text(text = "黄色", color = Color.White, fontSize = 12.sp)
                 }
-            }else{
-                Button(onClick = { ifcolor=1 },
-                    shape = RoundedCornerShape(15.dp),border = BorderStroke(1.dp, GreenMain),
+            } else {
+                Button(
+                    onClick = { ifcolor = 1 },
+                    shape = RoundedCornerShape(15.dp), border = BorderStroke(1.dp, GreenMain),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = Color.White,
                         contentColor = Color.White
                     ),
                     modifier = Modifier
                         .size(width = 50.dp, height = 30.dp)
-                        .offset(20.dp, -5.dp),contentPadding = PaddingValues(0.dp)
+                        .offset(15.dp, -5.dp), contentPadding = PaddingValues(0.dp)
 
                 ) {
                     Text(text = "黄色", color = GreenMain, fontSize = 12.sp)
@@ -369,9 +378,10 @@ fun Page1(userViewModel:UserViewModel){
 
             }
 
-            if(ifcolor==2){
+            if (ifcolor == 2) {
 
-                Button(onClick = {  },
+                Button(
+                    onClick = { },
                     shape = RoundedCornerShape(15.dp),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = GreenMain,
@@ -379,21 +389,22 @@ fun Page1(userViewModel:UserViewModel){
                     ),
                     modifier = Modifier
                         .size(width = 50.dp, height = 30.dp)
-                        .offset(35.dp, -5.dp),contentPadding = PaddingValues(0.dp)
+                        .offset(25.dp, -5.dp), contentPadding = PaddingValues(0.dp)
 
                 ) {
                     Text(text = "蓝色", color = Color.White, fontSize = 12.sp)
                 }
-            }else{
-                Button(onClick = { ifcolor=2 },
-                    shape = RoundedCornerShape(15.dp),border = BorderStroke(1.dp, GreenMain),
+            } else {
+                Button(
+                    onClick = { ifcolor = 2 },
+                    shape = RoundedCornerShape(15.dp), border = BorderStroke(1.dp, GreenMain),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = Color.White,
                         contentColor = Color.White
                     ),
                     modifier = Modifier
                         .size(width = 50.dp, height = 30.dp)
-                        .offset(35.dp, -5.dp),contentPadding = PaddingValues(0.dp)
+                        .offset(25.dp, -5.dp), contentPadding = PaddingValues(0.dp)
 
                 ) {
                     Text(text = "蓝色", color = GreenMain, fontSize = 12.sp)
@@ -401,9 +412,10 @@ fun Page1(userViewModel:UserViewModel){
 
             }
 
-            if(ifcolor==3){
+            if (ifcolor == 3) {
 
-                Button(onClick = {  },
+                Button(
+                    onClick = { },
                     shape = RoundedCornerShape(15.dp),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = GreenMain,
@@ -411,21 +423,22 @@ fun Page1(userViewModel:UserViewModel){
                     ),
                     modifier = Modifier
                         .size(width = 50.dp, height = 30.dp)
-                        .offset(50.dp, -5.dp),contentPadding = PaddingValues(0.dp)
+                        .offset(35.dp, -5.dp), contentPadding = PaddingValues(0.dp)
 
                 ) {
                     Text(text = "红色", color = Color.White, fontSize = 12.sp)
                 }
-            }else{
-                Button(onClick = { ifcolor=3 },
-                    shape = RoundedCornerShape(15.dp),border = BorderStroke(1.dp, GreenMain),
+            } else {
+                Button(
+                    onClick = { ifcolor = 3 },
+                    shape = RoundedCornerShape(15.dp), border = BorderStroke(1.dp, GreenMain),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = Color.White,
                         contentColor = Color.White
                     ),
                     modifier = Modifier
                         .size(width = 50.dp, height = 30.dp)
-                        .offset(50.dp, -5.dp),contentPadding = PaddingValues(0.dp)
+                        .offset(35.dp, -5.dp), contentPadding = PaddingValues(0.dp)
 
                 ) {
                     Text(text = "红色", color = GreenMain, fontSize = 12.sp)
@@ -441,12 +454,18 @@ fun Page1(userViewModel:UserViewModel){
 //            ,
 //            horizontalArrangement = Arrangement.Center
         ) {
-            Text(text = "02 植物形态", color = Color.Black , fontSize = 14.sp,fontWeight = FontWeight.W600, modifier = Modifier.offset(0.dp,2.dp)
+            Text(
+                text = "02 植物形态",
+                color = Color.Black,
+                fontSize = 14.sp,
+                fontWeight = FontWeight.W600,
+                modifier = Modifier.offset(0.dp, 2.dp)
             )
 
-            if(ifshape==1){
+            if (ifshape == 1) {
 
-                Button(onClick = {  },
+                Button(
+                    onClick = { },
                     shape = RoundedCornerShape(15.dp),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = GreenMain,
@@ -454,23 +473,24 @@ fun Page1(userViewModel:UserViewModel){
                     ),
                     modifier = Modifier
                         .size(width = 50.dp, height = 30.dp)
-                        .offset(20.dp, -5.dp)
-                        .padding(0.dp),contentPadding = PaddingValues(0.dp)
+                        .offset(15.dp, -5.dp)
+                        .padding(0.dp), contentPadding = PaddingValues(0.dp)
 
                 ) {
                     Text(text = "自然", color = Color.White, fontSize = 12.sp)
                 }
-            }else{
-                Button(onClick = { ifshape=1 },
-                    shape = RoundedCornerShape(15.dp),border = BorderStroke(1.dp, GreenMain),
+            } else {
+                Button(
+                    onClick = { ifshape = 1 },
+                    shape = RoundedCornerShape(15.dp), border = BorderStroke(1.dp, GreenMain),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = Color.White,
                         contentColor = Color.White
                     ),
                     modifier = Modifier
                         .size(width = 50.dp, height = 30.dp)
-                        .offset(20.dp, -5.dp)
-                        .padding(0.dp),contentPadding = PaddingValues(0.dp)
+                        .offset(15.dp, -5.dp)
+                        .padding(0.dp), contentPadding = PaddingValues(0.dp)
 
                 ) {
                     Text(text = "自然", color = GreenMain, fontSize = 12.sp)
@@ -478,9 +498,10 @@ fun Page1(userViewModel:UserViewModel){
 
             }
 
-            if(ifshape==2){
+            if (ifshape == 2) {
 
-                Button(onClick = {  },
+                Button(
+                    onClick = { },
                     shape = RoundedCornerShape(15.dp),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = GreenMain,
@@ -488,22 +509,23 @@ fun Page1(userViewModel:UserViewModel){
                     ),
                     modifier = Modifier
                         .size(width = 50.dp, height = 30.dp)
-                        .offset(35.dp, -5.dp)
-                        .padding(0.dp),contentPadding = PaddingValues(0.dp)
+                        .offset(25.dp, -5.dp)
+                        .padding(0.dp), contentPadding = PaddingValues(0.dp)
                 ) {
                     Text(text = "清新", color = Color.White, fontSize = 12.sp)
                 }
-            }else{
-                Button(onClick = { ifshape=2 },
-                    shape = RoundedCornerShape(15.dp),border = BorderStroke(1.dp, GreenMain),
+            } else {
+                Button(
+                    onClick = { ifshape = 2 },
+                    shape = RoundedCornerShape(15.dp), border = BorderStroke(1.dp, GreenMain),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = Color.White,
                         contentColor = Color.White
                     ),
                     modifier = Modifier
                         .size(width = 50.dp, height = 30.dp)
-                        .offset(35.dp, -5.dp)
-                        .padding(0.dp),contentPadding = PaddingValues(0.dp)
+                        .offset(25.dp, -5.dp)
+                        .padding(0.dp), contentPadding = PaddingValues(0.dp)
 
                 ) {
                     Text(text = "清新", color = GreenMain, fontSize = 12.sp)
@@ -511,9 +533,10 @@ fun Page1(userViewModel:UserViewModel){
 
             }
 
-            if(ifshape==3){
+            if (ifshape == 3) {
 
-                Button(onClick = {  },
+                Button(
+                    onClick = { },
                     shape = RoundedCornerShape(15.dp),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = GreenMain,
@@ -521,23 +544,24 @@ fun Page1(userViewModel:UserViewModel){
                     ),
                     modifier = Modifier
                         .size(width = 50.dp, height = 30.dp)
-                        .offset(50.dp, -5.dp)
-                        .padding(0.dp),contentPadding = PaddingValues(0.dp)
+                        .offset(35.dp, -5.dp)
+                        .padding(0.dp), contentPadding = PaddingValues(0.dp)
 
                 ) {
                     Text(text = "幽静", color = Color.White, fontSize = 12.sp)
                 }
-            }else{
-                Button(onClick = { ifshape=3 },
-                    shape = RoundedCornerShape(15.dp),border = BorderStroke(1.dp, GreenMain),
+            } else {
+                Button(
+                    onClick = { ifshape = 3 },
+                    shape = RoundedCornerShape(15.dp), border = BorderStroke(1.dp, GreenMain),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = Color.White,
                         contentColor = Color.White
                     ),
                     modifier = Modifier
                         .size(width = 50.dp, height = 30.dp)
-                        .offset(50.dp, -5.dp)
-                        .padding(0.dp),contentPadding = PaddingValues(0.dp)
+                        .offset(35.dp, -5.dp)
+                        .padding(0.dp), contentPadding = PaddingValues(0.dp)
 
                 ) {
                     Text(text = "幽静", color = GreenMain, fontSize = 12.sp)
@@ -552,12 +576,18 @@ fun Page1(userViewModel:UserViewModel){
 //            ,
 //            horizontalArrangement = Arrangement.Center
         ) {
-            Text(text = "03 植物意义", color = Color.Black , fontSize = 14.sp,fontWeight = FontWeight.W600, modifier = Modifier.offset(0.dp,2.dp)
+            Text(
+                text = "03 植物意义",
+                color = Color.Black,
+                fontSize = 14.sp,
+                fontWeight = FontWeight.W600,
+                modifier = Modifier.offset(0.dp, 2.dp)
             )
 
-            if(ifmeaning==1){
+            if (ifmeaning == 1) {
 
-                Button(onClick = {  },
+                Button(
+                    onClick = { },
                     shape = RoundedCornerShape(15.dp),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = GreenMain,
@@ -565,23 +595,24 @@ fun Page1(userViewModel:UserViewModel){
                     ),
                     modifier = Modifier
                         .size(width = 50.dp, height = 30.dp)
-                        .offset(20.dp, -5.dp)
-                        .padding(0.dp),contentPadding = PaddingValues(0.dp)
+                        .offset(15.dp, -5.dp)
+                        .padding(0.dp), contentPadding = PaddingValues(0.dp)
 
                 ) {
                     Text(text = "魅力", color = Color.White, fontSize = 12.sp)
                 }
-            }else{
-                Button(onClick = { ifmeaning=1 },
-                    shape = RoundedCornerShape(15.dp),border = BorderStroke(1.dp, GreenMain),
+            } else {
+                Button(
+                    onClick = { ifmeaning = 1 },
+                    shape = RoundedCornerShape(15.dp), border = BorderStroke(1.dp, GreenMain),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = Color.White,
                         contentColor = Color.White
                     ),
                     modifier = Modifier
                         .size(width = 50.dp, height = 30.dp)
-                        .offset(20.dp, -5.dp)
-                        .padding(0.dp),contentPadding = PaddingValues(0.dp)
+                        .offset(15.dp, -5.dp)
+                        .padding(0.dp), contentPadding = PaddingValues(0.dp)
 
                 ) {
                     Text(text = "魅力", color = GreenMain, fontSize = 12.sp)
@@ -589,9 +620,10 @@ fun Page1(userViewModel:UserViewModel){
 
             }
 
-            if(ifmeaning==2){
+            if (ifmeaning == 2) {
 
-                Button(onClick = {  },
+                Button(
+                    onClick = { },
                     shape = RoundedCornerShape(15.dp),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = GreenMain,
@@ -599,22 +631,23 @@ fun Page1(userViewModel:UserViewModel){
                     ),
                     modifier = Modifier
                         .size(width = 50.dp, height = 30.dp)
-                        .offset(35.dp, -5.dp)
-                        .padding(0.dp),contentPadding = PaddingValues(0.dp)
+                        .offset(25.dp, -5.dp)
+                        .padding(0.dp), contentPadding = PaddingValues(0.dp)
                 ) {
                     Text(text = "希望", color = Color.White, fontSize = 12.sp)
                 }
-            }else{
-                Button(onClick = { ifmeaning=2 },
-                    shape = RoundedCornerShape(15.dp),border = BorderStroke(1.dp, GreenMain),
+            } else {
+                Button(
+                    onClick = { ifmeaning = 2 },
+                    shape = RoundedCornerShape(15.dp), border = BorderStroke(1.dp, GreenMain),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = Color.White,
                         contentColor = Color.White
                     ),
                     modifier = Modifier
                         .size(width = 50.dp, height = 30.dp)
-                        .offset(35.dp, -5.dp)
-                        .padding(0.dp),contentPadding = PaddingValues(0.dp)
+                        .offset(25.dp, -5.dp)
+                        .padding(0.dp), contentPadding = PaddingValues(0.dp)
 
                 ) {
                     Text(text = "希望", color = GreenMain, fontSize = 12.sp)
@@ -622,9 +655,10 @@ fun Page1(userViewModel:UserViewModel){
 
             }
 
-            if(ifmeaning==3){
+            if (ifmeaning == 3) {
 
-                Button(onClick = {  },
+                Button(
+                    onClick = { },
                     shape = RoundedCornerShape(15.dp),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = GreenMain,
@@ -632,32 +666,34 @@ fun Page1(userViewModel:UserViewModel){
                     ),
                     modifier = Modifier
                         .size(width = 50.dp, height = 30.dp)
-                        .offset(50.dp, -5.dp)
-                        .padding(0.dp),contentPadding = PaddingValues(0.dp)
+                        .offset(35.dp, -5.dp)
+                        .padding(0.dp), contentPadding = PaddingValues(0.dp)
 
                 ) {
                     Text(text = "友爱", color = Color.White, fontSize = 12.sp)
                 }
-            }else{
-                Button(onClick = { ifmeaning=3 },
-                    shape = RoundedCornerShape(15.dp),border = BorderStroke(1.dp, GreenMain),
+            } else {
+                Button(
+                    onClick = { ifmeaning = 3 },
+                    shape = RoundedCornerShape(15.dp), border = BorderStroke(1.dp, GreenMain),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = Color.White,
                         contentColor = Color.White
                     ),
                     modifier = Modifier
                         .size(width = 50.dp, height = 30.dp)
-                        .offset(50.dp, -5.dp)
-                        .padding(0.dp),contentPadding = PaddingValues(0.dp)
+                        .offset(35.dp, -5.dp)
+                        .padding(0.dp), contentPadding = PaddingValues(0.dp)
 
                 ) {
                     Text(text = "友爱", color = GreenMain, fontSize = 12.sp)
                 }
 
             }
-            if(ifmeaning==4){
+            if (ifmeaning == 4) {
 
-                Button(onClick = {  },
+                Button(
+                    onClick = { },
                     shape = RoundedCornerShape(15.dp),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = GreenMain,
@@ -665,23 +701,24 @@ fun Page1(userViewModel:UserViewModel){
                     ),
                     modifier = Modifier
                         .size(width = 50.dp, height = 30.dp)
-                        .offset(65.dp, -5.dp)
-                        .padding(0.dp),contentPadding = PaddingValues(0.dp)
+                        .offset(45.dp, -5.dp)
+                        .padding(0.dp), contentPadding = PaddingValues(0.dp)
 
                 ) {
                     Text(text = "和谐", color = Color.White, fontSize = 12.sp)
                 }
-            }else{
-                Button(onClick = { ifmeaning=4 },
-                    shape = RoundedCornerShape(15.dp),border = BorderStroke(1.dp, GreenMain),
+            } else {
+                Button(
+                    onClick = { ifmeaning = 4 },
+                    shape = RoundedCornerShape(15.dp), border = BorderStroke(1.dp, GreenMain),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = Color.White,
                         contentColor = Color.White
                     ),
                     modifier = Modifier
                         .size(width = 50.dp, height = 30.dp)
-                        .offset(65.dp, -5.dp)
-                        .padding(0.dp),contentPadding = PaddingValues(0.dp)
+                        .offset(45.dp, -5.dp)
+                        .padding(0.dp), contentPadding = PaddingValues(0.dp)
 
                 ) {
                     Text(text = "和谐", color = GreenMain, fontSize = 12.sp)
@@ -690,12 +727,16 @@ fun Page1(userViewModel:UserViewModel){
             }
 
 
-
         }
 
-        Text(text = "生成本周的个性植物", color = Color.Black , fontSize = 16.sp,fontWeight = FontWeight.W600, modifier = Modifier
-            .offset(-10.dp, 50.dp)
-            .fillMaxWidth(),
+        Text(
+            text = "生成本周的个性植物",
+            color = Color.Black,
+            fontSize = 16.sp,
+            fontWeight = FontWeight.W600,
+            modifier = Modifier
+                .offset(-14.dp, 50.dp)
+                .fillMaxWidth(),
             textAlign = TextAlign.Center
         )
 
@@ -705,9 +746,8 @@ fun Page1(userViewModel:UserViewModel){
             alignment = Alignment.Center,
             modifier = Modifier
                 .size(width = 178.dp, height = 158.dp)
-                .offset(80.dp, 190.dp)
+                .offset(62.dp, 190.dp)
         )
-
 
 
 //        if (userViewModel.uiState.value.flowerid.value==1){
@@ -740,10 +780,6 @@ fun Page1(userViewModel:UserViewModel){
 //    }
 //}
 //        }else{state=false}
-
-
-
-
 
 
 //        if (userViewModel.uiState.value.flowerid.value==2){
@@ -835,20 +871,18 @@ fun Page1(userViewModel:UserViewModel){
 //    }
 
 
-
-
-
 }
 
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
-fun Page2(userViewModel:UserViewModel){
-    var ifseed by remember{
-        mutableStateOf(1)}
+fun Page2(userViewModel: UserViewModel) {
+    var ifseed by remember {
+        mutableStateOf(1)
+    }
     val flower_id1 = userViewModel.uiState.value.flowerid.value
     Column(
-        modifier=Modifier
-            .padding(top = 120.dp,start=30.dp),
+        modifier = Modifier
+            .padding(top = 120.dp, start = 30.dp),
 //        horizontalAlignment= Alignment.CenterHorizontally
 //             verticalArrangement = Arrangement.Center
     ) {
@@ -859,24 +893,28 @@ fun Page2(userViewModel:UserViewModel){
         ) {
 
 
-
-            Text(text = "选取神秘植物", color = Color.Black , fontSize = 16.sp,fontWeight = FontWeight.W600, modifier = Modifier
-                .offset(-10.dp, 120.dp)
-                .fillMaxWidth(),
+            Text(
+                text = "选取神秘植物",
+                color = Color.Black,
+                fontSize = 16.sp,
+                fontWeight = FontWeight.W600,
+                modifier = Modifier
+                    .offset(-14.dp, 100.dp)
+                    .fillMaxWidth(),
                 textAlign = TextAlign.Center
             )
 
         }
 
 
-        Row(modifier = Modifier
-            .fillMaxWidth()
-            .offset(36.dp, -10.dp)) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .offset(18.dp, -45.dp)
+        ) {
 
 
-
-
-            if(ifseed==1){
+            if (ifseed == 1) {
                 Image(
 
                     painter = painterResource(id = com.example.jetpacktest02.R.drawable.g3_seed_1),
@@ -886,7 +924,7 @@ fun Page2(userViewModel:UserViewModel){
                         .size(width = 78.dp, height = 78.dp)
                         .offset(0.dp, -0.dp)
                 )
-            }else{
+            } else {
                 Image(
 
                     painter = painterResource(id = com.example.jetpacktest02.R.drawable.g3_2_1_segmentedbtn_seed3),
@@ -899,7 +937,7 @@ fun Page2(userViewModel:UserViewModel){
                 )
             }
 
-            if (ifseed==2){
+            if (ifseed == 2) {
 
                 Image(
 
@@ -910,7 +948,7 @@ fun Page2(userViewModel:UserViewModel){
                         .size(width = 78.dp, height = 78.dp)
                         .offset(20.dp, -0.dp)
                 )
-            }else{
+            } else {
                 Image(
 
                     painter = painterResource(id = com.example.jetpacktest02.R.drawable.g3_2_1_segmentedbtn_seed2),
@@ -923,7 +961,7 @@ fun Page2(userViewModel:UserViewModel){
                 )
             }
 
-            if (ifseed==3){
+            if (ifseed == 3) {
 
                 Image(
 
@@ -934,7 +972,7 @@ fun Page2(userViewModel:UserViewModel){
                         .size(width = 78.dp, height = 78.dp)
                         .offset(40.dp, -0.dp)
                 )
-            }else{
+            } else {
                 Image(
 
                     painter = painterResource(id = com.example.jetpacktest02.R.drawable.g3_2_1_segmentedbtn_seed1),
@@ -955,7 +993,7 @@ fun Page2(userViewModel:UserViewModel){
             alignment = Alignment.Center,
             modifier = Modifier
                 .size(width = 178.dp, height = 158.dp)
-                .offset(80.dp, 130.dp)
+                .offset(62.dp, 130.dp)
         )
         Image(
             painter = painterResource(id = com.example.jetpacktest02.R.drawable.g3_2_1_img_plant),
@@ -963,7 +1001,7 @@ fun Page2(userViewModel:UserViewModel){
             alignment = Alignment.Center,
             modifier = Modifier
                 .size(width = 178.dp, height = 158.dp)
-                .offset(80.dp, 250.dp)
+                .offset(62.dp, 250.dp)
         )
     }
 //    Column(modifier=Modifier
@@ -988,17 +1026,13 @@ fun Page2(userViewModel:UserViewModel){
 //    }
 
 
-
-
-
 }
-
 
 
 @OptIn(ExperimentalAnimationApi::class)
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
-fun flower1(userViewModel:UserViewModel){
+fun flower1(userViewModel: UserViewModel) {
 
 
     val flower_id = userViewModel.uiState.value.flowerid.value
@@ -1009,15 +1043,16 @@ fun flower1(userViewModel:UserViewModel){
 
 
 
-    if (userViewModel.uiState.value.flowerid.value==1){
-        Box{
+    if (userViewModel.uiState.value.flowerid.value == 1) {
+        Box {
             LaunchedEffect(key1 = state) {
                 state = true
             }
 
-            Column(modifier= Modifier
-                .padding(top = 0.dp, start = 0.dp)
-                .offset(150.dp, 130.dp)
+            Column(
+                modifier = Modifier
+                    .padding(top = 0.dp, start = 0.dp)
+                    .offset(132.dp, 100.dp)
             ) {
 
                 AnimatedVisibility(
@@ -1038,9 +1073,9 @@ fun flower1(userViewModel:UserViewModel){
 
             }
         }
-    }else{state=false}
-
-
+    } else {
+        state = false
+    }
 
 
 }
@@ -1048,7 +1083,7 @@ fun flower1(userViewModel:UserViewModel){
 @OptIn(ExperimentalAnimationApi::class)
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
-fun flower2(userViewModel:UserViewModel){
+fun flower2(userViewModel: UserViewModel) {
 
 
     val flower_id = userViewModel.uiState.value.flowerid.value
@@ -1059,15 +1094,16 @@ fun flower2(userViewModel:UserViewModel){
 
 
 
-    if (userViewModel.uiState.value.flowerid.value==2){
-        Box{
+    if (userViewModel.uiState.value.flowerid.value == 2) {
+        Box {
             LaunchedEffect(key1 = state) {
                 state = true
             }
 
-            Column(modifier= Modifier
-                .padding(top = 0.dp, start = 0.dp)
-                .offset(139.dp, 170.dp)
+            Column(
+                modifier = Modifier
+                    .padding(top = 0.dp, start = 0.dp)
+                    .offset(121.dp, 140.dp)
             ) {
 
                 AnimatedVisibility(
@@ -1088,9 +1124,9 @@ fun flower2(userViewModel:UserViewModel){
 
             }
         }
-    }else{state=false}
-
-
+    } else {
+        state = false
+    }
 
 
 }
@@ -1098,7 +1134,7 @@ fun flower2(userViewModel:UserViewModel){
 @OptIn(ExperimentalAnimationApi::class)
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
-fun flower3(userViewModel:UserViewModel){
+fun flower3(userViewModel: UserViewModel) {
 
 
     val flower_id = userViewModel.uiState.value.flowerid.value
@@ -1109,15 +1145,16 @@ fun flower3(userViewModel:UserViewModel){
 
 
 
-    if (userViewModel.uiState.value.flowerid.value==3){
-        Box{
+    if (userViewModel.uiState.value.flowerid.value == 3) {
+        Box {
             LaunchedEffect(key1 = state) {
                 state = true
             }
 
-            Column(modifier= Modifier
-                .padding(top = 0.dp, start = 0.dp)
-                .offset(139.dp, 152.dp)
+            Column(
+                modifier = Modifier
+                    .padding(top = 0.dp, start = 0.dp)
+                    .offset(121.dp, 122.dp)
             ) {
 
                 AnimatedVisibility(
@@ -1138,9 +1175,9 @@ fun flower3(userViewModel:UserViewModel){
 
             }
         }
-    }else{state=false}
-
-
+    } else {
+        state = false
+    }
 
 
 }
@@ -1148,7 +1185,7 @@ fun flower3(userViewModel:UserViewModel){
 @OptIn(ExperimentalAnimationApi::class)
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
-fun flower4(userViewModel:UserViewModel){
+fun flower4(userViewModel: UserViewModel) {
 
 
     val flower_id = userViewModel.uiState.value.flowerid.value
@@ -1159,15 +1196,16 @@ fun flower4(userViewModel:UserViewModel){
 
 
 
-    if (userViewModel.uiState.value.flowerid.value==4){
-        Box{
+    if (userViewModel.uiState.value.flowerid.value == 4) {
+        Box {
             LaunchedEffect(key1 = state) {
                 state = true
             }
 
-            Column(modifier= Modifier
-                .padding(top = 0.dp, start = 0.dp)
-                .offset(139.dp, 156.dp)
+            Column(
+                modifier = Modifier
+                    .padding(top = 0.dp, start = 0.dp)
+                    .offset(121.dp, 126.dp)
             ) {
 
                 AnimatedVisibility(
@@ -1188,9 +1226,9 @@ fun flower4(userViewModel:UserViewModel){
 
             }
         }
-    }else{state=false}
-
-
+    } else {
+        state = false
+    }
 
 
 }

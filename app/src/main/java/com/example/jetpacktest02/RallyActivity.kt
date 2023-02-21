@@ -335,7 +335,7 @@ fun RallyApp() {
             //管理路由：页面跳转
             NavHost(
                 navController = navController,
-                startDestination = ChooseSeed.route,
+                startDestination = Vip.route,
                 modifier = Modifier.padding(innerPadding)
 
             ) {

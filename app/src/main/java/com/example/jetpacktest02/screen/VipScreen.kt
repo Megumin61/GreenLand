@@ -74,7 +74,7 @@ fun VipScreen(userViewModel:UserViewModel) {
 
     //配置顶部状态栏颜色
     rememberSystemUiController().setStatusBarColor(
-        Color(0xfff7f5f7),darkIcons = androidx.compose.material.MaterialTheme.colors.isLight)
+        Color(0xfff8f8f8),darkIcons = androidx.compose.material.MaterialTheme.colors.isLight)
 
 
     Surface(modifier = Modifier.fillMaxSize(),) {
@@ -83,7 +83,7 @@ fun VipScreen(userViewModel:UserViewModel) {
             painter = painterResource(id = com.example.jetpacktest02.R.drawable.g8_vip_bgimg),
             contentDescription = null,
             modifier = Modifier
-                .fillMaxHeight().offset(0.dp,10.dp)
+                .fillMaxHeight().offset(0.dp,0.dp)
                 .fillMaxSize(), contentScale = ContentScale.FillWidth
         )
 
@@ -93,7 +93,7 @@ fun VipScreen(userViewModel:UserViewModel) {
 
     Column(
         modifier= Modifier
-            .padding(top = 48.dp, start = 0.dp)
+            .padding(top = 30.dp, start = 0.dp)
             .fillMaxSize()
         ,horizontalAlignment= Alignment.CenterHorizontally
         , verticalArrangement = Arrangement.SpaceBetween
@@ -104,7 +104,7 @@ fun VipScreen(userViewModel:UserViewModel) {
             Image(
                 painter = painterResource(id = com.example.jetpacktest02.R.drawable.g7_0_img_vipcard),
                 contentDescription = null,
-                modifier = Modifier.size(width = 323.dp, height = 155.dp).offset(-15.dp,-35.dp)
+                modifier = Modifier.size(width = 323.dp, height = 165.dp).offset(0.dp,0.dp)
             )
         }
         if(!ifVip) {
@@ -112,34 +112,15 @@ fun VipScreen(userViewModel:UserViewModel) {
             Image(
                 painter = painterResource(id = com.example.jetpacktest02.R.drawable.g7_0_vipinactived),
                 contentDescription = null,
-                modifier = Modifier.size(width = 323.dp, height = 155.dp).offset(-15.dp,-35.dp)
+                modifier = Modifier.size(width = 323.dp, height = 155.dp).offset(0.dp,0.dp)
             )
         }
-        Column(modifier = Modifier, verticalArrangement = Arrangement.Bottom, horizontalAlignment = Alignment.End) {
-            Button(onClick = {ifdialog=true },
-                shape = RoundedCornerShape(27.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = GreenMain,
-                    contentColor = GreenMain
-                ),
-                modifier = Modifier
-                    .size(width = 204.dp, height = 50.dp)
-                ,
-
-
-                ) {
-
-                Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-                Text(text = "确认协议并开通", color = Color.White , fontSize = 18.sp)
-            }
-        }
-
         LazyColumn(
             Modifier
                 .fillMaxWidth() // 宽度填满父空间
-                .height(460.dp)
+                .height(350.dp)
                 .padding(top = 0.dp, start = 0.dp, end = 0.dp, bottom = 0.dp)
-                .offset(-15.dp,-25.dp),
+                .offset(0.dp,0.dp),
 
 
             verticalArrangement = Arrangement.spacedBy(22.dp),
@@ -187,25 +168,46 @@ fun VipScreen(userViewModel:UserViewModel) {
 
 
             })
+
+        Column(modifier = Modifier.fillMaxWidth().padding(bottom = 30.dp, end = 20.dp), verticalArrangement = Arrangement.Bottom, horizontalAlignment = Alignment.End) {
+            Button(onClick = {ifdialog=true },
+                shape = RoundedCornerShape(27.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = GreenMain,
+                    contentColor = GreenMain
+                ),
+                modifier = Modifier
+                    .size(width = 204.dp, height = 50.dp)
+                ,
+
+
+                ) {
+
+                Spacer(Modifier.size(ButtonDefaults.IconSpacing))
+                Text(text = "确认协议并开通", color = Color.White , fontSize = 18.sp)
+            }
+        }
+
+
     }
-    Button(onClick = {ifdialog=true },
-        shape = RoundedCornerShape(27.dp),
-        colors = ButtonDefaults.buttonColors(
-            containerColor = GreenMain,
-            contentColor = GreenMain
-        ),
-        modifier = Modifier
-            .size(width = 204.dp, height = 50.dp)
-            .offset(160.dp, 670.dp)
-
-        ,
-
-
-        ) {
-
-//        Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-        Text(text = "确认协议并开通", color = Color.White , fontSize = 18.sp)
-    }
+//    Button(onClick = {ifdialog=true },
+//        shape = RoundedCornerShape(27.dp),
+//        colors = ButtonDefaults.buttonColors(
+//            containerColor = GreenMain,
+//            contentColor = GreenMain
+//        ),
+//        modifier = Modifier
+//            .size(width = 204.dp, height = 50.dp)
+//            .offset(160.dp, 670.dp)
+//
+//        ,
+//
+//
+//        ) {
+//
+////        Spacer(Modifier.size(ButtonDefaults.IconSpacing))
+//        Text(text = "确认协议并开通", color = Color.White , fontSize = 18.sp)
+//    }
     if (ifdialog) {
         //背景颜色
         Image(

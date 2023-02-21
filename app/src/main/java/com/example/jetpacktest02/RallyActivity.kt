@@ -330,7 +330,7 @@ fun RallyApp() {
             //管理路由：页面跳转
             NavHost(
                 navController = navController,
-                startDestination = LoginFront.route,
+                startDestination = Plant.route,
                 modifier = Modifier.padding(innerPadding)
 
             ) {
@@ -803,12 +803,7 @@ fun RallyApp() {
 //                    )
 //                }
 
-                composable(route = My.route) {
-                    BtnArea(
-                        nav01 = {
-                            navController.navigate(MyCupBoard.route) { launchSingleTop = true; }
-                        })
-                }
+
 
                 composable(route = HealthPast.route) {
                     HealthPastScreen(
@@ -831,14 +826,14 @@ fun RallyApp() {
                     )
                 }
 
-                composable(route = HealthShare.route) {
-                    HealthShareScreen(
-//                        nav01 = {
-//                            navController.navigate(HealthShare.route) { launchSingleTop = true; }
-//                        }
-
-                    )
-                }
+//                composable(route = HealthShare.route) {
+//                    HealthShareScreen(
+////                        nav01 = {
+////                            navController.navigate(HealthShare.route) { launchSingleTop = true; }
+////                        }
+//
+//                    )
+//                }
                 composable(route = SharePost.route) {
                     SharePostScreen()
                 }

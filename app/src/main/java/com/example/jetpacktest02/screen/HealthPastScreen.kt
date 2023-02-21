@@ -349,7 +349,7 @@ fun PastHealthViewTabRow(
                         item{
                             Row (verticalAlignment = Alignment.CenterVertically,
                                 horizontalArrangement = Arrangement.spacedBy(24.dp)){
-                                ImgPlant()
+                                ImgPlant1()
                                 InformationRow()
                             }
 
@@ -404,7 +404,7 @@ fun PastHealthViewTabRow(
                                     verticalAlignment = Alignment.CenterVertically,
                                     horizontalArrangement = Arrangement.spacedBy(24.dp)
                                 ) {
-                                    ImgPlant()
+                                    ImgPlant1()
                                     InformationRow()
                                 }
 

@@ -102,7 +102,7 @@ fun VipScreen(userViewModel:UserViewModel) {
             Image(
                 painter = painterResource(id = com.example.jetpacktest02.R.drawable.g7_0_img_vipcard),
                 contentDescription = null,
-                modifier = Modifier.size(width = 333.dp, height = 162.dp).offset(-15.dp,-35.dp)
+                modifier = Modifier.size(width = 323.dp, height = 155.dp).offset(-15.dp,-35.dp)
             )
         }
         if(!ifVip) {

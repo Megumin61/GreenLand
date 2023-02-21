@@ -34,6 +34,7 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import androidx.compose.ui.window.Dialog
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 
@@ -63,15 +64,16 @@ import kotlinx.coroutines.delay
 @OptIn(ExperimentalAnimationApi::class)
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
-fun VipScreen(userViewModel:UserViewModel) {
+fun VipScreen(userViewModel: UserViewModel) {
 
 //    var ifVip by remember{
 //        mutableStateOf(false)}
-    val openDialog=remember{
+    val openDialog = remember {
         mutableStateOf(false)
     }
-    var ifdialog by remember{
-        mutableStateOf(false)}
+    var ifdialog by remember {
+        mutableStateOf(false)
+    }
 
     val ifVip = userViewModel.uiState.value.isVip.value
 
@@ -89,70 +91,75 @@ fun VipScreen(userViewModel:UserViewModel) {
 
     }
 
-    LaunchedEffect(key1 = state){
+    LaunchedEffect(key1 = state) {
         state = true
     }
-    LaunchedEffect(key1 = state1){
+    LaunchedEffect(key1 = state1) {
         delay(150)
         state1 = true
     }
-    LaunchedEffect(key1 = state2){
+    LaunchedEffect(key1 = state2) {
         delay(250)
         state2 = true
     }
-    LaunchedEffect(key1 = state3){
+    LaunchedEffect(key1 = state3) {
         delay(350)
         state3 = true
     }
 
     //配置顶部状态栏颜色
     rememberSystemUiController().setStatusBarColor(
-        Color(0xfff8f8f8),darkIcons = androidx.compose.material.MaterialTheme.colors.isLight)
+        Color(0xfff8f8f8), darkIcons = androidx.compose.material.MaterialTheme.colors.isLight
+    )
 
 
-    Surface(modifier = Modifier.fillMaxSize(),) {
+    Surface(modifier = Modifier.fillMaxSize()) {
 
         Image(
             painter = painterResource(id = com.example.jetpacktest02.R.drawable.g8_vip_bgimg),
             contentDescription = null,
             modifier = Modifier
-                .fillMaxHeight().offset(0.dp,0.dp)
+                .fillMaxHeight()
+                .offset(0.dp, 0.dp)
                 .fillMaxSize(), contentScale = ContentScale.FillWidth
         )
-
 
 
     }
 
     Column(
-        modifier= Modifier
+        modifier = Modifier
             .padding(top = 30.dp, start = 0.dp)
-            .fillMaxSize()
-        ,horizontalAlignment= Alignment.CenterHorizontally
-        , verticalArrangement = Arrangement.SpaceBetween
+            .fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.SpaceBetween
 //             verticalArrangement = Arrangement.Center
-    ){
+    ) {
         AnimatedVisibility(
             visible = state1,
             enter = scaleIn(transformOrigin = TransformOrigin(0f, 0f)) +
                     fadeIn(initialAlpha = 0.3f) + expandIn(expandFrom = Alignment.TopStart),
             exit = scaleOut(transformOrigin = TransformOrigin(0f, 0f)) +
                     fadeOut() + shrinkOut(shrinkTowards = Alignment.TopStart)
-        ){
+        ) {
             if (ifVip) {
                 //会员已激活卡片
                 Image(
                     painter = painterResource(id = com.example.jetpacktest02.R.drawable.g7_0_img_vipcard),
                     contentDescription = null,
-                    modifier = Modifier.size(width = 323.dp, height = 165.dp).offset(0.dp,0.dp)
+                    modifier = Modifier
+                        .size(width = 323.dp, height = 165.dp)
+                        .offset(0.dp, 0.dp)
                 )
             }
-            if(!ifVip) {
+            if (!ifVip) {
                 //会员未激活卡片
                 Image(
                     painter = painterResource(id = com.example.jetpacktest02.R.drawable.g7_0_vipinactived),
                     contentDescription = null,
-                    modifier = Modifier.size(width = 323.dp, height = 155.dp).offset(0.dp,0.dp)
+                    modifier = Modifier
+                        .size(width = 323.dp, height = 155.dp)
+                        .offset(0.dp, 0.dp)
                 )
             }
         }
@@ -169,7 +176,7 @@ fun VipScreen(userViewModel:UserViewModel) {
                     .fillMaxWidth() // 宽度填满父空间
                     .height(350.dp)
                     .padding(top = 0.dp, start = 0.dp, end = 0.dp, bottom = 0.dp)
-                    .offset(0.dp,0.dp),
+                    .offset(0.dp, 0.dp),
 
 
                 verticalArrangement = Arrangement.spacedBy(22.dp),
@@ -177,28 +184,28 @@ fun VipScreen(userViewModel:UserViewModel) {
 
                 content = {
 
-                    item{
+                    item {
                         Image(
                             painter = painterResource(id = com.example.jetpacktest02.R.drawable.g8_1_v1),
                             contentDescription = null,
                             modifier = Modifier.size(width = 323.dp, height = 95.dp)
                         )
                     }
-                    item{
+                    item {
                         Image(
                             painter = painterResource(id = com.example.jetpacktest02.R.drawable.g8_1_v2),
                             contentDescription = null,
                             modifier = Modifier.size(width = 323.dp, height = 95.dp)
                         )
                     }
-                    item{
+                    item {
                         Image(
                             painter = painterResource(id = com.example.jetpacktest02.R.drawable.g8_1_v3),
                             contentDescription = null,
                             modifier = Modifier.size(width = 323.dp, height = 95.dp)
                         )
                     }
-                    item{
+                    item {
                         Image(
                             painter = painterResource(id = com.example.jetpacktest02.R.drawable.g8_1_v4),
                             contentDescription = null,
@@ -206,14 +213,13 @@ fun VipScreen(userViewModel:UserViewModel) {
                         )
                     }
 
-                    item{
+                    item {
                         Image(
                             painter = painterResource(id = com.example.jetpacktest02.R.drawable.g8_1_v5),
                             contentDescription = null,
                             modifier = Modifier.size(width = 323.dp, height = 95.dp)
                         )
                     }
-
 
 
                 })
@@ -225,90 +231,98 @@ fun VipScreen(userViewModel:UserViewModel) {
                     fadeIn(initialAlpha = 0.3f) + expandIn(expandFrom = Alignment.TopStart),
             exit = scaleOut(transformOrigin = TransformOrigin(0f, 0f)) +
                     fadeOut() + shrinkOut(shrinkTowards = Alignment.TopStart)
-        ){
-            Column(modifier = Modifier.fillMaxWidth().padding(bottom = 30.dp, end = 20.dp), verticalArrangement = Arrangement.Bottom, horizontalAlignment = Alignment.End) {
-                Button(onClick = {ifdialog=true },
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 30.dp, end = 20.dp),
+                verticalArrangement = Arrangement.Bottom,
+                horizontalAlignment = Alignment.End
+            ) {
+                Button(
+                    onClick = { ifdialog = true },
                     shape = RoundedCornerShape(27.dp),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = GreenMain,
                         contentColor = GreenMain
                     ),
                     modifier = Modifier
-                        .size(width = 204.dp, height = 50.dp)
-                    ,
-
-
-                    ) {
-
+                        .size(width = 204.dp, height = 50.dp),
+                ) {
                     Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-                    Text(text = "确认协议并开通", color = Color.White , fontSize = 18.sp)
+                    Text(text = "确认协议并开通", color = Color.White, fontSize = 18.sp)
                 }
             }
         }
-
-
-
     }
 
     if (ifdialog) {
-        //背景颜色
-        Image(
-            painter = painterResource(id = com.example.jetpacktest02.R.drawable.g8_backblur),
-            contentDescription = null,
-            alpha = 0.34f,
-            modifier = Modifier
-                .fillMaxHeight()
-                .fillMaxSize(), contentScale = ContentScale.FillWidth
-        )
-        Box{
+        Dialog(onDismissRequest = { ifdialog = false }) {
+//            //背景颜色
+//            Image(
+//                painter = painterResource(id = com.example.jetpacktest02.R.drawable.g8_backblur),
+//                contentDescription = null,
+//                alpha = 0.34f,
+//                modifier = Modifier
+//                    .fillMaxHeight()
+//                    .fillMaxSize(), contentScale = ContentScale.FillWidth
+//            )
+            Box(contentAlignment = Alignment.Center) {
+                Image(
+                    painter = painterResource(id = com.example.jetpacktest02.R.drawable.g8_dialog),
+                    contentDescription = null,
+                    alignment = Alignment.Center,
+                    modifier = Modifier
+                        .size(width = 291.dp, height = 362.dp)
+                        .offset(0.dp, 0.dp)
+                )
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 310.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Bottom
+                ) {
+                    Text(
+                        text = "9.29 ~ 10.29", color = DateBlue, fontSize = 17.sp,
+                        modifier = Modifier.offset(0.dp, 0.dp)
+                    )
+                    Spacer(modifier = Modifier.height(10.dp))
+                    Button(
+                        onClick = {
+                            ifdialog = false;userViewModel.uiState.value.isVip.value = true
+                        },
+                        shape = RoundedCornerShape(30.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = GreenMain,
+                            contentColor = GreenMain
+                        ),
+                        modifier = Modifier
+                            .size(width = 201.dp, height = 42.dp)
+                            .offset(0.dp, 0.dp)
+                    ) {
+                        Text(text = "确认", color = Color.White, fontSize = 16.sp)
+                    }
 
+                    Spacer(modifier = Modifier.height(33.dp))
+                    Image(
+                        painter = painterResource(id = R.drawable.g4_4_btn_close),
+                        contentDescription = "",
+                        modifier = Modifier
+                            .align(Alignment.CenterHorizontally)
+                            .clickable(
+                                onClick = {
+                                    ifdialog = false
+                                },
+                                indication = null,
+                                interactionSource = MutableInteractionSource()
+                            )
+                    )
+                }
 
-            Image(
-
-
-                painter = painterResource(id = com.example.jetpacktest02.R.drawable.g8_dialog),
-                contentDescription = null,
-                alignment = Alignment.Center,
-                modifier = Modifier
-                    .size(width = 291.dp, height = 362.dp)
-                    .offset(50.dp, 200.dp)
-            )
-
-
-            Text(text = "9.29 ~ 10.29", color = DateBlue , fontSize = 20.sp,
-
-                modifier = Modifier.offset(150.dp,466.dp)
-            )
-
-
-
-            Button(onClick = { ifdialog=false;userViewModel.uiState.value.isVip.value=true },
-                shape = RoundedCornerShape(30.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = GreenMain,
-                    contentColor = GreenMain
-                ),
-                modifier = Modifier
-                    .size(width = 201.dp, height = 42.dp)
-                    .offset(96.dp, 506.dp)
-
-            ) {
-                Text(text = "确认", color = Color.White , fontSize = 16.sp)
             }
-
-
         }
-//        Image(
-//            painter = painterResource(id = com.example.jetpacktest02.R.drawable.g8_dialog),
-//            contentDescription = null,
-//            alignment = Alignment.Center,
-//            modifier = Modifier
-//                .size(width = 291.dp, height = 362.dp)
-//                .offset(50.dp, 200.dp)
-//        )
-        if (!ifdialog){}
     }
-
 }
 
 @SuppressLint("StateFlowValueCalledInComposition")
@@ -391,9 +405,6 @@ fun DialogCard(userViewModel: UserViewModel = androidx.lifecycle.viewmodel.compo
 //        )
 //
 //    }
-
-
-
 
 
 //@Preview (name = "Light Mode")

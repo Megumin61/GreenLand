@@ -61,10 +61,15 @@ data class UiState constructor(
     val openDialog: MutableState<Boolean> = mutableStateOf(false),
     //MessageFriendScreen
     val pageState: MutableState<Int> = mutableStateOf(0),
+
     //PlantScreen
     val PlantPage: MutableState<Int> = mutableStateOf(0),
     //ChooseSeedScreen
     val chooseSeedPageState: MutableState<Int> = mutableStateOf(0),
+    //用户选择的植物类型
+    val flowerid:MutableState<Int> = mutableStateOf(0),
+    //用户选择的植物类型
+    val isVip:MutableState<Boolean> = mutableStateOf(false),
     var searchText: String = "",
     val waterValue: Int = 0,
     val tabMessageList: MutableList<TapListItemModel> =

@@ -31,6 +31,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.jetpacktest02.Entity.User
+import com.example.jetpacktest02.Entity.ZUser
 import com.example.jetpacktest02.ViewModel.MarsViewModel
 import com.example.jetpacktest02.ViewModel.NotificationTestViewModel
 import com.example.jetpacktest02.ViewModel.UserViewModel
@@ -151,9 +152,10 @@ fun WordBookApp(userViewModel: UserViewModel = viewModel()) {
     StepPremission()
     StepCounter(userViewModel)
     //这里是viewmodel提供的所有user列表的数据
-    val marsViewModel: MarsViewModel = viewModel()
+//    val marsViewModel: MarsViewModel = viewModel()
+
     val users: List<User> by userViewModel.allUsers.observeAsState(mutableListOf())
-    var userList = marsViewModel.getUserList()
+//    var userList = marsViewModel.getUserList()
 
     val user_insert = User("ajun", "1812222222", "dada")
     //如果没有数据则插入
@@ -232,14 +234,14 @@ fun WordBookApp(userViewModel: UserViewModel = viewModel()) {
         Button(onClick = { userViewModel.insert(user_insert) }) {
             Text(text = "insert")
         }
-        Button(onClick = {
-            marsViewModel.addUser(
-                user_insert.name,
-                user_insert.phoneNumber
-            ); userList = marsViewModel.getUserList()
-        }) {
-            Text(text = "remoteInsert")
-        }
+//        Button(onClick = {
+//            marsViewModel.addUser(
+//                user_insert.name,
+//                user_insert.phoneNumber
+//            ); userList = marsViewModel.getUserList()
+//        }) {
+//            Text(text = "remoteInsert")
+//        }
         Button(onClick = {
             userViewModel.UpdatePositionById(
                 id = 1,
@@ -261,10 +263,10 @@ fun WordBookApp(userViewModel: UserViewModel = viewModel()) {
             Text("step" + user.step.toString())
         }
         Text(text = "今日步数：" + users.getOrNull(0)?.step.toString())
-        Text(text = userList.size.toString())
-        userList.forEach { user ->
-            Text("username" + user.username.toString())
-        }
+//        Text(text = userList.size.toString())
+//        userList.forEach { user ->
+//            Text("username" + user.username.toString())
+//        }
         Column() {
             Text(text = userViewModel.uiState.value.stepDetector.value.toString())
             Text(text = userViewModel.uiState.value.stepCounter.value.toString())
@@ -291,6 +293,9 @@ fun RallyApp() {
 
     val userViewModel: UserViewModel = viewModel()
     val marsViewModel: MarsViewModel = viewModel()
+
+//    userViewModel.uiState.value.userList = marsViewModel.getUserList() as MutableList<ZUser>
+
     // Fetch your currentDestination:
     val currentDestination = currentBackStack?.destination
     if (currentDestination != null) {

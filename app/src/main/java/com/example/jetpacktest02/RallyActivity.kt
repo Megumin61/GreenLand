@@ -452,7 +452,11 @@ fun RallyApp() {
                                 launchSingleTop = true;
                             }
                         },
-                        nav06 = { navController.popBackStack() }
+                        nav06 = {
+                            navController.navigate(PlantPlan.route) {
+                                launchSingleTop = true;
+                            }
+                        }
 
                     )
                 }
@@ -775,7 +779,7 @@ fun RallyApp() {
                             navController.navigate(MySetting.route) { launchSingleTop = true; }
                         },
                         nav04 = {
-                            navController.navigate(Vip.route) { launchSingleTop = true; }
+                            navController.navigate(Vip  .route) { launchSingleTop = true; }
                         },
 
                         )

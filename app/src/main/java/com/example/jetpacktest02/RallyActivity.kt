@@ -153,9 +153,9 @@ fun WordBookApp(userViewModel: UserViewModel = viewModel()) {
     //这里是viewmodel提供的所有user列表的数据
     val marsViewModel: MarsViewModel = viewModel()
     val users: List<User> by userViewModel.allUsers.observeAsState(mutableListOf())
-    val userList = marsViewModel.getUserList()
+    var userList = marsViewModel.getUserList()
 
-    val user_insert = User("Hello", "13333", "dada")
+    val user_insert = User("ajun", "1812222222", "dada")
     //如果没有数据则插入
     if (users.isEmpty()) {
         userViewModel.insert(user_insert)
@@ -232,7 +232,12 @@ fun WordBookApp(userViewModel: UserViewModel = viewModel()) {
         Button(onClick = { userViewModel.insert(user_insert) }) {
             Text(text = "insert")
         }
-        Button(onClick = { marsViewModel.addUser(user_insert.name, user_insert.phoneNumber) }) {
+        Button(onClick = {
+            marsViewModel.addUser(
+                user_insert.name,
+                user_insert.phoneNumber
+            ); userList = marsViewModel.getUserList()
+        }) {
             Text(text = "remoteInsert")
         }
         Button(onClick = {
@@ -285,6 +290,7 @@ fun RallyApp() {
     val Textvalue: String = ""
 
     val userViewModel: UserViewModel = viewModel()
+    val marsViewModel: MarsViewModel = viewModel()
     // Fetch your currentDestination:
     val currentDestination = currentBackStack?.destination
     if (currentDestination != null) {
@@ -335,7 +341,7 @@ fun RallyApp() {
             //管理路由：页面跳转
             NavHost(
                 navController = navController,
-                startDestination = LoginFront.route,
+                startDestination = PhoneLogin.route,
                 modifier = Modifier.padding(innerPadding)
 
             ) {
@@ -344,7 +350,6 @@ fun RallyApp() {
                         userViewModel = userViewModel
                     )
                 }
-
                 composable(route = Plant.route) {
                     PlantScreen(
                         userViewModel = userViewModel,
@@ -353,7 +358,6 @@ fun RallyApp() {
                         }, navController = navController
                     )
                 }
-
                 composable(route = Test.route) {
                     TestScreen(
                         nav01 = {
@@ -368,7 +372,8 @@ fun RallyApp() {
                 }
                 composable(route = PhoneLogin.route) {
                     PhoneLoginScreen(
-                        navController = navController
+                        navController = navController, userViewModel = userViewModel,
+                        marsViewModel = marsViewModel
                     )
                 }
                 composable(route = AppIntroduction.route) {

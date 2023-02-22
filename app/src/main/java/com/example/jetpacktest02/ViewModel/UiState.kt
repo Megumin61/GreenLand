@@ -25,6 +25,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.text.input.DeleteSurroundingTextInCodePointsCommand
 
 import androidx.lifecycle.ViewModel
+import com.example.jetpacktest02.Entity.ZUser
 
 import com.example.jetpacktest02.R
 import com.example.jetpacktest02.screen.LocationDetails
@@ -39,6 +40,9 @@ import java.time.Duration
  * Data class that represents the UI state
  */
 data class UiState constructor(
+    //注册账号相关
+    var userList :MutableList<ZUser> = mutableStateListOf(),
+
     //发布私信/图片页面模式 （留言模式:0 / 照片模式:1）
     var deliverPageMode :MutableState<Int> = mutableStateOf(0),
 
@@ -254,7 +258,7 @@ data class UiState constructor(
     ),
 
 
-)
+    )
 
 data class PlayerUiState(
     val title: String = "",

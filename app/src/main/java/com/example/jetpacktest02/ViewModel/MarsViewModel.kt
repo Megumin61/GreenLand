@@ -106,7 +106,7 @@ class MarsViewModel : ViewModel() {
     fun updatePos(id:Int,pos:String){
         val json:String = "{\n" +
                 "    \"id\":\"${id}\",\n" +
-                "    \"pos\":\"${pos}\"\n" +
+                "    \"position\":\"${pos}\"\n" +
                 "}"
         val body = RequestBody.create(
             "application/json".toMediaTypeOrNull(), json
@@ -115,6 +115,26 @@ class MarsViewModel : ViewModel() {
         viewModelScope.launch {
             try {
                 UserApi.retrofitService.userUpdatePos(body)
+            } catch (e: IOException) {
+                Toast.makeText(UsersApplication.context,e.message,Toast.LENGTH_SHORT).show()
+            } catch (e: HttpException) {
+                Toast.makeText(UsersApplication.context,e.message,Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    fun updateName(id:Int,name:String){
+        val json:String = "{\n" +
+                "    \"id\":\"${id}\",\n" +
+                "    \"username\":\"${name}\"\n" +
+                "}"
+        val body = RequestBody.create(
+            "application/json".toMediaTypeOrNull(), json
+        )
+
+        viewModelScope.launch {
+            try {
+                UserApi.retrofitService.userUpdateName(body)
             } catch (e: IOException) {
                 Toast.makeText(UsersApplication.context,e.message,Toast.LENGTH_SHORT).show()
             } catch (e: HttpException) {

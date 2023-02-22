@@ -11,6 +11,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Toast
 import androidx.compose.animation.*
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -31,6 +32,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
@@ -42,24 +44,33 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import cn.smssdk.EventHandler
 import cn.smssdk.SMSSDK
 import com.example.jetpacktest02.AppIntroduction
+import com.example.jetpacktest02.Entity.User
+import com.example.jetpacktest02.Entity.ZUser
 import com.example.jetpacktest02.MainActivity
 import com.example.jetpacktest02.Plant
 import com.example.jetpacktest02.R
+import com.example.jetpacktest02.ViewModel.MarsViewModel
+import com.example.jetpacktest02.ViewModel.UserViewModel
+import com.example.jetpacktest02.config.UsersApplication
 import com.example.scaffolddemo.ui.theme.*
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.mob.MobSDK
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.*
+import kotlin.math.log
 
 
 /**
@@ -113,14 +124,16 @@ fun applypermission() {
     }
 }
 
-@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter", "StateFlowValueCalledInComposition")
 @ExperimentalPermissionsApi
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PhoneLoginScreen(
-    navController: NavController
+    navController: NavController,
+    userViewModel: UserViewModel,
+    marsViewModel: MarsViewModel
 ) {
-
+    userViewModel.uiState.value.userList = marsViewModel.getUserList().toMutableList()
 
     //SnackBar状态变量
     val snackbarHostState = remember { SnackbarHostState() }
@@ -156,14 +169,27 @@ fun PhoneLoginScreen(
 //    var count = 60
     LaunchedEffect(key1 = hasLogin) {
         if (hasLogin) {
+            delay(300)
             navController.navigate(AppIntroduction.route) {
                 launchSingleTop = true;
             }
-//            scope.launch {
-//                snackbarHostState.showSnackbar("登录成功！")
-//            }
+            scope.launch {
+                snackbarHostState.showSnackbar("登录成功！")
+            }
         }
     }
+
+    //这里是viewmodel提供的所有user列表的数据
+//    val users: List<User> by userViewModel.allUsers.observeAsState(mutableListOf())
+//    var userList = marsViewModel.getUserList()
+//    users=userList
+//    LaunchedEffect(key1 = userList) {
+//        userList.forEachIndexed { index, user ->
+//            Log.i("code","用户${index}：${user.username}")
+////            Text(text = "用户${index}：${user.username}", color = Text3Gray, fontSize = 14.sp)
+//        }
+//    }
+//    userViewModel.uiState.value.userList = marsViewModel.getUserList()
 
     @SuppressLint("HandlerLeak")
     var handler: Handler = object : Handler(Looper.getMainLooper()) {
@@ -171,23 +197,35 @@ fun PhoneLoginScreen(
             val tag = msg.what
             when (tag) {
                 1 -> {
-                    val arg = msg.arg1
-                    if (arg == 1) {
-                        getCodeBtnText = "重新获取" //计时结束停止计时把值恢复
-                        count = 60
-                        timer!!.cancel()
-                        getCodeBtnEabled = true
+//                    val arg = msg.arg1
+//                    if (arg == 1) {
+//                        get_code_id!!.text = "重新获取" //计时结束停止计时把值恢复
+//                        count = 60
+//                        timer!!.cancel()
 //                        get_code_id!!.isEnabled = true
-                    } else {
-                        getCodeBtnText = count.toString() + ""
-                    }
+//                    } else {
+//                        get_code_id!!.text = count.toString() + ""
+//                    }
                 }
-                2 -> {}
+                2 -> Toast.makeText(UsersApplication.context, "获取短信验证码成功", Toast.LENGTH_LONG).show()
                 3 -> {
                     Log.i("code", "获取短信验证码失败")
+                    Toast.makeText(
+                        UsersApplication.context,
+                        msg.data.getString("code"),
+                        Toast.LENGTH_LONG
+                    )
+                        .show()
                 }
-                4 -> {}
-                else -> {}
+                4 -> Toast.makeText(
+                    UsersApplication.context,
+                    msg.data.getString("code"),
+                    Toast.LENGTH_LONG
+                ).show()
+                else -> {
+                    Toast.makeText(UsersApplication.context, msg.data.toString(), Toast.LENGTH_LONG)
+                        .show()
+                }
             }
         }
     }
@@ -209,6 +247,21 @@ fun PhoneLoginScreen(
                         bundle.putString("code", "登录成功！")
                         Log.i("code", "登录成功")
                         hasLogin = true
+
+//                        var hasRegister = false
+//                       var phone = phonenumber.trim { it <= ' ' }
+//                        userList.forEachIndexed{index,user->
+//                            if (user.phone == phone ){
+//                                hasRegister = true
+//                            }
+//                        }
+//                        //若该手机号还没注册,则向远端数据库新增手机号
+//                        if(hasRegister==false){
+//                            marsViewModel.addUser(
+//                                "jjunTest",
+//                                phonenumber
+//                            )
+//                        }
 
                         val message = Message()
                         message.what = 4
@@ -271,7 +324,24 @@ fun PhoneLoginScreen(
     fun handleGetCodeClick() {
         var phone = ""
         var code = ""
+        var hasRegister = false
         phone = phonenumber.trim { it <= ' ' }
+        Log.i("phone", "输入的手机号为：${phone}")
+//        Log.i("phone", userViewModel.uiState.value.userList[1].phone)
+        userViewModel.uiState.value.userList.forEachIndexed { index, user ->
+            Log.i("phone", "${index}:${user.phone}")
+            if (user.phone == phone) {
+                hasRegister = true
+            }
+        }
+        Log.i("phone", "该账号已注册: ${hasRegister}")
+        //若该手机号还没注册,则向远端数据库新增手机号
+        if (!hasRegister) {
+            marsViewModel.addUser(
+                "oldone",
+                phonenumber
+            )
+        }
         if (!TextUtils.isEmpty(phone)) {
             CountdownStart()
             SMSSDK.getVerificationCode("86", phone)
@@ -281,11 +351,26 @@ fun PhoneLoginScreen(
     }
 
     fun handleLoginClick() {
+        userViewModel.uiState.value.userList = marsViewModel.getUserList().toMutableList()
         appInit(navController = navController)
         var phone = ""
         var code = ""
         phone = phonenumber.trim { it <= ' ' }
         code = verifyCode.trim { it <= ' ' }
+
+        var hasSignUp = false
+//        userList.forEachIndexed { index, zUser ->
+//            if (zUser.phone ==phone){
+//                scope.launch {
+//                    snackbarHostState.showSnackbar("该手机号已注册")
+//                }
+//                hasSignUp =true
+//            }
+//            else{
+//
+//            }
+//        }
+
         if (TextUtils.isEmpty(phone)) {
             Log.i("code", "手机号不能为空！")
         } else if (TextUtils.isEmpty(code)) {
@@ -321,6 +406,10 @@ fun PhoneLoginScreen(
                 }
             },
         ) {
+//            userList.forEachIndexed { index, user ->
+//            Log.i("code","用户${index}：${user.username}")
+//            Text(text = "用户${index}：${user.username}", color = Text3Gray, fontSize = 14.sp)
+//        }
             Image(
                 painter = painterResource(id = com.example.jetpacktest02.R.drawable.g0_0_frontpage),
                 contentDescription = null,
@@ -330,10 +419,12 @@ fun PhoneLoginScreen(
             )
             Column(
                 modifier = Modifier
-                    .padding(start = 0.dp, end = 19.dp, top = 40.dp).fillMaxWidth(),
+                    .padding(start = 0.dp, end = 19.dp, top = 40.dp)
+                    .fillMaxWidth(),
                 horizontalAlignment = Alignment.End
             )
             {
+
                 Box {
                     //立即体验跳过按钮
                     androidx.compose.material.TextButton(onClick = {
@@ -374,30 +465,36 @@ fun PhoneLoginScreen(
                         //输入手机号文本框
                         TextField(
                             value = phonenumber,
+
                             onValueChange = {
                                 phonenumber = it
-
+                                if(it.length ==1){
+                                    userViewModel.uiState.value.userList = marsViewModel.getUserList().toMutableList()
+                                }
                             },
                             singleLine = true,
                             placeholder = {
-                                Text(text = "请输入手机号", color = Color.White)
+                                Text(
+                                    text = "请输入手机号",
+                                    color = Color.White,
+                                    style = TextStyle(fontSize = 17.sp)
+                                )
                             },
                             keyboardOptions = KeyboardOptions(
                                 keyboardType = KeyboardType.Phone,
                                 imeAction = ImeAction.Send
                             ),
                             colors = TextFieldDefaults.outlinedTextFieldColors(
-                                focusedLabelColor = Color.Unspecified,
-                                unfocusedLabelColor = Color.Unspecified,
+                                cursorColor = Color.White,
+                                textColor = Color.White,
                                 focusedBorderColor = Color.Unspecified,
-                                unfocusedBorderColor = Color.Unspecified
-
+                                unfocusedBorderColor = Color.Unspecified,
+                                disabledBorderColor = Color.Unspecified,
                             ),
                             modifier = Modifier
                                 .offset(20.dp, -3.dp)
                                 .width(250.dp)
                                 .height(75.dp)
-
 
                         )
                     }
@@ -416,11 +513,17 @@ fun PhoneLoginScreen(
                     //获取验证码文字按钮
                     androidx.compose.material.TextButton(
                         onClick = { handleGetCodeClick() },
-                        modifier = Modifier.offset(230.dp, 12.dp),
+                        modifier = Modifier
+                            .offset(230.dp, 12.dp)
+                            .width(100.dp),
                         enabled = getCodeBtnEabled
                     ) {
-                        Text(text = getCodeBtnText, color = GreenMain, fontSize = 15.sp)
-
+                        Text(
+                            text = getCodeBtnText,
+                            color = GreenMain,
+                            fontSize = 15.sp,
+                            textAlign = TextAlign.Center
+                        )
 
                     }
 
@@ -438,19 +541,24 @@ fun PhoneLoginScreen(
                             },
                             singleLine = true,
                             placeholder = {
-                                Text(text = "", color = GreenMain)
+                                Text(
+                                    text = "",
+                                    color = GreenMain,
+                                    style = TextStyle(fontSize = 17.sp)
+                                )
                             },
                             keyboardOptions = KeyboardOptions(
                                 keyboardType = KeyboardType.Phone,
                                 imeAction = ImeAction.Send
                             ),
                             colors = TextFieldDefaults.outlinedTextFieldColors(
-                                focusedLabelColor = Color.Unspecified,
-                                unfocusedLabelColor = Color.Unspecified,
+                                cursorColor = Green5,
+                                textColor = Green5,
                                 focusedBorderColor = Color.Unspecified,
-                                unfocusedBorderColor = Color.Unspecified
+                                unfocusedBorderColor = Color.Unspecified,
+                                disabledBorderColor = Color.Unspecified,
 
-                            ),
+                                ),
                             modifier = Modifier
                                 .offset(-31.dp, -2.dp)
                                 .width(150.dp)

@@ -49,6 +49,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.jetpacktest02.Entity.User
 import com.example.jetpacktest02.R
 import com.example.jetpacktest02.ViewModel.UserViewModel
 import com.example.scaffolddemo.ui.theme.Green1
@@ -61,15 +62,15 @@ import kotlinx.coroutines.delay
  */
 @SuppressLint("StateFlowValueCalledInComposition")
 @OptIn(ExperimentalAnimationApi::class)
-//@Preview(showBackground=true,widthDp=393,heightDp=851)
 @Composable
-fun MyScreen(userViewModel: UserViewModel,
+fun MyScreen(
+    userViewModel: UserViewModel,
 //            bills : (String) -> Unit = {},
 
-             nav01: () -> Unit={},
-             nav02: () -> Unit={},
-             nav03: () -> Unit={},
-             nav04: () -> Unit={},
+    nav01: () -> Unit = {},
+    nav02: () -> Unit = {},
+    nav03: () -> Unit = {},
+    nav04: () -> Unit = {},
 
              ) {
     rememberSystemUiController().setStatusBarColor(
@@ -90,18 +91,18 @@ fun MyScreen(userViewModel: UserViewModel,
     }
     val ifVip = userViewModel.uiState.value.isVip.value
 
-    LaunchedEffect(key1 = state){
+    LaunchedEffect(key1 = state) {
         state = true
     }
-    LaunchedEffect(key1 = state1){
+    LaunchedEffect(key1 = state1) {
         delay(150)
         state1 = true
     }
-    LaunchedEffect(key1 = state2){
+    LaunchedEffect(key1 = state2) {
         delay(250)
         state2 = true
     }
-    LaunchedEffect(key1 = state3){
+    LaunchedEffect(key1 = state3) {
         delay(350)
         state3 = true
     }
@@ -120,25 +121,27 @@ fun MyScreen(userViewModel: UserViewModel,
             ),
 
         contentAlignment = Alignment.TopCenter
-    ){
-        Column(horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
 
-        modifier = Modifier.padding(top=50.dp, start = 20.dp, end = 20.dp),
-        verticalArrangement = Arrangement.spacedBy(10.dp)) {
+            modifier = Modifier.padding(top = 50.dp, start = 20.dp, end = 20.dp),
+            verticalArrangement = Arrangement.spacedBy(10.dp)
+        ) {
             AnimatedVisibility(
                 visible = state1,
                 enter = scaleIn(transformOrigin = TransformOrigin(0f, 0f)) +
                         fadeIn(initialAlpha = 0.3f) + expandIn(expandFrom = Alignment.TopStart),
                 exit = scaleOut(transformOrigin = TransformOrigin(0f, 0f)) +
                         fadeOut() + shrinkOut(shrinkTowards = Alignment.TopStart)
-            ){UserInfo()}
+            ) { UserInfo(userViewModel = userViewModel) }
             AnimatedVisibility(
                 visible = state1,
                 enter = scaleIn(transformOrigin = TransformOrigin(0f, 0f)) +
                         fadeIn(initialAlpha = 0.3f) + expandIn(expandFrom = Alignment.TopStart),
                 exit = scaleOut(transformOrigin = TransformOrigin(0f, 0f)) +
                         fadeOut() + shrinkOut(shrinkTowards = Alignment.TopStart)
-            ){UserSign()}
+            ) { UserSign() }
             AnimatedVisibility(
                 visible = state2,
                 enter = scaleIn(transformOrigin = TransformOrigin(0f, 0f)) +
@@ -177,32 +180,44 @@ fun MyScreen(userViewModel: UserViewModel,
                         fadeIn(initialAlpha = 0.3f) + expandIn(expandFrom = Alignment.TopStart),
                 exit = scaleOut(transformOrigin = TransformOrigin(0f, 0f)) +
                         fadeOut() + shrinkOut(shrinkTowards = Alignment.TopStart)
-            ){Box(contentAlignment = Alignment.Center){
-                Image(
-                    painter = painterResource(id = R.drawable.g7_0_btnbg),
-                    contentDescription = null,
-                )
-                Column(verticalArrangement = Arrangement.spacedBy(27.dp), horizontalAlignment = Alignment.CenterHorizontally) {
-
+            ) {
+                Box(contentAlignment = Alignment.Center) {
                     Image(
-                        painter = painterResource(id = R.drawable.g7_0_ic_health),
+                        painter = painterResource(id = R.drawable.g7_0_btnbg),
                         contentDescription = null,
-                        modifier = Modifier.size(width=300.dp,height=54.dp)
-                            .clickable(onClick = nav02, indication = null, interactionSource = remember {
-                                MutableInteractionSource()
-                            })
-
-
                     )
-                    Image(
-                        painter = painterResource(id = R.drawable.g7_0_ic_cupboard),
-                        contentDescription = null,
-                        modifier = Modifier.size(width=300.dp,height=54.dp)
-                            .clickable(onClick = nav01, indication = null, interactionSource = remember {
-                                MutableInteractionSource()
-                            })
+                    Column(
+                        verticalArrangement = Arrangement.spacedBy(27.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
 
-                    )
+                        Image(
+                            painter = painterResource(id = R.drawable.g7_0_ic_health),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .size(width = 300.dp, height = 54.dp)
+                                .clickable(
+                                    onClick = nav02,
+                                    indication = null,
+                                    interactionSource = remember {
+                                        MutableInteractionSource()
+                                    })
+
+
+                        )
+                        Image(
+                            painter = painterResource(id = R.drawable.g7_0_ic_cupboard),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .size(width = 300.dp, height = 54.dp)
+                                .clickable(
+                                    onClick = nav01,
+                                    indication = null,
+                                    interactionSource = remember {
+                                        MutableInteractionSource()
+                                    })
+
+                        )
 //                    Button(onClick = nav03,
 //                        colors = ButtonDefaults.outlinedButtonColors(),
 //                        contentPadding = PaddingValues(0.dp),
@@ -210,92 +225,109 @@ fun MyScreen(userViewModel: UserViewModel,
 //
 //
 //                    }
-                    Image(
-                        painter = painterResource(id = R.drawable.g7_0_ic_settings),
-                        contentDescription = null,
-                        modifier = Modifier.size(width=300.dp,height=54.dp)
-                            .clickable(onClick = nav03, indication = null, interactionSource = remember {
-                                MutableInteractionSource()
-                            })
+                        Image(
+                            painter = painterResource(id = R.drawable.g7_0_ic_settings),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .size(width = 300.dp, height = 54.dp)
+                                .clickable(
+                                    onClick = nav03,
+                                    indication = null,
+                                    interactionSource = remember {
+                                        MutableInteractionSource()
+                                    })
 
-                    )
+                        )
 
+                    }
                 }
-            }}
+            }
 
 
         }
     }
 
 
-   /* Column{
-        Text("7.0-My")
-        Button(
-            onClick = nav01,
-            contentPadding = ButtonDefaults.ButtonWithIconContentPadding
+    /* Column{
+         Text("7.0-My")
+         Button(
+             onClick = nav01,
+             contentPadding = ButtonDefaults.ButtonWithIconContentPadding
 
-        ) {
-            Icon(
-                Icons.Filled.Favorite,
-                contentDescription = "Localized description",
-                modifier = Modifier.size(ButtonDefaults.IconSize)
-            )
-            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-            Text("1.1-Plant")
-        }
-    }*/
-
-
-}
-
-
-@Composable
-fun BtnArea(nav01: () -> Unit={}){
-
-}
-@Composable
-fun UserInfo(){
- Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(horizontal = 15.dp)){
-     Image(
-         painter = painterResource(id = R.drawable.g7_0_userprofile),//用户的头像--------------------------------------------
-         contentDescription = null,
-         Modifier.clip(CircleShape)
-     )
-     Spacer(modifier = Modifier.width(10.dp))
-     Column() {
-         Text(text = "Miguminnn", fontSize = 18.sp,//用户的昵称---------------------------
-             fontWeight = W700, 
-             color = Color(73,74,89))
-         Spacer(modifier = Modifier.height(10.dp))
-         Row(horizontalArrangement = Arrangement.spacedBy(10.dp)){
-             Image(
-                 painter = painterResource(id = R.drawable.g7_0_achi1),
-                 contentDescription = null)
-             Image(
-                 painter = painterResource(id = R.drawable.g7_0_achi2),
-                 contentDescription = null)
+         ) {
+             Icon(
+                 Icons.Filled.Favorite,
+                 contentDescription = "Localized description",
+                 modifier = Modifier.size(ButtonDefaults.IconSize)
+             )
+             Spacer(Modifier.size(ButtonDefaults.IconSpacing))
+             Text("1.1-Plant")
          }
+     }*/
 
-     }
-     Spacer(modifier = Modifier.width(40.dp))
-     Button(onClick = { /*TODO*/ },
-         colors = ButtonDefaults.outlinedButtonColors(),
-         contentPadding = PaddingValues(0.dp),
-         shape = RectangleShape) {
-         Image(
-             painter = painterResource(id = com.google.android.material.R.drawable.material_ic_keyboard_arrow_right_black_24dp),
-             contentDescription = null,
-             modifier = Modifier.size(40.dp)
-         )
-
-     }
-
-     }
 
 }
+
+
 @Composable
-fun UserSign(){
-    Box(contentAlignment = Alignment.Center){
+fun BtnArea(nav01: () -> Unit = {}) {
+
+}
+
+@SuppressLint("StateFlowValueCalledInComposition")
+@Composable
+fun UserInfo(userViewModel: UserViewModel) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier.padding(horizontal = 15.dp)
+    ) {
+        Image(
+            painter = painterResource(id = userViewModel.uiState.value.meItem.value.userAvatar),//用户的头像--------------------------------------------
+            contentDescription = null,
+            Modifier.clip(CircleShape)
+        )
+        Spacer(modifier = Modifier.width(10.dp))
+        Column() {
+            Text(
+                text = "Miguminnn", fontSize = 18.sp,//用户的昵称---------------------------
+                fontWeight = W700,
+                color = Color(73, 74, 89)
+            )
+            Spacer(modifier = Modifier.height(10.dp))
+            Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                Image(
+                    painter = painterResource(id = R.drawable.g7_0_achi1),
+                    contentDescription = null
+                )
+                Image(
+                    painter = painterResource(id = R.drawable.g7_0_achi2),
+                    contentDescription = null
+                )
+            }
+
+        }
+        Spacer(modifier = Modifier.width(40.dp))
+        Button(
+            onClick = { /*TODO*/ },
+            colors = ButtonDefaults.outlinedButtonColors(),
+            contentPadding = PaddingValues(0.dp),
+            shape = RectangleShape
+        ) {
+            Image(
+                painter = painterResource(id = com.google.android.material.R.drawable.material_ic_keyboard_arrow_right_black_24dp),
+                contentDescription = null,
+                modifier = Modifier.size(40.dp)
+            )
+
+        }
+
+    }
+
+}
+
+@Composable
+fun UserSign() {
+    Box(contentAlignment = Alignment.Center) {
         Image(
             painter = painterResource(id = R.drawable.g7_0_signbg),
             contentDescription = null,
@@ -313,8 +345,6 @@ fun UserSign(){
                 .padding(bottom = 5.dp),
             hint = "请输入个性签名",
         )
-
-
 
 
     }
@@ -339,8 +369,8 @@ fun CustomEditHint(
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     keyboardActions: KeyboardActions = KeyboardActions.Default,
     visualTransformation: VisualTransformation = VisualTransformation.None,
-    
-) {
+
+    ) {
     // 焦点, 用于控制是否显示 右侧叉号
     BasicTextField(
         value = text,
@@ -355,9 +385,10 @@ fun CustomEditHint(
         visualTransformation = visualTransformation,
 
         decorationBox = @Composable { innerTextField ->
-            if(text.isEmpty())
-                Text(text = hint,
-                    color =Color.LightGray,
+            if (text.isEmpty())
+                Text(
+                    text = hint,
+                    color = Color.LightGray,
                     style = textStyle,
                     fontSize = 16.sp,
                 )

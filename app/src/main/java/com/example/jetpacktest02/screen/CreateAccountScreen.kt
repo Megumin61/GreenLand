@@ -1,5 +1,6 @@
 package com.example.jetpacktest02.screen
 
+import android.annotation.SuppressLint
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
@@ -22,6 +23,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.jetpacktest02.*
 import com.example.jetpacktest02.R
+import com.example.jetpacktest02.ViewModel.UserViewModel
 import com.example.scaffolddemo.ui.theme.*
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
@@ -30,9 +32,10 @@ import com.google.accompanist.pager.rememberPagerState
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import kotlinx.coroutines.delay
 
+@SuppressLint("StateFlowValueCalledInComposition")
 @OptIn(ExperimentalPagerApi::class, ExperimentalMaterial3Api::class)
 @Composable
-fun CreateAccountScreen(navController: NavController) {
+fun CreateAccountScreen(navController: NavController, userViewModel: UserViewModel) {
     rememberSystemUiController().setStatusBarColor(
         Flesh2, darkIcons = androidx.compose.material.MaterialTheme.colors.isLight
     )
@@ -77,7 +80,7 @@ fun CreateAccountScreen(navController: NavController) {
                 initialOffsetY = { 800 },
                 animationSpec = tween(durationMillis = 1200)
             )
-        ){
+        ) {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
@@ -102,7 +105,7 @@ fun CreateAccountScreen(navController: NavController) {
                             .fillMaxWidth()
                     ) {
                         HorizontalPager(
-                            count = 6,
+                            count = 10,
                             state = pagerState,
                             modifier = Modifier
                         ) { page ->
@@ -122,6 +125,7 @@ fun CreateAccountScreen(navController: NavController) {
                                         modifier = Modifier
                                             .size(120.dp),
                                     )
+
                                 }
                                 2 -> {
                                     Image(
@@ -150,6 +154,38 @@ fun CreateAccountScreen(navController: NavController) {
                                 5 -> {
                                     Image(
                                         painter = painterResource(id = R.drawable.userprofile_6),
+                                        contentDescription = null,
+                                        modifier = Modifier
+                                            .size(120.dp),
+                                    )
+                                }
+                                6 -> {
+                                    Image(
+                                        painter = painterResource(id = R.drawable.userprofile_2),
+                                        contentDescription = null,
+                                        modifier = Modifier
+                                            .size(120.dp),
+                                    )
+                                }
+                                7 -> {
+                                    Image(
+                                        painter = painterResource(id = R.drawable.userprofile_17),
+                                        contentDescription = null,
+                                        modifier = Modifier
+                                            .size(120.dp),
+                                    )
+                                }
+                                8 -> {
+                                    Image(
+                                        painter = painterResource(id = R.drawable.userprofile_18),
+                                        contentDescription = null,
+                                        modifier = Modifier
+                                            .size(120.dp),
+                                    )
+                                }
+                                9 -> {
+                                    Image(
+                                        painter = painterResource(id = R.drawable.userprofile_19),
                                         contentDescription = null,
                                         modifier = Modifier
                                             .size(120.dp),
@@ -210,6 +246,51 @@ fun CreateAccountScreen(navController: NavController) {
                     Button(
                         onClick = {
                             navController.navigate(PlantUnchosen.route) { launchSingleTop = true; }
+                            when (pagerState.currentPage) {
+                                0 -> {
+                                    userViewModel.uiState.value.meItem.value.userAvatar =
+                                        R.drawable.userprofile_12
+                                }
+                                1 -> {
+                                    userViewModel.uiState.value.meItem.value.userAvatar =
+                                        R.drawable.userprofile_1
+                                }
+                                2 -> {
+                                    userViewModel.uiState.value.meItem.value.userAvatar =
+                                        R.drawable.userprofile_13
+                                }
+                                3 -> {
+                                    userViewModel.uiState.value.meItem.value.userAvatar =
+                                        R.drawable.userprofile_4
+                                }
+                                4 -> {
+                                    userViewModel.uiState.value.meItem.value.userAvatar =
+                                        R.drawable.userprofile_3
+                                }
+                                5 -> {
+                                    userViewModel.uiState.value.meItem.value.userAvatar =
+                                        R.drawable.userprofile_6
+                                }
+                                6 -> {
+                                    userViewModel.uiState.value.meItem.value.userAvatar =
+                                        R.drawable.userprofile_2
+                                }
+                                7 -> {
+                                    userViewModel.uiState.value.meItem.value.userAvatar =
+                                        R.drawable.userprofile_17
+                                }
+                                8 -> {
+                                    userViewModel.uiState.value.meItem.value.userAvatar =
+                                        R.drawable.userprofile_18
+                                }
+                                9 -> {
+                                    userViewModel.uiState.value.meItem.value.userAvatar =
+                                        R.drawable.userprofile_19
+                                }
+
+                            }
+                            navController.navigate(Plant.route) { launchSingleTop = true; }
+
                         },
                         shape = RoundedCornerShape(27.dp),
                         colors = ButtonDefaults.buttonColors(

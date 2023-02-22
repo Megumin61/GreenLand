@@ -16,7 +16,7 @@ MobSDK {
 android {
 //    signingConfigs {
 //        debug {
-//            storeFile file('F:\\zjs\\Android\\JetpackTest02\\222.jks')
+//            storeFile file('C:\\Users\\w\\Desktop\\GreenLand\\222.jks')
 //            storePassword '123456'
 //            keyAlias 'key0'
 //            keyPassword '123456'

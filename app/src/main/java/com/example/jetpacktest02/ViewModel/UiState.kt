@@ -18,6 +18,7 @@ package com.example.jetpacktest02.ViewModel
 import android.hardware.Sensor
 import android.hardware.SensorManager
 import android.text.BoringLayout
+import android.widget.MultiAutoCompleteTextView
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -25,6 +26,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.text.input.DeleteSurroundingTextInCodePointsCommand
 
 import androidx.lifecycle.ViewModel
+import com.example.jetpacktest02.Entity.ZUser
 
 import com.example.jetpacktest02.R
 import com.example.jetpacktest02.screen.LocationDetails
@@ -39,6 +41,12 @@ import java.time.Duration
  * Data class that represents the UI state
  */
 data class UiState constructor(
+    //用户所选择的头像
+    var avartarInt :MutableState<Int> = mutableStateOf(0),
+
+    //注册账号相关
+    var userList :MutableList<ZUser> = mutableStateListOf(),
+
     //发布私信/图片页面模式 （留言模式:0 / 照片模式:1）
     var deliverPageMode :MutableState<Int> = mutableStateOf(0),
 
@@ -130,7 +138,7 @@ data class UiState constructor(
     var meItem: MutableState<FriendItem> = mutableStateOf(
         FriendItem(
             userName = "ajunGrit", //本人用户名
-            userAvatar = R.drawable.g2_1_img_user04, //本人头像
+            userAvatar = R.drawable.userprofile_12, //本人头像
             userPlant = R.drawable.gif_4, //本人植物
             offsetX = 0f,
             offsetY = 0f,
@@ -254,7 +262,7 @@ data class UiState constructor(
     ),
 
 
-)
+    )
 
 data class PlayerUiState(
     val title: String = "",

@@ -4,6 +4,7 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.os.Looper
+import android.util.Log
 import androidx.compose.animation.*
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
@@ -49,6 +50,7 @@ import com.example.jetpacktest02.IslandVisitOther
 import com.example.jetpacktest02.R
 import com.example.jetpacktest02.ViewModel.ExploreMemberItem
 import com.example.jetpacktest02.ViewModel.FriendItem
+import com.example.jetpacktest02.ViewModel.MarsViewModel
 import com.example.jetpacktest02.ViewModel.UserViewModel
 import com.example.jetpacktest02.compose.GIFimage
 import com.example.jetpacktest02.utils.GPSUtils
@@ -58,10 +60,14 @@ import com.google.accompanist.permissions.rememberMultiplePermissionsState
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.google.android.gms.location.*
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalPermissionsApi::class)
-@SuppressLint("UnusedMaterialScaffoldPaddingParameter", "StateFlowValueCalledInComposition")
+@SuppressLint(
+    "UnusedMaterialScaffoldPaddingParameter", "StateFlowValueCalledInComposition",
+    "CoroutineCreationDuringComposition"
+)
 @Composable
 fun IslandExploreScreen(
     nav01: () -> Unit = {},
@@ -70,9 +76,18 @@ fun IslandExploreScreen(
     nav04: () -> Unit = {},
     userViewModel: UserViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
     controller: NavHostController,
-    navVisitOther :()-> Unit ={},
+    navVisitOther: () -> Unit = {},
+    marsViewModel: MarsViewModel
 ) {
+    val scope = rememberCoroutineScope()
 
+    //获得刚刚注册的用户id
+    if (userViewModel.uiState.value.userList.size > 1) {
+        var userId by remember {
+            mutableStateOf(userViewModel.uiState.value.userList[userViewModel.uiState.value.userList.size - 1].id)
+        }
+        Log.i("code", "id: ${userId.toString()}")
+    }
 
     LaunchedEffect(key1 = userViewModel._uiState.value.msgItem.value) {
         if (userViewModel._uiState.value.showTextMsg.value == true) {
@@ -80,7 +95,18 @@ fun IslandExploreScreen(
             userViewModel._uiState.value.showTextMsg.value = false
         }
     }
-
+    LaunchedEffect(key1 = userViewModel.uiState.value.mePos.value) {
+        if (userViewModel.uiState.value.mePos.value.latitude != 0.0) {
+//            scope.launch {
+//                marsViewModel.updatePos(
+//                    userId,
+//                    userViewModel.uiState.value.mePos.value.latitude.toString()
+//                )
+//                Log.i("code", "lat: ${userViewModel.uiState.value.mePos.value.latitude.toString()}")
+//
+//            }
+        }
+    }
     var locationCallback: LocationCallback? = null
     var fusedLocationClient: FusedLocationProviderClient? = null
     val context = LocalContext.current
@@ -129,7 +155,9 @@ fun IslandExploreScreen(
 
         val pos = GPSUtils.getInstance().getProvince()
         userViewModel._uiState.value.mePos.value = pos
-
+//        scope.launch {
+//            marsViewModel.updatePos(userId,pos.toString())
+//        }
 
         //监测我的位置变化，并且计算探索岛成员与我之间的距离
         LaunchedEffect(key1 = userViewModel._uiState.value.mePos.value) {
@@ -243,7 +271,6 @@ fun IslandExploreScreen(
                     elevation = 0.dp, //设置阴影
                     //左侧按钮
                     navigationIcon = {
-
                         IconButton(onClick = nav01) {
                             Icon(
                                 bitmap = ImageBitmap.imageResource(id = R.drawable.g1_2_0_ic_arrow_left),
@@ -301,6 +328,12 @@ fun IslandExploreScreen(
                         contentDescription = null,
                         modifier = Modifier
                             .width(270.dp)
+                            .clickable(onClick = {
+//                                marsViewModel.updatePos(
+//                                    userId,
+//                                    userViewModel.uiState.value.mePos.value.latitude.toString()
+//                                )
+                            }, interactionSource = MutableInteractionSource(), indication = null)
                     )
                 }
 
@@ -436,7 +469,13 @@ fun IslandExploreScreen(
                     }
 
                     // 地图扫描动画背景
-                    ExploreMapBgAnimation(nav03, nav04,navVisitOther=navVisitOther, userViewModel = userViewModel, controller)
+                    ExploreMapBgAnimation(
+                        nav03,
+                        nav04,
+                        navVisitOther = navVisitOther,
+                        userViewModel = userViewModel,
+                        controller
+                    )
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -658,24 +697,24 @@ fun ExplorePlantModelItem(
                     } else {
                     }
 
-                        GIFimage(
-                            gif = plantType, modifier = Modifier
-                                .size(plantSize)
-                                .clickable(
-                                    onClick =
-                                    {
-                                        MsgHandleClick(
-                                            userViewModel,
-                                            textMsg,
-                                            imgMsg,
-                                            item,
-                                            controller
-                                        )
-                                    },
-                                    indication = null,
-                                    interactionSource = MutableInteractionSource()
-                                )
-                        )
+                    GIFimage(
+                        gif = plantType, modifier = Modifier
+                            .size(plantSize)
+                            .clickable(
+                                onClick =
+                                {
+                                    MsgHandleClick(
+                                        userViewModel,
+                                        textMsg,
+                                        imgMsg,
+                                        item,
+                                        controller
+                                    )
+                                },
+                                indication = null,
+                                interactionSource = MutableInteractionSource()
+                            )
+                    )
 //                        Image(
 //                            painter = painterResource(id = plantType),
 //                            contentDescription = null,
@@ -808,7 +847,7 @@ fun MsgHandleClick(
         //清空好友的消息,用于消除红点
         item.imgMsg = 0
         item.textMsg = ""
-    }else {
+    } else {
         navController.navigate("4.5-island-visitOther/${item.userAvatar}/${item.userName}")
 //        controller.navigate("4.5-island-visitOther/$res/$name")//这里将参数拼接到参数后面
 //        navController.navigate("${IslandVisitOther.route}/${item.userAvatar}/${item.userName}") {
@@ -822,7 +861,7 @@ fun MsgHandleClick(
 fun ExploreMapBgAnimation(
     nav: () -> Unit = {},
     nav2: () -> Unit = {},
-    navVisitOther:()->Unit ={},
+    navVisitOther: () -> Unit = {},
     userViewModel: UserViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
     controller: NavHostController,
 ) {

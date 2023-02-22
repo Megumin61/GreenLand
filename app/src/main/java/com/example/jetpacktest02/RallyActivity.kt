@@ -764,7 +764,7 @@ fun RallyApp() {
                     )
                 }
                 composable(route = My.route) {
-                    MyScreen(
+                    MyScreen(userViewModel = userViewModel,
                         nav01 = {
                             navController.navigate(MyCupBoard.route) { launchSingleTop = true; }
                         },
@@ -774,7 +774,9 @@ fun RallyApp() {
                         nav03 = {
                             navController.navigate(MySetting.route) { launchSingleTop = true; }
                         },
-
+                        nav04 = {
+                            navController.navigate(Vip.route) { launchSingleTop = true; }
+                        },
 
                         )
                 }

@@ -16,6 +16,7 @@
 
 package com.example.jetpacktest02.ui.main
 
+import android.annotation.SuppressLint
 import androidx.annotation.DrawableRes
 import androidx.compose.animation.*
 import androidx.compose.foundation.Image
@@ -49,6 +50,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.jetpacktest02.R
+import com.example.jetpacktest02.ViewModel.UserViewModel
 import com.example.scaffolddemo.ui.theme.Green1
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import kotlinx.coroutines.delay
@@ -57,18 +59,19 @@ import kotlinx.coroutines.delay
 /**
  * The Bills screen.
  */
+@SuppressLint("StateFlowValueCalledInComposition")
 @OptIn(ExperimentalAnimationApi::class)
-@Preview(showBackground=true,widthDp=393,heightDp=851)
+//@Preview(showBackground=true,widthDp=393,heightDp=851)
 @Composable
-fun MyScreen(
+fun MyScreen(userViewModel: UserViewModel,
 //            bills : (String) -> Unit = {},
 
-    nav01: () -> Unit={},
-    nav02: () -> Unit={},
-    nav03: () -> Unit={},
-    nav04: () -> Unit={},
+             nav01: () -> Unit={},
+             nav02: () -> Unit={},
+             nav03: () -> Unit={},
+             nav04: () -> Unit={},
 
-) {
+             ) {
     rememberSystemUiController().setStatusBarColor(
         Green1, darkIcons = androidx.compose.material.MaterialTheme.colors.isLight
     )
@@ -85,6 +88,7 @@ fun MyScreen(
         mutableStateOf(false)
 
     }
+    val ifVip = userViewModel.uiState.value.isVip.value
 
     LaunchedEffect(key1 = state){
         state = true
@@ -141,13 +145,30 @@ fun MyScreen(
                         fadeIn(initialAlpha = 0.3f) + expandIn(expandFrom = Alignment.TopStart),
                 exit = scaleOut(transformOrigin = TransformOrigin(0f, 0f)) +
                         fadeOut() + shrinkOut(shrinkTowards = Alignment.TopStart)
-            ){Image(
-                painter = painterResource(id = R.drawable.g8_1_img_card),
-                contentDescription = null,
-                modifier = Modifier.padding(horizontal = 13.dp).clickable(onClick = nav04, indication = null, interactionSource = remember {
-                    MutableInteractionSource()
-                })
-            )}
+            ){
+                if(ifVip){
+                    Image(
+                        painter = painterResource(id = R.drawable.g7_0_img_vipcard),
+                        contentDescription = null,
+                        modifier = Modifier.padding(horizontal = 13.dp).clickable(onClick = nav04, indication = null, interactionSource = remember {
+                            MutableInteractionSource()
+                        })
+                    )
+
+                }
+                if(!ifVip){
+                    Image(
+                        painter = painterResource(id = R.drawable.g8_1_img_card),
+                        contentDescription = null,
+                        modifier = Modifier.padding(horizontal = 13.dp).clickable(onClick = nav04, indication = null, interactionSource = remember {
+                            MutableInteractionSource()
+                        })
+                    )
+
+                }
+
+
+                }
 
             Spacer(modifier = Modifier.height(0.dp))
             AnimatedVisibility(

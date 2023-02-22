@@ -80,14 +80,15 @@ fun IslandExploreScreen(
     marsViewModel: MarsViewModel
 ) {
     val scope = rememberCoroutineScope()
-
+    var userId by remember {
+        mutableStateOf(0)
+    }
     //获得刚刚注册的用户id
     if (userViewModel.uiState.value.userList.size > 1) {
-        var userId by remember {
-            mutableStateOf(userViewModel.uiState.value.userList[userViewModel.uiState.value.userList.size - 1].id)
-        }
+        userId = userViewModel.uiState.value.userList[userViewModel.uiState.value.userList.size - 1].id
         Log.i("code", "id: ${userId.toString()}")
     }
+
 
     LaunchedEffect(key1 = userViewModel._uiState.value.msgItem.value) {
         if (userViewModel._uiState.value.showTextMsg.value == true) {
@@ -97,14 +98,14 @@ fun IslandExploreScreen(
     }
     LaunchedEffect(key1 = userViewModel.uiState.value.mePos.value) {
         if (userViewModel.uiState.value.mePos.value.latitude != 0.0) {
-//            scope.launch {
-//                marsViewModel.updatePos(
-//                    userId,
-//                    userViewModel.uiState.value.mePos.value.latitude.toString()
-//                )
-//                Log.i("code", "lat: ${userViewModel.uiState.value.mePos.value.latitude.toString()}")
-//
-//            }
+            scope.launch {
+                marsViewModel.updatePos(
+                    userId,
+                    userViewModel.uiState.value.mePos.value.toString()
+                )
+                Log.i("code", "lat: ${userViewModel.uiState.value.mePos.value.latitude.toString()}")
+
+            }
         }
     }
     var locationCallback: LocationCallback? = null
@@ -715,60 +716,6 @@ fun ExplorePlantModelItem(
                                 interactionSource = MutableInteractionSource()
                             )
                     )
-//                        Image(
-//                            painter = painterResource(id = plantType),
-//                            contentDescription = null,
-//                            modifier = Modifier
-//                                .size(plantSize)
-//                                .clickable(
-//                                    onClick = {
-//                                        if (textMsg != "") {
-//                                            userViewModel.uiState.value.msgItem.value =
-//                                                FriendItem(msgTime = "刚刚")
-//                                            userViewModel.uiState.value.msgItem.value.userName =
-//                                                item.userName
-//                                            userViewModel.uiState.value.msgItem.value.msgTime =
-//                                                item.msgTime
-//                                            userViewModel.uiState.value.msgItem.value.userAvatar =
-//                                                item.userAvatar
-//                                            userViewModel.uiState.value.msgItem.value.textMsg =
-//                                                item.textMsg
-//                                            userViewModel.uiState.value.msgItem.value.imgMsg =
-//                                                item.imgMsg
-//
-//                                            userViewModel.uiState.value.showImgMsgDialog.value =
-//                                                false
-//                                            userViewModel.uiState.value.showTextMsg.value = true
-//                                            //清空好友的消息,用于消除红点
-//                                            item.imgMsg = 0
-//                                            item.textMsg = ""
-//                                        } else if (imgMsg != 0) {
-//                                            userViewModel.uiState.value.msgItem.value =
-//                                                FriendItem(msgTime = "刚刚")
-//                                            userViewModel.uiState.value.msgItem.value.userName =
-//                                                item.userName
-//                                            userViewModel.uiState.value.msgItem.value.msgTime =
-//                                                item.msgTime
-//                                            userViewModel.uiState.value.msgItem.value.userAvatar =
-//                                                item.userAvatar
-//                                            userViewModel.uiState.value.msgItem.value.textMsg =
-//                                                item.textMsg
-//                                            userViewModel.uiState.value.msgItem.value.imgMsg =
-//                                                item.imgMsg
-//                                            userViewModel.uiState.value.showTextMsg.value = false
-//                                            userViewModel.uiState.value.showImgMsgDialog.value =
-//                                                true
-//                                            //清空好友的消息,用于消除红点
-//                                            item.imgMsg = 0
-//                                            item.textMsg = ""
-//                                        }
-//                                    },
-//                                    indication = null,
-//                                    interactionSource = MutableInteractionSource()
-//                                )
-//                        )
-
-
                 }
                 //用户名 +距离
                 Text(
@@ -849,10 +796,6 @@ fun MsgHandleClick(
         item.textMsg = ""
     } else {
         navController.navigate("4.5-island-visitOther/${item.userAvatar}/${item.userName}")
-//        controller.navigate("4.5-island-visitOther/$res/$name")//这里将参数拼接到参数后面
-//        navController.navigate("${IslandVisitOther.route}/${item.userAvatar}/${item.userName}") {
-//            launchSingleTop = true; popUpTo(IslandExplore.route) {}
-//        }
     }
 }
 
@@ -911,7 +854,8 @@ fun ExploreMapBgAnimation(
             nav2,
             userViewModel = userViewModel,
             userViewModel.uiState.value.meItem.value,
-            controller
+            controller,
+            gifSize = 90.dp
         )
 
         userViewModel.uiState.value.exploreMemberListData.forEachIndexed { index, item ->

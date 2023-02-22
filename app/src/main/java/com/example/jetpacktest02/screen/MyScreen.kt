@@ -278,7 +278,7 @@ fun UserInfo(userViewModel: UserViewModel) {
         Spacer(modifier = Modifier.width(10.dp))
         Column() {
             Text(
-                text = "Miguminnn", fontSize = 18.sp,//用户的昵称---------------------------
+                text = userViewModel.uiState.value.meItem.value.userName, fontSize = 18.sp,//用户的昵称---------------------------
                 fontWeight = W700,
                 color = Color(73, 74, 89)
             )

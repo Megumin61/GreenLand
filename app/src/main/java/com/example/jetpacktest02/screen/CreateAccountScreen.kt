@@ -289,7 +289,7 @@ fun CreateAccountScreen(navController: NavController, userViewModel: UserViewMod
                                 }
 
                             }
-                            navController.navigate(Plant.route) { launchSingleTop = true; }
+//                            navController.navigate(Plant.route) { launchSingleTop = true; }
 
                         },
                         shape = RoundedCornerShape(27.dp),

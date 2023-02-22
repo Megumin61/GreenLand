@@ -346,7 +346,7 @@ fun RallyApp() {
             //管理路由：页面跳转
             NavHost(
                 navController = navController,
-                startDestination = CreateAccount.route,
+                    startDestination = PhoneLogin.route,
                 modifier = Modifier.padding(innerPadding)
 
             ) {
@@ -528,7 +528,7 @@ fun RallyApp() {
                         },
                         nav06 = {
                             navController.navigate(PlantPlan.route) {
-                                launchSingleTop = true;popUpTo(PlantPlan.route)
+                                launchSingleTop = true;popUpTo(PlanListAdded.route)
                             }
                         },
                         nav07 = {

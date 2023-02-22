@@ -13,6 +13,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.*
 import androidx.compose.material.Icon
@@ -25,6 +26,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
@@ -154,8 +156,8 @@ fun IslandExploreScreen(
             )
         }
 
-        val pos = GPSUtils.getInstance().getProvince()
-        userViewModel._uiState.value.mePos.value = pos
+//        val pos = GPSUtils.getInstance().getProvince()
+//        userViewModel._uiState.value.mePos.value = pos
 //        scope.launch {
 //            marsViewModel.updatePos(userId,pos.toString())
 //        }
@@ -592,7 +594,7 @@ fun IslandExploreScreen(
                                 contentDescription = null,
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .height(300.dp)
+                                    .size(300.dp).clip(RoundedCornerShape(15.dp))
                             )
                         }
                         //关闭按钮
@@ -648,11 +650,11 @@ fun ExplorePlantModelItem(
 
     //计算植物大小
     var plantSize = 0.dp
-    if (item.distance > 200) {
-        plantSize = 40.dp
-    } else if (item.distance > 100) {
-        plantSize = 55.dp
+    if (item.distance > 100) {
+        plantSize = 50.dp
     } else if (item.distance > 50) {
+        plantSize = 60.dp
+    } else if (item.distance > 20) {
         plantSize = 70.dp
     } else {
         plantSize = 80.dp

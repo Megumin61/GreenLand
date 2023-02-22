@@ -133,7 +133,7 @@ data class UiState constructor(
             ),
 
     //用户本人的经纬度位置，数据类型为Double
-    var mePos: MutableState<LocationDetails> = mutableStateOf(LocationDetails(0.0, 0.0)),
+    var mePos: MutableState<LocationDetails> = mutableStateOf(LocationDetails(23.050261, 113.40672)),
     //IslandMemberListScreen
     var meVisible: MutableState<Boolean> = mutableStateOf(true),//用户是否被他人可见
     //IslandScreen
@@ -157,108 +157,108 @@ data class UiState constructor(
     //好友岛页面所有的好友数据
     var friendListData: MutableList<FriendItem> = mutableStateListOf(
         FriendItem(
-            userName = "megumin",
+            userName = "蹦蹦炸弹",
             userAvatar = R.drawable.g2_1_img_user01,
-            userPlant = R.drawable.gif_4,
-            offsetX = 1f,
-            offsetY = 1f,
-            textMsg = "",
-            imgMsg = 0,
-            onlineTime = "10分钟前来过", msgTime = "", gifSize = 65.dp
-        ), FriendItem(
-            userName = "skcccccccc",
-            userAvatar = R.drawable.g2_1_img_user03,
-            userPlant = R.drawable.gif_1,
-            offsetX = -1f,
-            offsetY = -0.7f,
-            textMsg = "",
-            imgMsg = 0,
-            onlineTime = "10分钟前来过", msgTime = "", gifSize = 73.dp
-        ), FriendItem(
-            userName = "foxbread",
-            userAvatar = R.drawable.g2_1_img_user05,
             userPlant = R.drawable.gif_6,
-            offsetX = 0.7f,
-            offsetY = -1f,
-            textMsg = "",
-            imgMsg = R.drawable.g4_6_img_imgmsg,
-            onlineTime = "10分钟前来过", msgTime = "20分钟前", gifSize = 60.dp
-        ), FriendItem(
-            userName = "sandro",
-            userAvatar = R.drawable.g2_1_img_user02,
-            userPlant = R.drawable.gif_2,
-            offsetX = -1.2f,
-            offsetY = 1.3f,
-            textMsg = "大家新年快乐鸭！",
-            imgMsg = 0,
-            onlineTime = "10分钟前来过", msgTime = "10分钟前", gifSize = 65.dp
-        ),
-        FriendItem(
-            userName = "sanchooo",
-            userAvatar = R.drawable.g2_1_img_user02,
-            userPlant = R.drawable.gif_5,
-            offsetX = -0.2f,
-            offsetY = 1.65f,
-            textMsg = "大家好！我的名字叫桑乔。",
-            imgMsg = 0,
-            onlineTime = "10分钟前来过", msgTime = "10分钟前", gifSize = 50.dp
-        )
-    ),
-
-    //探索岛页面所有的好友数据
-    var exploreMemberListData: MutableList<ExploreMemberItem> = mutableStateListOf(
-        ExploreMemberItem(
-            userName = "megumin",
-            userAvatar = R.drawable.g2_1_img_user01,
-            userPlant = R.drawable.gif_1,
             offsetX = 1f,
             offsetY = 1f,
             textMsg = "",
             imgMsg = 0,
-            onlineTime = "10分钟前来过", msgTime = "", isFriend = true,
-            location = LocationDetails(latitude = 23.173542, longitude = 113.253338), animDuration = 1000
-        ), ExploreMemberItem(
-            userName = "skcs1234",
+            onlineTime = "在线", msgTime = "", gifSize = 65.dp
+        ), FriendItem(
+            userName = "施公子驾到",
             userAvatar = R.drawable.g2_1_img_user03,
-            userPlant = R.drawable.gif_2,
+            userPlant = R.drawable.gif_1,
             offsetX = -1f,
             offsetY = -0.7f,
             textMsg = "",
             imgMsg = 0,
-            onlineTime = "10分钟前来过", msgTime = "",
-            location = LocationDetails(latitude = 23.17309, longitude = 113.253686), animDuration = 800
-        ), ExploreMemberItem(
-            userName = "fox1234",
+            onlineTime = "在线", msgTime = "", gifSize = 73.dp
+        ), FriendItem(
+            userName = "夜兰天下第一",
             userAvatar = R.drawable.g2_1_img_user05,
             userPlant = R.drawable.gif_3,
             offsetX = 0.7f,
             offsetY = -1f,
             textMsg = "",
             imgMsg = R.drawable.g4_6_img_imgmsg,
-            onlineTime = "10分钟前来过", msgTime = "20分钟前",
-            location = LocationDetails(latitude = 23.172914, longitude = 113.254578),animDuration = 500
-        ), ExploreMemberItem(
-            userName = "1234",
+            onlineTime = "23分钟前来过", msgTime = "20分钟前", gifSize = 65.dp
+        ), FriendItem(
+            userName = "老默我想吃鱼",
             userAvatar = R.drawable.g2_1_img_user02,
-            userPlant = R.drawable.gif_6,
+            userPlant = R.drawable.gif_2,
             offsetX = -1.2f,
             offsetY = 1.3f,
             textMsg = "大家新年快乐鸭！",
             imgMsg = 0,
-            onlineTime = "10分钟前来过", msgTime = "10分钟前",
-            location = LocationDetails(latitude = 23.173095, longitude = 113.254137),animDuration=600
+            onlineTime = "2分钟前来过", msgTime = "10分钟前", gifSize = 65.dp
         ),
-        ExploreMemberItem(
-            userName = "sanchooo",
-            userAvatar = R.drawable.g2_1_img_user02,
+        FriendItem(
+            userName = "原味大肠",
+            userAvatar = R.drawable.g2_1_img_user04,
             userPlant = R.drawable.gif_5,
             offsetX = -0.2f,
             offsetY = 1.65f,
-            textMsg = "大家好！我的名字叫桑乔。",
+            textMsg = "大家好！认识我的人都叫我华工C罗。",
             imgMsg = 0,
-            onlineTime = "10分钟前来过",
+            onlineTime = "1小时前来过", msgTime = "10分钟前", gifSize = 50.dp
+        )
+    ),
+
+    //探索岛页面所有的好友数据
+    var exploreMemberListData: MutableList<ExploreMemberItem> = mutableStateListOf(
+        ExploreMemberItem(
+            userName = "痛却不说话",
+            userAvatar = R.drawable.userprofile_3,
+            userPlant = R.drawable.gif_1,
+            offsetX = 1f,
+            offsetY = 1f,
+            textMsg = "",
+            imgMsg = 0,
+            onlineTime = "1小时前来过", msgTime = "", isFriend = true,
+            location = LocationDetails(latitude = 23.050395, longitude = 113.406666), animDuration = 1000
+        ), ExploreMemberItem(
+            userName = "雾之恋",
+            userAvatar = R.drawable.userprofile_6,
+            userPlant = R.drawable.gif_2,
+            offsetX = -1f,
+            offsetY = -0.7f,
+            textMsg = "",
+            imgMsg = 0,
+            onlineTime = "2小时前来过", msgTime = "",
+            location = LocationDetails(latitude = 23.050284, longitude = 113.407752), animDuration = 800
+        ), ExploreMemberItem(
+            userName = "沦陷の痛",
+            userAvatar = R.drawable.userprofile_13,
+            userPlant = R.drawable.gif_3,
+            offsetX = 0.7f,
+            offsetY = -1f,
+            textMsg = "",
+            imgMsg = R.drawable.imgmsg2,
+            onlineTime = "1分钟前来过", msgTime = "20分钟前",
+            location = LocationDetails(latitude = 23.050359, longitude = 113.407768),animDuration = 500
+        ), ExploreMemberItem(
+            userName = "(*^_^*)",
+            userAvatar = R.drawable.userprofile_16,
+            userPlant = R.drawable.gif_6,
+            offsetX = -1.2f,
+            offsetY = 1.3f,
+            textMsg = "大家开学快乐鸭！",
+            imgMsg = 0,
+            onlineTime = "30分钟前来过", msgTime = "10分钟前",
+            location = LocationDetails(latitude = 23.050191, longitude = 113.40692),animDuration=600
+        ),
+        ExploreMemberItem(
+            userName = "不再犹豫",
+            userAvatar = R.drawable.userprofile_12,
+            userPlant = R.drawable.gif_5,
+            offsetX = -0.2f,
+            offsetY = 1.65f,
+            textMsg = "家人们，考试周顶得住吗",
+            imgMsg = 0,
+            onlineTime = "23分钟前来过",
             msgTime = "10分钟前",
-            location = LocationDetails(latitude = 23.170444, longitude = 113.25302),
+            location = LocationDetails(latitude = 23.050008, longitude = 113.406629),
             isFriend = true,animDuration=200
         )
     ),

@@ -24,6 +24,8 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 
 import androidx.compose.ui.text.input.DeleteSurroundingTextInCodePointsCommand
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 
 import androidx.lifecycle.ViewModel
 import com.example.jetpacktest02.Entity.ZUser
@@ -162,16 +164,16 @@ data class UiState constructor(
             offsetY = 1f,
             textMsg = "",
             imgMsg = 0,
-            onlineTime = "10分钟前来过", msgTime = ""
+            onlineTime = "10分钟前来过", msgTime = "", gifSize = 65.dp
         ), FriendItem(
             userName = "skcccccccc",
             userAvatar = R.drawable.g2_1_img_user03,
-            userPlant = R.drawable.gif_5,
+            userPlant = R.drawable.gif_1,
             offsetX = -1f,
             offsetY = -0.7f,
             textMsg = "",
             imgMsg = 0,
-            onlineTime = "10分钟前来过", msgTime = ""
+            onlineTime = "10分钟前来过", msgTime = "", gifSize = 73.dp
         ), FriendItem(
             userName = "foxbread",
             userAvatar = R.drawable.g2_1_img_user05,
@@ -180,16 +182,16 @@ data class UiState constructor(
             offsetY = -1f,
             textMsg = "",
             imgMsg = R.drawable.g4_6_img_imgmsg,
-            onlineTime = "10分钟前来过", msgTime = "20分钟前"
+            onlineTime = "10分钟前来过", msgTime = "20分钟前", gifSize = 60.dp
         ), FriendItem(
             userName = "sandro",
             userAvatar = R.drawable.g2_1_img_user02,
-            userPlant = R.drawable.gif_5,
+            userPlant = R.drawable.gif_2,
             offsetX = -1.2f,
             offsetY = 1.3f,
             textMsg = "大家新年快乐鸭！",
             imgMsg = 0,
-            onlineTime = "10分钟前来过", msgTime = "10分钟前"
+            onlineTime = "10分钟前来过", msgTime = "10分钟前", gifSize = 65.dp
         ),
         FriendItem(
             userName = "sanchooo",
@@ -199,7 +201,7 @@ data class UiState constructor(
             offsetY = 1.65f,
             textMsg = "大家好！我的名字叫桑乔。",
             imgMsg = 0,
-            onlineTime = "10分钟前来过", msgTime = "10分钟前"
+            onlineTime = "10分钟前来过", msgTime = "10分钟前", gifSize = 50.dp
         )
     ),
 
@@ -288,7 +290,8 @@ data class FriendItem(
     var textMsg: String = "",//文字消息
     var imgMsg: Int = 0,//图片消息
     var onlineTime: String = "",
-    var msgTime: String = ""
+    var msgTime: String = "",
+    var gifSize :Dp = 90.dp
 )
 
 //探索岛 岛友列表子项

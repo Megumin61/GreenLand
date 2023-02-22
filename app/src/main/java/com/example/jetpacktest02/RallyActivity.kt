@@ -346,7 +346,10 @@ fun RallyApp() {
             //管理路由：页面跳转
             NavHost(
                 navController = navController,
-                    startDestination = PhoneLogin.route,
+
+                    startDestination = LoginLoading.route,
+
+
                 modifier = Modifier.padding(innerPadding)
 
             ) {
@@ -406,7 +409,7 @@ fun RallyApp() {
                 }
                 composable(route = CreateAccount.route) {
                     CreateAccountScreen(
-                        navController = navController, userViewModel = userViewModel
+                        navController = navController, userViewModel = userViewModel,marsViewModel=marsViewModel
                     )
                 }
                 composable(route = LoginLoading.route) {

@@ -36,6 +36,7 @@ import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavHostController
 import com.airbnb.lottie.compose.*
 import com.example.jetpacktest02.R
+import com.example.jetpacktest02.ViewModel.ExploreMemberItem
 import com.example.jetpacktest02.ViewModel.UserViewModel
 import com.example.jetpacktest02.ViewModel.FriendItem
 import com.example.jetpacktest02.compose.GIFimage
@@ -52,7 +53,7 @@ fun IslandScreen(
     nav03: () -> Unit = {},
     nav04: () -> Unit = {},
     userViewModel: UserViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
-    controller:NavHostController
+    controller: NavHostController
 ) {
     LaunchedEffect(key1 = userViewModel._uiState.value.msgItem.value) {
         if (userViewModel._uiState.value.showTextMsg.value == true) {
@@ -284,7 +285,7 @@ fun IslandScreen(
                     }
 
                     // 地图扫描动画背景
-                    MapBgAnimation(nav03, nav04, userViewModel = userViewModel,controller)
+                    MapBgAnimation(nav03, nav04, userViewModel = userViewModel, controller)
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -427,7 +428,7 @@ fun IslandScreen(
 fun plantModelItem(
     name: String,
     plantType: Int,//plantType
-    res:Int,//userAvatar
+    res: Int,//userAvatar
     offsetX: Float = 0f,
     offsetY: Float = 0f,
     textMsg: String,
@@ -435,7 +436,8 @@ fun plantModelItem(
     nav2: () -> Unit = {},
     userViewModel: UserViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
     item: FriendItem,
-    controller:NavHostController
+    controller: NavHostController,
+    gifSize: Dp
 ) {
     Column(
         modifier = Modifier.offset(offsetX * 100.dp, offsetY * 100.dp),
@@ -464,137 +466,25 @@ fun plantModelItem(
             }
 
             //植物图片
-            if (textMsg != "" || imgMsg != 0) {
-                GIFimage(gif =plantType, modifier = Modifier
-                    .size(90.dp)
+            GIFimage(
+                gif = plantType, modifier = Modifier
+                    .size(gifSize)
                     .clickable(
-                        onClick = {
-                            if (textMsg != "") {
-                                userViewModel.uiState.value.msgItem.value = item
-                                userViewModel.uiState.value.showImgMsgDialog.value = false
-                                userViewModel.uiState.value.showTextMsg.value = true
-                                //清空好友的消息,用于消除红点
-                                userViewModel.uiState.value.friendListData[userViewModel.uiState.value.friendListData.indexOf(
-                                    item
-                                )] =
-                                    FriendItem(
-                                        item.userName,
-                                        item.userAvatar,
-                                        item.userPlant,
-                                        item.offsetX,
-                                        item.offsetY,
-                                        "",
-                                        0,
-                                        item.onlineTime,
-                                        item.msgTime
-                                    )
-//                                    controller.navigate("4.5-island-visitOther/$res/$name")
-                            } else if (imgMsg != 0) {
-                                userViewModel.uiState.value.msgItem.value = item
-                                userViewModel.uiState.value.showTextMsg.value = false
-                                userViewModel.uiState.value.showImgMsgDialog.value = true
-                                //清空好友的消息,用于消除红点
-                                userViewModel.uiState.value.friendListData[userViewModel.uiState.value.friendListData.indexOf(
-                                    item
-                                )] =
-                                    FriendItem(
-                                        item.userName,
-                                        item.userAvatar,
-                                        item.userPlant,
-                                        item.offsetX,
-                                        item.offsetY,
-                                        "",
-                                        0,
-                                        item.onlineTime,
-                                        item.msgTime
-                                    )
-//                                    controller.navigate("4.5-island-visitOther/$res/$name")//这里将id拼接到参数后面
-                            }
+                        onClick =
+                        {
+                            msgHandleClick(
+                                userViewModel,
+                                textMsg,
+                                imgMsg,
+                                item,
+                                controller, gifSize
+                            )
                         },
                         indication = null,
                         interactionSource = MutableInteractionSource()
-                    ))
-//                Image(
-//                    painter = painterResource(id = plantType),
-//                    contentDescription = null,
-//                    modifier = Modifier
-//                        .size(90.dp)
-//                        .clickable(
-//                            onClick = {
-//                                if (textMsg != "") {
-//                                    userViewModel.uiState.value.msgItem.value = item
-//                                    userViewModel.uiState.value.showImgMsgDialog.value = false
-//                                    userViewModel.uiState.value.showTextMsg.value = true
-//                                    //清空好友的消息,用于消除红点
-//                                    userViewModel.uiState.value.friendListData[userViewModel.uiState.value.friendListData.indexOf(
-//                                        item
-//                                    )] =
-//                                        FriendItem(
-//                                            item.userName,
-//                                            item.userAvatar,
-//                                            item.userPlant,
-//                                            item.offsetX,
-//                                            item.offsetY,
-//                                            "",
-//                                            0,
-//                                            item.onlineTime,
-//                                            item.msgTime
-//                                        )
-////                                    controller.navigate("4.5-island-visitOther/$res/$name")
-//                                } else if (imgMsg != 0) {
-//                                    userViewModel.uiState.value.msgItem.value = item
-//                                    userViewModel.uiState.value.showTextMsg.value = false
-//                                    userViewModel.uiState.value.showImgMsgDialog.value = true
-//                                    //清空好友的消息,用于消除红点
-//                                    userViewModel.uiState.value.friendListData[userViewModel.uiState.value.friendListData.indexOf(
-//                                        item
-//                                    )] =
-//                                        FriendItem(
-//                                            item.userName,
-//                                            item.userAvatar,
-//                                            item.userPlant,
-//                                            item.offsetX,
-//                                            item.offsetY,
-//                                            "",
-//                                            0,
-//                                            item.onlineTime,
-//                                            item.msgTime
-//                                        )
-////                                    controller.navigate("4.5-island-visitOther/$res/$name")//这里将id拼接到参数后面
-//                                }
-//                            },
-//                            indication = null,
-//                            interactionSource = MutableInteractionSource()
-//                        )
-//                )
+                    )
+            )
 
-            }
-            //没有消息红点的植物
-            else {
-                GIFimage(gif = plantType, modifier = Modifier
-                    .size(90.dp)
-                    .clickable(
-                        onClick = {
-                            controller.navigate("4.5-island-visitMe/$res/$name")
-                        },
-                        indication = null,
-                        interactionSource = MutableInteractionSource()
-                    ))
-
-//                Image(
-//                    painter = painterResource(id = plantType),
-//                    contentDescription = null,
-//                    modifier = Modifier
-//                        .size(90.dp)
-//                        .clickable(
-//                            onClick = {
-//                                controller.navigate("4.5-island-visitOther/$res/$name")
-//                            },
-//                            indication = null,
-//                            interactionSource = MutableInteractionSource()
-//                        )
-//                )
-            }
 
         }
         //用户名
@@ -609,6 +499,62 @@ fun plantModelItem(
     }
 
 }
+
+fun msgHandleClick(
+    userViewModel: UserViewModel,
+    textMsg: String,
+    imgMsg: Int,
+    item: FriendItem,
+    controller: NavHostController, gifSize: Dp
+) {
+    if (textMsg != "") {
+        userViewModel.uiState.value.msgItem.value = item
+        userViewModel.uiState.value.showImgMsgDialog.value = false
+        userViewModel.uiState.value.showTextMsg.value = true
+        //清空好友的消息,用于消除红点
+        userViewModel.uiState.value.friendListData[userViewModel.uiState.value.friendListData.indexOf(
+            item
+        )] =
+            FriendItem(
+                item.userName,
+                item.userAvatar,
+                item.userPlant,
+                item.offsetX,
+                item.offsetY,
+                "",
+                0,
+                item.onlineTime,
+                item.msgTime, gifSize = gifSize
+            )
+    } else if (imgMsg != 0) {
+        userViewModel.uiState.value.msgItem.value = item
+        userViewModel.uiState.value.showTextMsg.value = false
+        userViewModel.uiState.value.showImgMsgDialog.value = true
+        //清空好友的消息,用于消除红点
+        userViewModel.uiState.value.friendListData[userViewModel.uiState.value.friendListData.indexOf(
+            item
+        )] =
+            FriendItem(
+                item.userName,
+                item.userAvatar,
+                item.userPlant,
+                item.offsetX,
+                item.offsetY,
+                "",
+                0,
+                item.onlineTime,
+                item.msgTime, gifSize = gifSize
+            )
+    } else {
+        if (item.userName == userViewModel.uiState.value.meItem.value.userName) {
+            controller.navigate("4.5-island-visitMe/${item.userAvatar}/${item.userName}")
+
+        } else {
+            controller.navigate("4.5-island-visitOther/${item.userAvatar}/${item.userName}")
+        }
+    }
+}
+
 
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
@@ -664,7 +610,8 @@ fun MapBgAnimation(
             nav2,
             userViewModel = userViewModel,
             userViewModel.uiState.value.meItem.value,
-            controller
+            controller,
+            gifSize = 90.dp
         )
 
         userViewModel.uiState.value.friendListData.forEachIndexed { index, item ->
@@ -679,7 +626,8 @@ fun MapBgAnimation(
                 nav2,
                 userViewModel = userViewModel,
                 item,
-                controller
+                controller,
+                gifSize = item.gifSize
             )
         }
 

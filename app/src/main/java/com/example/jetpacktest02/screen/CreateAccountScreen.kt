@@ -1,6 +1,7 @@
 package com.example.jetpacktest02.screen
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
@@ -23,6 +24,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.jetpacktest02.*
 import com.example.jetpacktest02.R
+import com.example.jetpacktest02.ViewModel.MarsViewModel
 import com.example.jetpacktest02.ViewModel.UserViewModel
 import com.example.scaffolddemo.ui.theme.*
 import com.google.accompanist.pager.ExperimentalPagerApi
@@ -31,11 +33,21 @@ import com.google.accompanist.pager.HorizontalPagerIndicator
 import com.google.accompanist.pager.rememberPagerState
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import kotlinx.coroutines.delay
+import okhttp3.internal.notifyAll
 
 @SuppressLint("StateFlowValueCalledInComposition")
 @OptIn(ExperimentalPagerApi::class, ExperimentalMaterial3Api::class)
 @Composable
-fun CreateAccountScreen(navController: NavController, userViewModel: UserViewModel) {
+fun CreateAccountScreen(
+    navController: NavController,
+    userViewModel: UserViewModel,
+    marsViewModel: MarsViewModel
+) {
+    var username by remember { mutableStateOf("") }
+    val scope = rememberCoroutineScope()
+    var userId by remember {
+        mutableStateOf(0)
+    }
     rememberSystemUiController().setStatusBarColor(
         Flesh2, darkIcons = androidx.compose.material.MaterialTheme.colors.isLight
     )
@@ -211,26 +223,25 @@ fun CreateAccountScreen(navController: NavController, userViewModel: UserViewMod
                     Spacer(modifier = Modifier.height(20.dp))
                     //用户名
                     Row(horizontalArrangement = Arrangement.Center) {
-                        var username by remember { mutableStateOf("") }
                         TextField(
                             value = username,
                             onValueChange = {
                                 username = it
+                                if (it.length > 0) {
+                                    //抓取用户列表数据，用于获取用户id
+                                    userViewModel.uiState.value.userList =
+                                        marsViewModel.getUserList().toMutableList()
+                                }
                             },
                             textStyle = TextStyle(fontSize = 20.sp, textAlign = TextAlign.Center),
                             singleLine = true,
                             placeholder = {
-//                            Text(
-//                                text = "创建昵称",
-//                                color = Green8,
-//                                style = TextStyle(fontSize = 20.sp, textAlign = TextAlign.Center)
-//                            )
                             },
 
                             colors = TextFieldDefaults.outlinedTextFieldColors(
-                                textColor = LightGreen,
-                                unfocusedBorderColor = Green8, focusedBorderColor = LightGreen,
-                                cursorColor = LightGreen
+                                textColor = Green5,
+                                unfocusedBorderColor = Green8, focusedBorderColor = Green5,
+                                cursorColor = Green5
                             ),
                             modifier = Modifier.width(200.dp)
                         )
@@ -289,8 +300,17 @@ fun CreateAccountScreen(navController: NavController, userViewModel: UserViewMod
                                 }
 
                             }
-//                            navController.navigate(Plant.route) { launchSingleTop = true; }
 
+
+                            //获得刚刚注册的用户id
+                            if (userViewModel.uiState.value.userList.size > 1) {
+                                userId =
+                                    userViewModel.uiState.value.userList[userViewModel.uiState.value.userList.size - 1].id
+                                Log.i("code", "id: ${userId.toString()}")
+                            }
+                            marsViewModel.updateName(userId, username)
+                            userViewModel.uiState.value.meItem.value.userName = username
+                            navController.navigate(Plant.route) { launchSingleTop = true; }
                         },
                         shape = RoundedCornerShape(27.dp),
                         colors = ButtonDefaults.buttonColors(

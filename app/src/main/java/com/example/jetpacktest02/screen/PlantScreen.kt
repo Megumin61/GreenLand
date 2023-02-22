@@ -99,10 +99,9 @@ fun PlantScreen(
     navController: NavController,
 
 
-) {
+    ) {
 
     val composition by rememberLottieComposition(LottieCompositionSpec.Asset("animations/trophy.json"))
-
     var showHealthSumCard by remember {
         mutableStateOf(false)
     }
@@ -116,7 +115,7 @@ fun PlantScreen(
     LaunchedEffect(key1 = showHealthSumCard) {
 //        delay(300)
 //        showHealthSumCard = true
-        if(showHealthSumCard == true){
+        if (showHealthSumCard == true) {
             delay(300)
             HealthSumCardAnim = true
         }
@@ -128,6 +127,7 @@ fun PlantScreen(
         speed = 0.8f,
         restartOnPlay = true  // 暂停后重新播放是否从头开始
     )
+
     //配置顶部状态栏颜色
     rememberSystemUiController().setStatusBarColor(
         Color.White, darkIcons = androidx.compose.material.MaterialTheme.colors.isLight
@@ -393,10 +393,27 @@ fun MainPlantPage(
     showSumCard: () -> Unit = {},//显示结算弹窗
 ) {
     //重要参数
-    val feelingValue: Int = 0
-    val energyValue: Int = 0
-    val allEnergyValue: Int = 0
-    val exp: Int = 0
+    val feelingValue: Int = 21
+    val energyValue: Int = 32
+    var allEnergy by remember { mutableStateOf(330) }
+    val exp by animateFloatAsState(
+        targetValue = userViewModel.uiState.value.plantExp.value.toFloat(),
+        animationSpec = FloatTweenSpec(duration = 1500)
+    )
+
+    //lotties
+    val composition2 by rememberLottieComposition(LottieCompositionSpec.Asset("animations/SgyPw7n8jf.json"))
+    var showFireball by remember {
+        mutableStateOf(false)
+    }
+    val progress2 by animateLottieCompositionAsState(
+        composition2,
+        iterations = 1,
+        isPlaying = showFireball,
+        speed = 0.5f,
+        restartOnPlay = true  // 暂停后重新播放是否从头开始
+    )
+
     //动画状态
     var state by remember {
         mutableStateOf(false)
@@ -511,17 +528,17 @@ fun MainPlantPage(
                         modifier = Modifier
                             .height(8.dp)
                             .width(130.dp),
-                        progress = 0.5f,
+                        progress = exp / 100,
                         color = LightGreen,
                         cornerRadius = 10.dp,
                         backgroundColor = Color.White
                     )
                     Text(
-                        text = exp.toString(),
+                        text = userViewModel.uiState.value.plantExp.value.toString(),
                         color = LightGreen,
                         fontSize = 14.sp,
                         fontWeight = W900,
-                        modifier = Modifier.offset(100.dp, 10.dp)
+                        modifier = Modifier.offset(90.dp, 10.dp)
                     )
                     Text(
                         "/100",
@@ -537,7 +554,7 @@ fun MainPlantPage(
 //                )
 
                 AnimatedVisibility(
-                    visible = state,
+                    visible = state && userViewModel.uiState.value.isGrowUp.value == 1,
                     enter = scaleIn(transformOrigin = TransformOrigin(0f, 0f)) +
                             fadeIn(initialAlpha = 0.3f) + expandIn(expandFrom = Alignment.TopStart),
                     exit = scaleOut(transformOrigin = TransformOrigin(0f, 0f)) +
@@ -551,12 +568,47 @@ fun MainPlantPage(
                             .height(300.dp)
                     )
                 }
+
+                AnimatedVisibility(
+                    visible = state && userViewModel.uiState.value.isGrowUp.value == 0,
+                    enter = scaleIn(transformOrigin = TransformOrigin(0f, 0f)) +
+                            fadeIn(initialAlpha = 0.3f) + expandIn(expandFrom = Alignment.TopStart),
+                    exit = scaleOut(transformOrigin = TransformOrigin(0f, 0f)) +
+                            fadeOut() + shrinkOut(shrinkTowards = Alignment.TopStart)
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.g1_1_img_plant_seedling),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .width(120.dp)
+                            .height(300.dp)
+                            .align(Alignment.CenterHorizontally)
+                            .clickable(
+                                onClick = {
+                                    userViewModel.uiState.value.isGrowUp.value = 1
+                                    userViewModel.uiState.value.plantExp.value = 90
+                                    allEnergy = 350
+                                    showFireball = true
+
+                                }, indication = null,
+                                interactionSource = MutableInteractionSource()
+                            )
+                    )
+                }
+
                 Image(
                     painter = painterResource(id = R.drawable.g1_1_bg_plantstage),
                     contentDescription = null,
                     modifier = Modifier
-                        .height(45.dp)
+                        .height(50.dp)
                         .offset(0.dp, -70.dp)
+                )
+                Text(
+                    text = if (userViewModel.uiState.value.isGrowUp.value == 0) "幼苗期" else "成长期",
+                    color = Color.White,
+                    fontSize = 14.sp,
+                    fontWeight = W900,
+                    modifier = Modifier.offset(0.dp, -107.dp)
                 )
             }
             Spacer(modifier = Modifier.width(20.dp))
@@ -607,12 +659,27 @@ fun MainPlantPage(
                         contentDescription = null,
                         modifier = Modifier.scale(1.2f)
                     )
-                    Text(
-                        text = allEnergyValue.toString(),
-                        fontWeight = W500,
-                        color = Green9,
-                        modifier = Modifier.offset(72.dp, 12.dp)
-                    )
+                    AnimatedContent(targetState = allEnergy,
+                        transitionSpec = {
+                            if (targetState > initialState) {
+                                slideInVertically { height -> height } + fadeIn() with
+                                        slideOutVertically { height -> -height } + fadeOut()
+                            } else {
+                                slideInVertically { height -> -height } + fadeIn() with
+                                        slideOutVertically { height -> height } + fadeOut()
+                            }.using(
+                                SizeTransform(clip = false)
+                            )
+                        }
+                    ) { allEnergy ->
+//                        Text(text = "Count: $targetCount")
+                        Text(
+                            text = allEnergy.toInt().toString(),
+                            fontWeight = W500,
+                            color = Green9,
+                            modifier = Modifier.offset(72.dp, 12.dp)
+                        )
+                    }
                 }
             }
         }
@@ -629,7 +696,7 @@ fun MainPlantPage(
                     .padding(20.dp)
                     .fillMaxHeight()
             ) {
-                Spacer(modifier = Modifier.height(10.dp))
+//                Spacer(modifier = Modifier.height(10.dp))
                 AnimatedVisibility(
                     visible = state1,
                     enter = scaleIn(transformOrigin = TransformOrigin(0f, 0f)) +
@@ -786,17 +853,38 @@ fun MainPlantPage(
             }
         }
     }
-
+    AnimatedVisibility(
+        visible = showFireball,
+        enter = fadeIn(initialAlpha = 0.3f) + slideInVertically(
+            initialOffsetY = { 0 },
+            animationSpec = tween(durationMillis = 0)
+        )
+    ) {
+//                            Image(
+//                                painter = painterResource(id = R.drawable.g0_1_ic_report_cup),
+//                                contentDescription = null,
+//                                modifier = Modifier
+//                                    .size(300.dp)
+//                                    .offset(0.dp, -15.dp)
+//                            )
+        LottieAnimation(
+            composition = composition2,
+            progress = { progress2 },
+            modifier = Modifier
+                .size(280.dp)
+                .offset(-50.dp, 140.dp)
+        )
+    }
 }
 
 //@Preview
 //@OptIn(ExperimentalAnimationApi::class)
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
-fun SecondPlantPage(page: Int,viewModel: NotificationTestViewModel = viewModel()) {
+fun SecondPlantPage(page: Int, viewModel: NotificationTestViewModel = viewModel()) {
     val context = LocalContext.current
-    val waterTime: Int = 0
-    val step: Int = 0
+    val waterTime: Int = 3
+    val step: Int = 332
     val sitTime: String = "6:31:20"
     Image(
         painter = painterResource(id = R.drawable.g1_3_bg),
@@ -836,8 +924,11 @@ fun SecondPlantPage(page: Int,viewModel: NotificationTestViewModel = viewModel()
                     Image(
                         painter = painterResource(id = R.drawable.g1_3_ic_watercount),
                         contentDescription = null,
-                        modifier = Modifier.height(180.dp).clickable ( onClick = {
-                            viewModel.showNotification(context,"轻提醒", "喝口水休息一下吧！")},indication = null,interactionSource = MutableInteractionSource())
+                        modifier = Modifier
+                            .height(180.dp)
+                            .clickable(onClick = {
+                                viewModel.showNotification(context, "轻提醒", "喝口水休息一下吧！")
+                            }, indication = null, interactionSource = MutableInteractionSource())
                     )
                     Text(
                         text = waterTime.toString() + "次",
@@ -1013,7 +1104,7 @@ fun NotificationTest(viewModel: NotificationTestViewModel = viewModel()) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Button(onClick = {
-            viewModel.showNotification(context,"轻提醒", "喝口水休息一下吧！")
+            viewModel.showNotification(context, "轻提醒", "喝口水休息一下吧！")
         }) {
             Text(text = "创建一个新通知")
         }

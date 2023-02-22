@@ -61,9 +61,11 @@ data class UiState constructor(
     val openDialog: MutableState<Boolean> = mutableStateOf(false),
     //MessageFriendScreen
     val pageState: MutableState<Int> = mutableStateOf(0),
-
     //PlantScreen
     val PlantPage: MutableState<Int> = mutableStateOf(0),
+    var isGrowUp: MutableState<Int> = mutableStateOf(0),
+    var plantExp: MutableState<Int> = mutableStateOf(60),
+
     //ChooseSeedScreen
     val chooseSeedPageState: MutableState<Int> = mutableStateOf(0),
     //用户选择的植物类型
@@ -71,7 +73,7 @@ data class UiState constructor(
     //用户选择的植物类型
     val isVip:MutableState<Boolean> = mutableStateOf(false),
     var searchText: String = "",
-    val waterValue: Int = 0,
+    val waterValue: Int = 56,
     val tabMessageList: MutableList<TapListItemModel> =
         mutableStateListOf(
             //如果需要改变下面对象里面的属性，需要单独复制一份生成一个新的对象才可以

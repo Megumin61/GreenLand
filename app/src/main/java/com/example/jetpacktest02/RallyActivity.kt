@@ -346,7 +346,7 @@ fun RallyApp() {
             //管理路由：页面跳转
             NavHost(
                 navController = navController,
-                startDestination = PhoneLogin.route,
+                startDestination = CreateAccount.route,
                 modifier = Modifier.padding(innerPadding)
 
             ) {
@@ -360,8 +360,10 @@ fun RallyApp() {
                         userViewModel = userViewModel,
                         nav01 = {
                             navController.navigate(PlanList.route) { launchSingleTop = true; }
-                        },                        nav02 = {
-                            navController.navigate(PlantBagPossessed.route) { launchSingleTop = true; }
+                        }, nav02 = {
+                            navController.navigate(PlantBagPossessed.route) {
+                                launchSingleTop = true;
+                            }
                         }, navController = navController
                     )
                 }
@@ -402,7 +404,7 @@ fun RallyApp() {
                 }
                 composable(route = CreateAccount.route) {
                     CreateAccountScreen(
-                        navController = navController
+                        navController = navController, userViewModel = userViewModel
                     )
                 }
                 composable(route = LoginLoading.route) {
@@ -631,6 +633,7 @@ fun RallyApp() {
                                 launchSingleTop = true; popUpTo(IslandExplore.route) {}
                             }
                         },
+                        marsViewModel = marsViewModel
                     )
                 }
                 composable(route = IslandMemberList.route) {
@@ -780,9 +783,9 @@ fun RallyApp() {
                         nav03 = {
                             navController.navigate(MySetting.route) { launchSingleTop = true; }
                         },
+                        userViewModel = userViewModel
 
-
-                        )
+                    )
                 }
                 composable(route = PlantBagPossessed.route) {
                     PlantBagPossessedScreen(

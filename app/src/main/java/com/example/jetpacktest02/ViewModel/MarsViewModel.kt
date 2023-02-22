@@ -122,4 +122,24 @@ class MarsViewModel : ViewModel() {
             }
         }
     }
+
+    fun updateName(id:Int,name:String){
+        val json:String = "{\n" +
+                "    \"id\":\"${id}\",\n" +
+                "    \"username\":\"${name}\"\n" +
+                "}"
+        val body = RequestBody.create(
+            "application/json".toMediaTypeOrNull(), json
+        )
+
+        viewModelScope.launch {
+            try {
+                UserApi.retrofitService.userUpdateName(body)
+            } catch (e: IOException) {
+                Toast.makeText(UsersApplication.context,e.message,Toast.LENGTH_SHORT).show()
+            } catch (e: HttpException) {
+                Toast.makeText(UsersApplication.context,e.message,Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
 }

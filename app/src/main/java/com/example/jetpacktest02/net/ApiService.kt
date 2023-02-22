@@ -49,6 +49,14 @@ interface ApiService {
         @Body requestBody: RequestBody
     ): Any?
 
+    /**
+     * 修改位置，传入用户id,位置name
+     */
+    @POST("tag/updateName")
+    suspend fun userUpdateName(
+        @Body requestBody: RequestBody
+    ): Any?
+
 //    /**
 //     * 历史上的今天
 //     */

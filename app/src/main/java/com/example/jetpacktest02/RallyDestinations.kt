@@ -76,6 +76,11 @@ object Plant : RallyDestination {
     override val route = "1.1-Plant"
 }
 
+object PlantUnchosen : RallyDestination {
+    override val icon = Icons.Filled.MoneyOff
+    override val route = "3.1-unchosen"
+}
+
 object PlantPlan : RallyDestination {
     override val icon = Icons.Filled.MoneyOff
     override val route = "1.2-plant-plan"

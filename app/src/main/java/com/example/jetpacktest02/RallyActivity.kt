@@ -354,7 +354,21 @@ fun RallyApp() {
                     PlantScreen(
                         userViewModel = userViewModel,
                         nav01 = {
-                            navController.navigate(Plant.route) { launchSingleTop = true; }
+                            navController.navigate(PlanList.route) { launchSingleTop = true; }
+                        },                        nav02 = {
+                            navController.navigate(PlantBagPossessed.route) { launchSingleTop = true; }
+                        }, navController = navController
+                    )
+                }
+                composable(route = PlantUnchosen.route) {
+                    PlantUnchosenScreen(
+                        userViewModel = userViewModel,
+                        nav01 = {
+                            navController.navigate(PlanList.route) { launchSingleTop = true; }
+                        }, nav02 = {
+                            navController.navigate(PlantBagPossessed.route) {
+                                launchSingleTop = true;
+                            }
                         }, navController = navController
                     )
                 }

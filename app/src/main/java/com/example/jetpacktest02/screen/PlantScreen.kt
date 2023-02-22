@@ -94,7 +94,8 @@ import java.time.format.TextStyle
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 fun PlantScreen(
-    nav01: () -> Unit = {},
+    nav01: () -> Unit = {},//计划
+    nav02: () -> Unit = {},//背包
     userViewModel: UserViewModel,
     navController: NavController,
 
@@ -137,7 +138,7 @@ fun PlantScreen(
     VerticalPager(count = 2, state = pagerState) { page ->
         userViewModel.uiState.value.PlantPage.value = page
         if (page == 0) {
-            MainPlantPage(userViewModel, nav01, showSumCard)
+            MainPlantPage(userViewModel, nav01,nav02, showSumCard)
         } else if (page == 1) {
 //            SecondPlantPage(userViewModel.uiState.value.PlantPage.value)
             SecondPlantPage(userViewModel.uiState.value.PlantPage.value)
@@ -390,6 +391,7 @@ fun PlantScreen(
 fun MainPlantPage(
     userViewModel: UserViewModel,
     nav01: () -> Unit = {},//计划
+    nav02: () -> Unit = {},//背包
     showSumCard: () -> Unit = {},//显示结算弹窗
 ) {
     //重要参数
@@ -649,6 +651,11 @@ fun MainPlantPage(
                             painter = painterResource(id = R.drawable.g1_1_ic_bag),
                             contentDescription = null,
                             modifier = Modifier.size(60.dp)
+                                .clickable(
+                                    onClick = nav02,
+                                    indication = null,
+                                    interactionSource = MutableInteractionSource()
+                                )
                         )
                     }
                 }
@@ -688,12 +695,12 @@ fun MainPlantPage(
 
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
-            modifier = Modifier.offset(0.dp, -20.dp)
+            modifier = Modifier.offset(0.dp, -30.dp)
         ) {
             Column(
                 horizontalAlignment = Alignment.Start,
                 modifier = Modifier
-                    .padding(20.dp)
+                    .padding(20.dp,0.dp,20.dp,20.dp)
                     .fillMaxHeight()
             ) {
 //                Spacer(modifier = Modifier.height(10.dp))
@@ -715,7 +722,7 @@ fun MainPlantPage(
                             text = feelingValue.toString() + "g",
                             fontWeight = W900,
                             color = BlueGray3,
-                            modifier = Modifier.offset(80.dp, 30.dp)
+                            modifier = Modifier.offset(70.dp, 30.dp)
                         )
                     }
                 }
@@ -739,7 +746,7 @@ fun MainPlantPage(
                             text = userViewModel.uiState.value.waterValue.toString() + "g",
                             fontWeight = W900,
                             color = BlueGray3,
-                            modifier = Modifier.offset(80.dp, 30.dp)
+                            modifier = Modifier.offset(70.dp, 30.dp)
                         )
                     }
                 }
@@ -762,7 +769,7 @@ fun MainPlantPage(
                             text = energyValue.toString() + "g",
                             fontWeight = W900,
                             color = BlueGray3,
-                            modifier = Modifier.offset(80.dp, 30.dp)
+                            modifier = Modifier.offset(70.dp, 30.dp)
                         )
                     }
                 }
@@ -872,7 +879,7 @@ fun MainPlantPage(
             progress = { progress2 },
             modifier = Modifier
                 .size(280.dp)
-                .offset(-50.dp, 140.dp)
+                .offset(-30.dp, 140.dp)
         )
     }
 }

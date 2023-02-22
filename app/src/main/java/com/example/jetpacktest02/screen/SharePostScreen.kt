@@ -210,9 +210,9 @@ fun ThreeParameterColumn() {
 }
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
-@Preview
+//@Preview
 @Composable
-fun SharePostScreen() {
+fun SharePostScreen(nav01: () -> Unit = {}) {
 
     var animVisible by remember {
         mutableStateOf(false)
@@ -357,7 +357,7 @@ fun SharePostScreen() {
                                         Modifier
                                             .fillMaxWidth()
                                             .clickable(
-                                                onClick = {},
+                                                onClick = nav01 ,
                                                 indication = null,
                                                 interactionSource = MutableInteractionSource()
                                             )

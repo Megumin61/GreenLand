@@ -151,7 +151,7 @@ fun MySettingScreen(nav01: () -> Unit = {}) {
                         .padding(top = 17.dp, bottom = 17.dp, start = 20.dp, end = 20.dp)
                     , verticalAlignment =Alignment.CenterVertically) {
                     Text(text = "个性签名", fontSize = 16.sp, fontWeight = W400, color = Color(73,74,89))
-                    Text(text = "996是年轻人的福报啊", fontSize = 16.sp, fontWeight = W400, color = Color(149,152,172)
+                    Text(text = "我是帅哥", fontSize = 16.sp, fontWeight = W400, color = Color(149,152,172)
                     )
                 }
                 Image(

@@ -20,9 +20,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.jetpacktest02.CreateAccount
-import com.example.jetpacktest02.LoginFront
-import com.example.jetpacktest02.Plant
+import com.example.jetpacktest02.*
 import com.example.jetpacktest02.R
 import com.example.scaffolddemo.ui.theme.*
 import com.google.accompanist.pager.ExperimentalPagerApi
@@ -211,7 +209,7 @@ fun CreateAccountScreen(navController: NavController) {
                     //创建按钮
                     Button(
                         onClick = {
-                            navController.navigate(Plant.route) { launchSingleTop = true; }
+                            navController.navigate(PlantUnchosen.route) { launchSingleTop = true; }
                         },
                         shape = RoundedCornerShape(27.dp),
                         colors = ButtonDefaults.buttonColors(

@@ -1254,57 +1254,57 @@ fun PlantPlanScreen(
         // NewScreen()
 
 
-        Column {
-            Text("1.2-plant-plan")
-            Button(
-                onClick = nav01,
-                contentPadding = ButtonDefaults.ButtonWithIconContentPadding
-            ) {
-                Icon(
-                    Icons.Filled.Favorite,
-                    contentDescription = "Localized description",
-                    modifier = Modifier.size(ButtonDefaults.IconSize)
-                )
-                Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-                Text("1.1-Plant")
-            }
-            Button(
-                onClick = nav02,
-                contentPadding = ButtonDefaults.ButtonWithIconContentPadding
-            ) {
-                Icon(
-                    Icons.Filled.Favorite,
-                    contentDescription = "Localized description",
-                    modifier = Modifier.size(ButtonDefaults.IconSize)
-                )
-                Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-                Text("1.4.1-plant-lookingforplan-foot")
-            }
-            Button(
-                onClick = nav01,
-                contentPadding = ButtonDefaults.ButtonWithIconContentPadding
-            ) {
-                Icon(
-                    Icons.Filled.Favorite,
-                    contentDescription = "Localized description",
-                    modifier = Modifier.size(ButtonDefaults.IconSize)
-                )
-                Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-                Text("1.2-plant-plan")
-            }
-            Button(
-                onClick = nav05,
-                contentPadding = ButtonDefaults.ButtonWithIconContentPadding
-            ) {
-                Icon(
-                    Icons.Filled.Favorite,
-                    contentDescription = "Localized description",
-                    modifier = Modifier.size(ButtonDefaults.IconSize)
-                )
-                Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-                Text("进入PlanList")
-            }
-        }
+//        Column {
+//            Text("1.2-plant-plan")
+//            Button(
+//                onClick = nav01,
+//                contentPadding = ButtonDefaults.ButtonWithIconContentPadding
+//            ) {
+//                Icon(
+//                    Icons.Filled.Favorite,
+//                    contentDescription = "Localized description",
+//                    modifier = Modifier.size(ButtonDefaults.IconSize)
+//                )
+//                Spacer(Modifier.size(ButtonDefaults.IconSpacing))
+//                Text("1.1-Plant")
+//            }
+//            Button(
+//                onClick = nav02,
+//                contentPadding = ButtonDefaults.ButtonWithIconContentPadding
+//            ) {
+//                Icon(
+//                    Icons.Filled.Favorite,
+//                    contentDescription = "Localized description",
+//                    modifier = Modifier.size(ButtonDefaults.IconSize)
+//                )
+//                Spacer(Modifier.size(ButtonDefaults.IconSpacing))
+//                Text("1.4.1-plant-lookingforplan-foot")
+//            }
+//            Button(
+//                onClick = nav01,
+//                contentPadding = ButtonDefaults.ButtonWithIconContentPadding
+//            ) {
+//                Icon(
+//                    Icons.Filled.Favorite,
+//                    contentDescription = "Localized description",
+//                    modifier = Modifier.size(ButtonDefaults.IconSize)
+//                )
+//                Spacer(Modifier.size(ButtonDefaults.IconSpacing))
+//                Text("1.2-plant-plan")
+//            }
+//            Button(
+//                onClick = nav05,
+//                contentPadding = ButtonDefaults.ButtonWithIconContentPadding
+//            ) {
+//                Icon(
+//                    Icons.Filled.Favorite,
+//                    contentDescription = "Localized description",
+//                    modifier = Modifier.size(ButtonDefaults.IconSize)
+//                )
+//                Spacer(Modifier.size(ButtonDefaults.IconSpacing))
+//                Text("进入PlanList")
+//            }
+//        }
 
     }
 }

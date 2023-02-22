@@ -337,7 +337,7 @@ fun PhoneLoginScreen(
                 Box {
                     //立即体验跳过按钮
                     androidx.compose.material.TextButton(onClick = {
-                        navController.navigate(Plant.route) {
+                        navController.navigate(AppIntroduction.route) {
                             launchSingleTop = true;
                         }
                     }) {

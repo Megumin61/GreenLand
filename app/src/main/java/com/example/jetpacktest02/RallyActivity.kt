@@ -349,7 +349,7 @@ fun RallyApp() {
                     PlantScreen(
                         userViewModel = userViewModel,
                         nav01 = {
-                            navController.navigate(PlanList.route) { launchSingleTop = true; }
+                            navController.navigate(PlantPlan.route) { launchSingleTop = true; }
                         },                        nav02 = {
                             navController.navigate(PlantBagPossessed.route) { launchSingleTop = true; }
                         }, navController = navController
@@ -359,9 +359,13 @@ fun RallyApp() {
                     PlantUnchosenScreen(
                         userViewModel = userViewModel,
                         nav01 = {
-                            navController.navigate(PlanList.route) { launchSingleTop = true; }
+                            navController.navigate(PlantPlan.route) { launchSingleTop = true; }
                         }, nav02 = {
                             navController.navigate(PlantBagPossessed.route) {
+                                launchSingleTop = true;
+                            }
+                        }, nav03 = {
+                            navController.navigate(ChooseSeed.route) {
                                 launchSingleTop = true;
                             }
                         }, navController = navController
@@ -831,7 +835,7 @@ fun RallyApp() {
                             navController.navigate(My.route) { launchSingleTop = true; }
                         },
                         nav02 = {
-                            navController.navigate(VipUnsigned.route) { launchSingleTop = true; }
+                            navController.navigate(Vip.route) { launchSingleTop = true; }
                         },
                     )
                 }
@@ -861,7 +865,7 @@ fun RallyApp() {
                 composable(route = MySetting.route) {
                     MySettingScreen(
                         nav01 = {
-                            navController.navigate(PlantBagAchievement.route) {
+                            navController.navigate(My.route) {
                                 launchSingleTop = true;
                             }
                         }
@@ -878,7 +882,11 @@ fun RallyApp() {
 //                    )
 //                }
                 composable(route = SharePost.route) {
-                    SharePostScreen()
+                    SharePostScreen(nav01 = {
+                        navController.navigate(HealthPast.route) {
+                            launchSingleTop = true;
+                        }
+                    })
                 }
                 composable(route = LightReminder.route) {
                     LightReminderScreen(

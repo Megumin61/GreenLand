@@ -97,6 +97,7 @@ import java.time.format.TextStyle
 fun PlantUnchosenScreen(
     nav01: () -> Unit = {},//计划
     nav02: () -> Unit = {},//背包
+    nav03: () -> Unit = {},//背包
     userViewModel: UserViewModel,
     navController: NavController,
 
@@ -108,6 +109,19 @@ fun PlantUnchosenScreen(
     )
     MainPlantUnchosenPage(userViewModel, nav01,nav02)
 
+    //测试按钮
+    Button(
+        onClick = nav03,
+        contentPadding = ButtonDefaults.ButtonWithIconContentPadding
+    ) {
+        Icon(
+            Icons.Filled.Favorite,
+            contentDescription = "Localized description",
+            modifier = Modifier.size(ButtonDefaults.IconSize)
+        )
+        Spacer(Modifier.size(ButtonDefaults.IconSpacing))
+        Text("1.1-Plant")
+    }
 }
 
 @OptIn(ExperimentalAnimationApi::class)
@@ -117,6 +131,7 @@ fun MainPlantUnchosenPage(
     userViewModel: UserViewModel,
     nav01: () -> Unit = {},//计划
     nav02: () -> Unit = {},//背包
+    nav03: () -> Unit = {},//背包
 ) {
 
     //动画状态

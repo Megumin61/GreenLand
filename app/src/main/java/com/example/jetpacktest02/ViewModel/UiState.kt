@@ -43,6 +43,8 @@ import java.time.Duration
  * Data class that represents the UI state
  */
 data class UiState constructor(
+    //Activity 轻提醒逻辑判断
+    var isLockScreen :MutableState<Int> = mutableStateOf(0),
     //用户所选择的头像
     var avartarInt :MutableState<Int> = mutableStateOf(0),
 

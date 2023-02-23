@@ -582,7 +582,7 @@ fun MainPlantPage(
                         painter = painterResource(id = R.drawable.g1_1_img_plant_seedling),
                         contentDescription = null,
                         modifier = Modifier
-                            .width(120.dp)
+                            .width(130.dp)
                             .height(300.dp)
                             .align(Alignment.CenterHorizontally)
                             .clickable(

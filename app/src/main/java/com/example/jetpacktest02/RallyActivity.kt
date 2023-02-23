@@ -59,6 +59,7 @@ fun NavHostController.navigateSingleTopTo(route: String) =
 @ExperimentalMaterialApi
 @AndroidEntryPoint
 class RallyActivity : ComponentActivity() {
+
     @OptIn(DelicateCoroutinesApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -346,7 +347,7 @@ fun RallyApp() {
             //管理路由：页面跳转
             NavHost(
                 navController = navController,
-                startDestination = LoginLoading.route,
+                startDestination = if(userViewModel.uiState.value.isLockScreen.value==0) LoginLoading.route else Plant.route,
                 modifier = Modifier.padding(innerPadding)
 
             ) {
@@ -914,7 +915,7 @@ fun RallyApp() {
                 }
                 composable(route = LightReminder.route) {
                     LightReminderScreen(
-//                        navController = navController
+                        userViewModel,
                     )
                 }
 

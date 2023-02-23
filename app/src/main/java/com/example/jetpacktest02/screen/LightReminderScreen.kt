@@ -40,6 +40,8 @@ import androidx.core.content.ContextCompat.getSystemService
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
 import coil.ImageLoader
 import coil.compose.rememberAsyncImagePainter
 import coil.decode.GifDecoder
@@ -50,6 +52,7 @@ import com.example.jetpacktest02.Plant
 import com.example.jetpacktest02.R
 import com.example.jetpacktest02.RallyActivity
 import com.example.jetpacktest02.UnityPlayerActivity
+import com.example.jetpacktest02.ViewModel.UserViewModel
 
 import com.example.scaffolddemo.ui.theme.GreenLightReminder
 import com.example.scaffolddemo.ui.theme.textGray2
@@ -134,7 +137,7 @@ fun GIFimage(
 @OptIn(ExperimentalMaterialApi::class, ExperimentalPermissionsApi::class)
 @Composable
 fun LightReminderScreen(
-//    navController: NavController,
+    userViewModel: UserViewModel,
 ) {
 
     rememberSystemUiController().setStatusBarColor(
@@ -265,6 +268,7 @@ fun LightReminderScreen(
                 LaunchedEffect(swipeableState2){
                     snapshotFlow {swipeableState2.currentValue  }.collect{ value ->
                         if (value == Status .OPEN){
+                            userViewModel.uiState.value.isLockScreen.value=1
 //                            navController.navigate(Plant.route){launchSingleTop=true}
                             context.startActivity(intent)
                         }

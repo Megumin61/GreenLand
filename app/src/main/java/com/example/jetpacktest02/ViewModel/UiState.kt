@@ -181,7 +181,7 @@ data class UiState constructor(
             offsetX = 0.7f,
             offsetY = -1f,
             textMsg = "",
-            imgMsg = R.drawable.g4_6_img_imgmsg,
+            imgMsg = R.drawable.imgmsg1,
             onlineTime = "23分钟前来过", msgTime = "20分钟前", gifSize = 65.dp
         ), FriendItem(
             userName = "老默我想吃鱼",
@@ -201,7 +201,7 @@ data class UiState constructor(
             offsetY = 1.65f,
             textMsg = "大家好！认识我的人都叫我华工C罗。",
             imgMsg = 0,
-            onlineTime = "1小时前来过", msgTime = "10分钟前", gifSize = 50.dp
+            onlineTime = "1小时前来过", msgTime = "15分钟前", gifSize = 50.dp
         )
     ),
 
@@ -235,7 +235,7 @@ data class UiState constructor(
             offsetY = -1f,
             textMsg = "",
             imgMsg = R.drawable.imgmsg2,
-            onlineTime = "1分钟前来过", msgTime = "20分钟前",
+            onlineTime = "1分钟前来过", msgTime = "33分钟前",
             location = LocationDetails(latitude = 23.050359, longitude = 113.407768),animDuration = 500
         ), ExploreMemberItem(
             userName = "(*^_^*)",
@@ -245,7 +245,7 @@ data class UiState constructor(
             offsetY = 1.3f,
             textMsg = "大家开学快乐鸭！",
             imgMsg = 0,
-            onlineTime = "30分钟前来过", msgTime = "10分钟前",
+            onlineTime = "30分钟前来过", msgTime = "4分钟前",
             location = LocationDetails(latitude = 23.050191, longitude = 113.40692),animDuration=600
         ),
         ExploreMemberItem(

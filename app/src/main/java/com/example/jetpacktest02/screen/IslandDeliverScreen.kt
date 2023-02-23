@@ -464,8 +464,8 @@ fun IslandDeliverScreen(
                                     userViewModel = userViewModel
                                 )
 
-                                userViewModel.uiState.value.exploreMemberListData.forEachIndexed { index, item ->
-                                    if (index <= userViewModel.uiState.value.exploreMemberListData.size / 2) {
+                                userViewModel.uiState.value.friendListData.forEachIndexed { index, item ->
+                                    if (index <= userViewModel.uiState.value.friendListData.size / 2) {
                                         AvatarItem(
                                             item.userName,
                                             item.userAvatar,
@@ -483,9 +483,9 @@ fun IslandDeliverScreen(
                                     .padding(15.dp),
                                 horizontalArrangement = Arrangement.Start
                             ) {
-                                userViewModel.uiState.value.exploreMemberListData.forEachIndexed { index, item ->
+                                userViewModel.uiState.value.friendListData.forEachIndexed { index, item ->
 
-                                    if (index > userViewModel.uiState.value.exploreMemberListData.size / 2) {
+                                    if (index > userViewModel.uiState.value.friendListData.size / 2) {
                                         AvatarItem(
                                             item.userName,
                                             item.userAvatar,

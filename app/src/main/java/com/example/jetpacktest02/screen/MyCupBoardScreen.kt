@@ -22,6 +22,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.jetpacktest02.R
+import com.example.jetpacktest02.ViewModel.UserViewModel
 import com.example.jetpacktest02.ui.main.HealthTopAppBar
 import com.example.jetpacktest02.ui.main.HealthViewTabRow
 import com.example.scaffolddemo.ui.theme.DateBlue
@@ -37,12 +38,11 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 // 水平指示器
 
 //pagerState为底部viewpager参数
-@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter", "StateFlowValueCalledInComposition")
 @OptIn(ExperimentalPagerApi::class)
-@Preview(showBackground=true,widthDp=393,heightDp=851)
 @Composable
 fun MyCupBoardScreen(nav01: () -> Unit={},
-                     nav02: () -> Unit={},) {
+                     nav02: () -> Unit={},userViewModel: UserViewModel) {
 
     var ifdialog by remember{
         mutableStateOf(false)}
@@ -59,7 +59,7 @@ fun MyCupBoardScreen(nav01: () -> Unit={},
                         contentAlignment = Alignment.Center
                     ) {
                         Text(
-                            text = "Miguminnn的展柜",
+                            text = "${userViewModel.uiState.value.meItem.value.userName}的展柜",
                             style = TextStyle(
                                 fontWeight = FontWeight.W900, //设置字体粗细
                                 fontSize = 18.sp,
@@ -490,7 +490,7 @@ fun Plant04(){//------------第一个植物及其名称—---------------
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CupTopAppBar() {
+fun CupTopAppBar(userViewModel: UserViewModel) {
     androidx.compose.material.TopAppBar(title = {
         Box(
             modifier = Modifier.fillMaxWidth(),

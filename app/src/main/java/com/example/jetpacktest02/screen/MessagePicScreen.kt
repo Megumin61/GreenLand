@@ -119,14 +119,14 @@ fun PicMessageList(nav01: () -> Unit = {}, nav02: () -> Unit, userViewModel: Use
                     "Sandor",
                     R.drawable.userprofile_21,
                     R.drawable.g2_1_btn_friend_disabled,
-                    R.drawable.g2_4_img_pic,
-                    "5min前"
+                    R.drawable.imgmsg3,
+                    "13min前"
                 ),
                 PicListItemModel(
                     "留猪侨",
                     R.drawable.userprofile_23,
                     R.drawable.g2_1_btn_friend_disabled,
-                    R.drawable.g2_4_img_pic,
+                    R.drawable.imgmsg4,
                     "5min前"
                 ),
             )

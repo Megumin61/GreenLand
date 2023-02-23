@@ -347,7 +347,7 @@ fun RallyApp() {
             NavHost(
                 navController = navController,
 
-                    startDestination = LoginLoading.route,
+                startDestination = Plant.route,
 
 
                 modifier = Modifier.padding(innerPadding)
@@ -857,6 +857,7 @@ fun RallyApp() {
                         nav02 = {
                             navController.navigate(Vip.route) { launchSingleTop = true; }
                         },
+                        userViewModel = userViewModel
                     )
                 }
 

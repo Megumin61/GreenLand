@@ -375,7 +375,7 @@ fun CustomEditHint(
     BasicTextField(
         value = text,
         onValueChange = onValueChange,
-        modifier = modifier,
+        modifier = modifier.padding(start = 12.dp),
         singleLine = singleLine,
         enabled = enabled,
         readOnly = readOnly,

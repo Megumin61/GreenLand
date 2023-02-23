@@ -419,7 +419,7 @@ fun SitFrame()
                 AverageSitInf()
                 CompareSitInf()
             }
-            Spacer(modifier = Modifier.height(10.dp))
+            Spacer(modifier = Modifier.height(5.dp))
             BarChart()
             Spacer(modifier =Modifier.height(58.dp))
         }

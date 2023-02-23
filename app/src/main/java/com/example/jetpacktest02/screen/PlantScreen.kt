@@ -498,14 +498,14 @@ fun MainPlantPage(
             Column(
                 horizontalAlignment = CenterHorizontally,
                 verticalArrangement = Arrangement.Top,
-                modifier = Modifier.offset(5.dp, 30.dp)
+                modifier = Modifier.offset(5.dp, 0.dp)
             ) {
                 Text(
-                    "Joyce的向日葵",
+                    "${userViewModel.uiState.value.meItem.value.userName}的向日葵",
                     color = Gray5,
-                    fontSize = 24.sp,
+                    fontSize = 20.sp,
                     fontWeight = W900,
-                    modifier = Modifier.offset(0.dp, (-10).dp)
+                    modifier = Modifier.offset(0.dp, (-20).dp)
                 )
 
                 Box {
@@ -613,7 +613,7 @@ fun MainPlantPage(
                     modifier = Modifier.offset(0.dp, -107.dp)
                 )
             }
-            Spacer(modifier = Modifier.width(20.dp))
+            Spacer(modifier = Modifier.width(0.dp))
             Column(
                 modifier = Modifier
                     .width(120.dp)
@@ -700,7 +700,7 @@ fun MainPlantPage(
             Column(
                 horizontalAlignment = Alignment.Start,
                 modifier = Modifier
-                    .padding(20.dp,0.dp,20.dp,20.dp)
+                    .padding(20.dp,0.dp,20.dp,0.dp)
                     .fillMaxHeight()
             ) {
 //                Spacer(modifier = Modifier.height(10.dp))

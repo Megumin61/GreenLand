@@ -346,10 +346,7 @@ fun RallyApp() {
             //管理路由：页面跳转
             NavHost(
                 navController = navController,
-
-                    startDestination = LoginLoading.route,
-
-
+                startDestination = PlantUnchosen.route,
                 modifier = Modifier.padding(innerPadding)
 
             ) {
@@ -363,8 +360,10 @@ fun RallyApp() {
                         userViewModel = userViewModel,
                         nav01 = {
                             navController.navigate(PlantPlan.route) { launchSingleTop = true; }
-                        },                        nav02 = {
-                            navController.navigate(PlantBagPossessed.route) { launchSingleTop = true; }
+                        }, nav02 = {
+                            navController.navigate(PlantBagPossessed.route) {
+                                launchSingleTop = true;
+                            }
                         }, navController = navController
                     )
                 }
@@ -381,7 +380,8 @@ fun RallyApp() {
                             navController.navigate(ChooseSeed.route) {
                                 launchSingleTop = true;
                             }
-                        }, navController = navController
+                        },
+                        navController = navController
                     )
                 }
                 composable(route = Test.route) {
@@ -409,7 +409,9 @@ fun RallyApp() {
                 }
                 composable(route = CreateAccount.route) {
                     CreateAccountScreen(
-                        navController = navController, userViewModel = userViewModel,marsViewModel=marsViewModel
+                        navController = navController,
+                        userViewModel = userViewModel,
+                        marsViewModel = marsViewModel
                     )
                 }
                 composable(route = LoginLoading.route) {
@@ -782,7 +784,8 @@ fun RallyApp() {
                     )
                 }
                 composable(route = My.route) {
-                    MyScreen(userViewModel = userViewModel,
+                    MyScreen(
+                        userViewModel = userViewModel,
                         nav01 = {
                             navController.navigate(MyCupBoard.route) { launchSingleTop = true; }
                         },
@@ -793,7 +796,7 @@ fun RallyApp() {
                             navController.navigate(MySetting.route) { launchSingleTop = true; }
                         },
                         nav04 = {
-                            navController.navigate(Vip  .route) { launchSingleTop = true; }
+                            navController.navigate(Vip.route) { launchSingleTop = true; }
                         },
 
                         )

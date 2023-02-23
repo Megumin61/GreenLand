@@ -18,21 +18,7 @@ package com.example.jetpacktest02.ui.main
 
 import android.annotation.SuppressLint
 import androidx.compose.animation.*
-import androidx.compose.animation.core.FloatTweenSpec
-import androidx.compose.animation.core.animateDp
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.updateTransition
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.expandVertically
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.*
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -49,41 +35,22 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.TransformOrigin
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.font.FontWeight.Companion.W500
+import androidx.compose.ui.text.font.FontWeight.Companion.W700
 import androidx.compose.ui.text.font.FontWeight.Companion.W900
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.window.Dialog
-import androidx.compose.ui.window.DialogProperties
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.airbnb.lottie.compose.LottieAnimation
-import com.airbnb.lottie.compose.LottieCompositionSpec
-import com.airbnb.lottie.compose.animateLottieCompositionAsState
-import com.airbnb.lottie.compose.rememberLottieComposition
-import com.example.jetpacktest02.PlantUnchosen
 import com.example.jetpacktest02.R
-import com.example.jetpacktest02.SharePost
-import com.example.jetpacktest02.ViewModel.NotificationTestViewModel
-
 import com.example.jetpacktest02.ViewModel.TapListItemModel
 import com.example.jetpacktest02.ViewModel.UserViewModel
-import com.example.jetpacktest02.screen.FriendList
-import com.example.jetpacktest02.screen.IconButtonFriendList
 import com.example.scaffolddemo.ui.theme.*
-import com.google.accompanist.pager.ExperimentalPagerApi
-import com.google.accompanist.pager.HorizontalPager
-import com.google.accompanist.pager.PagerState
-import com.google.accompanist.pager.VerticalPager
+import com.google.accompanist.pager.*
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.runBlocking
-import java.time.format.TextStyle
 
 
 /**
@@ -97,7 +64,7 @@ import java.time.format.TextStyle
 fun PlantUnchosenScreen(
     nav01: () -> Unit = {},//计划
     nav02: () -> Unit = {},//背包
-    nav03: () -> Unit = {},//背包
+    nav03: () -> Unit = {},//选择种子
     userViewModel: UserViewModel,
     navController: NavController,
 
@@ -107,24 +74,24 @@ fun PlantUnchosenScreen(
     rememberSystemUiController().setStatusBarColor(
         Color.White, darkIcons = androidx.compose.material.MaterialTheme.colors.isLight
     )
-    MainPlantUnchosenPage(userViewModel, nav01,nav02)
+    MainPlantUnchosenPage(userViewModel, nav01, nav02,nav04=nav03)
 
     //测试按钮
-    Button(
-        onClick = nav03,
-        contentPadding = ButtonDefaults.ButtonWithIconContentPadding
-    ) {
-        Icon(
-            Icons.Filled.Favorite,
-            contentDescription = "Localized description",
-            modifier = Modifier.size(ButtonDefaults.IconSize)
-        )
-        Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-        Text("1.1-Plant")
-    }
+//    Button(
+//        onClick = nav03,
+//        contentPadding = ButtonDefaults.ButtonWithIconContentPadding
+//    ) {
+//        Icon(
+//            Icons.Filled.Favorite,
+//            contentDescription = "Localized description",
+//            modifier = Modifier.size(ButtonDefaults.IconSize)
+//        )
+//        Spacer(Modifier.size(ButtonDefaults.IconSpacing))
+//        Text("1.1-Plant")
+//    }
 }
 
-@OptIn(ExperimentalAnimationApi::class)
+@OptIn(ExperimentalAnimationApi::class, ExperimentalPagerApi::class)
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 fun MainPlantUnchosenPage(
@@ -132,7 +99,16 @@ fun MainPlantUnchosenPage(
     nav01: () -> Unit = {},//计划
     nav02: () -> Unit = {},//背包
     nav03: () -> Unit = {},//背包
+    nav04: () -> Unit = {},//返回
 ) {
+
+    //控制卡片pager的切换
+    val pagerState = rememberPagerState()
+//    LaunchedEffect(pagerState) {
+//        snapshotFlow { pagerState.currentPage }.collect { page ->
+//            pagerState.animateScrollToPage(page)
+//        }
+//    }
 
     //动画状态
     var state by remember {
@@ -180,23 +156,22 @@ fun MainPlantUnchosenPage(
     )
     Column() {
         Image(
-            painter = painterResource(id = R.drawable.g1_1_ic_arrow_down),
-            contentDescription = null,
-            modifier = Modifier
-                .align(Alignment.CenterHorizontally)
-                .size(20.dp)
-                .offset(0.dp, 680.dp)
-        )
-        Image(
             painter = painterResource(id = R.drawable.g1_1_ic_ar),
             contentDescription = null,
             modifier = Modifier
                 .align(Alignment.End)
-                .offset(-20.dp, 0.dp)
+                .offset(-20.dp, 20.dp)
                 .width(90.dp)
                 .height(50.dp)
         )
-
+        Image(
+            painter = painterResource(id = R.drawable.g3_1_ic_arrow),
+            contentDescription = null,
+            modifier = Modifier
+                .height(20.dp)
+                .scale(2f)
+                .offset(35.dp,100.dp)
+        )
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -208,8 +183,21 @@ fun MainPlantUnchosenPage(
             Column(
                 horizontalAlignment = CenterHorizontally,
                 verticalArrangement = Arrangement.Top,
-                modifier = Modifier.offset(5.dp, 30.dp)
+                modifier = Modifier.offset(0.dp, 30.dp)
             ) {
+                Image(
+                    painter = painterResource(id = R.drawable.g3_1_btn_addpot),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .offset(20.dp, 0.dp)
+                        .width(70.dp)
+                        .height(70.dp)
+                        .clickable(
+                            onClick = nav04,
+                            indication = null,
+                            interactionSource = MutableInteractionSource()
+                        )
+                )
                 AnimatedVisibility(
                     visible = state && userViewModel.uiState.value.isGrowUp.value == 0,
                     enter = scaleIn(transformOrigin = TransformOrigin(0f, 0f)) +
@@ -217,36 +205,74 @@ fun MainPlantUnchosenPage(
                     exit = scaleOut(transformOrigin = TransformOrigin(0f, 0f)) +
                             fadeOut() + shrinkOut(shrinkTowards = Alignment.TopStart)
                 ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.g3_1_img_pot),
-                        contentDescription = null,
-                        modifier = Modifier
-                            .width(120.dp)
-                            .height(300.dp)
-                            .align(Alignment.CenterHorizontally)
-                            .clickable(
-                                onClick = {
-                                    userViewModel.uiState.value.isGrowUp.value = 1
-                                    userViewModel.uiState.value.plantExp.value = 90
+                    HorizontalPager(
+                        count = 5,
+                        state = pagerState,
+                        modifier = Modifier.width(185.dp).clickable(onClick = nav04)
+                    ) {
+                        Image(
+                            painter = painterResource(id = R.drawable.g3_1_img_pot2),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .width(160.dp)
+                                .height(200.dp)
+                                .align(Alignment.CenterHorizontally)
+                                .offset(20.dp, 0.dp)
+                                .clickable(
+                                    onClick = nav04,
+                                    indication = null,
+                                    interactionSource = MutableInteractionSource()
+                                )
+                        )
+                        Image(
+                            painter = painterResource(id = R.drawable.g3_1_img_shadow),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .width(120.dp)
+                                .height(200.dp)
+                                .offset(40.dp, 80.dp)
+                                .clickable(
+                                    onClick = {
+//                                    userViewModel.uiState.value.isGrowUp.value = 1
+//                                    userViewModel.uiState.value.plantExp.value = 90
+                                    },
+                                    indication = null,
+                                    interactionSource = MutableInteractionSource()
+                                )
+                        )
 
-                                }, indication = null,
-                                interactionSource = MutableInteractionSource()
-                            )
+                    }
+                    HorizontalPagerIndicator(
+                        pagerState = pagerState,
+                        modifier = Modifier
+                            .align(Alignment.CenterHorizontally)
+                            .offset(63.dp,180.dp)
+                            .padding(16.dp),
+                        activeColor = Green5
                     )
                 }
 
+
                 Text(
-                    text = if (userViewModel.uiState.value.isGrowUp.value == 0) "幼苗期" else "成长期",
-                    color = Color.White,
-                    fontSize = 14.sp,
-                    fontWeight = W900,
-                    modifier = Modifier.offset(0.dp, -107.dp)
+                    text = "选择本周的植物吧！",
+                    color = Gray5,
+                    fontSize = 16.sp,
+                    fontWeight = W700,
+                    modifier = Modifier.offset(28.dp, 15.dp)
                 )
+                Text(
+                    text = "更换花盆",
+                    color = BlueGray4,
+                    fontSize = 14.sp,
+                    fontWeight = W500,
+                    modifier = Modifier.offset(20.dp, 20.dp)
+                )
+
+
             }
-            Spacer(modifier = Modifier.width(20.dp))
             Column(
                 modifier = Modifier
-                    .width(120.dp)
+                    .width(110.dp)
                     .padding(10.dp),
                 horizontalAlignment = CenterHorizontally,
                 verticalArrangement = Arrangement.Bottom
@@ -258,7 +284,7 @@ fun MainPlantUnchosenPage(
                     modifier = Modifier
                         .height(180.dp)
                         .width(80.dp)
-                        .offset(10.dp, 0.dp)
+                        .offset(10.dp, 20.dp)
 
                 ) {
                     Column(
@@ -280,7 +306,8 @@ fun MainPlantUnchosenPage(
                         Image(
                             painter = painterResource(id = R.drawable.g1_1_ic_bag),
                             contentDescription = null,
-                            modifier = Modifier.size(60.dp)
+                            modifier = Modifier
+                                .size(60.dp)
                                 .clickable(
                                     onClick = nav02,
                                     indication = null,
@@ -294,7 +321,7 @@ fun MainPlantUnchosenPage(
         }
 
         //心情、水分、能量
-
+        Spacer(modifier = Modifier.height(160.dp))
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
             modifier = Modifier.offset(0.dp, -30.dp)
@@ -302,7 +329,7 @@ fun MainPlantUnchosenPage(
             Column(
                 horizontalAlignment = Alignment.Start,
                 modifier = Modifier
-                    .padding(20.dp,0.dp,20.dp,20.dp)
+                    .padding(20.dp, 20.dp, 20.dp, 20.dp)
                     .fillMaxHeight()
             ) {
 //                Spacer(modifier = Modifier.height(10.dp))
@@ -313,14 +340,15 @@ fun MainPlantUnchosenPage(
                     exit = scaleOut(transformOrigin = TransformOrigin(0f, 0f)) +
                             fadeOut() + shrinkOut(shrinkTowards = Alignment.TopStart)
                 ) {
+                    Spacer(modifier = Modifier.height(10.dp))
                     Image(
                         painter = painterResource(id = R.drawable.g3_1_icbg_msg),
                         contentDescription = null,
                         modifier = Modifier
                             .align(Alignment.End)
-                            .offset(-20.dp, 0.dp)
-                            .width(150.dp)
-                            .height(150.dp)
+                            .offset(15.dp, 0.dp)
+                            .width(160.dp)
+                            .scale(1.2f)
                     )
                 }
 
@@ -352,7 +380,7 @@ fun MainPlantUnchosenPage(
                             painter = painterResource(id = R.drawable.g1_1_ic_msg),
                             contentDescription = null,
                             modifier = Modifier
-                                .height(40.dp)
+                                .height(50.dp)
                                 .offset(0.dp, 4.dp)
                                 .clickable(
                                     onClick = {

@@ -73,6 +73,7 @@ import com.example.jetpacktest02.ViewModel.NotificationTestViewModel
 import com.example.jetpacktest02.ViewModel.TapListItemModel
 import com.example.jetpacktest02.ViewModel.UserViewModel
 import com.example.jetpacktest02.screen.FriendList
+import com.example.jetpacktest02.screen.GIFimage
 import com.example.jetpacktest02.screen.IconButtonFriendList
 import com.example.scaffolddemo.ui.theme.*
 import com.google.accompanist.pager.ExperimentalPagerApi
@@ -562,13 +563,16 @@ fun MainPlantPage(
                     exit = scaleOut(transformOrigin = TransformOrigin(0f, 0f)) +
                             fadeOut() + shrinkOut(shrinkTowards = Alignment.TopStart)
                 ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.g1_1_img_flower),
-                        contentDescription = null,
-                        modifier = Modifier
-                            .width(180.dp)
-                            .height(300.dp)
-                    )
+                    GIFimage(gif = R.drawable.gif_04, modifier = Modifier
+                        .width(180.dp)
+                        .height(300.dp))
+//                    Image(
+//                        painter = painterResource(id = R.drawable.g1_1_img_flower),
+//                        contentDescription = null,
+//                        modifier = Modifier
+//                            .width(180.dp)
+//                            .height(300.dp)
+//                    )
                 }
 
                 AnimatedVisibility(
@@ -578,24 +582,38 @@ fun MainPlantPage(
                     exit = scaleOut(transformOrigin = TransformOrigin(0f, 0f)) +
                             fadeOut() + shrinkOut(shrinkTowards = Alignment.TopStart)
                 ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.g1_1_img_plant_seedling),
-                        contentDescription = null,
-                        modifier = Modifier
-                            .width(120.dp)
-                            .height(300.dp)
-                            .align(Alignment.CenterHorizontally)
-                            .clickable(
-                                onClick = {
-                                    userViewModel.uiState.value.isGrowUp.value = 1
-                                    userViewModel.uiState.value.plantExp.value = 90
-                                    allEnergy = 350
-                                    showFireball = true
+                    GIFimage(gif = R.drawable.gif_06, modifier = Modifier
+                        .width(140.dp)
+                        .height(300.dp)
+                        .align(Alignment.CenterHorizontally)
+                        .clickable(
+                            onClick = {
+                                userViewModel.uiState.value.isGrowUp.value = 1
+                                userViewModel.uiState.value.plantExp.value = 90
+                                allEnergy = 350
+                                showFireball = true
 
-                                }, indication = null,
-                                interactionSource = MutableInteractionSource()
-                            )
-                    )
+                            }, indication = null,
+                            interactionSource = MutableInteractionSource()
+                        ))
+//                    Image(
+//                        painter = painterResource(id = R.drawable.g1_1_img_plant_seedling),
+//                        contentDescription = null,
+//                        modifier = Modifier
+//                            .width(120.dp)
+//                            .height(300.dp)
+//                            .align(Alignment.CenterHorizontally)
+//                            .clickable(
+//                                onClick = {
+//                                    userViewModel.uiState.value.isGrowUp.value = 1
+//                                    userViewModel.uiState.value.plantExp.value = 90
+//                                    allEnergy = 350
+//                                    showFireball = true
+//
+//                                }, indication = null,
+//                                interactionSource = MutableInteractionSource()
+//                            )
+//                    )
                 }
 
                 Image(
@@ -650,7 +668,8 @@ fun MainPlantPage(
                         Image(
                             painter = painterResource(id = R.drawable.g1_1_ic_bag),
                             contentDescription = null,
-                            modifier = Modifier.size(60.dp)
+                            modifier = Modifier
+                                .size(60.dp)
                                 .clickable(
                                     onClick = nav02,
                                     indication = null,
@@ -700,7 +719,7 @@ fun MainPlantPage(
             Column(
                 horizontalAlignment = Alignment.Start,
                 modifier = Modifier
-                    .padding(20.dp,0.dp,20.dp,0.dp)
+                    .padding(20.dp, 0.dp, 20.dp, 0.dp)
                     .fillMaxHeight()
             ) {
 //                Spacer(modifier = Modifier.height(10.dp))

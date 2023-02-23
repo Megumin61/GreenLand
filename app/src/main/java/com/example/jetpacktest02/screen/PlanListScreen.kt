@@ -127,7 +127,7 @@ fun PlanListScreen(
                            /* IconButton(onClick = nav06,interactionSource = MutableInteractionSource()) {*/
                                 Icon(
                                     bitmap = ImageBitmap.imageResource(id = R.drawable.g1_2_0_ic_arrow_left),
-                                    contentDescription = null, modifier = Modifier.offset(19.dp).clickable(onClick =nav06, indication = null, interactionSource = MutableInteractionSource() )
+                                    contentDescription = null, modifier = Modifier.offset(10.dp).clickable(onClick =nav06, indication = null, interactionSource = MutableInteractionSource() )
                                 )
                         },
                         //右侧按钮

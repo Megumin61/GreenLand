@@ -303,10 +303,7 @@ fun RallyApp() {
     }
 
     ScaffoldDemoTheme {
-
-
         Scaffold(
-
             bottomBar = {
                 MyBottomNavBar(
                     navControl = navController,
@@ -340,9 +337,6 @@ fun RallyApp() {
                 )
             }
         ) { innerPadding ->
-
-//            val navController = rememberNavController()
-
             //管理路由：页面跳转
             NavHost(
                 navController = navController,
@@ -393,7 +387,7 @@ fun RallyApp() {
                 }
                 composable(route = LoginFront.route) {
                     LoginFrontScreen(
-                        navController = navController
+                        navController = navController, userViewModel = userViewModel
                     )
                 }
                 composable(route = PhoneLogin.route) {

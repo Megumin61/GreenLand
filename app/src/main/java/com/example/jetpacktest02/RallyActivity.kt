@@ -341,11 +341,9 @@ fun RallyApp() {
             //管理路由：页面跳转
             NavHost(
                 navController = navController,
-                startDestination = if(userViewModel.uiState.value.isLockScreen.value==0) LoginLoading.route else Plant.route,
-//                startDestination = PlantUnchosen.route,
-
+                startDestination = if (userViewModel.uiState.value.isLockScreen.value == 0) LoginLoading.route else Plant.route,
+//                startDestination = MyCupBoard.route,
                 modifier = Modifier.padding(innerPadding)
-
             ) {
                 composable(route = Vip.route) {
                     VipScreen(
@@ -496,7 +494,7 @@ fun RallyApp() {
                         nav01 = {
                             //终点，返回的
                             navController.navigate(PlanListAdded.route) {
-                                launchSingleTop = true; popUpTo(PlantPlan.route)
+                                launchSingleTop = true;
                             }
                         }, userViewModel = userViewModel
 
@@ -529,7 +527,7 @@ fun RallyApp() {
                             }
                         },
                         nav06 = {
-                            navController.navigate(PlantPlan.route) {
+                                navController.navigate(Plant.route) {
                                 launchSingleTop = true;popUpTo(PlanListAdded.route)
                             }
                         },
@@ -765,7 +763,7 @@ fun RallyApp() {
                 }
                 composable(route = MessageID.route) {
                     MessageIDScreen(
-                        controller = navController
+                        navController = navController
                     )
                 }
                 composable(route = MessagePic.route) {
@@ -889,7 +887,7 @@ fun RallyApp() {
                             navController.navigate(My.route) {
                                 launchSingleTop = true;
                             }
-                        }
+                        }, userViewModel = userViewModel
 
                     )
                 }

@@ -431,7 +431,7 @@ fun FriendList(
     ) {
         LazyColumn(
             state = state, modifier = Modifier
-                .padding(20.dp,20.dp,0.dp,20.dp)
+                .padding(20.dp, 20.dp, 0.dp, 20.dp)
                 .width(300.dp),
             horizontalAlignment = Alignment.Start
         ) {
@@ -606,7 +606,7 @@ fun IconButtonFriendList(
                     .clickable(
                         onClick = {
                             controller.navigate(MessageID.route) {
-                                launchSingleTop = true;
+                                launchSingleTop = true;popUpTo(Message.route)
                             }
                         }, indication = null,
                         interactionSource = MutableInteractionSource()
@@ -629,7 +629,7 @@ fun IconButtonFriendList(
                     .clickable(
                         onClick = {
                             controller.navigate(MessageID.route) {
-                                launchSingleTop = true;
+                                launchSingleTop = true;popUpTo(Message.route)
                             }
                         }, indication = null,
                         interactionSource = MutableInteractionSource()

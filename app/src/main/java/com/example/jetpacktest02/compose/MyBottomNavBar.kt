@@ -64,7 +64,7 @@ fun MyBottomNavBar(
         NavItem(5, "我的", icon = R.drawable.g_nav_my, active_icon = R.drawable.g_nav_my_active)
     )
     if (currentDestination?.route == Plant.route ||
-        currentDestination?.route == VipUnsigned.route ||
+        currentDestination?.route == PlantUnchosen.route ||
         currentDestination?.route == Vip.route ||
         currentDestination?.route == IslandChooseIsland.route ||
         currentDestination?.route == Message.route ||
@@ -83,7 +83,7 @@ fun MyBottomNavBar(
                 selected = currentDestination?.hierarchy?.any { it.route == Plant.route } == true,
                 onClick = nav01,
                 icon = {
-                    if (currentDestination?.route == Plant.route) {
+                    if (currentDestination?.route == Plant.route ||currentDestination?.route == PlantUnchosen.route ) {
                         Icon(
                             imageVector = ImageVector.vectorResource(id = navItems[0].active_icon),
                             contentDescription = null,

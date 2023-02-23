@@ -61,7 +61,7 @@ fun IslandVisitMeScreen(
         mutableStateOf(false)
     }
     LaunchedEffect(key1 = showLoadingProgress) {
-        delay(10000)
+        delay(12000)
         showLoadingProgress = false
     }
     val loadProgress = remember {

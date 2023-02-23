@@ -342,6 +342,8 @@ fun RallyApp() {
             NavHost(
                 navController = navController,
                 startDestination = if(userViewModel.uiState.value.isLockScreen.value==0) LoginLoading.route else Plant.route,
+//                startDestination = PlantUnchosen.route,
+
                 modifier = Modifier.padding(innerPadding)
 
             ) {

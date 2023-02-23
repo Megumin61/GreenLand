@@ -58,7 +58,10 @@ import kotlinx.coroutines.delay
  */
 
 //viewModel: UserViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
-@OptIn(ExperimentalPagerApi::class, ExperimentalComposeUiApi::class)
+@OptIn(
+    ExperimentalPagerApi::class, ExperimentalComposeUiApi::class,
+    ExperimentalAnimationApi::class
+)
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 fun PlantUnchosenScreen(
@@ -74,7 +77,41 @@ fun PlantUnchosenScreen(
     rememberSystemUiController().setStatusBarColor(
         Color.White, darkIcons = androidx.compose.material.MaterialTheme.colors.isLight
     )
-    MainPlantUnchosenPage(userViewModel, nav01, nav02,nav04=nav03)
+    var state by remember {
+        mutableStateOf(false)
+    }
+    LaunchedEffect(key1 = state) {
+        state = true
+    }
+//    MainPlantUnchosenPage(userViewModel, nav01, nav02,nav04=nav03)
+    Image(
+        painter = painterResource(id = R.drawable.plant_unchosen_bg),
+        contentDescription = null,
+        modifier = Modifier
+            .scale(1.2f, 1.2f)
+            .fillMaxHeight()
+            .fillMaxSize(),
+    )
+    AnimatedVisibility(
+        visible = state && userViewModel.uiState.value.isGrowUp.value == 0,
+        enter = scaleIn(transformOrigin = TransformOrigin(0.5f, 0.5f)) +
+                fadeIn(initialAlpha = 0.3f) + expandIn(expandFrom = Alignment.TopStart),
+        exit = scaleOut(transformOrigin = TransformOrigin(0.5f, 0.5f)) +
+                fadeOut() + shrinkOut(shrinkTowards = Alignment.TopStart)
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.plant_unchosen_pot),
+            contentDescription = null,
+            modifier = Modifier
+                .size(280.dp, 280.dp)
+                .offset(-25.dp, 60.dp)
+                .clickable(
+                    onClick = nav03,
+                    indication = null,
+                    interactionSource = MutableInteractionSource()
+                )
+        )
+    }
 
     //测试按钮
 //    Button(
@@ -170,7 +207,7 @@ fun MainPlantUnchosenPage(
             modifier = Modifier
                 .height(20.dp)
                 .scale(2f)
-                .offset(35.dp,100.dp)
+                .offset(35.dp, 100.dp)
         )
         Row(
             modifier = Modifier
@@ -189,7 +226,7 @@ fun MainPlantUnchosenPage(
                     painter = painterResource(id = R.drawable.g3_1_btn_addpot),
                     contentDescription = null,
                     modifier = Modifier
-                        .offset(20.dp, 0.dp)
+                        .offset(0.dp, 0.dp)
                         .width(70.dp)
                         .height(70.dp)
                         .clickable(
@@ -208,7 +245,9 @@ fun MainPlantUnchosenPage(
                     HorizontalPager(
                         count = 5,
                         state = pagerState,
-                        modifier = Modifier.width(185.dp).clickable(onClick = nav04)
+                        modifier = Modifier
+                            .width(150.dp)
+                            .clickable(onClick = nav04)
                     ) {
                         Image(
                             painter = painterResource(id = R.drawable.g3_1_img_pot2),
@@ -230,7 +269,7 @@ fun MainPlantUnchosenPage(
                             modifier = Modifier
                                 .width(120.dp)
                                 .height(200.dp)
-                                .offset(40.dp, 80.dp)
+                                .offset(30.dp, 80.dp)
                                 .clickable(
                                     onClick = {
 //                                    userViewModel.uiState.value.isGrowUp.value = 1
@@ -246,7 +285,7 @@ fun MainPlantUnchosenPage(
                         pagerState = pagerState,
                         modifier = Modifier
                             .align(Alignment.CenterHorizontally)
-                            .offset(63.dp,180.dp)
+                            .offset(63.dp, 180.dp)
                             .padding(16.dp),
                         activeColor = Green5
                     )

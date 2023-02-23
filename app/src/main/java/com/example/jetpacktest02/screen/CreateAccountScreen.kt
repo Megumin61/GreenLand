@@ -310,7 +310,7 @@ fun CreateAccountScreen(
                             }
                             marsViewModel.updateName(userId, username)
                             userViewModel.uiState.value.meItem.value.userName = username
-                            navController.navigate(Plant.route) { launchSingleTop = true; }
+                            navController.navigate(PlantUnchosen.route) { launchSingleTop = true; }
                         },
                         shape = RoundedCornerShape(27.dp),
                         colors = ButtonDefaults.buttonColors(

@@ -34,9 +34,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import cn.smssdk.EventHandler
 import cn.smssdk.SMSSDK
-import com.example.jetpacktest02.LoginFront
-import com.example.jetpacktest02.MainActivity
-import com.example.jetpacktest02.PhoneLogin
+import com.example.jetpacktest02.*
 import com.example.jetpacktest02.ViewModel.UserViewModel
 import com.example.scaffolddemo.ui.theme.*
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
@@ -50,7 +48,8 @@ import java.util.*
 
 @Composable
 fun LoginFrontScreen(
-    navController: NavController
+    navController: NavController,
+    userViewModel: UserViewModel
 ) {
 
 
@@ -80,6 +79,9 @@ fun LoginFrontScreen(
                 //立即体验跳过按钮
                 androidx.compose.material.TextButton(onClick = {
                     /*TODO*/
+                    navController.navigate(AppIntroduction.route) {
+                        launchSingleTop = true;
+                    }
                 }) {
                     Text(text = "立即体验", color = Text3Gray, fontSize = 14.sp)
                 }

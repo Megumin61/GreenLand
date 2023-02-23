@@ -166,7 +166,7 @@ fun SetPlanDiyScreen(
                                     fontWeight = FontWeight.W900, //设置字体粗细
                                     fontSize = 18.sp,
                                 ),
-                                modifier = Modifier.offset(-150.dp, 0.dp)//向左偏移一段距离
+                                modifier = Modifier.offset(-135.dp, 0.dp)//向左偏移一段距离
                             )
                         }
                     },

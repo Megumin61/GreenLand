@@ -147,20 +147,25 @@ fun AppIntroductionScreen(navController: NavController) {
                                                 fadeIn(initialAlpha = 0.5f) + expandIn(expandFrom = Alignment.TopStart),
                                         exit = scaleOut(transformOrigin = TransformOrigin(0f, 0f)) +
                                                 fadeOut() + shrinkOut(shrinkTowards = Alignment.TopStart)
-                                    ){Box(modifier = Modifier, contentAlignment = Alignment.Center) {
-                                        Image(
-                                            painter = painterResource(id = R.drawable.introduction1),
-                                            contentDescription = null,
-                                            modifier = Modifier
-                                                .height(200.dp)
-                                                .clickable(
-                                                    enabled = true,
-                                                    onClick = {},
-                                                    indication = null,
-                                                    interactionSource = MutableInteractionSource()
-                                                ),
-                                        )
-                                    }}
+                                    ) {
+                                        Box(
+                                            modifier = Modifier,
+                                            contentAlignment = Alignment.Center
+                                        ) {
+                                            Image(
+                                                painter = painterResource(id = R.drawable.introduction1),
+                                                contentDescription = null,
+                                                modifier = Modifier
+                                                    .height(200.dp)
+                                                    .clickable(
+                                                        enabled = true,
+                                                        onClick = {},
+                                                        indication = null,
+                                                        interactionSource = MutableInteractionSource()
+                                                    ),
+                                            )
+                                        }
+                                    }
 
 
                                     Spacer(modifier = Modifier.height(20.dp))
@@ -170,12 +175,29 @@ fun AppIntroductionScreen(navController: NavController) {
                                                 fadeIn(initialAlpha = 0.5f) + expandIn(expandFrom = Alignment.TopStart),
                                         exit = scaleOut(transformOrigin = TransformOrigin(0f, 0f)) +
                                                 fadeOut() + shrinkOut(shrinkTowards = Alignment.TopStart)
-                                    ){
-                                        Text(
-                                            text = "创新社交玩法",
-                                            textAlign = TextAlign.Center,
-                                            style = TextStyle(fontSize = 25.sp)
-                                        )
+                                    ) {
+                                        Column(
+                                            modifier = Modifier
+                                                .fillMaxWidth()
+                                                .padding(horizontal = 40.dp),
+                                            horizontalAlignment = Alignment.CenterHorizontally
+                                        ) {
+                                            Spacer(modifier = Modifier.height(20.dp))
+                                            Text(
+                                                text = "创新社交玩法",
+                                                textAlign = TextAlign.Center,
+                                                style = TextStyle(fontSize = 25.sp)
+                                            )
+                                            Spacer(modifier = Modifier.height(10.dp))
+                                            Text(
+                                                text = "双岛社交，查看好友或扫描陌生人状况，进行趣味交互关心",
+                                                textAlign = TextAlign.Center,
+                                                style = TextStyle(fontSize = 18.sp, color = Text3Gray)
+                                            )
+
+                                        }
+
+
                                     }
 
 //                                    Text(
@@ -197,8 +219,11 @@ fun AppIntroductionScreen(navController: NavController) {
                                                 fadeIn(initialAlpha = 0.5f) + expandIn(expandFrom = Alignment.TopStart),
                                         exit = scaleOut(transformOrigin = TransformOrigin(0f, 0f)) +
                                                 fadeOut() + shrinkOut(shrinkTowards = Alignment.TopStart)
-                                    ){
-                                        Box(modifier = Modifier, contentAlignment = Alignment.Center) {
+                                    ) {
+                                        Box(
+                                            modifier = Modifier,
+                                            contentAlignment = Alignment.Center
+                                        ) {
                                             GIFimage(
                                                 gif = R.drawable.introduction2, modifier = Modifier
                                                     .height(250.dp)
@@ -221,12 +246,28 @@ fun AppIntroductionScreen(navController: NavController) {
                                                 fadeIn(initialAlpha = 0.5f) + expandIn(expandFrom = Alignment.TopStart),
                                         exit = scaleOut(transformOrigin = TransformOrigin(0f, 0f)) +
                                                 fadeOut() + shrinkOut(shrinkTowards = Alignment.TopStart)
-                                    ){
-                                        Text(
-                                            text = "植物状态映射",
-                                            textAlign = TextAlign.Center,
-                                            style = TextStyle(fontSize = 25.sp)
-                                        )
+                                    ) {
+                                        Column(
+                                            modifier = Modifier
+                                                .fillMaxWidth()
+                                                .padding(horizontal = 40.dp),
+                                            horizontalAlignment = Alignment.CenterHorizontally
+                                        ) {
+                                            Spacer(modifier = Modifier.height(20.dp))
+                                            Text(
+                                                text = "虚拟植物形象",
+                                                textAlign = TextAlign.Center,
+                                                style = TextStyle(fontSize = 25.sp)
+                                            )
+                                            Spacer(modifier = Modifier.height(10.dp))
+                                            Text(
+                                                text = "每周选定植物体验养成，与个人健康绑定",
+                                                textAlign = TextAlign.Center,
+                                                style = TextStyle(fontSize = 18.sp, color = Text3Gray)
+                                            )
+
+                                        }
+
                                     }
 
 //                                    Text(
@@ -248,7 +289,7 @@ fun AppIntroductionScreen(navController: NavController) {
                                                 fadeIn(initialAlpha = 0.5f) + expandIn(expandFrom = Alignment.TopStart),
                                         exit = scaleOut(transformOrigin = TransformOrigin(0f, 0f)) +
                                                 fadeOut() + shrinkOut(shrinkTowards = Alignment.TopStart)
-                                    ){
+                                    ) {
                                         Box(
                                             modifier = Modifier
                                                 .size(350.dp, 180.dp)
@@ -287,12 +328,27 @@ fun AppIntroductionScreen(navController: NavController) {
                                                 fadeIn(initialAlpha = 0.5f) + expandIn(expandFrom = Alignment.TopStart),
                                         exit = scaleOut(transformOrigin = TransformOrigin(0f, 0f)) +
                                                 fadeOut() + shrinkOut(shrinkTowards = Alignment.TopStart)
-                                    ){
-                                        Text(
-                                            text = "个性化植物",
-                                            textAlign = TextAlign.Center,
-                                            style = TextStyle(fontSize = 25.sp)
-                                        )
+                                    ) {
+                                        Column(
+                                            modifier = Modifier
+                                                .fillMaxWidth()
+                                                .padding(horizontal = 40.dp),
+                                            horizontalAlignment = Alignment.CenterHorizontally
+                                        ) {
+                                            Spacer(modifier = Modifier.height(20.dp))
+                                            Text(
+                                                text = "个性化植物",
+                                                textAlign = TextAlign.Center,
+                                                style = TextStyle(fontSize = 25.sp)
+                                            )
+                                            Spacer(modifier = Modifier.height(10.dp))
+                                            Text(
+                                                text = "diy植物形象，每个用户都可以拥有不一样的“自己”",
+                                                textAlign = TextAlign.Center,
+                                                style = TextStyle(fontSize = 18.sp, color = Text3Gray)
+                                            )
+
+                                        }
                                     }
 
 //                                    Text(
@@ -322,7 +378,11 @@ fun AppIntroductionScreen(navController: NavController) {
                 )
 
                 Button(
-                    onClick = {  navController.navigate(CreateAccount.route) { launchSingleTop = true; }},
+                    onClick = {
+                        navController.navigate(CreateAccount.route) {
+                            launchSingleTop = true;
+                        }
+                    },
                     shape = RoundedCornerShape(27.dp),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = GreenMain,
@@ -334,7 +394,11 @@ fun AppIntroductionScreen(navController: NavController) {
                     Text(text = "开始探索 !", color = Color.White, fontSize = 20.sp)
                 }
 
-                Row(modifier = Modifier.padding(bottom = 0.dp, top = 50.dp), horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
+                Row(
+                    modifier = Modifier.padding(bottom = 0.dp, top = 50.dp),
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
                     Image(
                         painter = painterResource(id = R.drawable.logo),
                         contentDescription = null,

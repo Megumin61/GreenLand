@@ -197,6 +197,15 @@ fun PhoneLoginScreen(
             val tag = msg.what
             when (tag) {
                 1 -> {
+                    val arg = msg.arg1
+                    if(arg==1){
+                        getCodeBtnText ="重新获取"
+                        count=60
+                        timer!!.cancel()
+                        getCodeBtnEabled=true
+                    }else{
+                        getCodeBtnText = count.toString()+" s"
+                    }
 //                    val arg = msg.arg1
 //                    if (arg == 1) {
 //                        get_code_id!!.text = "重新获取" //计时结束停止计时把值恢复
